@@ -109,9 +109,7 @@ public class Learner {
 		// If the depth is zero or there is only one sample in the training sequences, then we need 
 		// to create a leaf node, take the class as the majority vote from the training sequence.
 		if (depth <= 0 || trainingSequence.size() == 1) {
-			TreeNode leaf = new TreeNode();
-			leaf.probabilityDistribution = trainingSequence.empiricalDistribution();
-			return leaf;
+			return new TreeNode(trainingSequence);
 		}
 		
 		// Give the weak learner the training sequence as a hint for what subspace of the split 
@@ -161,18 +159,19 @@ public class Learner {
 		// N.B. If the split doesn't gain enough information, then just try again, (so we've used 
 		// up "one depth".
 		// N.B.B. informationGainCutoff >= 0.0, and if one of the sequences is empty, then there is 
-		// and information gain of 0.0. Hence any split that actually causes a recursion will have 
+		// and information gain of 0.0, hence if one of the sequences is empty we don't EVER pass 
+		// the information gain cutoff. Hence any split that actually causes a recursion will have 
 		// two non empty subsequences.
-		TreeNode node = new TreeNode();
+		TreeNode node = null;
 		if (bestInformationGain <= informationGainCutoff) {
 			node = generateTree(trainingSequence, weakLearner, depth-1, randomnessParameter, 
 					rand, informationGainCutoff);
 		} else {
-			node.splitParams = bestSplitParameters;
-			node.leftChild = generateTree(bestLeftSplit, weakLearner, depth-1, randomnessParameter, 
+			TreeNode leftChild = generateTree(bestLeftSplit, weakLearner, depth-1, randomnessParameter, 
 					rand, informationGainCutoff);
-			node.rightChild = generateTree(bestRightSplit, weakLearner, depth-1, randomnessParameter, 
+			TreeNode rightChild = generateTree(bestRightSplit, weakLearner, depth-1, randomnessParameter, 
 					rand, informationGainCutoff);
+			node = new TreeNode(trainingSequence, leftChild, rightChild, bestSplitParameters);
 		}
 		
 		// We have trained a tree! Return it

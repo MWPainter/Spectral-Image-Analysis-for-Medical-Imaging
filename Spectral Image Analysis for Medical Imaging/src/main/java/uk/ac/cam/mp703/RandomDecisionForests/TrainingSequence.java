@@ -216,11 +216,16 @@ public class TrainingSequence {
 	/***
 	 * Compute the empirical probability distribution 
 	 * This function replaces the need for dedicated functions for:
-	 * 1. entropy
-	 * 2. mostFrequentClass
+	 *   mostFrequentClass
 	 * @throws MalformedProbabilityDistributionException 
 	 */
 	public ProbabilityDistribution empiricalDistribution() throws MalformedProbabilityDistributionException {
+		// If there is nothing in the sequence, then we can't generate a probability distribution
+		if (this.trainingSequence.size() == 0) {
+			throw new MalformedProbabilityDistributionException("Taking the empirical distribution of an "
+					+ "empty sequence does not make sense.");
+		}
+		
 		// Create an array of counts, and populate it
 		int numberOfClasses = classNames.size();
 		int[] counts = new int[classNames.size()];
@@ -238,6 +243,20 @@ public class TrainingSequence {
 		
 		// Now simply return a probability distribution with the given probabilities
 		return new ProbabilityDistribution(empericalProbabilities, numberOfClasses);
+	}
+	
+	/***
+	 * Use the empirical probability distribution to calculate entropy. However it won't be valid
+	 * if we only have an empty sequence. We know that the entropy of the empty sequence is 0.0 
+	 * however. 
+	 * @return
+	 * @throws MalformedProbabilityDistributionException 
+	 */
+	public double entropy() throws MalformedProbabilityDistributionException {
+		if (this.size() == 0) {
+			return 0.0;
+		}
+		return this.empiricalDistribution().entropy();
 	}
 	
 	/***
@@ -273,8 +292,7 @@ public class TrainingSequence {
 		TrainingSequence jointSeq = join(sequence1, sequence2);
 		double sequence1Proportion = sequence1.trainingSequence.size() / ((double) jointSeq.trainingSequence.size());
 		double sequence2Proportion = sequence2.trainingSequence.size() / ((double) jointSeq.trainingSequence.size());
-		return jointSeq.empiricalDistribution().entropy() - 
-				sequence1Proportion * sequence1.empiricalDistribution().entropy() 
-				- sequence2Proportion * sequence2.empiricalDistribution().entropy();
+		return jointSeq.entropy() - sequence1Proportion * sequence1.entropy() - 
+				sequence2Proportion * sequence2.entropy();
 	}
 }

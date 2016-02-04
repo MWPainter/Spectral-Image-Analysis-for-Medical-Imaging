@@ -21,6 +21,7 @@ import uk.ac.cam.mp703.NeuralNetworks.NeuralNetworkLoader;
 import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest;
 import uk.ac.cam.mp703.RandomDecisionForests.Learner;
 import uk.ac.cam.mp703.RandomDecisionForests.MalformedForestException;
+import uk.ac.cam.mp703.RandomDecisionForests.MalformedProbabilityDistributionException;
 import uk.ac.cam.mp703.RandomDecisionForests.NDRealVector;
 import uk.ac.cam.mp703.RandomDecisionForests.OneDimensionalLinearWeakLearner;
 import uk.ac.cam.mp703.RandomDecisionForests.TrainingSample;
@@ -135,9 +136,10 @@ public class DataCubeTest {
 	 * Then use it to classify the images generated in "generate3DimImages"
 	 * @throws IOException 
 	 * @throws MalformedForestException 
+	 * @throws MalformedProbabilityDistributionException 
 	 */
 	@Test
-	public void classifyRGBImageRF() throws MalformedForestException, IOException {
+	public void classifyRGBImageRF() throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
 		// Hard code data points used for training
 		ArrayList<Double> aList = new ArrayList<Double>();
 		aList.add(200.0);
@@ -180,7 +182,7 @@ public class DataCubeTest {
 		TrainingSequence ts = new TrainingSequence(seq, classList);
 		
 		// Train a decision forest using the above
-		DecisionForest frst = Learner.trainDecisionForest(ts, new OneDimensionalLinearWeakLearner(), 1000, 2, 5000);
+		DecisionForest frst = Learner.trainDecisionForest(ts, new OneDimensionalLinearWeakLearner(), 1000, 2, 5000, 0.0);
 		
 		// Now use the forest to classify an image
 		DataCube dc = DataCube.generateDataCubeFromColourImage("src/test/java/InterpolatedRGBImage.png");
@@ -209,9 +211,10 @@ public class DataCubeTest {
 	 * Then use it to classify the images generated in "generate3DimImages"
 	 * @throws IOException 
 	 * @throws MalformedForestException 
+	 * @throws MalformedProbabilityDistributionException 
 	 */
 	@Test
-	public void classifyRGBImageRF2() throws MalformedForestException, IOException {
+	public void classifyRGBImageRF2() throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
 		// Create a training sequence
 		ArrayList<TrainingSample> seq = new ArrayList<TrainingSample>();
 		
@@ -259,7 +262,7 @@ public class DataCubeTest {
 		TrainingSequence ts = new TrainingSequence(seq, classList);
 		
 		// Train a decision forest using the above
-		DecisionForest frst = Learner.trainDecisionForest(ts, new OneDimensionalLinearWeakLearner(), 1000, 2, 1000);
+		DecisionForest frst = Learner.trainDecisionForest(ts, new OneDimensionalLinearWeakLearner(), 1000, 2, 1000, 0.0);
 		
 		// Now use the forest to classify an image
 		DataCube dc = DataCube.generateDataCubeFromColourImage("src/test/java/InterpolatedRGBImage.png");
@@ -377,9 +380,10 @@ public class DataCubeTest {
 	 * Then use it to classify the image generated in "generate3DimImage"
 	 * @throws IOException 
 	 * @throws MalformedForestException 
+	 * @throws MalformedProbabilityDistributionException 
 	 */
 	@Test
-	public void classify5DimImageRF() throws MalformedForestException, IOException {
+	public void classiousfy5DimImageRF() throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
 		// Hard code data points used for training
 		ArrayList<Double> aList = new ArrayList<Double>();
 		aList.add(210.0);
@@ -430,7 +434,9 @@ public class DataCubeTest {
 		TrainingSequence ts = new TrainingSequence(seq, classList);
 		
 		// Train a decision forest using the above
-		DecisionForest frst = Learner.trainDecisionForest(ts, new OneDimensionalLinearWeakLearner(), 1000, 5, 5000);
+		DecisionForest frst = Learner.trainDecisionForest(ts, new OneDimensionalLinearWeakLearner(), 2000, 2, 5000, 0.0);
+		
+		System.out.println(System.currentTimeMillis());
 		
 		// Now use the forest to classify an image
 		DataCube dc = DataCube.generateDataCubeFromMonochromeImages("src/test/java/Interpolated5DimImage%.png");
@@ -438,8 +444,10 @@ public class DataCubeTest {
 		colourMap.put(0, Color.RED);
 		colourMap.put(1, Color.GREEN);
 		colourMap.put(2, Color.BLUE);
-		colourMap.put(3, Color.BLACK);
+		colourMap.put(3, Color.YELLOW);
 		dc.generatePixelLabeledImage(frst, colourMap, "src/test/java/Interpolated5DimImageLabeled.png");
+		
+		System.out.println(System.currentTimeMillis());
 	}
 	
 	/***

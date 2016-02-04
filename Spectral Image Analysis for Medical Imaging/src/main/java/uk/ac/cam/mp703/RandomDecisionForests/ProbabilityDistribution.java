@@ -56,8 +56,9 @@ public class ProbabilityDistribution {
 			sum += entry.getValue();
 		}
 		
-		// Sum is correct
-		if (sum != 1.0) {
+		// Sum is approximately correct, we need to account for floating point error
+		double eps = 1e-10;
+		if (sum < 1.0-eps || 1.0+eps < sum) {
 			throw new MalformedProbabilityDistributionException("Probabilities don't sum to one");
 		}
 		

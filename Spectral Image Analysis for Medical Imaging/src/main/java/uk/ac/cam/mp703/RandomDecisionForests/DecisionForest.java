@@ -177,6 +177,18 @@ public class DecisionForest implements Cloneable {
 			}
 		}
 		
+		// Normalise the distribution 
+		// Mathematically this can be done by dividing by the tree count, however we will have 
+		// floating point error
+		double normalisationFactor = 0.0;
+		for (int i = 0; i < numberOfClasses; i++) {
+			normalisationFactor += outputDistr.get(i);
+		}
+		
+		for (int i = 0; i < numberOfClasses; i++) {
+			outputDistr.put(i, outputDistr.get(i) / normalisationFactor);
+		}
+		
 		// Return the probability distribution
 		return new ProbabilityDistribution(outputDistr, numberOfClasses);
 	}
@@ -235,6 +247,34 @@ public class DecisionForest implements Cloneable {
 		 * Payload - the parameters for the split function to use at this node 
 		 */
 		SplitParameters splitParams;
+		
+		/***
+		 * Defualt constructor
+		 */
+		TreeNode() {
+			
+		}
+		
+		/***
+		 * Constructor from a sequence, for leaf node (no children)
+		 * @throws MalformedProbabilityDistributionException 
+		 */
+		TreeNode(TrainingSequence sequence) throws MalformedProbabilityDistributionException {
+			this.probabilityDistribution = sequence.empiricalDistribution();
+		}
+		
+		/***
+		 * Constructor from a sequence, with child nodes and split parameters
+		 * @throws MalformedProbabilityDistributionException 
+		 */
+		TreeNode(TrainingSequence sequence, TreeNode leftChld, TreeNode rightChld, 
+				SplitParameters splitParams) throws MalformedProbabilityDistributionException {
+
+			this.probabilityDistribution = sequence.empiricalDistribution();
+			this.leftChild = leftChld;
+			this.rightChild = rightChld;
+			this.splitParams = splitParams;  
+		}
 
 		/**
 		 * @return the leftChild
