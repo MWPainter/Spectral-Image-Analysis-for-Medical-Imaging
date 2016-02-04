@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.5)  4 FEB 2016 00:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.5)  4 FEB 2016 08:42
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -704,23 +704,97 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \@thisruleclass=\count155
 \@lastruleclass=\count156
 \@thisrulewidth=\dimen200
-) (./Presentation.aux)
+) (/usr/local/texlive/2015basic/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/local/texlive/2015basic/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+Package: pgf 2013/12/18 v3.0.0 (rcs-revision 1.14)
+
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/modules/pgfmoduleshape
+s.code.tex
+File: pgfmoduleshapes.code.tex 2013/10/31  (rcs-revision 1.34)
+\pgfnodeparttextbox=\box53
+)
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.
+code.tex
+File: pgfmoduleplot.code.tex 2013/07/31  (rcs-revision 1.12)
+)
+(/usr/local/texlive/2015basic/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-ve
+rsion-0-65.sty
+Package: pgfcomp-version-0-65 2007/07/03 v3.0.0 (rcs-revision 1.7)
+\pgf@nodesepstart=\dimen201
+\pgf@nodesepend=\dimen202
+)
+(/usr/local/texlive/2015basic/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-ve
+rsion-1-18.sty
+Package: pgfcomp-version-1-18 2007/07/23 v3.0.0 (rcs-revision 1.1)
+)) (/usr/local/texlive/2015basic/texmf-dist/tex/latex/pgf/utilities/pgffor.sty 
+(/usr/local/texlive/2015basic/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code
+.tex)) (/usr/local/texlive/2015basic/texmf-dist/tex/latex/pgf/math/pgfmath.sty 
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+)
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/utilities/pgffor.code.
+tex
+Package: pgffor 2013/12/13 v3.0.0 (rcs-revision 1.25)
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+\pgffor@iter=\dimen203
+\pgffor@skip=\dimen204
+\pgffor@stack=\toks43
+\pgffor@toks=\toks44
+))
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tik
+z.code.tex
+Package: tikz 2013/12/13 v3.0.0 (rcs-revision 1.142)
+
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/libraries/pgflibrarypl
+othandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.0 (rcs-revision 1.20)
+\pgf@plot@mark@count=\count157
+\pgfplotmarksize=\dimen205
+)
+\tikz@lastx=\dimen206
+\tikz@lasty=\dimen207
+\tikz@lastxsaved=\dimen208
+\tikz@lastysaved=\dimen209
+\tikzleveldistance=\dimen210
+\tikzsiblingdistance=\dimen211
+\tikz@figbox=\box54
+\tikz@figbox@bg=\box55
+\tikz@tempbox=\box56
+\tikz@tempbox@bg=\box57
+\tikztreelevel=\count158
+\tikznumberofchildren=\count159
+\tikznumberofcurrentchild=\count160
+\tikz@fig@count=\count161
+
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/modules/pgfmodulematri
+x.code.tex
+File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
+\pgfmatrixcurrentrow=\count162
+\pgfmatrixcurrentcolumn=\count163
+\pgf@matrix@numberofcolumns=\count164
+)
+\tikz@expandcount=\count165
+
+(/usr/local/texlive/2015basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/lib
+raries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.0 (rcs-revision 1.2)
+))) (./Presentation.aux)
 \openout1 = `Presentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 97.
-LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -757,17 +831,17 @@ LaTeX Font Info:    ... okay on input line 97.
 
 (/usr/local/texlive/2015basic/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count157
-\scratchdimen=\dimen201
-\scratchbox=\box53
-\nofMPsegments=\count158
-\nofMParguments=\count159
-\everyMPshowfont=\toks43
-\MPscratchCnt=\count160
-\MPscratchDim=\dimen202
-\MPnumerator=\count161
-\makeMPintoPDFobject=\count162
-\everyMPtoPDFconversion=\toks44
+\scratchcounter=\count166
+\scratchdimen=\dimen212
+\scratchbox=\box58
+\nofMPsegments=\count167
+\nofMParguments=\count168
+\everyMPshowfont=\toks45
+\MPscratchCnt=\count169
+\MPscratchDim=\dimen213
+\MPnumerator=\count170
+\makeMPintoPDFobject=\count171
+\everyMPtoPDFconversion=\toks46
 ) (/usr/local/texlive/2015basic/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 (/usr/local/texlive/2015basic/texmf-dist/tex/latex/oberdiek/grfext.sty
@@ -782,8 +856,8 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 )) ABD: EveryShipout initializing macros
-\AtBeginShipoutBox=\box54
-Package hyperref Info: Link coloring OFF on input line 97.
+\AtBeginShipoutBox=\box59
+Package hyperref Info: Link coloring OFF on input line 98.
 (/usr/local/texlive/2015basic/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -791,57 +865,57 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 y
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count163
+\c@section@level=\count172
 )
-LaTeX Info: Redefining \ref on input line 97.
-LaTeX Info: Redefining \pageref on input line 97.
-LaTeX Info: Redefining \nameref on input line 97.
+LaTeX Info: Redefining \ref on input line 98.
+LaTeX Info: Redefining \pageref on input line 98.
+LaTeX Info: Redefining \nameref on input line 98.
 (./Presentation.out) (./Presentation.out)
 \@outlinefile=\write5
 \openout5 = `Presentation.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 97.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 98.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 97.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 98.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 97.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 97.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 98.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 97.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 97.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 97.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 98.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 97.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 97.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 97.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 98.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 97.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 97.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 97.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 98.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 97.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 97.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 98.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 97.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 98.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 97.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 97.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 97.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 97.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 97.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 97.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 98.
 
 (/usr/local/texlive/2015basic/texmf-dist/tex/latex/beamer/translator/dicts/tran
 slator-basic-dictionary/translator-basic-dictionary-English.dict
@@ -867,53 +941,628 @@ Dictionary: translator-numbers-dictionary, Language: English
 slator-theorem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \includegraphics on input line 97.
+LaTeX Info: Redefining \includegraphics on input line 98.
 (./Presentation.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 101.
+(Font)              size <5> substituted on input line 102.
 
 [1
 
-{/usr/local/texlive/2015basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (.
-/Presentation.toc) [2
-
-] [3
-
-]
-LaTeX Font Info:    Try loading font information for U+msa on input line 136.
+{/usr/local/texlive/2015basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for U+msa on input line 118.
 (/usr/local/texlive/2015basic/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 136.
+LaTeX Font Info:    Try loading font information for U+msb on input line 118.
 (/usr/local/texlive/2015basic/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [4
+) [2
 
-] [5
+] <Forests.png, id=74, 868.24374pt x 294.09875pt>
+File: Forests.png Graphic file (type png)
+<use Forests.png>
+Package pdftex.def Info: Forests.png used on input line 138.
+(pdftex.def)             Requested size: 217.0604pt x 73.5245pt.
+[3
 
-] [6
+ <./Forests.png>] <ProbabilityTree.png, id=102, 618.31pt x 425.59pt>
+File: ProbabilityTree.png Graphic file (type png)
+<use ProbabilityTree.png>
+Package pdftex.def Info: ProbabilityTree.png used on input line 156.
+(pdftex.def)             Requested size: 185.49443pt x 127.67798pt.
 
-] [7
+Overfull \vbox (16.26184pt too high) detected at line 156
+ []
 
-] [8
+[4
 
-]
-\openout4 = `Presentation.vrb'.
+ <./ProbabilityTree.png>] [5
 
-(./Presentation.vrb) [9
+] <toyImageProfiles.png, id=155, 562.1pt x 421.575pt>
+File: toyImageProfiles.png Graphic file (type png)
+<use toyImageProfiles.png>
+Package pdftex.def Info: toyImageProfiles.png used on input line 196.
+(pdftex.def)             Requested size: 168.6313pt x 126.47346pt.
+<Interpolated5DimImage1.png, id=156, 256.96pt x 256.96pt>
+File: Interpolated5DimImage1.png Graphic file (type png)
+<use Interpolated5DimImage1.png>
+Package pdftex.def Info: Interpolated5DimImage1.png used on input line 196.
+(pdftex.def)             Requested size: 38.54233pt x 38.54233pt.
+<Interpolated5DimImage2.png, id=157, 256.96pt x 256.96pt>
+File: Interpolated5DimImage2.png Graphic file (type png)
+<use Interpolated5DimImage2.png>
+Package pdftex.def Info: Interpolated5DimImage2.png used on input line 196.
+(pdftex.def)             Requested size: 38.54233pt x 38.54233pt.
+<Interpolated5DimImage3.png, id=158, 256.96pt x 256.96pt>
+File: Interpolated5DimImage3.png Graphic file (type png)
+<use Interpolated5DimImage3.png>
+Package pdftex.def Info: Interpolated5DimImage3.png used on input line 196.
+(pdftex.def)             Requested size: 38.54233pt x 38.54233pt.
+<Interpolated5DimImage4.png, id=159, 256.96pt x 256.96pt>
+File: Interpolated5DimImage4.png Graphic file (type png)
+<use Interpolated5DimImage4.png>
+Package pdftex.def Info: Interpolated5DimImage4.png used on input line 196.
+(pdftex.def)             Requested size: 38.54233pt x 38.54233pt.
+<Interpolated5DimImage5.png, id=160, 256.96pt x 256.96pt>
+File: Interpolated5DimImage5.png Graphic file (type png)
+<use Interpolated5DimImage5.png>
+Package pdftex.def Info: Interpolated5DimImage5.png used on input line 196.
+(pdftex.def)             Requested size: 38.54233pt x 38.54233pt.
+<rf.png, id=161, 256.96pt x 256.96pt>
+File: rf.png Graphic file (type png)
+<use rf.png>
+Package pdftex.def Info: rf.png used on input line 196.
+(pdftex.def)             Requested size: 51.39108pt x 51.39108pt.
+<rf256.png, id=162, 256.96pt x 256.96pt>
+File: rf256.png Graphic file (type png)
+<use rf256.png>
+Package pdftex.def Info: rf256.png used on input line 196.
+(pdftex.def)             Requested size: 51.39108pt x 51.39108pt.
+<rf1000.png, id=163, 256.96pt x 256.96pt>
+File: rf1000.png Graphic file (type png)
+<use rf1000.png>
+Package pdftex.def Info: rf1000.png used on input line 196.
+(pdftex.def)             Requested size: 51.39108pt x 51.39108pt.
+<nn.png, id=164, 256.96pt x 256.96pt>
+File: nn.png Graphic file (type png)
+<use nn.png>
+Package pdftex.def Info: nn.png used on input line 196.
+(pdftex.def)             Requested size: 51.39108pt x 51.39108pt.
+[6
 
-] [10
+ <./toyImageProfiles.png (PNG copy)> <./Interpolated5DimImage1.png (PNG copy)> 
+<./Interpolated5DimImage2.png (PNG copy)> <./Interpolated5DimImage3.png (PNG co
+py)> <./Interpolated5DimImage4.png (PNG copy)> <./Interpolated5DimImage5.png (P
+NG copy)> <./rf.png (PNG copy)> <./rf256.png (PNG copy)> <./rf1000.png (PNG cop
+y)> <./nn.png (PNG copy)>] [7
 
-]
-\openout4 = `Presentation.vrb'.
+] <spatial-denoised/wavelet_den_1.png, id=216, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_1.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_1.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_1.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_2.png, id=217, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_2.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_2.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_2.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_3.png, id=218, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_3.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_3.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_3.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_4.png, id=219, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_4.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_4.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_4.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_5.png, id=220, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_5.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_5.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_5.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_6.png, id=221, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_6.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_6.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_6.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_7.png, id=222, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_7.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_7.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_7.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_8.png, id=223, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_8.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_8.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_8.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_9.png, id=224, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_9.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_9.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_9.png used on input line 
+292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_10.png, id=225, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_10.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_10.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_10.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_11.png, id=226, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_11.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_11.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_11.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_12.png, id=227, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_12.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_12.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_12.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_13.png, id=228, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_13.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_13.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_13.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_14.png, id=229, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_14.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_14.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_14.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_15.png, id=230, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_15.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_15.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_15.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
 
-(./Presentation.vrb) [11
+Overfull \hbox (22.53526pt too wide) in paragraph at lines 292--292
+[][][][][][][][][][][][][][][][]  
+ []
 
-] [12
+<spatial-denoised/wavelet_den_16.png, id=231, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_16.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_16.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_16.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_17.png, id=232, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_17.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_17.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_17.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_18.png, id=233, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_18.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_18.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_18.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_19.png, id=234, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_19.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_19.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_19.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_20.png, id=235, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_20.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_20.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_20.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_21.png, id=236, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_21.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_21.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_21.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_22.png, id=237, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_22.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_22.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_22.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_23.png, id=238, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_23.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_23.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_23.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_24.png, id=239, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_24.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_24.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_24.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_25.png, id=240, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_25.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_25.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_25.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_26.png, id=241, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_26.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_26.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_26.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_27.png, id=242, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_27.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_27.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_27.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_28.png, id=243, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_28.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_28.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_28.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_29.png, id=244, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_29.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_29.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_29.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_30.png, id=245, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_30.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_30.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_30.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
 
- </usr/local/texlive/2015basic/texmf-dist/tex/latex/beamer/art/beamericonarticl
-e.pdf>] [13
+Overfull \hbox (22.53526pt too wide) in paragraph at lines 292--292
+[][][][][][][][][][][][][][][][]  
+ []
+
+<spatial-denoised/wavelet_den_31.png, id=246, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_31.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_31.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_31.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_32.png, id=247, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_32.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_32.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_32.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_33.png, id=248, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_33.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_33.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_33.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_34.png, id=249, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_34.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_34.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_34.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_35.png, id=250, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_35.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_35.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_35.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_36.png, id=251, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_36.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_36.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_36.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_37.png, id=252, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_37.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_37.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_37.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_38.png, id=253, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_38.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_38.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_38.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_39.png, id=254, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_39.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_39.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_39.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_40.png, id=255, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_40.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_40.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_40.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_41.png, id=256, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_41.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_41.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_41.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_42.png, id=257, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_42.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_42.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_42.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_43.png, id=258, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_43.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_43.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_43.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_44.png, id=259, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_44.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_44.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_44.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_45.png, id=260, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_45.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_45.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_45.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+
+Overfull \hbox (22.53526pt too wide) in paragraph at lines 292--292
+[][][][][][][][][][][][][][][][]  
+ []
+
+<spatial-denoised/wavelet_den_46.png, id=261, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_46.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_46.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_46.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_47.png, id=262, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_47.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_47.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_47.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_48.png, id=263, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_48.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_48.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_48.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_49.png, id=264, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_49.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_49.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_49.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_50.png, id=265, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_50.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_50.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_50.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_51.png, id=266, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_51.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_51.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_51.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_52.png, id=267, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_52.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_52.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_52.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_53.png, id=268, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_53.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_53.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_53.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_54.png, id=269, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_54.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_54.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_54.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_55.png, id=270, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_55.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_55.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_55.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_56.png, id=271, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_56.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_56.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_56.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_57.png, id=272, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_57.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_57.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_57.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_58.png, id=273, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_58.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_58.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_58.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_59.png, id=274, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_59.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_59.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_59.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_60.png, id=275, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_60.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_60.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_60.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+
+Overfull \hbox (22.53526pt too wide) in paragraph at lines 292--292
+[][][][][][][][][][][][][][][][]  
+ []
+
+<spatial-denoised/wavelet_den_61.png, id=276, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_61.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_61.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_61.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_62.png, id=277, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_62.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_62.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_62.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+File: spatial-denoised/wavelet_den_62.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_62.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_62.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_63.png, id=278, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_63.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_63.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_63.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_64.png, id=279, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_64.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_64.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_64.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+File: spatial-denoised/wavelet_den_64.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_64.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_64.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_65.png, id=280, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_65.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_65.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_65.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_66.png, id=281, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_66.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_66.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_66.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_67.png, id=282, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_67.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_67.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_67.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_68.png, id=283, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_68.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_68.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_68.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_69.png, id=284, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_69.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_69.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_69.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_70.png, id=285, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_70.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_70.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_70.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_71.png, id=286, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_71.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_71.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_71.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+<spatial-denoised/wavelet_den_72.png, id=287, 2055.68pt x 578.16pt>
+File: spatial-denoised/wavelet_den_72.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_72.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_72.png used on input line
+ 292.
+(pdftex.def)             Requested size: 21.98834pt x 6.18901pt.
+
+Overfull \hbox (0.54692pt too wide) in paragraph at lines 292--292
+[][][][][][][][][][][][][][][]  
+ []
+
+File: spatial-denoised/wavelet_den_45.png Graphic file (type png)
+<use spatial-denoised/wavelet_den_45.png>
+Package pdftex.def Info: spatial-denoised/wavelet_den_45.png used on input line
+ 292.
+(pdftex.def)             Requested size: 205.58003pt x 57.81938pt.
+<contrastAgentResponses1.png, id=288, 562.1pt x 421.575pt>
+File: contrastAgentResponses1.png Graphic file (type png)
+<use contrastAgentResponses1.png>
+Package pdftex.def Info: contrastAgentResponses1.png used on input line 292.
+(pdftex.def)             Requested size: 140.52466pt x 105.39348pt.
+[8
+
+ <./spatial-denoised/wavelet_den_1.png (PNG copy)> <./spatial-denoised/wavelet_
+den_2.png (PNG copy)> <./spatial-denoised/wavelet_den_3.png (PNG copy)> <./spat
+ial-denoised/wavelet_den_4.png (PNG copy)> <./spatial-denoised/wavelet_den_5.pn
+g (PNG copy)> <./spatial-denoised/wavelet_den_6.png (PNG copy)> <./spatial-deno
+ised/wavelet_den_7.png (PNG copy)> <./spatial-denoised/wavelet_den_8.png (PNG c
+opy)> <./spatial-denoised/wavelet_den_9.png (PNG copy)> <./spatial-denoised/wav
+elet_den_10.png (PNG copy)> <./spatial-denoised/wavelet_den_11.png (PNG copy)> 
+<./spatial-denoised/wavelet_den_12.png (PNG copy)> <./spatial-denoised/wavelet_
+den_13.png (PNG copy)> <./spatial-denoised/wavelet_den_14.png (PNG copy)> <./sp
+atial-denoised/wavelet_den_15.png (PNG copy)> <./spatial-denoised/wavelet_den_1
+6.png (PNG copy)> <./spatial-denoised/wavelet_den_17.png (PNG copy)> <./spatial
+-denoised/wavelet_den_18.png (PNG copy)> <./spatial-denoised/wavelet_den_19.png
+ (PNG copy)> <./spatial-denoised/wavelet_den_20.png (PNG copy)> <./spatial-deno
+ised/wavelet_den_21.png (PNG copy)> <./spatial-denoised/wavelet_den_22.png (PNG
+ copy)> <./spatial-denoised/wavelet_den_23.png (PNG copy)> <./spatial-denoised/
+wavelet_den_24.png (PNG copy)> <./spatial-denoised/wavelet_den_25.png (PNG copy
+)> <./spatial-denoised/wavelet_den_26.png (PNG copy)> <./spatial-denoised/wavel
+et_den_27.png (PNG copy)> <./spatial-denoised/wavelet_den_28.png (PNG copy)> <.
+/spatial-denoised/wavelet_den_29.png (PNG copy)> <./spatial-denoised/wavelet_de
+n_30.png (PNG copy)> <./spatial-denoised/wavelet_den_31.png (PNG copy)> <./spat
+ial-denoised/wavelet_den_32.png (PNG copy)> <./spatial-denoised/wavelet_den_33.
+png (PNG copy)> <./spatial-denoised/wavelet_den_34.png (PNG copy)> <./spatial-d
+enoised/wavelet_den_35.png (PNG copy)> <./spatial-denoised/wavelet_den_36.png (
+PNG copy)> <./spatial-denoised/wavelet_den_37.png (PNG copy)> <./spatial-denois
+ed/wavelet_den_38.png (PNG copy)> <./spatial-denoised/wavelet_den_39.png (PNG c
+opy)> <./spatial-denoised/wavelet_den_40.png (PNG copy)> <./spatial-denoised/wa
+velet_den_41.png (PNG copy)> <./spatial-denoised/wavelet_den_42.png (PNG copy)>
+ <./spatial-denoised/wavelet_den_43.png (PNG copy)> <./spatial-denoised/wavelet
+_den_44.png (PNG copy)> <./spatial-denoised/wavelet_den_45.png (PNG copy)> <./s
+patial-denoised/wavelet_den_46.png (PNG copy)> <./spatial-denoised/wavelet_den_
+47.png (PNG copy)> <./spatial-denoised/wavelet_den_48.png (PNG copy)> <./spatia
+l-denoised/wavelet_den_49.png (PNG copy)> <./spatial-denoised/wavelet_den_50.pn
+g (PNG copy)> <./spatial-denoised/wavelet_den_51.png (PNG copy)> <./spatial-den
+oised/wavelet_den_52.png (PNG copy)> <./spatial-denoised/wavelet_den_53.png (PN
+G copy)> <./spatial-denoised/wavelet_den_54.png (PNG copy)> <./spatial-denoised
+/wavelet_den_55.png (PNG copy)> <./spatial-denoised/wavelet_den_56.png (PNG cop
+y)> <./spatial-denoised/wavelet_den_57.png (PNG copy)> <./spatial-denoised/wave
+let_den_58.png (PNG copy)> <./spatial-denoised/wavelet_den_59.png (PNG copy)> <
+./spatial-denoised/wavelet_den_60.png (PNG copy)> <./spatial-denoised/wavelet_d
+en_61.png (PNG copy)> <./spatial-denoised/wavelet_den_62.png (PNG copy)> <./spa
+tial-denoised/wavelet_den_63.png (PNG copy)> <./spatial-denoised/wavelet_den_64
+.png (PNG copy)> <./spatial-denoised/wavelet_den_65.png (PNG copy)> <./spatial-
+denoised/wavelet_den_66.png (PNG copy)> <./spatial-denoised/wavelet_den_67.png 
+(PNG copy)> <./spatial-denoised/wavelet_den_68.png (PNG copy)> <./spatial-denoi
+sed/wavelet_den_69.png (PNG copy)> <./spatial-denoised/wavelet_den_70.png (PNG 
+copy)> <./spatial-denoised/wavelet_den_71.png (PNG copy)> <./spatial-denoised/w
+avelet_den_72.png (PNG copy)> <./contrastAgentResponses1.png (PNG copy)>] [9
 
 ]
 \tf@nav=\write6
@@ -925,43 +1574,40 @@ e.pdf>] [13
 \tf@snm=\write8
 \openout8 = `Presentation.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 259.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 259.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 300.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 300.
 (./Presentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 259.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 259.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 300.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 300.
 Package rerunfilecheck Info: File `Presentation.out' has not changed.
-(rerunfilecheck)             Checksum: 263D307720953EF2ACC3DBC3B67AB706;164.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 259.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 300.
  ) 
 Here is how much of TeX's memory you used:
- 16613 strings out of 494501
- 320368 string characters out of 6167030
- 379301 words of memory out of 5000000
- 19475 multiletter control sequences out of 15000+600000
- 13297 words of font info for 49 fonts, out of 8000000 for 9000
+ 19744 strings out of 494501
+ 398274 string characters out of 6167030
+ 470500 words of memory out of 5000000
+ 22490 multiletter control sequences out of 15000+600000
+ 11866 words of font info for 44 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 48i,14n,51p,417b,549s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmss1
+ 48i,14n,54p,392b,573s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
 0.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mss12.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmss17.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfo
+mss10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmss12.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmss8.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmss9.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2015basic/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmssi9.pfb></usr/local/texlive/2015basic/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2015basic/texmf-
-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on Presentation.pdf (13 pages, 131795 bytes).
+sfonts/cm/cmssi10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/ty
+pe1/public/amsfonts/symbols/msam10.pfb>
+Output written on Presentation.pdf (9 pages, 48477000 bytes).
 PDF statistics:
- 424 PDF objects out of 1000 (max. 8388607)
- 385 compressed objects within 4 object streams
- 31 named destinations out of 1000 (max. 500000)
- 67 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 371 PDF objects out of 1000 (max. 8388607)
+ 256 compressed objects within 3 object streams
+ 19 named destinations out of 1000 (max. 500000)
+ 468 words of extra memory for PDF output out of 10000 (max. 10000000)
 
