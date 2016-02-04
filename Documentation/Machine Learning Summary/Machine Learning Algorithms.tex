@@ -1,0 +1,683 @@
+\documentclass{article}
+
+%Include packages
+\usepackage{tikz}                   % Drawing
+\usepackage{tikz-qtree}             % Drawing - trees (binary trees etc)
+\usepackage{amsmath}                % American Mathematical Society Maths - Package (Environments)
+\usepackage{amssymb}                % American Mathematical Society Maths - Symbols
+\usepackage{amsthm}                 % American Mathematical Society Maths - Theorems
+\usepackage{varwidth}               % http://ctan.org/pkg/varwidth
+%\usepackage{proof}                 % Derivation trees by the command \infer, N.B: math mode implied in the \infer block
+        %TODO: Install proof package manually
+\usepackage{pdftexcmds}             % Shell commands? - used by minted
+\usepackage{scrextend}              % Vary margins in environments
+\usepackage{graphicx}               % Something to do with images...
+\usepackage{amsthm}                 % American Mathematical Society Theorem Environments
+\usepackage{ragged2e}               % Provides flushing text to left or right environments
+\usepackage{listings}               % Not as pretty listings
+\usepackage{float}                  % Figures
+\usepackage{caption}                % Additional captions in figures (float)
+\usepackage{framed}                 % Frames/boxes - used for question boxes where applicable
+\usepackage{mdframed}               % Fancy frames/boxes - TODO: Make some fancier boxes with counters for Q numbers and ting
+\usepackage[titletoc]{appendix}     % Formats contents when have appendices
+\usepackage{semantic}               % Nice math and proof ligatures/symbols/environments (for semantics)  
+\usepackage{color}                  % For highlighting
+\usepackage{soul}                   % For highlighting
+
+
+
+
+
+%%%%%%%%%%%%%%%%
+%%% PREAMBLE %%%
+%%%%%%%%%%%%%%%%
+%Setup page and margins
+\addtolength{\oddsidemargin}{-0.875in}
+\addtolength{\evensidemargin}{-0.875in}
+
+\addtolength{\topmargin}{-1.25in}
+
+\addtolength{\textwidth}{1in} %should be 1.75, but we want extra space on the right for margin paragraphs
+\addtolength{\textheight}{1.75in}
+
+\setlength{\parindent}{0pt} %No indentation for new paragraphs
+
+%Command for defines equals in math mode
+\newcommand{\eqdef}{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
+
+
+%Use an enumerate to answer question, setup the items to look the same as the ones in lectures
+% COMMENT THIS OUT IF NOT ANSWERING EXAM QUESTIONS!
+\renewcommand{\labelenumi}{(\textit{\alph{enumi}})}         % level 1 = (a) (italic)
+\renewcommand{\labelenumii}{(\textit{\roman{enumii}})}      % level 2 = (i) (italic)
+\renewcommand{\labelenumiii}{(\theenumiii)}                 % level 3 = (1) (non-italic)
+
+% Enum commands to make it (i), (a), (1). Not "1. 2."
+% \renewcommand{\labelenumi}{(\textit{\roman{enumi}})}       % level 1 = (i) (italic)
+% \renewcommand{\labelenumii}{(\textit{\alph{enumii}})}      % level 2 = (a) (italic)
+% \renewcommand{\labelenumiii}{(\theenumiii)}                % level 3 = (1) (non-italic)
+
+\sethlcolor{yellow}         % Highlighting color
+
+%Left justified but centered text. Useful for giving coding samples with verbatim. (Alternatively just use lstlisting environment)
+\newenvironment{centerlj}{%
+  \begin{center} % so the minipage is centered
+  \begin{varwidth}[t]{\textwidth}
+  \raggedright % so the minipage's text is left justified
+}{%
+  \end{varwidth}
+  \end{center}
+} 
+
+% Add padding to lstlisting
+\newenvironment{mylisting}{
+    \vspace{10px}
+    \begin{lstlisting}
+}{
+    \end{lstlisting}
+    \vspace{10px}
+}
+
+% In a long question with multiple parts (and no question numbers) use this to break the parts of the question up
+\newcommand{\qbrk}{
+    \begin{center}
+        \noindent\rule{2cm}{0.4pt}
+    \end{center}
+}
+
+%Code for cpp in an exam answer using enumerate
+% \newenvironment{examcodecpp}{
+%   \begin{addmargin}[3mm]{-3mm}
+%   \begin{minted}[linenos, numbersep=5pt, frame=lines, framesep=2mm, gobble=3]{C++}
+% }{
+%   \end{minted}
+%   \end{addmargin}
+% }
+
+%Environment for a fresh enumerate within exam answers. ONLY NEED TO USE AT BOTTOM LEVEL
+\newenvironment{freshenumerate}{
+    \renewcommand{\labelenumi}{(\theenumi)}                 % level 1 = (1)
+    \renewcommand{\labelenumii}{(\alph{enumii})}            % level 2 = (a)
+    \renewcommand{\labelenumiii}{(\roman{enumiii})}         % level 3 = (i)
+    \begin{enumerate}
+}{
+    \end{enumerate}
+    \renewcommand{\labelenumi}{(\textit{\alph{enumi}})}         % level 1 = (a) (italic)
+    \renewcommand{\labelenumii}{(\textit{\roman{enumii}})}      % level 2 = (i) (italic)
+    \renewcommand{\labelenumiii}{(\theenumiii)}                 % level 3 = (1) (non-italic)
+}
+
+% For math meth only, define a command for inner products and vectors
+\newcommand{\vc}[1]{
+    \mathbf{#1}
+ }
+\newcommand{\ip}[2]{
+    \langle #1, #2 \rangle
+}
+
+%Argmin/max operators
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% Macro for square subset
+% Both macro and non macro are used
+\newcommand{\s}{
+    \sqsubseteq
+}
+
+% Macro for right partial function
+\newcommand{\rpar}{
+    \rightharpoonup
+}
+
+% New margin paragraph,
+\newcommand{\mymarginpar}[1]{
+    \marginpar{\begin{flushleft} #1 \end{flushleft}}
+}
+
+% Define some environments for theorems and proofs
+\newtheorem{theorem}{Theorem}
+
+% Define symbols for outer joins in mathmode
+\def\ojoin{\setbox0=\hbox{$\bowtie$}%
+  \rule[-.02ex]{.25em}{.4pt}\llap{\rule[\ht0]{.25em}{.4pt}}}
+\def\leftouterjoin{\mathbin{\ojoin\mkern-5.8mu\bowtie}}
+\def\rightouterjoin{\mathbin{\bowtie\mkern-5.8mu\ojoin}}
+\def\fullouterjoin{\mathbin{\ojoin\mkern-5.8mu\bowtie\mkern-5.8mu\ojoin}}
+
+% Define the image path
+\graphicspath{ {SV1imgs/} }
+
+% Define a typewriter font 
+\newcommand*{\typewriter}{\fontfamily{lmtt}\selectfont} 
+
+%Setup listings env for when we don't want to use minted
+\lstset{
+  basicstyle=\footnotesize\tt,                                          % the size of the fonts that are used for the code
+  breakatwhitespace=false,                                              % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                                                      % sets automatic line breaking
+  prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},     % add arrows to indicate line breaks added
+  framesep = 5px,                                                       % add padding to the top/bottom of listings
+  captionpos=b,                                                         % sets the caption-position to bottom
+  extendedchars=true,                                                   % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=TB,                                                             % adds a frame around the code (frame at bot and top)
+  language=Caml,                                                        % the language of the code
+  showspaces=false,                                                     % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,                                               % underline spaces within strings only
+  showtabs=false,                                                       % show tabs within strings adding particular underscores
+  tabsize=4,                                                            % sets default tabsize to 4 spaces
+  numbers=left,                                                         % puts numbers on the left side
+  keywordstyle=\color[rgb]{0,0,1}\ttfamily,
+  stringstyle=\color[rgb]{0.627,0.126,0.941}\ttfamily,
+  commentstyle=\color[rgb]{0.133,0.545,0.133}\ttfamily,
+  morecomment=[l][\color{magenta}]{\#}
+}
+
+%Add some theorem environments and make them non-italic (so we can emph defined words)
+\theoremstyle{definition}
+\newtheorem{definitin}{Definition}
+\newtheorem{questin}{Question}
+\newtheorem{theorm}{Theorem}
+\newtheorem*{theorm*}{Theorem}
+
+
+
+%Frame environments
+\newcommand{\minipagevpadding}{5pt}
+\newcommand{\nestedpagewidth}{392pt}
+
+\newenvironment{qstn}{
+    \vspace{\minipagevpadding}
+    \begin{minipage}{\textwidth}
+    \begin{mdframed}[backgroundcolor=red!20, linewidth=2pt]
+    \begin{questin}
+}{
+    \end{questin}
+    \end{mdframed}
+    \end{minipage}
+}
+
+\newenvironment{defn}{
+    \vspace{\minipagevpadding}
+    \begin{minipage}{\textwidth}
+    \begin{mdframed}[backgroundcolor=yellow!20, linewidth=0pt]
+    \begin{definitin}
+}{
+    \end{definitin}
+    \end{mdframed}
+    \end{minipage}
+}
+
+\newenvironment{defn2}{
+    \vspace{\minipagevpadding}
+    \begin{minipage}{\nestedpagewidth}
+    \begin{mdframed}[backgroundcolor=yellow!20, linewidth=0pt]
+    \begin{definitin}
+}{
+    \end{definitin}
+    \end{mdframed}
+    \end{minipage}
+}
+
+\newenvironment{thrm}{
+    \vspace{\minipagevpadding}
+    \begin{minipage}{\textwidth}
+    \begin{mdframed}[backgroundcolor=green!20, linewidth=0pt]
+    \begin{theorm}
+}{
+    \end{theorm}
+    \end{mdframed}
+    \end{minipage}
+}
+
+\newenvironment{thrm*}{
+    \vspace{\minipagevpadding}
+    \begin{minipage}{\textwidth}
+    \begin{mdframed}[backgroundcolor=green!20, linewidth=0pt]
+    \begin{theorm*}
+}{
+    \end{theorm*}
+    \end{mdframed}
+    \end{minipage}
+}
+
+
+% Hacky way to fix a highlighting bug in sublime text 3 where it wont highlight anything in minipages..... -.-
+% Would be interesting to find out why this works
+\newenvironment{unused}{
+    \vspace{\minipagevpadding}
+    %\begin{minipage}{\textwidth}
+    \begin{mdframed}[backgroundcolor=green!20, linewidth=0pt]
+}{
+    \end{mdframed}
+    \end{minipage}
+}
+\newenvironment{unused2}{
+    \vspace{\minipagevpadding}
+    %\begin{minipage}{\textwidth}
+    \begin{mdframed}[backgroundcolor=green!20, linewidth=0pt]
+}{
+    \end{mdframed}
+    \end{minipage}
+}
+\newenvironment{unused3}{
+    \vspace{\minipagevpadding}
+    %\begin{minipage}{\textwidth}
+    \begin{mdframed}[backgroundcolor=green!20, linewidth=0pt]
+}{
+    \end{mdframed}
+    \end{minipage}
+}
+\newenvironment{unused4}{
+    \vspace{\minipagevpadding}
+    %\begin{minipage}{\textwidth}
+    \begin{mdframed}[backgroundcolor=green!20, linewidth=0pt]
+}{
+    \end{mdframed}
+    \end{minipage}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%% DOCUMENT BODY %%%
+%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%Title
+\title{Machine Learning Algorithms \\ Project Reading}
+\author{Michael Painter}
+\maketitle
+
+\setcounter{section}{-1}
+\section{General Notation and Concise Description of Machine Learning Algorithms}
+
+\mymarginpar{\hl{Maybe want to improve the intro, and better define what it 
+means for a machine to `learn' something.}}
+
+Here we look at some machine learning algorithms. We will be looking at a 
+classification problem which we define as the following. Given a \textit{feature vector} (or \textit{instance})
+$\vc{v} = (x_1, x_2, \ldots, x_d) \in \mathbb{R}^d$ and a set of classes 
+$\mathcal{C} = \{c_1, c_2, \ldots, c_n\}$ we want to \textit{learn} a function 
+$H:\mathbb{R}^d -> \mathcal{C}$. What we mean by learning is given a 
+\textit{training sequence} $S = ((\vc{v}_1,c_1),(\vc{v}_2,c_2), \ldots, 
+(\vc{v}_m,c_m))$, can we find an $H$ such that $H(\vc{v}_i)=c_i$ for most 
+$i \in \{1,\ldots, m\}$. We have an \textit{ill-posed} problem, because we use 
+the word `most'. And we use this because there may be outliers and anomalous 
+cases in $S$, that is the data is commonly noisy.
+
+
+
+
+
+
+\section{Decision Trees}
+
+\subsection{Definition of a Decision Tree}
+
+With the decision tree method we construct a binary tree from the learning 
+sequence $S$, which we can intuitively think of as a flow diagram of yes/no 
+questions to determine the class of a given feature vector.
+
+\begin{figure}[H]
+    \centering
+
+    \tikzset{QuestionNode/.style = { rectangle, rounded corners, shade, 
+                  top color = white, bottom color = blue!50!black!20, 
+                  draw = blue!40!black!60, very thick, text ragged },
+              EdgeNodeStyle/.style = {draw = none}, above,
+              EmptyNode/.style = {draw = none}}
+    \begin{tikzpicture}
+        [
+            sibling distance = 3cm,
+            level distance = 4cm,
+            edge from parent/.style = {draw, arrows = ->},
+            level 1/.style = {sibling distance = 3cm, level distance = 3cm},
+            level 2/.style = {sibling distance = 1.5cm, level distance = 3cm},
+        ]
+        \node [QuestionNode] {Blond hair?}
+            child {
+                node [QuestionNode] {Brown hair?}
+                child {
+                    node [EmptyNode] {$\vdots$}
+                    edge from parent
+                      node [EdgeNodeStyle, left] {no}
+                }
+                child {
+                    node [EmptyNode] {$\vdots$}
+                    edge from parent
+                      node [EdgeNodeStyle, right] {yes}
+                }
+                edge from parent node [EdgeNodeStyle, left] {no}
+            }   
+            child {
+                node [QuestionNode] {Blue eyes?}
+                child {
+                    node [EmptyNode] {$\vdots$}
+                    edge from parent
+                      node [EdgeNodeStyle, left] {no}
+                }
+                child {
+                    node [EmptyNode] {$\vdots$}
+                    edge from parent
+                      node [EdgeNodeStyle, right] {yes}
+                }
+                edge from parent node [EdgeNodeStyle, right] {yes}
+            };
+        \end{tikzpicture}
+
+    \caption{Example of (part of) a tree used to classify humans.}
+\end{figure}
+
+More formally we can define a decision tree $T$, where we have a set of states 
+$Q \subseteq \mathbb{N}$, and we assume that if $i \in Q$ then it's children 
+(if any) are $(2i)$ and $(2i+1)$, both in $Q$. For each node $i \in Q$ we 
+have some learned parameter settings $\vc{\theta}_i$, which is to be used in 
+a \textit{split function} $h:\mathbb{R}^d \times \mathbb{R}^d -> \{0,1\}$. The 
+split function will give $h(\vc{x}; \vc{\theta}_i) = 0$ if we should traverse to 
+the `left' sub tree of $i$ whilst considering $\vc{x}$, and we should traverse 
+right if $h(\vc{x}; \vc{\theta}_i) = 1$. Finally each leaf node of the tree is 
+associated with a class in $\mathcal{C}$, which if reached is what will be 
+output as the classification for the feature vector.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Training a Decision Tree}
+
+When we teach a decision tree a greedy approach is used. This means that we 
+pick an optimal solution for dividing our training sequence into two at each 
+node, which may not necessarily lead to the optimal decision tree. Creating an 
+optimal decision tree is an NP-Complete problem. 
+
+
+
+ Each leaf node of the tree will be associated with a given class in 
+$\mathcal{C}$. We can
+classify $\vc{x}\in\mathbb{R}^n$
+
+Lets consider how we might build a decision tree. Suppose we have constructed 
+the tree up to some node $i$. At this node $i$ let $S_i \subseteq S$ be a 
+subset of the training sequence, containing all of the feature vectors that 
+would reach $i$ by traversing the tree so far. 
+
+we have a set of possible 
+classifications 
+$C_i \subseteq \mathcal{C}$. We use the feature vector and some learned 
+parameter settings $\vc{\theta}$ in a \textit{split function} $h$, where we 
+progress to state $2i$ if $h(\vc{v}, \vc{\theta}) = 0$ and $2i+1$ if $h(\vc{v}, 
+\vc{\theta}) = 1$. We require that the sets of possible classes satisfy
+\begin{align}
+    C_{2i} \subseteq C_{i} \\
+    C_{2i+1} \subseteq C_{i}
+\end{align}
+
+and preferably satisfies
+\begin{align}
+    C_{2i} \cap C_{2i+1} = \emptyset.
+\end{align} 
+
+
+
+
+
+When teaching the tree, typically a greedy approach is used. By this we mean we pick an optimal solution for splitting 
+classes at each node, which may not necessarily lead to picking the optimal tree. Consider a finite training sequence $S 
+\subseteq \mathbb{R}^d \times \mathcal{C}$. For ease of notation we consider all feature vectors in $S$ to be unique, 
+however in practise they may not be. We can define the entropy of the training sequence by
+\begin{align}
+    H(S) = - \sum_{c\in\mathcal{C}} p(c) \log (c)
+\end{align}
+
+where we have
+\begin{align}
+    p(c) = \frac{\left| \{\vc{v}\ |\ c' = c \land (\vc{v},c') \in S \} \right|}{\left| S \right|}
+\end{align}
+
+which is the empirical probability of a training sample vector in $s$ being classified as $c$. \\
+
+Now consider $S_j \subseteq S$ at some node $j$, and suppose we have split them into a left and right partition $S_j^L$ and 
+$S_j^R$. The \textit{information gain} $I$ can then be defined as
+\begin{align}
+    I = H(S_j) - \sum_{i\in\{L,R\}} \frac{|S_j^i|}{|S_j|} H(S_j^i). \label{eq:InformationGain}
+\end{align}
+
+We now consider how we can partition the training sequence for a maximal information gain. To do this we may define the 
+split function $h(\vc{v}, \vc{\theta})$. To separate the sequence into two we can define a hyper-surface, the 
+most simple of which being a hyper-plane, and the hyper-surface is described by $\vc{\theta}$. If we 
+are using a hyper-plane model, then we let $\vc{\theta} = (\vc{\phi}, \vc{\psi}, \tau)$. $\vc{\phi}$ is 
+a filter for a feature vector $\vc{v}$, that is $\vc{\phi}(\vc{v}) = (v_{\phi_1}, v_{\phi_2}, \ldots, 
+v_{\phi_{d'}}) \in \mathbb{R}^{d'}$ where $\phi_i \in \{1, \ldots, d\}$ for each $i$, and $d' \leq d$. Then 
+$\psi \in \mathbb{R}^{d'}$ and $\tau \in \mathbb{R}$ defines a $(d'-1)$ dimensional hyper-plane. \\
+
+\begin{figure}[H]
+    \centering
+    hfhfhf
+    \caption{TODO: Add 3 images, one of an axis aligned line, one of a non-axis aligned line and a quadratic curve, 
+    used to separate some data.}
+\end{figure}
+
+Let $\mathbb{I}$ be the indicator function
+\begin{align}
+    \mathbb{I}(x) = \begin{cases}
+        0 & \text{if } x \text{ false} \\
+        1 & \text{if } x \text{ true.} \\
+    \end{cases}
+\end{align}
+
+Now we define $h$ as
+\begin{align}
+    h(\vc{v}, \vc{\theta}) = \mathbb{I}(\vc{\phi}(\vc{v}) \cdot \vc{\psi} \geq \tau).
+\end{align}
+
+We can now define $S_j^L$ and $S_j^R$ in terms of $S_j$ and $\vc{\theta}$
+\begin{align}
+    S_j^L(S_j, \vc{\theta}) &= \{ (\vc{v}, c) \in S_j\ |\ h(\vc{v}, \vc{\theta}) = 0 \} \\
+    S_j^L(S_j, \vc{\theta}) &= \{ (\vc{v}, c) \in S_j\ |\ h(\vc{v}, \vc{\theta}) = 1 \}. 
+\end{align}
+
+So far we have arbitrarily partitioned our dataset according to some unknown parameter $\vc{\theta}$, this is what 
+we need to learn for each node of our tree. Consider the information gain defined in equation (\ref{eq:InformationGain}), 
+which becomes a function in $S_j$ and $\vc{theta}$
+\begin{align}
+    I(S_j,\vc{\theta}) = H(S_j) - \sum_{i\in\{L,R\}} \frac{|S_j^i(S_j,\vc{\theta})|}{|S_j|} H(S_j^i(S_j,\vc{\theta}))
+\end{align}
+
+and then it is clear in an ideal world that we pick
+\begin{align}
+    \vc{\theta}_j = \argmax_{\vc{\theta}\in \mathcal{T}} I(S_j, \vc{\theta})
+\end{align}
+
+as our value for $\vc{\theta}$, where $\mathcal{T}$ is the space of all possible `split parameters'. Finding 
+$\vc{\theta}_j$ exactly in most cases will be computationally infeasible, and we have to approximate it. \\
+
+So now at a given node $j$ for some feature vector $\vc{v}$ we can pick the child node to move to using 
+$h(\vc{v},\vc{\theta}_j)$. \\
+
+We have described how to train a single node of a tree, we then recursively train nodes in a decision tree until some 
+prescribed limit, such as tree depth.
+
+
+
+
+
+
+\subsection{Advantages and Disadvantages}
+
+Some (supposed) advantages:
+\begin{itemize}
+    \item 
+        A decision tree is a simple concept to understand (despite some complexity in training it).
+    \item 
+        Robustness. It tends to work well even if
+    \item 
+        Through some clever training we can seemingly get `dimensionality reduction' for free. We note also that the 
+        dimensions of the feature vector are explicitly stored in $\vc{\theta}$ and so we can read them easily.
+    \item 
+        Deals with large datasets well.
+\end{itemize}
+
+Some (supposed) disadvantages:
+\begin{itemize}
+    \item 
+        If not careful decision tree learners can create over-complex trees and suffers from overfitting as a 
+        consequence.
+    \item 
+        We make a greedy choice when training the tree at each node, and so we don't find an optimal decision tree, 
+        which can be shown to be NP-Complete.
+    \item 
+        The are concepts that a decision tree struggle to learn, such as parity problems.
+\end{itemize}
+
+We note that some of the disadvantages can be overcome or reduced by using random forest models.
+
+
+
+
+
+
+
+% \section{Random Forests}
+
+% \subsection{What is a `Random Forest'?}
+
+% -Forest of decision trees
+% -Random refers to
+%   -Bagging (training each tree with a random subset of the training sequence)
+%   -Randomized Node Optimisation (RNO) (replace \mathcal{T} by \mathcal{T}_j, which is a subspace of \mathcal{T}. It is 
+%     random and small) 
+
+
+
+
+
+% \subsection{Training methods for a Random Forest}
+
+% Begin by listing parameters:
+%   -$T$ no trees in the forest
+%   -$D$ max tree depth
+%   -$B$ bagging size
+%   -\rho = |\mathcal{T}_j| (in RNO)
+%       - also want to consider how much is random out of \vc\phi, \vc\psi and \tau...
+%   - choice of weak learner model 
+%       - i.e. axis aligned linear, linear or quadratic. (each more complex but more accurate, AND larger spaces to search)
+
+
+%   May be other params for optimisations...
+%     - if we stop at a cirtain depth, we may be able to compact nodes. Parameters to decide that
+
+% Basically that is it
+
+
+
+
+
+% \subsection{Advantages and Disadvantages}
+
+% Get dimensionality reduction for free via cleverly training.
+% -Dimensionality reduction can be more important because we look into what spectral bands are actually useful for speedup in hardware taking images.
+
+% Same advantages
+% Can handle really complex XOR/parity problems now.
+
+% disadvantage = slower
+
+
+
+
+
+
+
+% \section{Neural Networks}
+
+% TODO :(
+
+% Make this short. THIS IS MOSTLY STUFF FROM 
+
+% \subsection{What is a perceptron?}
+
+% \subsection{What is a neural network?}
+
+% \subsection{Multilayer Perceptron}
+
+% \subsection{Convolutional Neural Network}
+
+% \subsection{Recurrent Neural Network}
+
+% \subsection{Training Neural Networks}
+
+% - look up what might be different about them
+% - also look up how to design arrangements
+
+% \subsection{Advantages and Disadvantages}
+
+% -might be useful
+
+
+
+
+
+% \section{Support Vector Machine (SVM)}
+
+% A support vector machine splits data into two classification using a linear classification (i.e. separating points with 
+% a hyper-plane). We can introduce some additional tricks to allow the SVM to handle non-linear divisions and to handle 
+% multiple classifications. \\
+
+% THE ALGORITHM/METHOD
+
+% -sets classified by {-1, 1}
+% -want to find a plane w.x - b = 0 to separate them
+% -given training sequence S. want forall (x,y) \in S then y(w.x-b) >= 1. (n.b. y=-1 or 1)
+% -for the plan we define the margin with the plains w.x - b = 1 and w.x - b = -1 
+% -only thing that is variable is w
+% -want to minimise ||w|| so to maximise the margin = 2/||w||,
+%     that is find the ``maximum-margin hyperplane''
+% -then need to solve a quadratic optimisation problem (???) and can do so with lagrangean multipliers (???)
+
+% ADAPTION FOR NON LINEAR CLASSIFIERS
+
+% -kernal trick
+%     This involves NOT computing the transformation of vectors, merely need the inner products of the vectors if they were in the space.
+%     As an inner product can be written as x^T.M.x for a matrix M, if M'=V^-1.M.V where V is a matrix for the vector space translation
+%         we dont need to compute the actual transformation, as the dot product is all we need. Its this trick of not having to compute
+%         the new vector that gives the `kernal' trick.
+%             That is, instead of computing a dot product x.x' we compute a kernal function k(x,x') instead
+% -"The resulting algorithm is formally similar, except that every dot product is replaced by a nonlinear kernel function."
+%     that is, we transform from one vector space to a secondary vector space
+%     N.B. the data still has to not have any outliers in it...
+
+% SOFT MARGINS
+
+% -Try do the method
+% -If it doesn't work THEN try soft margins
+% -Replace y(w.x-b) >= 1 constraints to y(w.x-b) >= 1-eps for eps > 0
+% -objective function is then altered to penalise a non-zero eps (objective functions was argmin_(w,b) 1/2||w||^2 before)
+
+% MULTIPLE CLASSES
+
+% -Bunch of shit from wiki.
+
+
+
+
+% Conclusion:
+% Not useful for me. Still read up as want to understand the method properly.
+
+
+
+
+
+
+\end{document}
+

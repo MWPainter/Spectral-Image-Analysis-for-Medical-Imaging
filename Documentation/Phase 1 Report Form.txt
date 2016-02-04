@@ -1,0 +1,53 @@
+Subject: Phase 1 - Painter: Teaching a computer to identify cancer.
+
+Phase 1 Project Selection Status Report
+
+Name: Michael Painter                                                           
+
+College: Churchill College                                                        
+
+User Identifier: mp703                                                
+
+Director of Studies: John Fawcett                                            
+
+Please complete 1, 2 and 3 below.
+
+1. Please write 100 words on your current project ideas.
+
+Write a classifier to identify if non-healthy cells are present 
+from images of an oesophagus (sprayed with contrast agents). The 
+images are taken with a hyperspectral camera developed from the 
+physics department. Some extensions may include data reduction 
+(to allow real time analysis and then clinical use), and 
+implementing some spectral unmixing algorithms. 
+
+
+
+2. Please list names of potential project supervisors.
+
+Pietro Lio (has already agreed that he is willing to supervise).                                                                 
+                                                                 
+                                                                                                                            
+
+3. Is there any chance that your project will involve any
+computing resources other than the Computing Service's MCS and
+software that is already installed there, for example: your own
+machine, machines in College, special peripherals, imported
+software packages, special hardware, network access, substantial
+extra disc space on the MCS.
+
+If so indicate below what, and what it is needed for.
+
+I will likely use my own machine for ease. I will need to have a 
+data set for the supervised learning and testing, I have met with
+some people from the physics department and I know this set exists. 
+For the data reduction extension I may need a further data set, 
+which doesn't exist yet, but may do over the course of the next 
+year. I will obviously make a plan so that I don't need to rely on 
+this extension. I shouldn't need access to the camera myself, 
+just some of the data from it.
+                                                                 
+                                                                 
+                                                                 
+                                                                 
+                                                                 

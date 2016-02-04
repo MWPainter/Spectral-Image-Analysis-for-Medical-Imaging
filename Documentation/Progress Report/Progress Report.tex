@@ -1,0 +1,80 @@
+% Note: this file can be compiled on its own, but is also included by
+% diss.tex (using the docmute.sty package to ignore the preamble)
+\documentclass[12pt,a4paper,twoside]{article}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+\usepackage[margin=25mm]{geometry}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{soul}
+\usepackage{amssymb}
+
+\newcommand{\vc}[1]{\mathbf{#1}}
+
+\sethlcolor{yellow}         % Highlighting color
+\setlength{\parindent}{0pt} % No indentation for new paragraphs
+
+\begin{document}
+
+\vfil
+
+\centerline{\Large Computer Science Project Progress Report}
+\vspace{0.4in}
+
+\noindent
+{\bf Name:} Michael Painter
+\vspace{0.2in}
+
+\noindent
+{\bf E-mail:} mp703@cam.ac.uk
+\vspace{0.2in}
+
+\noindent
+{\bf Project title:} Spectral Image Analysis for Medical Imaging
+\vspace{0.2in}
+
+\noindent
+{\bf Supervisors:} Dr Pietro Lio', Dr Gianluca Ascolani
+\vspace{0.2in}
+
+\noindent
+{\bf Director of Studies:} Dr John Fawcett
+\vspace{0.2in}
+
+\noindent
+{\bf Overseers:} Prof John Daugman, Dr David Greaves
+\vspace{0.2in}
+
+%\vfil
+
+
+% Main document
+% ------------------------------------------------------------------------------
+
+The project was broken down into the following stages in the project proposal (reworded):
+\begin{enumerate}
+    \item 
+        Implement infrastructure (data structures etc) and reading in raw data;
+    \item 
+        Create a tool used to indicate areas of interest on images that contain the the training data;
+    \item 
+        Implement the main machine learning algorithm(s), implement an out the box solution (using a machine learning 
+        library), to solve a `toy problem' in both cases;
+    \item 
+        Extend the implementation to work for noisy `toy images' and then real images.
+\end{enumerate}
+
+Currently stages 1 and 3 have been completed and stage 2 hasn't, so the project is a little behind schedule. This was due to illness during the Christmas holidays and in the first week of Lent. As stages 3 and 4 can be implemented independently of stage 2 and constitute most of the technical challenges of the project, I will implement stage 2 after implementing stage 4 (which will be implemented as planned during weeks 3/4 of Lent) using the slack block ``Lent Week 7-8''. \\
+
+I have built a Random Forests library in Java. Given an instance $\vc{x}$ we traverse a binary decision tree using a \textit{weak learner} function $h(\vc{\theta}; \vc{x})$ to make decisions at each node, where $\vc{\theta}$ is a set of learnt parameters local to the tree node. If $h(\vc{\theta}; \vc{x}) = 0$ then we traverse `left', if $h(\vc{\theta}; \vc{x}) = 1$ then we traverse `right'. In each leaf node a distribution of posterior probabilities ($\mathbb{P}(\mathcal{C}_i | \vc{x})$) are stored. When we wish to classify a vector $\vc{x}$ we traverse each tree in the forest, then average the probability distributions giving an overall probability distribution of what class $\vc{x}$ belongs to. To learn $\vc{\theta}$ I've used the \textit{information gain ratio} from partitioning the training sequence as an \textit{objective function} to determine the best parameters $\vc{\theta}$ for the weak learner, at each node. \\
+
+In addition to a Random Forests library, I have used the Java machine learning library Encog. I have provided a few additional functions to train a network and to save neural networks after they have been trained. \\
+
+We define a \textit{spectral image} or \textit{data cube} as an image which we have obtained a spectrum of intensities for each pixel, opposed to just three values, one for each of red, green and blue. We index a spectral image using $(x, y, f)$ where $x,y$ are coordinates and $f$ is an index for a frequency band. There is a \texttt{DataCube} class which contains functionality to load in a \texttt{DataCube} from an RGB image, or from a series of grey-scale images (one for each frequency band). \\
+
+Finally the machine learning algorithms have been applied to produce a pixel labelling of a spectral image. This simply loops through each pixel and classifies the associated spectrum to provide a label for the pixel. \\
+
+Initially I found it difficult to consider the question of how can I allow the algorithms to indicate a level of certainty in the label they output, which will be needed when considering a real dataset, where we might be identifying unhealthy tissues (it would be silly to claim that a label is 100\% certain to be correct). This problem was solved by introducing posterior probability distributions in the decision trees and taking an average, so we can have a probabilistic output. Prior to this each tree used to vote on a classification and the majority vote was the definite class. A second difficulty I encountered was installing and setting up OpenCV, which became a time consuming and it quickly became obvious that I would be better off using an alternative library for machine learning, which lead to me finding and using Encog.
+
+
+
+\end{document}
