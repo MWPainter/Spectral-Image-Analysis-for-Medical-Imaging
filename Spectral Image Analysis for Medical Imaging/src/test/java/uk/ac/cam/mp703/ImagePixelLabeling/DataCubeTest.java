@@ -383,7 +383,7 @@ public class DataCubeTest {
 	 * @throws MalformedProbabilityDistributionException 
 	 */
 	@Test
-	public void classiousfy5DimImageRF() throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
+	public void classify5DimImageRF() throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
 		// Hard code data points used for training
 		ArrayList<Double> aList = new ArrayList<Double>();
 		aList.add(210.0);

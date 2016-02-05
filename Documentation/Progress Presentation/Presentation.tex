@@ -98,7 +98,7 @@ University of Cambridge \\ % Your institution for the title page
 \begin{document}
 
 \begin{frame}
-\titlepage % Print the title page as the first slide
+    \titlepage % Print the title page as the first slide
 \end{frame}
 
 %----------------------------------------------------------------------------------------
@@ -106,14 +106,15 @@ University of Cambridge \\ % Your institution for the title page
 %----------------------------------------------------------------------------------------
 
 \begin{frame}
-    \frametitle{Overview of Proejct - What am I doing?}
+    \frametitle{Overview of Project - What am I doing?}
 
     \begin{itemize}
-        \item Investigating use of \textit{spectral images} for medical imaging. 
-        \item An image becomes a \textit{data cube} $I(x,y,\lambda)$. (E.g. $\lambda \in \{R, G, B\}$).
-        \item Aim to provide a pixel labelling/image segmentation for medical images using spectral information.
-        \item We will use machine learning.
-        \item Two approaches: Neural Nets, Random Forests.
+        \item Investigating use of \textit{spectral images} to help with medical diagnosis.
+        \item So we now consider a \textit{data cube} $I(x,y,\lambda)$. (E.g. $\lambda \in \{R, G, B\}$).
+        \item The goal is to use the additional spectral information to help perform image segmentation.
+        \item This is useful in medical imaging as a tool for diagnosis.
+        \item We will use machine learning, specifically we will use Neural Nets and Random Forests.
+        \item To be useful we will also need to deal with noisy data.
     \end{itemize}
 \end{frame}
 
@@ -122,8 +123,63 @@ University of Cambridge \\ % Your institution for the title page
 
 \begin{frame}
     \frametitle{Random Forests}
+    \begin{block}{}
+        \begin{figure}[H]
+            \centering
 
-    \begin{block}{DecisionForests}
+            \tikzset{QuestionNode/.style = { rectangle, rounded corners, shade, 
+                          top color = white, bottom color = blue!50!black!20, 
+                          draw = blue!40!black!60, very thick, text ragged },
+                      EdgeNodeStyle/.style = {draw = none}, above,
+                      EmptyNode/.style = {draw = none}}
+            \begin{tikzpicture}
+                [
+                    sibling distance = 3cm,
+                    level distance = 4cm,
+                    edge from parent/.style = {draw, arrows = ->},
+                    level 1/.style = {sibling distance = 3cm, level distance = 3cm},
+                    level 2/.style = {sibling distance = 1.5cm, level distance = 3cm},
+                ]
+                \node [QuestionNode] {Blond hair?}
+                    child {
+                        node [QuestionNode] {Brown hair?}
+                        child {
+                            node [EmptyNode] {$\vdots$}
+                            edge from parent
+                              node [EdgeNodeStyle, left] {no}
+                        }
+                        child {
+                            node [EmptyNode] {$\vdots$}
+                            edge from parent
+                              node [EdgeNodeStyle, right] {yes}
+                        }
+                        edge from parent node [EdgeNodeStyle, left] {no}
+                    }   
+                    child {
+                        node [QuestionNode] {Blue eyes?}
+                        child {
+                            node [EmptyNode] {$\vdots$}
+                            edge from parent
+                              node [EdgeNodeStyle, left] {no}
+                        }
+                        child {
+                            node [EmptyNode] {$\vdots$}
+                            edge from parent
+                              node [EdgeNodeStyle, right] {yes}
+                        }
+                        edge from parent node [EdgeNodeStyle, right] {yes}
+                    };
+            \end{tikzpicture}
+
+            \caption{Example of (part of) a tree used to classify humans.}
+        \end{figure}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Random Forests}
+
+    \begin{block}{}
         \begin{itemize}
             \item Forest = set of trees.
             \item Trees `vote' towards a winning class.
@@ -132,7 +188,7 @@ University of Cambridge \\ % Your institution for the title page
         \begin{figure}[H]
             \centering
             \includegraphics[scale=0.25]{Forests.png}
-            \caption{}
+            \caption{\cite{r1}}
         \end{figure}
     \end{block}
 \end{frame}
@@ -140,36 +196,57 @@ University of Cambridge \\ % Your institution for the title page
 \begin{frame}
     \frametitle{Random Forests}
 
-    \begin{block}{The random bit}
+    \begin{block}{}
         \begin{itemize}
             \item Use \textit{weak learners} to split the training sequence up.
             \item Want the split that leads to the optimal \textit{information gain}.
-            \item Can't possibly try every way of splitting.
+            \item Can't possibly try every way of splitting, so search a random subspace.
         \end{itemize}
 
         \begin{figure}[H]
             \centering
-            \includegraphics[scale=0.3]{ProbabilityTree.png}
-            \caption{}
+            \includegraphics[scale=0.25]{ProbabilityTree.png}
+            \caption{\cite{r1}}
         \end{figure}
     \end{block}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Progress}
+    \frametitle{Progress - Schedule}
 
-    \begin{block}{Completed}
+    \begin{block}{Completed Work}
+        The project is on schedule as I have implemented the following:
         \begin{itemize}
             \item Random forests library.
             \item `DataCube' interface.
-            \item Pixel labelling using random forests,
-            \item and using Encog. (A machine learning library in Java with Neural Nets).
+            \item Pixel labelling using random forests.
+            \item Pixel labelling using Encog. (A machine learning library in Java with Neural Nets).
+        \end{itemize}
+    \end{block}
+
+
+    \begin{block}{Work remaining}
+        \begin{itemize}
+            \item De noising images with Poisson noise.
+            \item Get it working on some real images.
+            \item Compare the implementations on how they perform (speed and accuracy).
         \end{itemize}
     \end{block}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Progress}
+    \frametitle{Progress - Schedule}
+
+    \begin{block}{Difficulties}
+        \begin{itemize}
+            \item Some data captured by separate devices, so need to be aligned.
+            \item Lack of training data in some cases, but may be able to generate some.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Progress - Example}
 
     \begin{figure}[H]
         \centering
@@ -180,7 +257,7 @@ University of Cambridge \\ % Your institution for the title page
         \column{.47\textwidth} % Left column and width
         \includegraphics[scale=0.15]{Interpolated5DimImage1.png} \hspace{0.3pt}
         \includegraphics[scale=0.15]{Interpolated5DimImage2.png} \hspace{0.3pt}
-        \includegraphics[scale=0.15]{Interpolated5DimImage3.png}\\ \hspace{17pt}
+        \includegraphics[scale=0.15]{Interpolated5DimImage3.png} \\ \hspace{17pt}
         \includegraphics[scale=0.15]{Interpolated5DimImage4.png} \hspace{0.3pt}
         \includegraphics[scale=0.15]{Interpolated5DimImage5.png}
 
@@ -196,95 +273,10 @@ University of Cambridge \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
-    \frametitle{What's next?}
-
-    \begin{itemize}
-        \item De noising images with Poisson noise.
-        \item Get it working on some real images.
-        \item Compare the implementations on how they perform (speed and accuracy).
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{What's next?}
-
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_1.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_2.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_3.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_4.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_5.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_6.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_7.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_8.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_9.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_10.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_11.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_12.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_13.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_14.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_15.png}\\
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_16.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_17.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_18.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_19.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_20.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_21.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_22.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_23.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_24.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_25.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_26.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_27.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_28.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_29.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_30.png}\\
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_31.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_32.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_33.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_34.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_35.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_36.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_37.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_38.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_39.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_40.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_41.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_42.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_43.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_44.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_45.png}\\
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_46.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_47.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_48.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_49.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_50.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_51.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_52.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_53.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_54.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_55.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_56.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_57.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_58.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_59.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_60.png}\\
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_61.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_62.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_62.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_63.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_64.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_64.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_65.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_66.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_67.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_68.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_69.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_70.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_71.png}
-        \includegraphics[height=0.023\textheight]{spatial-denoised/wavelet_den_72.png}
-
+    \frametitle{Real Images}
+        \includegraphics[scale=0.2]{wells.png}
         \vspace{1mm}
-        \includegraphics[scale=0.1]{spatial-denoised/wavelet_den_45.png}
+        \includegraphics[scale=0.1]{wavelet_den_45.png}
 
         \vspace{1mm}
         \includegraphics[scale=0.25]{contrastAgentResponses1.png} 
@@ -294,7 +286,13 @@ University of Cambridge \\ % Your institution for the title page
 
 \begin{frame}
     \frametitle{References}
+    \footnotesize{
+        \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+            \bibitem[Chriminisi, Shotton, Konukoglu, 2012]{r1} Antonio Criminisi, Jamie Shotton, and Ender Konukoglu (2012)
+            \newblock Decision Forests: A Unified Framework for Classification, Regression, Density Estimation, Manifold Learning and Semi-Supervised Learning
+            \newblock \emph{Foundations and Trends® in Computer Graphics and Vision} 7(2-3), 81 -- 227.
+        \end{thebibliography}
+    }
 \end{frame}
-
 
 \end{document} 
