@@ -89,11 +89,11 @@ public class TrainingSequence {
 	 * in training sequences needs to be specific to the type of instance. 
 	 * The format of the text file should be:
 	 * ------------------------------
-	 * | Class1Name,				|
-	 * | Class2Name,				|
-	 * | Class3Name,				|
+	 * | Class1Name, 0xFFFFFF, 		|
+	 * | Class2Name, 0xFFFFFF, 		|
+	 * | Class3Name, 0xFFFFFF, 		|
 	 * | ...		 				|
-	 * | ClassMName;				|
+	 * | ClassMName, 0xFFFFFF; 		|
 	 * | c_1,x_11,x_12,...,x_1n;	|
 	 * | c_2,x_21,x_22,...,x_2n;	|
 	 * | c_3,x_31,x_32,...,x_3n;	|
@@ -102,12 +102,16 @@ public class TrainingSequence {
 	 * | ...						|
 	 * | c_k,x_k1,x_k2,...,x_kn;	|
 	 * ------------------------------
+	 * Where m is the number of classes, c's are classes, x's are feature vectors, each x_ij is a 
+	 * real number, n is the dimension of data and k is the number of samples in the sequence
+	 * 
 	 * N.B. new lines are ignored, only the commas and semi-colons are used for reading. All class 
 	 * names must begin with an alphabetic character, but they may use any valid unicode characters 
 	 * subsequently.
 	 * 
-	 * Where m is the number of classes, c's are classes, x's are feature vectors, each x_ij is a 
-	 * real number, n is the dimension of data and k is the number of samples in the sequence
+	 * N.B.B. The numbers 0xFFFFFF stand for a hex number that should correspond to the colour 
+	 * associated with the class.
+	 * 
 	 * @param filename The text file 
 	 * @throws TrainingSequenceFormatException
 	 * @throws FileNotFoundException 

@@ -1,3 +1,4 @@
+/uk/
 /Interpolated5DimImage1.png
 /Interpolated5DimImage2.png
 /Interpolated5DimImage3.png
@@ -5,6 +6,7 @@
 /Interpolated5DimImage5.png
 /Interpolated5DimImageLabeled (pre probability measure) (1000 trees).png
 /Interpolated5DimImageLabeled (pre probability measure) (256 trees).png
+/Interpolated5DimImageLabeled (prob measure) (1000 trees).png
 /Interpolated5DimImageLabeled.png
 /Interpolated5DimImageLabeledNN.png
 /InterpolatedRGBImage.png
@@ -12,7 +14,8 @@
 /InterpolatedRGBImageLabeled (pre probability measure) (250 trees).png
 /InterpolatedRGBImageLabeled (probability measure) (1000 trees).png
 /InterpolatedRGBImageLabeled.png
-/InterpolatedRGBImageLabeled2.png
+/InterpolatedRGBImageLabeled2 (pre probabilitiy measure).png
+/InterpolatedRGBImageLabeled2LargeTrainer (pre probabilitiy measure).png
 /InterpolatedRGBImageLabeled2LargeTrainer.png
 /InterpolatedRGBImageLabeledLargeTrainer.png
 /InterpolatedRGBImageLabeledNN.png
@@ -27,4 +30,3 @@
 /TestTrainingSequenceNormalSpacing
 /TestTrainingSequenceNullFeatureVector
 /TestTrainingSequenceWeirdSpacing
-/uk/

@@ -106,7 +106,10 @@ public class DecisionForest implements Cloneable {
 	public DecisionForest(String filename) throws FileNotFoundException, IOException, FileFormatException {
 		try {
 			// Get an input stream from the filename 
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename + ".frst"));
+			if (!filename.endsWith(".frst")) {
+				filename += ".frst";
+			}
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
 			
 			// Read in the decision forest and take a shallow copy
 			DecisionForest frst = (DecisionForest) in.readObject();
@@ -136,7 +139,11 @@ public class DecisionForest implements Cloneable {
 	 */
 	public void saveToFrstFile(String filename) throws FileNotFoundException, IOException {
 		// Create an file to output to, write this forest object to file and then close the stream
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename + ".frst"));
+		// Get an input stream from the filename 
+		if (!filename.endsWith(".frst")) {
+			filename += ".frst";
+		}
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename));
 		out.writeObject(this);
 		out.close();
 	}

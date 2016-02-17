@@ -1,0 +1,108 @@
+SIC.jar Usage:
+
+Please use the the jar in the following way:
+java -jar SIC.jar <task> <arguments>
+<task> is a string specifying the task to perform. <arguments> is a 
+space sepearated list of arguments passed to the task.
+
+
+
+Options for <task> and their arguments are as follows:
+
+    Generate an example 3 dimensional RGB image and training set.
+    <task> = "gen3D"
+         arg1 = dir (string)
+             The directory to place the generated image and training
+             sequence files
+
+    Generate an example 5 dimensional image (5 greyscale .png's) and training
+    sequence.
+    <task> = "gen5D"
+         arg1 = dir (string)
+             The directory to place the generated image and training
+             sequence files
+
+    Train a random forest.
+    <task> = "trainRF"
+         arg1 = trainingFilename (string)
+             The filename of the training sequence file.
+         arg2 = outputFilename (string)
+             The filename of the .frst file to be output.
+         arg3 = numberOfTrees (int)
+             The number of trees to be trained in the forest.
+         arg4 = maxDepth (int)
+             The maximum depth of a tree.
+         arg5 = randomnessParameter (int)
+             How many 'split parameters' to try at each 'split node'
+             whilst training. A greater value corresponds to a less
+             random tree.
+         arg6 = informationGainCutoff (double)
+             The minimal 'information' we wish to gain at any given
+             split node.
+
+    Train a Neural Network.
+    TODO
+
+    Use a Random Forest to label pixels in an image
+    <task> = "runRF"
+         arg1 = forestFilename (string)
+             The filename of the .frst file
+         arg2 = imageSpecifier (string)
+             The specficier of the image. This is either just the
+             filename of an RGB image or if it contains a '%'
+             character it will replace the '%' with numbers to form
+             an image with higher dimensions.
+         arg3 = outputFilename (string)
+             The filename to output a RGB image indicating the pixel
+             pixel labelling.
+
+    Use a Neural Network to label pixels in an image.
+    TODO
+
+
+
+
+
+
+
+
+
+
+
+File formats for training a random forest:
+
+------------------------------
+| Class1Name, 0xFFFFFF,      |
+| Class2Name, 0xFFFFFF,      |
+| Class3Name, 0xFFFFFF,      |
+| ...                        |
+| ClassMName, 0xFFFFFF;      |
+| c_1,x_11,x_12,...,x_1n;    |
+| c_2,x_21,x_22,...,x_2n;    |
+| c_3,x_31,x_32,...,x_3n;    |
+| c_4,x_41,x_42,...,x_4n;    |
+| c_5,x_51,x_52,...,x_5n;    |
+| ...                        |
+| c_k,x_k1,x_k2,...,x_kn;    |
+------------------------------
+
+Where m is the number of classes, c's are classes, x's are feature vectors, each x_ij is a 
+real number, n is the dimension of data and k is the number of samples in the sequence
+
+N.B. new lines are ignored, only the commas and semi-colons are used for reading. All class 
+names must begin with an alphabetic character, but they may use any valid unicode characters 
+subsequently.
+ 
+N.B.B. The numbers 0xFFFFFF stand for a hex number that should correspond to the colour 
+associated with the class.
+ 
+
+
+
+
+
+
+
+File formats for training a neural network:
+
+TODO
