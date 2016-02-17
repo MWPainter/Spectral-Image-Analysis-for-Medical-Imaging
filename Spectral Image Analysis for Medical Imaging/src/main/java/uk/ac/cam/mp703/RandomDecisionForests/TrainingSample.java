@@ -1,12 +1,19 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
+import java.io.Serializable;
+
 /***
  * A training sample is simply a pairing between a class and an instance/feature vector 
  * which is known before and to be used in training.
  * @author michaelpainter
  *
  */
-public class TrainingSample {
+public class TrainingSample implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/***
 	 * The class number that this training sample has been assigned by hand.
 	 */

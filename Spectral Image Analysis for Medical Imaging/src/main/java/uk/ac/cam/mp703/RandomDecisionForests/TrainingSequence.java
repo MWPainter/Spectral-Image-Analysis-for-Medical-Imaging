@@ -2,6 +2,7 @@ package uk.ac.cam.mp703.RandomDecisionForests;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +17,12 @@ import java.util.Set;
  * @author michaelpainter
  *
  */
-public class TrainingSequence {
+public class TrainingSequence implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/***
 	 * List of training samples forming the training sequence
@@ -166,10 +172,11 @@ public class TrainingSequence {
 			vectorScanner.useDelimiter("\\s*,\\s*");
 			
 			// Get the class number if possible, and check that it's in a valid range
+			// N.B. USER SEES numbers 1->M, INTERNALLY USE 0->(M-1)
 			int classNumber = 0;
 			try {
-				classNumber = vectorScanner.nextInt();
-				if (classNumber < 0 || classNumber > classNames.size()) {
+				classNumber = vectorScanner.nextInt() - 1;	
+				if (classNumber < 0 || classNumber >= classNames.size()) {
 					scanner.close();
 					vectorScanner.close();
 					throw new TrainingSequenceFormatException("Class number was either too large to negative");

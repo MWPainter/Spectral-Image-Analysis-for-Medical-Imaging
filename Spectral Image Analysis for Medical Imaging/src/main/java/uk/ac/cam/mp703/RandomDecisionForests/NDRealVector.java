@@ -8,7 +8,12 @@ import java.util.List;
  * @author michaelpainter
  * 
  */
-public class NDRealVector extends Instance {
+public class NDRealVector extends Instance  {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	/***
 	 * The vector represented as a list of doubles.

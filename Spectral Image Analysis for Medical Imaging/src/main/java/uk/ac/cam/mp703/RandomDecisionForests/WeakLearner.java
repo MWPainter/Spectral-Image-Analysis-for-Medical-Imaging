@@ -1,5 +1,6 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.Random;
 
@@ -20,7 +21,12 @@ import java.util.Random;
  * @author michaelpainter
  *
  */
-public abstract class WeakLearner {
+public abstract class WeakLearner implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/***
 	 * A weak learner must identify as one of the given weak learner types.  
 	 */

@@ -1,5 +1,6 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,8 +11,13 @@ import java.util.Set;
 import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest.TreeNode;
 
 
-public class Learner {
+public class Learner implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/***
 	 * Construct a forest using a given weak learner, given a training sequence.
 	 * 

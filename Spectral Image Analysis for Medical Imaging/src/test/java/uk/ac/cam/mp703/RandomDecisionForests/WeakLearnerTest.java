@@ -71,7 +71,7 @@ public class WeakLearnerTest {
 		ConcreteWeakLearner wl = new ConcreteWeakLearner();
 		double randomDouble = wl.uniformRandomDoubleInRange(Double.NEGATIVE_INFINITY, 
 				Double.POSITIVE_INFINITY, new Random());
-		assertTrue("Invalid result from random in range", Double.isFinite(randomDouble));
+		assertTrue("Invalid result from random in range", !Double.isInfinite(randomDouble));
 	}
 	
 	/***

@@ -1,5 +1,6 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /***
@@ -8,7 +9,12 @@ import java.util.Map;
  * @author michaelpainter
  *
  */
-public class ProbabilityDistribution {
+public class ProbabilityDistribution implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/***
 	 * The maximum class number in the distribution
 	 * So we have class numbers 0, 1, ..., maxClassNumber

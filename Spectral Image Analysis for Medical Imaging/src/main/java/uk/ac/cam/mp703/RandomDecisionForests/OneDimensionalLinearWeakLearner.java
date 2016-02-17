@@ -13,6 +13,11 @@ import java.util.Random;
  */
 public class OneDimensionalLinearWeakLearner extends WeakLearner {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/***
 	 * Minimum values we should pick when generating split parameters. Only used as an internal 
 	 * variable to optimise searching the split parameter space.
@@ -134,6 +139,11 @@ public class OneDimensionalLinearWeakLearner extends WeakLearner {
 	 *
 	 */
 	public static class OneDimensionalLinearSplitParameters extends SplitParameters {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		/***
 		 * The dimension we use to make a decision on the vector given.
 		 */

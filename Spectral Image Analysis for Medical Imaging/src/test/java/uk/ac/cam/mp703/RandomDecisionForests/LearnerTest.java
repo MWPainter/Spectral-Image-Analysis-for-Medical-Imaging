@@ -1,19 +1,19 @@
-//package uk.ac.cam.mp703.RandomDecisionForests;
-//
-//import static org.hamcrest.core.IsEqual.equalTo;
-//import static org.junit.Assert.assertThat;
-//import static org.junit.Assert.assertTrue;
-//
-//import java.security.InvalidParameterException;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import org.junit.Before;
-//import org.junit.Test;
-//
-//import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest.TreeNode;
-//
-//public class LearnerTest {
+package uk.ac.cam.mp703.RandomDecisionForests;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest.TreeNode;
+
+public class LearnerTest {
 //	
 //	/*** 
 //	 * Training sequence we will frequently want to use. 
@@ -264,4 +264,4 @@
 //		vlist = new ArrayList<Double>();
 //		vlist.add(2.9);
 //	}
-//}
+}

@@ -1,15 +1,15 @@
-//package uk.ac.cam.mp703.RandomDecisionForests;
-//
-//import static org.hamcrest.core.IsEqual.equalTo;
-//import static org.junit.Assert.assertThat;
-//
-//import java.io.FileNotFoundException;
-//import java.util.ArrayList;
-//
-//import org.junit.Before;
-//import org.junit.Test;
-//
-//public class TrainingSequenceTest {
+package uk.ac.cam.mp703.RandomDecisionForests;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class TrainingSequenceTest {
 //	/***
 //	 * Some training sequences we will use to test the entropy functions
 //	 */
@@ -308,4 +308,4 @@
 //		assertThat("Incorrect most frequent class identified", classNumber, equalTo(0));
 //		assertThat("Incorrect most frequent class identified", ts2.classNames.get(classNumber), equalTo("a"));
 //	}
-//}
+}

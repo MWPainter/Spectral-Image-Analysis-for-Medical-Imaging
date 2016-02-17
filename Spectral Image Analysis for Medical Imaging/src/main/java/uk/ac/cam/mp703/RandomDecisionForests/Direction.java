@@ -1,6 +1,8 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
-public enum Direction {
+import java.io.Serializable;
+
+public enum Direction implements Serializable {
 	LEFT,
 	RIGHT
 }

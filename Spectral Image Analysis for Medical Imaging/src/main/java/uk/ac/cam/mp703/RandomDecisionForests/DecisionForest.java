@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,12 @@ import java.util.Set;
  * @author michaelpainter
  *
  */
-public class DecisionForest implements Cloneable {
+public class DecisionForest implements Cloneable, Serializable {
+	/**
+	 * Serializable ID number
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/*** 
 	 * Set of root nodes 
 	 */
@@ -234,7 +240,12 @@ public class DecisionForest implements Cloneable {
 	 * Data structure for nodes in a tree. 
 	 * N.B. We don't provide an explicit tree class, as we are providing forests.
 	 */
-	static class TreeNode {
+	static class TreeNode implements Serializable {
+		/**
+		 * Serializable ID number
+		 */
+		private static final long serialVersionUID = 1L;
+
 		/*** 
 		 * Child node - null iff leaf node 
 		 */

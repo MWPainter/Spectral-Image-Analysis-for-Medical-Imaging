@@ -1,20 +1,20 @@
-//package uk.ac.cam.mp703.RandomDecisionForests;
-//
-//import static org.hamcrest.core.IsEqual.equalTo;
-//import static org.hamcrest.core.IsNot.not;
-//import static org.junit.Assert.assertThat;
-//
-//import java.util.ArrayList;
-//import java.util.HashSet;
-//import java.util.List;
-//
-//import org.junit.Before;
-//import org.junit.Test;
-//
-//import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest.TreeNode;
-//import uk.ac.cam.mp703.RandomDecisionForests.OneDimensionalLinearWeakLearner.OneDimensionalLinearSplitParameters;
-//
-//public class DecisionForestTest {
+package uk.ac.cam.mp703.RandomDecisionForests;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest.TreeNode;
+import uk.ac.cam.mp703.RandomDecisionForests.OneDimensionalLinearWeakLearner.OneDimensionalLinearSplitParameters;
+
+public class DecisionForestTest {
 //	
 //	/***
 //	 * A decision forest that will be used throughout the tests
@@ -243,4 +243,4 @@
 //		assertThat(df.classify(v7), equalTo(2));
 //	}
 //	
-//}
+}

@@ -52,7 +52,7 @@ public class EntryPoint {
 		}
 		
 		// Now for each possible task, load in the data and check that its ok
-		if (args[0] == tasks[0]) {
+		if (args[0].equals(tasks[0])) {
 			// GENERATE 3 DIM IMAGE
 			try {
 				mainGenerate3DimImage(args[1]);
@@ -65,7 +65,7 @@ public class EntryPoint {
 				System.err.println("There was an IO error: " + e.getMessage());
 			}
 			
-		} else if (args[0] == tasks[1]) {
+		} else if (args[0].equals(tasks[1])) {
 			// GENERATE 5 DIM IMAGE
 			try {
 				mainGenerate5DimImage(args[1]);
@@ -78,7 +78,7 @@ public class EntryPoint {
 				System.err.println("There was an IO error: " + e.getMessage());
 			}
 			
-		} else if (args[0] == tasks[2]) {
+		} else if (args[0].equals(tasks[2])) {
 			// TRAIN RANDOM FOREST
 			try {
 				String trainingFilename = args[1];
@@ -96,16 +96,17 @@ public class EntryPoint {
 				
 			} catch (IOException e) {
 				System.err.println("There was an IO error: " + e.getMessage());
+				e.printStackTrace();
 				
 			} catch (MalformedForestException | MalformedProbabilityDistributionException e) {
 				System.err.println("There was an error in the RF library: " + e.getMessage());
 			}
 			
-		} else if (args[0] == tasks[3]) {
+		} else if (args[0].equals(tasks[3])) {
 			// TRAIN NEURAL NETWORK
 			System.out.println("TRAINING NEURAL NETS NOT ADDED TO INTERFACE YET.");
 			
-		} else if (args[0] == tasks[4]) {
+		} else if (args[0].equals(tasks[4])) {
 			// RUN RANDOM FOREST CLASSIFICATION
 			try {
 				mainRFRun(args[1], args[2], args[3]);
@@ -125,7 +126,7 @@ public class EntryPoint {
 			} 
 			
 			
-		} else if (args[0] == tasks[5]) {
+		} else if (args[0].equals(tasks[5])) {
 			// RUN NEURAL NETWORK
 			System.out.println("PIXEL LABELLING USING NEURAL NETS NOT ADDED TO INTERFACE YET.");
 			
@@ -222,7 +223,7 @@ public class EntryPoint {
 	 * @throws IOException
 	 */
 	private static void generate3DimTrainingSequence(String dir) throws IOException {
-		throw new RuntimeException("Not yet implemented.");
+		//throw new RuntimeException("Not yet implemented.");
 	}
 	
 	/***
@@ -280,7 +281,7 @@ public class EntryPoint {
 	 * @throws IOException
 	 */
 	private static void generate5DimTrainingSequence(String dir) throws IOException {
-		throw new RuntimeException("Not yet implemented.");
+		//throw new RuntimeException("Not yet implemented.");
 	}
 	
 	/***
