@@ -34,11 +34,25 @@ public class DataCube {
 	/***
 	 * The coordinates used in the data cube will be:
 	 * [x][y][s]
-	 * where s ranges over the spectral bin's indices.
+	 * where s ranges over the spectral bin's indices.u
 	 */
 	short[][][] dataCube;
 	
 	
+	/**
+	 * @return the dataCube
+	 */
+	public short[][][] getDataCube() {
+		return dataCube;
+	}
+
+	/**
+	 * @param dataCube the dataCube to set
+	 */
+	public void setDataCube(short[][][] dataCube) {
+		this.dataCube = dataCube;
+	}
+
 	/***
 	 * Create a datacube from an RGB image
 	 * @param filename The filename containing the image
