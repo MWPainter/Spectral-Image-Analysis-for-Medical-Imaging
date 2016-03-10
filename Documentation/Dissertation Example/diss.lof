@@ -1,0 +1,73 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Amdahl's law; P = fraction for which conditional move instructions are used\relax }}{3}{figure.caption.11}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces RISC-V instruction lengths\relax }}{6}{figure.caption.12}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces RISC-V base instruction formats\relax }}{7}{figure.caption.13}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces The FLUTE pipeline\relax }}{8}{figure.caption.14}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Extract of an LLVM \textit {SelectionDAG} including a select node\relax }}{10}{figure.caption.15}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces A simplified view of the retargetable LLVM code generator with x86 target descriptions\relax }}{11}{figure.caption.16}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.1}{\ignorespaces RISC-V R-type instruction format\relax }}{16}{figure.caption.17}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces RISC-V allocation of \textit {opcodes} for 32-bit instructions; the last two bits of the \textit {opcode}, inst[1:0] are always $11$ to specify the instruction length\relax }}{16}{figure.caption.18}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces A branch predictor with branch target buffer and saturating counters\relax }}{19}{figure.caption.19}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Schematic design of the local history predictor with branch targets, both the history pattern table and the shared counter table have 1024 entries\relax }}{19}{figure.caption.20}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces A single history entry and how it is used to access the saturating counters\relax }}{20}{figure.caption.21}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces An extract of a \textit {SelectionDAG} with a select node before the selection pass\relax }}{21}{figure.caption.22}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.7}{\ignorespaces The same extract of a \textit {SelectionDAG} as in figure \ref {pattern_example_isel}, but after the selection pass\relax }}{21}{figure.caption.23}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Simplified view of the instruction lowering process for a select instructions, vr1 - vr4 are arbitrary identifiers for virtual registers\relax }}{23}{figure.caption.24}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.1}{\ignorespaces The percentage of branch prediction misses with cmov over branch prediction misses without cmov\relax }}{31}{figure.caption.26}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces relative change of instructions per cycle from non-cmov program to cmov program\relax }}{32}{figure.caption.27}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces $\mathrm {Speedup} =\frac {\mathrm {No. \nobreakspace {} of \nobreakspace {}cycles}_{old}}{\mathrm {No. \nobreakspace {} of \nobreakspace {}cycles}_{new}} - 1$ per benchmark\relax }}{32}{figure.caption.28}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Code example from \texttt {sglib-arraybinsearch}(variable names changed) and how it is compiled with and without a conditional move\relax }}{32}{figure.caption.29}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces example of semantically equal assembly code with and without conditional moves, from the \texttt {ctl-stack} benchmark\relax }}{33}{figure.caption.30}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Speedup mapped onto dynamic frequency for each benchmark; correlation coefficient $r=0.6$\relax }}{34}{figure.caption.32}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Branch prediction misses and speedup for BTB512, the base value for each benchmark is the number of misses without cmovs and BTB8\relax }}{34}{figure.caption.33}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Branch prediction misses and speedup for SAT and BTB512, the base value for each benchmark is the number of misses without cmovs and BTB8\relax }}{35}{figure.caption.34}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Branch prediction misses and speedup for LHBP and BTB512, the base value for each benchmark is the number of misses without cmovs and BTB8\relax }}{36}{figure.caption.35}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {D.1}{\ignorespaces Speedup for SAT and BTB512, the base value for each benchmark is the number of misses without cmovs and BTB8\relax }}{55}{figure.caption.39}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {D.2}{\ignorespaces Branch prediction misses for LHBP and BTB512, the base value for each benchmark is the number of misses without cmovs and BTB8\relax }}{56}{figure.caption.40}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {D.3}{\ignorespaces Speedup for LHBP and BTB512, the base value for each benchmark is the number of misses without cmovs and BTB8\relax }}{57}{figure.caption.41}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }

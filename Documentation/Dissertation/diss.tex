@@ -1,0 +1,585 @@
+\documentclass[12pt,twoside,notitlepage]{report}
+
+%packages
+\usepackage{a4}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{booktabs, longtable}
+\usepackage{tabularx}
+\usepackage{xcolor,colortbl}
+\usepackage{hhline}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{epstopdf}
+\usepackage{listings}       % Source code listings
+\usepackage[toc]{glossaries}
+\usepackage{changebar}
+\usepackage{amsmath}
+\usepackage{rotating}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+% listings style
+\lstset{
+  basicstyle=\footnotesize\tt,                                          % the size of the fonts that are used for the code
+  breakatwhitespace=false,                                              % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                                                      % sets automatic line breaking
+  prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},     % add arrows to indicate line breaks added
+  framesep = 5px,                                                       % add padding to the top/bottom of listings
+  captionpos=b,                                                         % sets the caption-position to bottom
+  extendedchars=true,                                                   % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=TB,                                                             % adds a frame around the code (frame at bot and top)
+  language=Caml,                                                        % the language of the code
+  showspaces=false,                                                     % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,                                               % underline spaces within strings only
+  showtabs=false,                                                       % show tabs within strings adding particular underscores
+  tabsize=4,                                                            % sets default tabsize to 4 spaces
+  numbers=left,                                                         % puts numbers on the left side
+  keywordstyle=\color[rgb]{0,0,1}\ttfamily,
+  stringstyle=\color[rgb]{0.627,0.126,0.941}\ttfamily,
+  commentstyle=\color[rgb]{0.133,0.545,0.133}\ttfamily,
+  morecomment=[l][\color{magenta}]{\#}
+}
+
+% Graphics extensions used
+\DeclareGraphicsExtensions{.pdf, .png, .jpg, .eps}
+
+% ??
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+% Pick the bibliocraphy style
+\bibliographystyle{plain}
+
+% Styling for pgf plots
+\pgfplotsset{compat=newest}
+\pgfplotsset{grid style={gray!50}}
+\pgfplotsset{minor grid style={dashed,gray!50}}
+
+%colours for bar graphs
+\pgfplotsset{
+   /pgfplots/bar  cycle  list/.style={/pgfplots/cycle  list={%
+        {blue,fill=blue!50!white,mark=none},%
+        {orange,fill=orange!50!white,mark=none},%
+        {green,fill=green!50!white,mark=none},%
+        {yellow,fill=yellow!40!white,mark=none},%
+        {red,fill=red!50!white,mark=none},%
+     }
+   },
+}
+
+\usepgfplotslibrary{units}
+
+% to allow postscript inclusions
+\input{epsf}                 
+% On thor and CUS read top of file:
+%     /opt/TeX/lib/texmf/tex/dvips/epsf.sty
+% On CL machines read:
+%     /usr/lib/tex/macros/dvips/epsf.tex
+
+% glossaries
+\makeglossaries
+
+\raggedbottom                           % try to avoid widows and orphans
+\sloppy
+\clubpenalty1000%
+\widowpenalty1000%
+
+\addtolength{\oddsidemargin}{6mm}       % adjust margins
+\addtolength{\evensidemargin}{-8mm}
+
+\renewcommand{\baselinestretch}{1.1}    % adjust line spacing to make
+                                        % more readable
+
+\begin{document}
+
+% glossary definitions
+\newacronym{btb}{BTB} {Branch Target Buffer}
+\newacronym{bp0}{BTB8} {branch predictor with BTB and tablesize 8}
+\newacronym{bp1}{BTB512} {branch predictor with BTB and tablesize 512}
+\newacronym{sat}{SAT} {branch predictor with 3-bit saturating counters}
+\newacronym{lhbp}{LHBP} {local history branch predictor}
+\newacronym{pc}{PC} {Program Counter}
+\newacronym{alu}{ALU} {Arithmetic Logic Unit}
+\newacronym{risc}{RISC} {Reduced Instruction Set Computer}
+\newacronym{ISA}{ISA} {Instruction Set Architecture}
+\newacronym{ipc}{IPC} {Instructions Per Cycle}
+\newacronym{cpi}{CPI} {Cycles per Instruction}
+\newacronym{fpga}{FPGA} {Field Programmable Logic Array}
+\newacronym{alut}{ALUT}{Adaptive Look-Up Table}
+\newacronym{alm}{ALM} {Adaptive Logic Module}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title
+
+% Name
+\begin{flushright}
+    \Large
+    \hfill{\LARGE \bf Michael Painter}
+\end{flushright}
+
+% Title + imgs
+\begin{center}
+    \vfill
+
+    \Huge{\bf Spectral Image Analysis for Medical Imaging}
+    
+    \bigskip
+    \bigskip
+    
+    {Part II Computer Science Tripos} \\
+    
+    \bigskip
+    
+    {Churchill College, 2016\\}
+
+    \bigskip 
+
+    {\today}
+
+    \bigskip
+
+    \includegraphics[scale=0.099]{titleimg/camcrest}
+    \includegraphics[scale=0.2792]{titleimg/chucrest}
+
+    \vfill
+\end{center}
+
+\cleardoublepage
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Proforma, table of contents and list of figures
+
+\setcounter{page}{1}
+\pagenumbering{roman}
+\pagestyle{plain}
+
+\chapter*{Proforma}
+
+{\large
+\begin{tabularx}{\textwidth}{l X}
+Name:               & \bf Michael Painter                      \\
+College:            & \bf Churchill College                     \\
+Project Title:      & \bf Spectral Image Analysis for Medical Imaging \\
+Examination:        & \bf Computer Science Part II Project Dissertation, May 2016        \\
+Word Count:         & \bf 579\footnotemark[1]\\
+Project Originator: & Dr Pietro Lio'              \\
+Supervisor:         & Dr Pietro Lio' \& Dr Gianluca Ascolani       \\ 
+\end{tabularx}
+}
+
+\footnotetext[1]{
+    This word count was computed by {\tt texcount -total diss.tex }
+}
+\stepcounter{footnote}
+
+
+\section*{Original aims of the project}
+    *TODO*
+
+\section*{Work completed}
+    *TODO*
+
+\section*{Special difficulties}
+    None.
+ 
+\newpage
+\section*{Declaration}
+
+I, Michael Painter of Churchill College, being a candidate for Part II of the Computer Science Tripos, hereby declare 
+that this dissertation and the work described in it are my own work, unaided except as may be specified below, and that 
+the dissertation does not contain material that has already been used to any substantial extent for a comparable 
+purpose.
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\leftline{\rule{6cm}{0.5pt}}
+\leftline{Signed}
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\leftline{\rule{4cm}{0.5pt}}
+\leftline{Date}
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the contents
+
+\cleardoublepage
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% list of figures, tables and listings
+
+\listoffigures
+
+\listoftables
+
+\lstlistoflistings
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% acknowledgements
+
+\newpage
+\section*{Acknowledgements}
+
+I thank my supervisors, director of studies and tutor for their extensive support, especially for putting up with me 
+throughout the year. [TODO - anymore thanks] %I would also like to thank Malavika Nair, Ioana Bica and Yanie de Nadaillac
+% for their support, multiple proof readings without complaint and helping my through the good days and bad days. 
+% Without any single one of you this project would not have happened.
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% now for the chapters
+
+\cleardoublepage        % just to make sure before the page numbering
+                        % is changed
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\pagestyle{headings}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the introduction
+
+\cleardoublepage
+\chapter{Introduction}
+    In this chapter we introduce the problem: what data we are given and what would we like to do with it? We will 
+    suggest some possible methods that could be used to implement a solution. We describe how we might want to 
+    evaluate the performance of the system. Finally we will outline the overall pipeline of the system.
+
+    \section{What are we trying to do?}
+        *TODO* \\
+
+        We can briefly describe the system as taking an image with a spectrum of intensity values at each pixel and we wish to 
+        produce a pixel labelling. A pixel labelling is... and is often referred to as an image segmentation.
+
+    \section{Possible solutions}
+        *TODO*
+
+    \section{My approach}
+        *TODO*
+
+    \section{Evaluation of system performance}
+        *TODO*
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the preparation
+
+\cleardoublepage
+\chapter{Preparation}
+    In this section we investigate multiple machine learning algorithms, and decide on which may be reasonable to use
+    in this project. We then investigate noise models for images, how they can be applied to our `hyperspectral' case 
+    and what can be implemented to reduce or eliminate the noise. 
+
+    \section{A summary of machine learning algorithms}
+        *TODO*
+        \subsection{Method 1}
+            *TODO*
+            
+        \subsection{Method 2}
+            *TODO*
+
+        \subsection{Method 3}
+            *TODO*
+
+
+
+    \section{Image noise and noise simulation}
+    *TODO*
+
+
+
+    \section{De-noising}
+    *TODO*
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the implementation
+
+\cleardoublepage
+\chapter{Implementation}
+    In this chapter we elaborate on the implementations of the randomised forests and neural network solutions. 
+    Similarly we discuss the de-noising aspect of the system. We then look at how each of the random forests and neural 
+    networks were trained for the example data sets provided. We finally return to look at the overview of the system 
+    and how all of the components fit together into a pipeline.
+
+    \section{Randomised Forests}
+    *TODO*
+
+      \subsection{Training}
+      *TODO*
+
+      \subsection{Classification}
+      *TODO*
+
+    \section{Neural Networks}
+    *TODO*
+
+      \subsection{Training}
+      *TODO*
+
+      \subsection{Classification}
+      *TODO*
+
+    \section{De-noising}
+    *TODO*
+
+    %\section{Using the GPU using OpenCL}
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the evaluation
+
+\cleardoublepage
+\chapter{Evaluation}
+    In this section we will evaluate the performance of the implemented machine learning solutions, comparing them based 
+    on the following metrics: accuracy of pixel labellings from a test set with known classifications prior, training 
+    time (as a function of the size of the training sequence) and classification time (as a function of the size of the 
+    image). I will also look at how each of the components of the system effects each of the metrics mentioned in 
+    isolation.
+
+    \section{Accuracy}
+    *TODO*
+
+    \section{Training time}
+    *TODO*
+
+    \section{Classification time}
+    *TODO*
+
+    \section{The effect of the de-noising component}
+    *TODO*
+
+    \section{The effect of the number of trees}
+    *TODO*
+
+    \section{The effect of the depth of trees}
+    *TODO*
+
+    \section{The effect of the randomness of trees}
+    *TODO*
+
+    % \section{Performance of de-blurring in OpenCL}
+    % *TODO* - compare FFT and non-FFT methods of convolution etc
+
+    % \section{Performance of classification time in OpenCL}
+    % *TODO* - compare to classification time with OpenCL in encog turned on, also compare to non openCL time.
+    % Compare the classification times with openCL on/off in encog.
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the conclusion
+
+
+\cleardoublepage
+\chapter{Conclusion}
+    *TODO* - Summarise how the decision forests and neural networks compared (accuracy on the test data etc), basically 
+    discuss the results from the evaluation.
+
+    \section{Section 1}
+    *TODO*
+
+    \section{Section 2}
+    *TODO*
+
+    \section{Section 3}
+    *TODO* \cite{Luthman:2015:hyperspectralImager}
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the bibliography
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliography{refs}
+%\printbibliography
+\cleardoublepage
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the appendices
+\appendix
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% description of benchmark tests
+
+\cleardoublepage
+\chapter {Benchmark descriptions}
+    *TODO*
+
+    \section{Section 1}
+    *TODO*
+
+    \section{Section 2}
+    *TODO*
+
+    \section{Section 3}
+    *TODO*
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% evaluation data
+
+\cleardoublepage
+\chapter{Evaluation results}
+    *TODO*
+
+    \section{Section 1}
+    *TODO*
+
+    \section{Section 2}
+    *TODO*
+
+    \section{Section 3}
+    *TODO*
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% project proposal
+
+\cleardoublepage
+\chapter{Project Proposal}
+
+\input{proposal}
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the glossary
+
+\cleardoublepage
+\chapter{Glossary}
+\glsaddall
+\printglossaries
+
+\end{document}

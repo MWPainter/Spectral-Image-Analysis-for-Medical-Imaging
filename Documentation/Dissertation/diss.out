@@ -1,0 +1,36 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{What are we trying to do?}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Possible solutions}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{My approach}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{Evaluation of system performance}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Preparation}{}% 6
+\BOOKMARK [1][-]{section.2.1}{A summary of machine learning algorithms}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.2}{Image noise and noise simulation}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.3}{De-noising}{chapter.2}% 9
+\BOOKMARK [0][-]{chapter.3}{Implementation}{}% 10
+\BOOKMARK [1][-]{section.3.1}{Randomised Forests}{chapter.3}% 11
+\BOOKMARK [1][-]{section.3.2}{Neural Networks}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.3}{De-noising}{chapter.3}% 13
+\BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 14
+\BOOKMARK [1][-]{section.4.1}{Accuracy}{chapter.4}% 15
+\BOOKMARK [1][-]{section.4.2}{Training time}{chapter.4}% 16
+\BOOKMARK [1][-]{section.4.3}{Classification time}{chapter.4}% 17
+\BOOKMARK [1][-]{section.4.4}{The effect of the de-noising component}{chapter.4}% 18
+\BOOKMARK [1][-]{section.4.5}{The effect of the number of trees}{chapter.4}% 19
+\BOOKMARK [1][-]{section.4.6}{The effect of the depth of trees}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.7}{The effect of the randomness of trees}{chapter.4}% 21
+\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 22
+\BOOKMARK [1][-]{section.5.1}{Section 1}{chapter.5}% 23
+\BOOKMARK [1][-]{section.5.2}{Section 2}{chapter.5}% 24
+\BOOKMARK [1][-]{section.5.3}{Section 3}{chapter.5}% 25
+\BOOKMARK [0][-]{section.5.3}{Bibliography}{}% 26
+\BOOKMARK [0][-]{appendix.A}{Benchmark descriptions}{}% 27
+\BOOKMARK [1][-]{section.A.1}{Section 1}{appendix.A}% 28
+\BOOKMARK [1][-]{section.A.2}{Section 2}{appendix.A}% 29
+\BOOKMARK [1][-]{section.A.3}{Section 3}{appendix.A}% 30
+\BOOKMARK [0][-]{appendix.B}{Evaluation results}{}% 31
+\BOOKMARK [1][-]{section.B.1}{Section 1}{appendix.B}% 32
+\BOOKMARK [1][-]{section.B.2}{Section 2}{appendix.B}% 33
+\BOOKMARK [1][-]{section.B.3}{Section 3}{appendix.B}% 34
+\BOOKMARK [0][-]{appendix.C}{Project Proposal}{}% 35
+\BOOKMARK [0][-]{appendix.D}{Glossary}{}% 36
