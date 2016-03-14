@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import uk.ac.cam.mp703.ImagePixelLabelling.DataCube;
+import uk.ac.cam.mp703.Noise.ArtificialNoise;
+import uk.ac.cam.mp703.Noise.PoissonNoise;
 import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest;
 import uk.ac.cam.mp703.RandomDecisionForests.FileFormatException;
 import uk.ac.cam.mp703.RandomDecisionForests.Learner;
@@ -35,10 +38,11 @@ public class EntryPoint {
 		"trainNN",
 		"runRF",
 		"runNN",
+		"applyPoissonNoise",
 	};
 
 	/***
-	 * Main entry point to using th
+	 * Main entry point to using the project
 	 * @param args Array of arguments passed into the program
 	 * @throws IOException 
 	 */
@@ -129,6 +133,25 @@ public class EntryPoint {
 		} else if (args[0].equals(tasks[5])) {
 			// RUN NEURAL NETWORK
 			System.out.println("PIXEL LABELLING USING NEURAL NETS NOT ADDED TO INTERFACE YET.");
+			
+		
+		} else if (args[0].equals(tasks[6])) {
+			// APPLY A RANDOM NOISE
+			try {
+				mainPNRun(args[1], args[2]);
+				
+			} catch (NullPointerException e) {
+				System.err.println("Error reading in arguments to task " + tasks[0]);
+				printUsage(System.err);
+				
+			} catch (IOException e) {
+				System.err.println("There was an IO error: " + e.getMessage());
+				
+			} catch (FileFormatException e) {
+				System.err.println("You need to include a '%' in your input image specifier if and "
+						+ "only if the output image specifier contains a '%'. Also check each only "
+						+ "contains a single '%'.");
+			}
 			
 			
 		} else {
@@ -344,6 +367,43 @@ public class EntryPoint {
 	}
 	
 	/***
+	 * Take a hyperspectral image and add a poisson noise to it.
+	 * 
+	 * @param imageSpecifier The hyperspectral image specifier input
+	 * @param outputImageSpecifier The hyperspectral image specifier output 
+	 * @throws FileFormatException 
+	 * @throws IOException 
+	 */
+	public static void mainPNRun(String imageSpecifier, String outputImageSpecifier) 
+			throws FileFormatException, IOException {
+		
+		// Check that the inputs are ok
+		if (imageSpecifier.contains("%") != outputImageSpecifier.contains("%") ||
+				imageSpecifier.indexOf("%") != imageSpecifier.lastIndexOf("%") ||
+				outputImageSpecifier.indexOf("%") != outputImageSpecifier.lastIndexOf("%")) {
+			throw new InvalidParameterException("Image and output file specifiers should "
+					+ "contain a single '%' character if using a set of monochrome images, they "
+					+ "should contain no '%' characters if using an RGB image. The input file "
+					+ "specifier should contain a '%' iff the output file specifier does.");
+		}
+		
+		// Load the image in
+		DataCube dc = imageSpecifier.contains("%") ? 
+							DataCube.generateDataCubeFromMonochromeImages(imageSpecifier) :
+							DataCube.generateDataCubeFromColourImage(imageSpecifier);
+							
+		// Apply the Poisson noise
+		ArtificialNoise.applyPoissonNoise(dc);
+		
+		// Output the image
+		if (!outputImageSpecifier.contains("%")) {
+			dc.printToColourImage(outputImageSpecifier);
+		} else {
+			dc.printToMonochromeImages(outputImageSpecifier);
+		}
+	}
+	
+	/***
 	 * Private method to print usage of jar to a print stream
 	 * @param o The output print stream. (System.out or System.err).
 	 */
@@ -403,6 +463,20 @@ public class EntryPoint {
 		o.println();
 		o.println("Use a Neural Network to label pixels in an image.");
 		o.println("TODO");
+		o.println();
+		o.println("Add a Poisson noise to an image");
+		o.println("<task> = " + tasks[6]);
+		o.println("\t arg1 = imageSpecifier (string)");
+		o.println("\t\t The specficier of the image. This is either just the "
+				+ "\n\t\t filename of an RGB image or if it contains a '%' "
+				+ "\n\t\t character it will replace the '%' with numbers to form "
+				+ "\n\t\t an image with higher dimensions."); 
+		o.println("\t arg2 = outputImageSpecifier (string)");
+		o.println("\t\t The specficier of the output image. This is either just the "
+				+ "\n\t\t filename of an RGB image or if it contains a '%' "
+				+ "\n\t\t character it will replace the '%' with numbers to form "
+				+ "\n\t\t an image with higher dimensions. arg2 should include a '%'"
+				+ "\n\t\t if and only if arg1 does."); 
 		
 	}
 

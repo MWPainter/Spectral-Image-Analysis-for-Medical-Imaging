@@ -144,6 +144,78 @@ public class DataCube {
 	}
 	
 	/***
+	 * A routine to print a datacube out for inspection. Not really necessary in the end system, 
+	 * but useful for testing and seeing what's happening.
+	 * 
+	 * @param filename The image's filename
+	 * @throws IOException
+	 */
+	public void printToColourImage(String filename) throws IOException {
+		// Check the format of the string
+		if (filename.contains("%")) {
+			throw new InvalidParameterException("Filename specifier for a colour image shouldn't "
+					+ "contain a '%'.");
+		}
+		
+		// Also check that we only have 3 dimensions, otherwise this doesnt work
+		if (this.dataCube[0][0].length != 3) {
+			throw new DataCubeException("Datacube must have 3 spectral bands to be output as an RGB"
+					+ " image.");
+		}
+		
+	    // Retreive the image
+	    BufferedImage img = new BufferedImage(this.dataCube.length, this.dataCube[0].length, 
+	    		BufferedImage.TYPE_3BYTE_BGR);
+	    for (int i = 0; i < dataCube.length; i++) {
+	    	for (int j = 0; j < dataCube[0].length; j++) {
+	    		int rgb = ((int) dataCube[i][j][0]) << 16 +
+	    				((int) dataCube[i][j][1]) << 8 +
+	    				((int) dataCube[i][j][2]) << 0;
+	    		img.setRGB(i, j, rgb);
+	    	}
+	    }
+	    
+	    // Output the file as a png image
+	    File outputfile = new File(filename.endsWith(".png") ? filename : filename + ".png");
+	    ImageIO.write(img, "png", outputfile);
+	}
+	
+	/***
+	 * A routine to print a datacube out for inspection. Not really necessary in the end system, 
+	 * but useful for testing and seeing what's happening.
+	 * 
+	 * @param filename The image's filename
+	 * @throws IOException
+	 */
+	public void printToMonochromeImages(String filenameSpecifier) throws IOException {
+		// Check the format of the string
+		if (!filenameSpecifier.contains("%") || 
+				filenameSpecifier.indexOf("%") != filenameSpecifier.lastIndexOf("%")) {
+			throw new InvalidParameterException("Filename specifier must contain exactly one '%'.");
+		}
+		
+		// An image data structure to use to print out
+	    BufferedImage img = new BufferedImage(this.dataCube.length, this.dataCube[0].length, 
+	    		BufferedImage.TYPE_3BYTE_BGR);
+	    
+	    // Iterate through each spectral bin
+	    for (int k = 0; k < dataCube[0][0].length; k++) {
+	    	
+	    	// Iterate through each pixel in the image, setting the value in the image
+		    for (int i = 0; i < dataCube.length; i++) {
+		    	for (int j = 0; j < dataCube[0].length; j++) {
+		    		img.setRGB(i, j, dataCube[i][j][k]);
+		    	}
+	    	}
+		    
+		    // Output the file to the k-th image
+		    String filename = filenameSpecifier.replaceAll("%", Integer.toString(k));
+		    File outputfile = new File(filename.endsWith(".png") ? filename : filename + ".png");
+		    ImageIO.write(img, "png", outputfile);
+	    }
+	}
+	
+	/***
 	 * Using a decision forest, label each pixel of an image, producing a new image - a pixel labelling
 	 * 
 	 * @param classifier A decision forest used for classifications/pixel labeling

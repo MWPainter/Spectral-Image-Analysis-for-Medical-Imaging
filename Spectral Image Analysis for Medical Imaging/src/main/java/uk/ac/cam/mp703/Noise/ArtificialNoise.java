@@ -11,7 +11,7 @@ import uk.ac.cam.mp703.ImagePixelLabelling.DataCube;
  * @author michaelpainter
  *
  */
-public class PoissonNoise {
+public class ArtificialNoise {
 	
 	/***
 	 * We apply a Poisson noise to a hyperspectral image. Poisson noise simulates noise seen by 
