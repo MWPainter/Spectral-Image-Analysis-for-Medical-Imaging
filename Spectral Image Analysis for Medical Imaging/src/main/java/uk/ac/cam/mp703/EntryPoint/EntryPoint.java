@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 
 import uk.ac.cam.mp703.ImagePixelLabelling.DataCube;
 import uk.ac.cam.mp703.Noise.ArtificialNoise;
-import uk.ac.cam.mp703.Noise.PoissonNoise;
 import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest;
 import uk.ac.cam.mp703.RandomDecisionForests.FileFormatException;
 import uk.ac.cam.mp703.RandomDecisionForests.Learner;
