@@ -199,12 +199,13 @@ public class DataCube {
 	    		BufferedImage.TYPE_3BYTE_BGR);
 	    
 	    // Iterate through each spectral bin
-	    for (int k = 0; k < dataCube[0][0].length; k++) {
+	    for (int k = 1; k <= dataCube[0][0].length; k++) {
 	    	
 	    	// Iterate through each pixel in the image, setting the (grey) value in the image
 		    for (int i = 0; i < dataCube.length; i++) {
 		    	for (int j = 0; j < dataCube[0].length; j++) {
-		    		int colour = ((int) dataCube[i][j][k]) << 0 | ((int) dataCube[i][j][k] << 8) |
+		    		int colour = ((int) dataCube[i][j][k]) << 0 | 
+		    				((int) dataCube[i][j][k] << 8) |
 		    				((int) dataCube[i][j][k]) << 16 ;
 		    		img.setRGB(i, j, colour);
 		    	}
