@@ -199,7 +199,7 @@ public class DataCube {
 	    		BufferedImage.TYPE_3BYTE_BGR);
 	    
 	    // Iterate through each spectral bin
-	    for (int k = 1; k <= dataCube[0][0].length; k++) {
+	    for (int k = 0; k < dataCube[0][0].length; k++) {
 	    	
 	    	// Iterate through each pixel in the image, setting the (grey) value in the image
 		    for (int i = 0; i < dataCube.length; i++) {
@@ -211,8 +211,9 @@ public class DataCube {
 		    	}
 	    	}
 		    
-		    // Output the file to the k-th image
-		    String filename = filenameSpecifier.replaceAll("%", Integer.toString(k));
+		    // Output the file to the k-th image 
+		    // N.B. Take care to start indices from 1
+		    String filename = filenameSpecifier.replaceAll("%", Integer.toString(k+1));
 		    File outputfile = new File(filename.endsWith(".png") ? filename : filename + ".png");
 		    ImageIO.write(img, "png", outputfile);
 	    }
