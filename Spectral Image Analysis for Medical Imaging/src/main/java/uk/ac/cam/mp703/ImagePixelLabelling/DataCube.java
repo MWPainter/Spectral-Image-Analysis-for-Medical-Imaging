@@ -168,9 +168,9 @@ public class DataCube {
 	    		BufferedImage.TYPE_3BYTE_BGR);
 	    for (int i = 0; i < dataCube.length; i++) {
 	    	for (int j = 0; j < dataCube[0].length; j++) {
-	    		int rgb = ((int) dataCube[i][j][0]) << 16 +
-	    				((int) dataCube[i][j][1]) << 8 +
-	    				((int) dataCube[i][j][2]) << 0;
+	    		int rgb = (((int) dataCube[i][j][0]) << 16) |
+	    				(((int) dataCube[i][j][1]) << 8) |
+	    				(((int) dataCube[i][j][2]) << 0);
 	    		img.setRGB(i, j, rgb);
 	    	}
 	    }
@@ -204,9 +204,9 @@ public class DataCube {
 	    	// Iterate through each pixel in the image, setting the (grey) value in the image
 		    for (int i = 0; i < dataCube.length; i++) {
 		    	for (int j = 0; j < dataCube[0].length; j++) {
-		    		int colour = ((int) dataCube[i][j][k]) << 0 | 
-		    				((int) dataCube[i][j][k] << 8) |
-		    				((int) dataCube[i][j][k]) << 16 ;
+		    		int colour = (((int) dataCube[i][j][k]) << 0) | 
+		    				(((int) dataCube[i][j][k]) << 8) |
+		    				(((int) dataCube[i][j][k]) << 16) ;
 		    		img.setRGB(i, j, colour);
 		    	}
 	    	}
