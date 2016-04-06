@@ -99,44 +99,47 @@ public class DataCube {
 			throw new InvalidParameterException("Filename specifier must contain exactly one '%'.");
 		}
 		
-		// Create a filename to loop through all of the possible filenames, and grab references to 
-		// all of the images to use
-		File file = new File(filenameSpecifier.replace("%", "1"));
-		List<BufferedImage> images = new ArrayList<>(); 
-		int l = 1;
-		
-		while (file.exists()) {
-			BufferedImage image = ImageIO.read(file);
-			images.add(image); 
-			l++;
-			file = new File(filenameSpecifier.replace("%", Integer.toString(l)));
+		// Find the dimension (number of monochrome images) of the hyperspectral image
+		int noImages = 0;
+		File file = new File(filenameSpecifier.replace("%",  Integer.toString(noImages+1)));
+		while (file.exists() && !file.isDirectory()) {
+			noImages++;
+			file = new File(filenameSpecifier.replace("%",  Integer.toString(noImages+1)));
 		}
 		
 		// Check that we loaded at least one image
-		if (images.size() == 0) {
+		if (noImages == 0) {
 			throw new FileNotFoundException("No images were found using the specifier provided.");
 		}
 		
-		// Get the width and height of the images and check that they are consistent
-		int width = images.get(0).getWidth();
-		int height = images.get(0).getHeight();
-		for (BufferedImage img : images) {
-			if (img.getHeight() != height || img.getWidth() != width) {
-				throw new IOException("Images have inconsistent dimensions.");
-			}
-		}
+		// Get the width and height of the first image, to check that they have consistent dimensions
+		file = new File(filenameSpecifier.replace("%",  Integer.toString(1)));
+		BufferedImage bi = ImageIO.read(file);
+		int height = bi.getHeight();
+		int width = bi.getWidth();
 		
 		// Create a data cube and load the images into the structure
 		DataCube dc = new DataCube();
-		dc.dataCube = new short[width][height][images.size()];
+		dc.dataCube = new short[width][height][noImages];
 		
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				for (int k = 0; k < images.size(); k++) {
-					int colour = images.get(k).getRGB(i, j);
+		// Loop through each image, and add its contents to the data cube
+		// We loop through images as our outer loop because we want to optimise memory management
+		// (Avoid loading all images into memory at once)
+		for (int k = 0; k < noImages; k++) {
+			File imageFile = new File(filenameSpecifier.replace("%", Integer.toString(k+1))); // images indexed from 1
+			BufferedImage image = ImageIO.read(imageFile);
+		
+			// Check for consistent image dimension
+			if (image.getHeight() != height || image.getWidth() != width) {
+				throw new IOException("Images have inconsistent dimensions.");
+			}
+			
+			for (int i = 0; i < width; i++) {
+				for (int j = 0; j < height; j++) {
+					int colour = image.getRGB(i, j);
 					dc.dataCube[i][j][k] = (short) (colour & 0xFF);
 				}
-			}
+			}	
 		}
 		
 		// Return the data cube
