@@ -204,6 +204,7 @@ public class DataCube {
 				throw new IOException("Images have inconsistent dimensions.");
 			}
 			
+			// Iterate through image adding its data to the datacube
 			for (int i = 0; i < width; i++) {
 				for (int j = 0; j < height; j++) {
 					int colour = image.getRGB(i, j);
