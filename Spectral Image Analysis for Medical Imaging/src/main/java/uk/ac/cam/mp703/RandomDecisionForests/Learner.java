@@ -31,6 +31,7 @@ public class Learner implements Serializable {
 	 * @param rand An instance of Random that is used for generating split params
 	 * @param informationGainCutoff The cutoff for how much information is gained at a node, if 
 	 * 		we don't find a division that leads to such a gain, then we don't bother splitting.
+	 * @param normaliseInstances Should a normalisation of instances be taken when we classify?
 	 * @return Returns a trained DecisionForest from the training sequence
 	 * @throws MalformedForestException 
 	 * @throws MalformedProbabilityDistributionException 
@@ -38,7 +39,7 @@ public class Learner implements Serializable {
 	 */
 	public static DecisionForest trainDecisionForest(TrainingSequence trainingSequence, 
 			WeakLearner weakLearner, int maxTrees, int maxDepth, int randomnessParameter,
-			double informationGainCutoff) 
+			double informationGainCutoff, boolean normaliseInstances) 
 					throws MalformedForestException, MalformedProbabilityDistributionException {
 		
 		// If we are given nonsensical input, throw an exception
@@ -64,6 +65,13 @@ public class Learner implements Serializable {
 					+ "so must have a cutoff of more than or equal to zero.");
 		}
 		
+		// Normalise the training sequence if we want that
+		// Remember the reference value (power)
+		double normalisationReference = 0.0;
+		if (normaliseInstances) {
+			normalisationReference = trainingSequence.normalise();
+		}
+		
 		// Create a random instance
 		Random rand = new Random();
 		
@@ -84,6 +92,10 @@ public class Learner implements Serializable {
 		
 		// Add the root nodes to the forest structure
 		forest.rootNodes = rootNodes;
+		
+		// Add normalisation variables to the forest structure
+		forest.normalisedClassification = normaliseInstances;
+		forest.normalisationReference = normalisationReference;
 		
 		// Return the constructed forest
 		return forest;

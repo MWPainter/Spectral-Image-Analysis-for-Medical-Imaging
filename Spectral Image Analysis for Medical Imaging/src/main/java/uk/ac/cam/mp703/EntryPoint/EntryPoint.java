@@ -90,8 +90,9 @@ public class EntryPoint {
 				int maxDepth = Integer.parseInt(args[4]);
 				int randomnessParameter = Integer.parseInt(args[5]);
 				double informationGainCutoff = Double.parseDouble(args[6]);
+				boolean normaliseSpectra = Boolean.parseBoolean(args[7]));
 				mainLearning(trainingFilename, outputFilename, maxTrees, maxDepth, 
-						randomnessParameter, informationGainCutoff);
+						randomnessParameter, informationGainCutoff, normaliseSpectra);
 				
 			} catch (NullPointerException e) {
 				System.err.println("Error reading in arguments to task " + tasks[2]);
@@ -314,12 +315,14 @@ public class EntryPoint {
 	 * @param maxDepth Maximum depth of any tree
 	 * @param randomnessParameter How many parameters to try at each split node
 	 * @param informationGainCutoff Minimal information gain for each split node we allow
+	 * @param normaliseSpectra Do we want spectra to be normalised (with reference to power) during 
+	 * 			training and classification?
 	 * @throws IOException
 	 * @throws MalformedForestException
 	 * @throws MalformedProbabilityDistributionException
 	 */
 	private static void mainLearning(String trainingFilename, String outputFilename, int maxTrees, 
-			int maxDepth, int randomnessParameter, double informationGainCutoff) 
+			int maxDepth, int randomnessParameter, double informationGainCutoff, boolean normaliseSpectra) 
 					throws IOException, MalformedForestException, MalformedProbabilityDistributionException {
 		
 		// Get the training sequence
@@ -329,7 +332,8 @@ public class EntryPoint {
 		WeakLearner wl = new OneDimensionalLinearWeakLearner();
 		
 		// Train the tree
-		DecisionForest forest = Learner.trainDecisionForest(ts, wl, maxTrees, maxDepth, randomnessParameter, informationGainCutoff);
+		DecisionForest forest = Learner.trainDecisionForest(ts, wl, maxTrees, maxDepth, 
+				randomnessParameter, informationGainCutoff, normaliseSpectra);
 		
 		// Save the tree
 		forest.saveToFrstFile(outputFilename);
@@ -443,6 +447,9 @@ public class EntryPoint {
 		o.println("\t arg6 = informationGainCutoff (double)");
 		o.println("\t\t The minimal 'information' we wish to gain at any given "
 				+ "\n\t\t split node.");
+		o.println("\t arg7 = normaliseSpectra (bool) (true/false/yes/no)");
+		o.println("\t\t Should image spectra be normalised when labelling "
+				+ "\n\t\t and training? (Normalise power of the spectrum.)");
 		o.println();
 		o.println("Train a Neural Network.");
 		o.println("TODO");

@@ -34,6 +34,18 @@ public class DecisionForest implements Cloneable, Serializable {
 	 */
 	int dataDimension;
 	
+	/***
+	 * Does this tree normalize spectra before labeling? (Makes it power independent).
+	 */
+	boolean normalisedClassification;
+	
+	/***
+	 * A reference value for normalisation
+	 * Learned from the training data
+	 * (The average power of spectra in the training sequence. Used for normalisation purposes.)
+	 */
+	double normalisationReference; 
+	
 	/*** 
 	 * Map from classification numbers to classifications. 
 	 * Each class has a description (string) and an associated number, when we classify a 
@@ -123,6 +135,8 @@ public class DecisionForest implements Cloneable, Serializable {
 			this.dataDimension = frst.dataDimension;
 			this.classStrings = frst.classStrings;
 			this.weakLearnerType = frst.weakLearnerType;
+			this.normalisedClassification = frst.normalisedClassification;
+			this.normalisationReference = frst.normalisationReference;
 			
 			// Close the input stream
 			in.close();
@@ -173,6 +187,11 @@ public class DecisionForest implements Cloneable, Serializable {
 				break;
 			default:
 				throw new MalformedForestException("No weak learner for the type given, unable to classify.");
+		}
+		
+		// If we are using normalised labeling, then normalise
+		if (normalisedClassification) {
+			instance.normalise(normalisationReference);
 		}
 		
 		// Initialize an accumulating distribution for summing over/voting

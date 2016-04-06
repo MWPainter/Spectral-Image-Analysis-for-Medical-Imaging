@@ -306,4 +306,34 @@ public class TrainingSequence implements Serializable {
 		return jointSeq.entropy() - sequence1Proportion * sequence1.entropy() - 
 				sequence2Proportion * sequence2.entropy();
 	}
+	
+	/***
+	 * Normalisation of a training sequence. We need to do two things here.
+	 * We need to normalise each instance with respect to 'normalisationValues'
+	 * We also need to compute and return the average normalisation value to be used when labeling
+	 * 
+	 * N.B. This function has side effects, where the training sequence instances are normalised 
+	 * themselves.
+	 * @return normalisationValue The value to be used as a reference when classifying
+	 */
+	public double normalise() {
+		// Iterate through all instances computing an average power
+		// Compute a running average for numerical stability
+		double averagePower = 0.0;
+		int i = 0;
+		for (TrainingSample sample : trainingSequence) {
+			averagePower += (i == 0) ? sample.instance.getNormalisationReference() :
+									(sample.instance.getNormalisationReference() - averagePower) / averagePower; 
+			i++;
+		}
+		
+		// Now use the average power to normalise each instance
+		for (TrainingSample sample : trainingSequence) {
+			sample.instance.normalise(averagePower);
+		}
+		
+		// Return the average "power" as the reference value to be used in later classifications
+		// now that the training sequence has been normalised to this "power" 
+		return averagePower;
+	}
 }

@@ -17,7 +17,20 @@ public abstract class Instance implements Serializable {
 
 	/***
 	 * Get the dimension of the data this instance contains.
+	 * @return The dimension of data in the instance
 	 */
 	public abstract int getDimension();
+	
+	/***
+	 * Get a normalisation reference
+	 * I.e. What is the "power" value of this instance?
+	 * @return The "power" value of this instance
+	 */
+	public abstract double getNormalisationReference(); 
+	
+	/***
+	 * Normalise with respect to some normalisation reference (which could be ignored!)
+	 */
+	public abstract void normalise(double referenceValue);
 }
 
