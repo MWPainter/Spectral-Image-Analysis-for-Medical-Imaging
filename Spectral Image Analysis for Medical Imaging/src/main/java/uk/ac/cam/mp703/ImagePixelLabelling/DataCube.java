@@ -36,8 +36,22 @@ public class DataCube {
 	 * [x][y][s]
 	 * where s ranges over the spectral bin's indices.u
 	 */
-	short[][][] dataCube;
+	short[][][] dataCube;	
 	
+	/***
+	 * Width of the data cube image
+	 */
+	int width;
+
+	/***
+	 * Height of the cube image
+	 */
+	int height;
+	
+	/***
+	 * The depth, or number of spectral bins in the data cube
+	 */
+	int depth;
 	
 	/**
 	 * @return the dataCube
@@ -45,12 +59,36 @@ public class DataCube {
 	public short[][][] getDataCube() {
 		return dataCube;
 	}
-
+	 
 	/**
 	 * @param dataCube the dataCube to set
 	 */
 	public void setDataCube(short[][][] dataCube) {
 		this.dataCube = dataCube;
+		this.width = dataCube.length;
+		this.height = dataCube[0].length;
+		this.depth = dataCube[0][0].length;
+	}
+	
+	/**
+	 * @return the width
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * @return the depth
+	 */
+	public int getDepth() {
+		return depth;
 	}
 	
 	/***
@@ -93,6 +131,9 @@ public class DataCube {
 		int width = image.getWidth();
 		int height = image.getHeight();
 		DataCube dc = new DataCube();
+		dc.width = width;
+		dc.height = height;
+		dc.depth = 3;
 		dc.dataCube = new short[width][height][3];
 		
 		// Read all of the data from the image into the datacube data
@@ -146,6 +187,9 @@ public class DataCube {
 		
 		// Create a data cube and load the images into the structure
 		DataCube dc = new DataCube();
+		dc.width = width;
+		dc.height = height;
+		dc.depth = noImages;
 		dc.dataCube = new short[width][height][noImages];
 		
 		// Loop through each image, and add its contents to the data cube
