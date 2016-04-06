@@ -358,9 +358,8 @@ public class EntryPoint {
 		DecisionForest df = new DecisionForest(forestFilename);
 		
 		// Now use the forest to classify an image
-		DataCube dc = imageSpecifier.contains("%") ? 
-							DataCube.generateDataCubeFromMonochromeImages(imageSpecifier) :
-							DataCube.generateDataCubeFromColourImage(imageSpecifier);
+		DataCube dc = DataCube.generateDataCubeFromImageSpecifier(imageSpecifier);
+		
 		Map<Integer, Color> colourMap = new HashMap<>();
 		colourMap.put(0, Color.RED);
 		colourMap.put(1, Color.GREEN);

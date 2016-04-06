@@ -52,6 +52,32 @@ public class DataCube {
 	public void setDataCube(short[][][] dataCube) {
 		this.dataCube = dataCube;
 	}
+	
+	/***
+	 * Create a datacube from an image specifier (a filename). 
+	 * 
+	 * If the image specifier contains a '%' then that stands for a wildcard, and will load data 
+	 * from (assumed) monochrome images, replacing '%' by 1, 2, ..., N, where (N+1) is the first 
+	 * replacement that doesn't lead to a valid image filename.
+	 * 
+	 * If the image specifier doesn't contain a '%' then we assume that the image is a RGB image and 
+	 * we should consider the image to have 3 spectral bins.
+	 * 
+	 * 
+	 * @param filenameSpecifier A string representing the format of many images. We use a single '%' 
+	 * 			to denote replacement by a number starting at 1. For example "image%" will search 
+	 * 			for files "image1", "image2", ..., "imageN", until there is a gap. It will then put 
+	 * 			the value of (x,y) in image I into the value dataCube[x][y][I]. If there is no '%' then
+	 * 			we assume that we have an RGB image.
+ 	 * @return Returns a datacube with N spectral bins, specified by N images, or 3 bins by an RGB image
+	 * @throws IOException
+	 * @throws IOException
+	 */
+	public static DataCube generateDataCubeFromImageSpecifier(String imageSpecifier) throws IOException {
+		return imageSpecifier.contains("%") ? 
+					generateDataCubeFromMonochromeImages(imageSpecifier) :
+					generateDataCubeFromColourImage(imageSpecifier);
+	}
 
 	/***
 	 * Create a datacube from an RGB image
@@ -59,7 +85,7 @@ public class DataCube {
 	 * @return The data cube, with 3 "spectral bins", red, green, blue 
 	 * @throws IOException 
 	 */
-	public static DataCube generateDataCubeFromColourImage(String filename) throws IOException {
+	private static DataCube generateDataCubeFromColourImage(String filename) throws IOException {
 		// Get an image from the filename
 		BufferedImage image = ImageIO.read(new File(filename));
 		
@@ -92,7 +118,7 @@ public class DataCube {
  	 * @return Returns a datacube with N spectral bins, specified by N images.
 	 * @throws IOException 
 	 */
-	public static DataCube generateDataCubeFromMonochromeImages(String filenameSpecifier) throws IOException {
+	private static DataCube generateDataCubeFromMonochromeImages(String filenameSpecifier) throws IOException {
 		// Check the format of the string
 		if (!filenameSpecifier.contains("%") || 
 				filenameSpecifier.indexOf("%") != filenameSpecifier.lastIndexOf("%")) {
