@@ -143,11 +143,10 @@ public class TrainingSequence implements Serializable {
 	 * 
 	 * @param filename The text file 
 	 * @throws TrainingSequenceFormatException
-	 * @throws FileNotFoundException 
-	 * @throws FileFormatException 
+	 * @throws FileNotFoundException
 	 */
 	public static TrainingSequence newNDRealVectorTrainingSequence(String filename) 
-			throws TrainingSequenceFormatException, FileNotFoundException, FileFormatException {
+			throws TrainingSequenceFormatException, FileNotFoundException{
 		
 		// Open the file using a Scanner, and use ";" to initially separate out the data
 		// N.B. We use the \s at the beginning and end to ignore unnecessary whitespace.
@@ -175,8 +174,8 @@ public class TrainingSequence implements Serializable {
 			if (!classNameScanner.hasNext()) {
 				scanner.close();
 				classNameScanner.close();
-				throw new FileFormatException("Every class name needs to have a corresponsing "
-						+ "colour defined.");
+				throw new TrainingSequenceFormatException("Every class name needs to have a "
+						+ "corresponsing colour defined.");
 			}
 			
 			// GET the colour, remember that it may have a prepended "0x" and a postpended ";"
@@ -190,8 +189,8 @@ public class TrainingSequence implements Serializable {
 				if (classColourString.length() != 6) {
 					scanner.close();
 					classNameScanner.close();
-					throw new FileFormatException("The colour for each class should specified by a "
-							+ "6 digit hex number");
+					throw new TrainingSequenceFormatException("The colour for each class should "
+							+ "specified by a 6 digit hex number");
 				}
 				
 				// Parse the integer and add it to the class colours
@@ -201,8 +200,8 @@ public class TrainingSequence implements Serializable {
 			} catch (NumberFormatException e) {
 				scanner.close();
 				classNameScanner.close();
-				throw new FileFormatException("Each class needs to have an associated colour, "
-						+ "specified by a 6 digit hex number.");
+				throw new TrainingSequenceFormatException("Each class needs to have an associated "
+						+ "colour, specified by a 6 digit hex number.");
 			}
 		}
 		
