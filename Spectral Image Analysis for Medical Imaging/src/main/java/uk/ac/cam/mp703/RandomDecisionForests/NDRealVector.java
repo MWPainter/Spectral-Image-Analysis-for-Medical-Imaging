@@ -102,4 +102,25 @@ public class NDRealVector extends Instance  {
 		// Set the new power
 		this.power = newPower;
 	}
+	
+	/***
+	 * Print out a list of numbers if we need to be represented as a string
+	 * -> needed for printing out training sequences
+	 */
+	@Override
+	public String toString() {
+		// Handle empty case
+		if (vector.size() == 0) {
+			return "";
+		}
+		
+		// Build up accumulated list
+		String acc = Double.toString(vector.get(0));
+		for (int i = 1; i < vector.size(); i++) {
+			acc += ", " + vector.get(i);
+		}
+		
+		// Return
+		return acc;
+	}
 }

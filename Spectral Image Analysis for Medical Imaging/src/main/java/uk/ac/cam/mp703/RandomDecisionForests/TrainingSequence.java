@@ -1,7 +1,10 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -411,5 +414,45 @@ public class TrainingSequence implements Serializable {
 		// Return the average "power" as the reference value to be used in later classifications
 		// now that the training sequence has been normalised to this "power" 
 		return averagePower;
+	}
+	
+	/***
+	 * Save the training sequence as a text file specified
+	 * @throws IOException 
+	 */
+	public void saveToTextFile(String filename) throws IOException {
+		// Make sure the filename has a .txt at the end
+		if (!filename.endsWith(".txt")) {
+			filename += ".txt";
+		}
+		
+		// Open the file to write to
+		File file = new File(filename);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		
+		// Add the classes and colours
+		for (int i = 0; i < classNames.size(); i++) {
+			// Class name
+			writer.write(classNames.get(i) + ", ");
+			
+			// Class number
+			writer.write("0x" + Integer.toHexString(classColours.get(i)));
+			
+			// Add the appropriate , or ; at the end of the line
+			String app = (i == classNames.size()-1) ? ";\n" : ",\n";
+			writer.write(app);
+		}
+		
+		// Now we need to iterate through all of the instances printing out their values and classes
+		for (TrainingSample sample : trainingSequence) {
+			// Write the class name
+			writer.write(classNames.get(sample.classNumber) + ", ");
+			
+			// Print out the instance
+			writer.write(sample.instance.toString() + ";\n");
+		}
+		
+		// We are done writing all of the information, so close the writer
+		writer.close();
 	}
 }
