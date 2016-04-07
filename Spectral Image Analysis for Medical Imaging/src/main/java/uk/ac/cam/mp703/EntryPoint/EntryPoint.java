@@ -90,7 +90,7 @@ public class EntryPoint {
 				int maxDepth = Integer.parseInt(args[4]);
 				int randomnessParameter = Integer.parseInt(args[5]);
 				double informationGainCutoff = Double.parseDouble(args[6]);
-				boolean normaliseSpectra = Boolean.parseBoolean(args[7]));
+				boolean normaliseSpectra = Boolean.parseBoolean(args[7]);
 				mainLearning(trainingFilename, outputFilename, maxTrees, maxDepth, 
 						randomnessParameter, informationGainCutoff, normaliseSpectra);
 				
@@ -390,9 +390,7 @@ public class EntryPoint {
 		}
 		
 		// Load the image in
-		DataCube dc = imageSpecifier.contains("%") ? 
-							DataCube.generateDataCubeFromMonochromeImages(imageSpecifier) :
-							DataCube.generateDataCubeFromColourImage(imageSpecifier);
+		DataCube dc = DataCube.generateDataCubeFromImageSpecifier(imageSpecifier);
 							
 		// Apply the Poisson noise
 		ArtificialNoise.applyPoissonNoise(dc);
