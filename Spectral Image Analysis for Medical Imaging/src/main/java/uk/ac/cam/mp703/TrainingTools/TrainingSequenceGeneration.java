@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -83,7 +84,8 @@ public class TrainingSequenceGeneration {
 			for (int j = 0; j < examplePixelLabeling.getHeight(); j++) {
 				
 				// Check that the colour in the pixel is in the class map, skip this pixel if not
-				int colour = examplePixelLabeling.getRGB(i, j);
+				// We are only concerned with the RGB values and not the alpha values
+				int colour = examplePixelLabeling.getRGB(i, j) & 0x00FFFFFF;
 				if (!colourClassMap.containsKey(colour)) {
 					continue;
 				}
@@ -91,7 +93,7 @@ public class TrainingSequenceGeneration {
 				// Create an NDVector from the data cube pixel
 				List<Double> lst = new ArrayList<>(datacube.getDepth());
 				for (int k = 0; k < datacube.getDepth(); k++) {
-					lst.set(k, (double) dc[i][j][k]);
+					lst.add((double) dc[i][j][k]);
 				}
 				NDRealVector vec = new NDRealVector(lst);
 				
@@ -103,8 +105,13 @@ public class TrainingSequenceGeneration {
 			}
 		}
 		
+		// Finally we need to compute the list of the class colours, with corresponding indices to 
+		// class names. We can compute this from the mapping from colours to class names and the 
+		// class name list
+		List<Integer> classColours = computeClassColours(colourClassMap, classNames);
+		
 		// Create the training sequence structure and return it
-		return new TrainingSequence(trainingSamples, classNames);
+		return new TrainingSequence(trainingSamples, classNames, classColours);
 	}
 	
 	/***
@@ -127,15 +134,15 @@ public class TrainingSequenceGeneration {
 	 * @throws FileFormatException 
 	 * @throws FileNotFoundException 
 	 */
-	private static Map<Integer, String> loadClassMap(String classMapFilename) 
+	private static Map<Integer, String> loadClassMap(String colourClassMapFilename) 
 			throws FileFormatException, FileNotFoundException {
 		
 		// Make a scanner to scan through the file, separated at commas (ignoring whitespace)
-		Scanner scanner = new Scanner(new File(classMapFilename));
+		Scanner scanner = new Scanner(new File(colourClassMapFilename));
 		scanner.useDelimiter("\\s*,\\s*");
 		
 		// Create the mapping from integers to class names
-		Map<Integer, String> classMap = new HashMap<>();
+		Map<Integer, String> colourClassMap = new HashMap<>();
 		
 		// Iterate through the class names and colours and add them to the map
 		int classColour;
@@ -175,19 +182,45 @@ public class TrainingSequenceGeneration {
 			}
 			
 			// Add the number, string mapping, checking that class names and colours aren't repeated
-			if (classMap.containsKey(classColour) || classMap.containsValue(className)) {
+			if (colourClassMap.containsKey(classColour) || colourClassMap.containsValue(className)) {
 				scanner.close();
 				throw new FileFormatException("Colours and class names must each be unique");
 			}
 			
-			classMap.put(classColour, className);
+			colourClassMap.put(classColour, className);
 		}
 		
 		// Close the scanner
 		scanner.close();
 		
 		// Return the class map
-		return classMap;
+		return colourClassMap;
 	}
 	
+	/***
+	 * We want to compute a list of colours (List<Integer>) that corresponds to the list of class names.
+	 * What we can do this by just looking up each name in the map once, then setting the correct 
+	 * index in the new colour list to the correct colour.
+	 * @param colourClassMap A map from colours to classNames (and not the other way around)
+	 * @param classNames A list of class names
+	 * @return
+	 */
+	private static List<Integer> computeClassColours(Map<Integer, String> colourClassMap, List<String> classNames) {
+		// Make the new list (and fill it with zeros)
+		List<Integer> classColours = new ArrayList<Integer>(classNames.size());
+		for (int i = 0; i < classNames.size(); i++) {
+			classColours.add(0);
+		}
+		
+		// Iterate through each pair in the mapping, look up the class number using class names 
+		// (i.e. the index into the class names array) then place the colour in the correct place in 
+		// the classColours list
+		for (Entry<Integer, String> entry : colourClassMap.entrySet()) {
+			int index = classNames.indexOf(entry.getValue());
+			classColours.set(index, entry.getKey());
+		}
+		
+		// Return the classColours list
+		return classColours;
+	}
 }

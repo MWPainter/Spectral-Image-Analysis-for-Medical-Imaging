@@ -106,11 +106,15 @@ public class TrainingSequence implements Serializable {
 	/***
 	 * Constructor for a training sequence
 	 * @param trainingSequence The sequence of (Class,Instance) pairs
-	 * @param classNames The array of class names used in the training sequence 
+	 * @param classNames The array of class names used in the training sequence
+	 * @param classColours The array of class colours corresponding to the class names in the 
+	 * 			training sequences 
 	 */
-	public TrainingSequence(List<TrainingSample> trainingSequence, List<String> classNames) {
+	public TrainingSequence(List<TrainingSample> trainingSequence, List<String> classNames, 
+			List<Integer> classColours) {
 		this.trainingSequence = trainingSequence;
 		this.classNames = classNames;
+		this.classColours = classColours;
 	}
 
 	/***
@@ -299,7 +303,7 @@ public class TrainingSequence implements Serializable {
 		}
 		
 		// Return the training sequence that was just loaded in
-		return new TrainingSequence(trainingSamples, classNames);
+		return new TrainingSequence(trainingSamples, classNames, classColours);
 	}	
 	
 	/***
@@ -361,7 +365,7 @@ public class TrainingSequence implements Serializable {
 				sequence1.trainingSequence.size() + sequence2.trainingSequence.size());
 		newTrainingSequence.addAll(sequence1.trainingSequence);
 		newTrainingSequence.addAll(sequence2.trainingSequence);
-		return new TrainingSequence(newTrainingSequence, sequence1.classNames);
+		return new TrainingSequence(newTrainingSequence, sequence1.classNames, sequence1.classColours);
 	}
 	
 	/***
