@@ -166,11 +166,8 @@ public class TrainingSequence implements Serializable {
 		Scanner classNameScanner = new Scanner(classNameString);
 		classNameScanner.useDelimiter("\\s*,\\s*");
 		
-		
-		
-		
 		// Iterate through the class names and colours and add them to their lists
-		while (scanner.hasNext()) {
+		while (classNameScanner.hasNext()) {
 			// Get the name and add that to the list
 			classNames.add(classNameScanner.next());
 			
