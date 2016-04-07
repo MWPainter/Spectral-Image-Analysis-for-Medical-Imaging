@@ -24,6 +24,7 @@ import uk.ac.cam.mp703.RandomDecisionForests.MalformedProbabilityDistributionExc
 import uk.ac.cam.mp703.RandomDecisionForests.OneDimensionalLinearWeakLearner;
 import uk.ac.cam.mp703.RandomDecisionForests.TrainingSequence;
 import uk.ac.cam.mp703.RandomDecisionForests.WeakLearner;
+import uk.ac.cam.mp703.TrainingTools.TrainingSequenceGeneration;
 
 public class EntryPoint {
 	
@@ -38,14 +39,16 @@ public class EntryPoint {
 		"runRF",
 		"runNN",
 		"applyPoissonNoise",
+		"trainingTool"
 	};
 
 	/***
 	 * Main entry point to using the project
 	 * @param args Array of arguments passed into the program
+	 * @throws FileFormatException 
 	 * @throws IOException 
 	 */
-	public static void main(String[] args)  {
+	public static void main(String[] args) throws IOException, FileFormatException  {
 		
 		// Check the first argument is something to decide the usage
 		if (args.length == 0) {
@@ -152,6 +155,13 @@ public class EntryPoint {
 						+ "only if the output image specifier contains a '%'. Also check each only "
 						+ "contains a single '%'.");
 			}
+			
+			
+		} else if (args[0].equals(tasks[7])) {
+			// GENERATE A TRAINING SEQUENCE FROM AN EXAMPLE LABELLING
+			TrainingSequence ts = TrainingSequenceGeneration.trainingSequenceFromExample(args[1], 
+					args[2], args[3]);
+			ts.saveToTextFile(args[4]);
 			
 			
 		} else {
@@ -360,12 +370,8 @@ public class EntryPoint {
 		// Now use the forest to classify an image
 		DataCube dc = DataCube.generateDataCubeFromImageSpecifier(imageSpecifier);
 		
-		Map<Integer, Color> colourMap = new HashMap<>();
-		colourMap.put(0, Color.RED);
-		colourMap.put(1, Color.GREEN);
-		colourMap.put(2, Color.BLUE);
-		colourMap.put(3, Color.YELLOW);
-		dc.generatePixelLabeledImage(df, colourMap, outputFilename);
+		// Generate the pixel labeled image
+		dc.generatePixelLabeledImage(df, outputFilename);
 	}
 	
 	/***
@@ -479,7 +485,23 @@ public class EntryPoint {
 				+ "\n\t\t filename of an RGB image or if it contains a '%' "
 				+ "\n\t\t character it will replace the '%' with numbers to form "
 				+ "\n\t\t an image with higher dimensions. arg2 should include a '%'"
-				+ "\n\t\t if and only if arg1 does."); 
+				+ "\n\t\t if and only if arg1 does.");
+		o.println();
+		o.println("Generate a training sequence from an example pixel labeled image.");
+		o.println("<task> = " + tasks[7]);
+		o.println("\t arg1 = classColourMapFilename (string)");
+		o.println("\t\t The filename of a .txt file that describes a mapping between "
+				+ "\n\t\t class names and their pixel label colours.");
+		o.println("\t arg2 = exampleLabelingFilename (string)");
+		o.println("\t\t The filename of an example pixel labeling of the corresponding "
+				+ "spectral image (arg3).");
+		o.println("\t arg3 = exampleImageSpecifier (string)");
+		o.println("\t\t The specficier of the example image. This is either just the "
+				+ "\n\t\t filename of an RGB image or if it contains a '%' "
+				+ "\n\t\t character it will replace the '%' with numbers to form "
+				+ "\n\t\t an image with higher dimensions.");
+		o.println("\t arg4 = trainingSequenceFile (string)");
+		o.println("\t\t The intended filename for the training sequence being generated.");
 		
 	}
 
