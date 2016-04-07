@@ -34,6 +34,12 @@ public class TrainingSequence implements Serializable {
 	 * The forests must keep a mapping from class numbers to class names, which is part of training.
 	 */
 	List<String> classNames;
+	
+	/***
+	 * A list of class colours, which are just integer values. 
+	 * The colours are indexed by the class numbers.
+	 */
+	List<Integer> classColours;
 
 	/***
 	 * Only a getter is provided for the training sequence as we shouldn't need to change it.
@@ -66,6 +72,20 @@ public class TrainingSequence implements Serializable {
 		this.classNames = classNames;
 	}
 	
+	/**
+	 * @return the classColours
+	 */
+	public List<Integer> getClassColours() {
+		return classColours;
+	}
+
+	/**
+	 * @param classColours the classColours to set
+	 */
+	public void setClassColours(List<Integer> classColours) {
+		this.classColours = classColours;
+	}
+
 	/***
 	 * @return The number of classes in this sequence
 	 */
@@ -121,9 +141,10 @@ public class TrainingSequence implements Serializable {
 	 * @param filename The text file 
 	 * @throws TrainingSequenceFormatException
 	 * @throws FileNotFoundException 
+	 * @throws FileFormatException 
 	 */
 	public static TrainingSequence newNDRealVectorTrainingSequence(String filename) 
-			throws TrainingSequenceFormatException, FileNotFoundException {
+			throws TrainingSequenceFormatException, FileNotFoundException, FileFormatException {
 		
 		// Open the file using a Scanner, and use ";" to initially separate out the data
 		// N.B. We use the \s at the beginning and end to ignore unnecessary whitespace.
@@ -132,18 +153,66 @@ public class TrainingSequence implements Serializable {
 		
 		// Get the array of class names (from the first string from the scanner) and using a 
 		// secondary scanner, which has a delimiter of "," with surrounding whitespace.
+		// We also need to extract the class colours from this
 		List<String> classNames = new ArrayList<String>();
+		List<Integer> classColours = new ArrayList<Integer>();
 		String classNameString = scanner.next(); 
 		Scanner classNameScanner = new Scanner(classNameString);
 		classNameScanner.useDelimiter("\\s*,\\s*");
-		while (classNameScanner.hasNext()) {
+		
+		
+		
+		
+		// Iterate through the class names and colours and add them to their lists
+		while (scanner.hasNext()) {
+			// Get the name and add that to the list
 			classNames.add(classNameScanner.next());
+			
+			// Check that there is a corresponding colour
+			if (!classNameScanner.hasNext()) {
+				scanner.close();
+				classNameScanner.close();
+				throw new FileFormatException("Every class name needs to have a corresponsing "
+						+ "colour defined.");
+			}
+			
+			// GET the colour, remember that it may have a prepended "0x" and a postpended ";"
+			try {
+				// extract the hex string
+				String classColourString = classNameScanner.next();
+				classColourString = classColourString.replaceAll("0x", "");
+				classColourString = classColourString.replaceAll("\\s*;", ""); // For extra convenience allow whitespace
+				
+				// Check that its the correct length
+				if (classColourString.length() != 6) {
+					scanner.close();
+					classNameScanner.close();
+					throw new FileFormatException("The colour for each class should specified by a "
+							+ "6 digit hex number");
+				}
+				
+				// Parse the integer and add it to the class colours
+				classColours.add(Integer.parseInt(classColourString, 16));
+				
+			// Catch a number format exception, that means that there was a format error
+			} catch (NumberFormatException e) {
+				scanner.close();
+				classNameScanner.close();
+				throw new FileFormatException("Each class needs to have an associated colour, "
+						+ "specified by a 6 digit hex number.");
+			}
 		}
+		
+		// Remember to close the class name scanner at the end
 		classNameScanner.close();
 		
 		// Check that all class names are unique, and begin with an alphabetic character
+		// And that all of the colours are unique
 		Set<String> uniqueClassNames = new HashSet<String>();
+		Set<Integer> uniqueClassColours = new HashSet<Integer>();
 		for (int i = 0; i < classNames.size(); i++) {
+			
+			// Check for if this value is a repeat
 			if (uniqueClassNames.contains(classNames.get(i))) {
 				scanner.close();
 				throw new TrainingSequenceFormatException("Duplicate class name in the training "
@@ -152,8 +221,15 @@ public class TrainingSequence implements Serializable {
 				scanner.close();
 				throw new TrainingSequenceFormatException("Class names must begin with alphabetic "
 						+ "characters");
+			} else if (uniqueClassColours.contains(classColours.get(i))) {
+				scanner.close();
+				throw new TrainingSequenceFormatException("Duplicate class colour in the training "
+						+ "sequence file.");
 			}
+				
+			// Add the name and colour to their hash sets
 			uniqueClassNames.add(classNames.get(i));
+			uniqueClassColours.add(classColours.get(i));
 		}
 		
 		// If there are no class names provided then the file is incorrect in format
@@ -222,7 +298,7 @@ public class TrainingSequence implements Serializable {
 		
 		// Return the training sequence that was just loaded in
 		return new TrainingSequence(trainingSamples, classNames);
-	}
+	}	
 	
 	/***
 	 * Compute the empirical probability distribution 

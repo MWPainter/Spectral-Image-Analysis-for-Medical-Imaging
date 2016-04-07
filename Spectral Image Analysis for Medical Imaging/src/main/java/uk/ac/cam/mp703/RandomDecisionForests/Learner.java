@@ -17,7 +17,7 @@ public class Learner implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+ 
 	/***
 	 * Construct a forest using a given weak learner, given a training sequence.
 	 * 
@@ -79,6 +79,7 @@ public class Learner implements Serializable {
 		DecisionForest forest = new DecisionForest();
 		forest.setDataDimension(trainingSequence.trainingSequence.get(0).instance.getDimension());
 		forest.setClassStrings(trainingSequence.classNames);
+		forest.setClassColours(trainingSequence.classColours);
 		forest.setWeakLearnerType(weakLearner.getWeakLearnerType());
 
 		// Now build each of the trees in turn, compact it, and add it to the root set
@@ -91,11 +92,11 @@ public class Learner implements Serializable {
 		}
 		
 		// Add the root nodes to the forest structure
-		forest.rootNodes = rootNodes;
+		forest.setRootNodes(rootNodes);
 		
 		// Add normalisation variables to the forest structure
-		forest.normalisedClassification = normaliseInstances;
-		forest.normalisationReference = normalisationReference;
+		forest.setNormalisedClassification(normaliseInstances);
+		forest.setNormalisationReference(normalisationReference);
 		
 		// Return the constructed forest
 		return forest;

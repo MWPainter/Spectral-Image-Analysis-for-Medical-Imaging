@@ -52,6 +52,11 @@ public class DecisionForest implements Cloneable, Serializable {
 	 * piece of data get a number, the number is an index into this array.
 	 */
 	List<String> classStrings;
+	
+	/*** 
+	 * A list of class colours, indexed by the class number
+	 */
+	List<Integer> classColours;
 
 	/***
 	 * What type of weak learner the tree uses.
@@ -87,6 +92,34 @@ public class DecisionForest implements Cloneable, Serializable {
 	}
 
 	/**
+	 * @return the normalisedClassification
+	 */
+	public boolean isNormalisedClassification() {
+		return normalisedClassification;
+	}
+
+	/**
+	 * @param normalisedClassification the normalisedClassification to set
+	 */
+	public void setNormalisedClassification(boolean normalisedClassification) {
+		this.normalisedClassification = normalisedClassification;
+	}
+
+	/**
+	 * @return the normalisationReference
+	 */
+	public double getNormalisationReference() {
+		return normalisationReference;
+	}
+
+	/**
+	 * @param normalisationReference the normalisationReference to set
+	 */
+	public void setNormalisationReference(double normalisationReference) {
+		this.normalisationReference = normalisationReference;
+	}
+
+	/**
 	 * @return the classStrings
 	 */
 	public List<String> getClassStrings() {
@@ -98,6 +131,20 @@ public class DecisionForest implements Cloneable, Serializable {
 	 */
 	public void setClassStrings(List<String> classStrings) {
 		this.classStrings = classStrings;
+	}
+
+	/**
+	 * @return the classColours
+	 */
+	public List<Integer> getClassColours() {
+		return classColours;
+	}
+
+	/**
+	 * @param classColours the classColours to set
+	 */
+	public void setClassColours(List<Integer> classColours) {
+		this.classColours = classColours;
 	}
 
 	/**
@@ -134,6 +181,7 @@ public class DecisionForest implements Cloneable, Serializable {
 			this.rootNodes = frst.rootNodes;
 			this.dataDimension = frst.dataDimension;
 			this.classStrings = frst.classStrings;
+			this.classColours = frst.classColours;
 			this.weakLearnerType = frst.weakLearnerType;
 			this.normalisedClassification = frst.normalisedClassification;
 			this.normalisationReference = frst.normalisationReference;

@@ -303,8 +303,8 @@ public class DataCube {
 	 * @throws IOException
 	 * @throws MalformedProbabilityDistributionException 
 	 */
-	public void generatePixelLabeledImage(DecisionForest classifier, Map<Integer, Color> colourMap, 
-			String filename) throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
+	public void generatePixelLabeledImage(DecisionForest classifier, String filename) 
+			throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
 		
 		// Get the file extension, if no extension then throw exception immediately
 		String extension = "";
@@ -329,7 +329,7 @@ public class DataCube {
 				}
 				NDRealVector v = new NDRealVector(arr);
 				ProbabilityDistribution probabilities = classifier.classify(v);
-				image.setRGB(i, j, interpolatedColour(probabilities, colourMap));
+				image.setRGB(i, j, interpolatedColour(probabilities, classifier.getClassColours()));
 			}
 		}
 		
@@ -396,19 +396,22 @@ public class DataCube {
 	
 	/***
 	 * Given a probability distribution and a class -> colour map, compute an interpolated colour 
-	 * from these
+	 * from these.
+	 * @param probDistr The probability distribution of the instance being each class
+	 * @param colourMap A list of class colours (indexed by the class number)
 	 * @return A colour for the pixel labeling. THe closer it is to a one of the colours in the 
 	 * 		colour map, the more cirtain we are that is 
 	 */
-	public int interpolatedColour(ProbabilityDistribution probDistr, Map<Integer, Color> colourMap) {
+	public int interpolatedColour(ProbabilityDistribution probDistr, List<Integer> colourMap) {
 		Map<Integer, Double> probabilities = probDistr.getProbabilityDistribution();
 		double rSum = 0.0;
 		double gSum = 0.0;
 		double bSum = 0.0;
 		
 		// Sum colours according to probs
+		// Split into components to do so
 		for (int i = 0; i < colourMap.size(); i++) {
-			int colour = colourMap.get(i).getRGB();
+			int colour = colourMap.get(i);
 			int r = ((colour >> 16) & 0xFF);
 			int g = ((colour >> 8)  & 0xFF);
 			int b = ((colour >> 0)  & 0xFF);
