@@ -258,7 +258,7 @@ public class TrainingSequence implements Serializable {
 				if (classNumber < 0 || classNumber >= classNames.size()) {
 					scanner.close();
 					vectorScanner.close();
-					throw new TrainingSequenceFormatException("Class number was either too large to negative");
+					throw new TrainingSequenceFormatException("Class number was either too large or negative");
 				}
 			} catch (NoSuchElementException e) {
 				scanner.close();
@@ -446,7 +446,8 @@ public class TrainingSequence implements Serializable {
 		// Now we need to iterate through all of the instances printing out their values and classes
 		for (TrainingSample sample : trainingSequence) {
 			// Write the class number
-			writer.write(sample.classNumber + ", ");
+			// Reminder: the user sees 1, ..., N, internally we use 0, ..., N-1
+			writer.write((sample.classNumber+1) + ", ");
 			
 			// Print out the instance
 			writer.write(sample.instance.toString() + ";\n");
