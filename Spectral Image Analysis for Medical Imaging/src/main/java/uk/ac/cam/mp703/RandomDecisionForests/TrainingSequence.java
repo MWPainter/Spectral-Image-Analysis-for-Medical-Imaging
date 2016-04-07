@@ -435,7 +435,7 @@ public class TrainingSequence implements Serializable {
 			// Class name
 			writer.write(classNames.get(i) + ", ");
 			
-			// Class number (%06X specifies a 6 digit hex string) 
+			// Class colour (%06X specifies a 6 digit hex string) 
 			writer.write("0x" + String.format("%06X", classColours.get(i)));
 			
 			// Add the appropriate , or ; at the end of the line
@@ -445,8 +445,8 @@ public class TrainingSequence implements Serializable {
 		
 		// Now we need to iterate through all of the instances printing out their values and classes
 		for (TrainingSample sample : trainingSequence) {
-			// Write the class name
-			writer.write(classNames.get(sample.classNumber) + ", ");
+			// Write the class number
+			writer.write(sample.classNumber + ", ");
 			
 			// Print out the instance
 			writer.write(sample.instance.toString() + ";\n");
