@@ -160,8 +160,10 @@ public class Learner implements Serializable {
 			}
 			
 			// See what information gain this leads to
-			TrainingSequence leftSplit = new TrainingSequence(leftList, trainingSequence.classNames);
-			TrainingSequence rightSplit = new TrainingSequence(rightList, trainingSequence.classNames);
+			TrainingSequence leftSplit = new TrainingSequence(leftList, 
+					trainingSequence.classNames, trainingSequence.classColours);
+			TrainingSequence rightSplit = new TrainingSequence(rightList, 
+					trainingSequence.classNames, trainingSequence.classColours);
 			double informationGain = TrainingSequence.informationGain(leftSplit, rightSplit);
 			
 			// If its the best information gain found so far, remember it!

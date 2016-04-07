@@ -438,8 +438,8 @@ public class TrainingSequence implements Serializable {
 			// Class name
 			writer.write(classNames.get(i) + ", ");
 			
-			// Class number
-			writer.write("0x" + Integer.toHexString(classColours.get(i)));
+			// Class number (%06X specifies a 6 digit hex string) 
+			writer.write("0x" + String.format("%06X", classColours.get(i)));
 			
 			// Add the appropriate , or ; at the end of the line
 			String app = (i == classNames.size()-1) ? ";\n" : ",\n";
