@@ -23,7 +23,7 @@ public class ArtificialNoise {
 	 * 
 	 * For space concerns we apply the noise directly to the image values.
 	 * 
-	 * @param img
+	 * @param img The spectral image to apply the noise to
 	 */
 	public static void applyPoissonNoise(DataCube img) {
 		// Get the cube and make a random number source
@@ -31,7 +31,7 @@ public class ArtificialNoise {
 		Random rand = new Random();
 		
 		// Iterate through each pixel and bin and apply a poisson noise
-		// Use saturate arithmetic so that 
+		// Use saturate arithmetic so that we don't encounter overflow errors
 		for (int i = 0; i < cube.length; i++) {
 			for (int j = 0; j < cube[i].length; j++) {
 				for (int k = 0; k < cube[i][j].length; k++) {
@@ -82,6 +82,40 @@ public class ArtificialNoise {
 			product *= rand.nextDouble();
 		}
 		return k-1;
+	}
+	
+	
+	/***
+	 * We apply a Gaussian noise to a hyperspectral image. N.B. Random includes a function that 
+	 * specifically generated a Gaussian random variable N(0,1). If we let [sigma] be the standard 
+	 * deviation, then Z ~ N(0,1) => Z[sigma] ~ N(0,[sigma]^2). 
+	 * 
+	 * N.B. Power is just the second moment E[X^2], it's just in this case with the centrally 
+	 * distributed Gaussian that we have E[X^2] = Var(X).
+	 * 
+	 * If we have image I, then the new image I' where I'[i][j][k] follows a Poisson random variable 
+	 * with mean I[i][j][k]. 
+	 * 
+	 * For space concerns we apply the noise directly to the image values.
+	 * 
+	 * @param img the spectral image to apply the noise to
+	 * @param power the power of the gaussian noise (power = [sigma]^2 from above)
+	 */
+	public static void applyGaussianNoise(DataCube img, double power) {
+		// Get the cube and make a random number source
+		short[][][] cube = img.getDataCube();
+		Random rand = new Random();
+		
+		// Iterate through each pixel and bin and apply a Gaussian noise
+		// Use saturate arithmetic so that we don't encounter overflow errors
+		for (int i = 0; i < cube.length; i++) {
+			for (int j = 0; j < cube[i].length; j++) {
+				for (int k = 0; k < cube[i][j].length; k++) {
+					int gaussian = (int) (rand.nextGaussian() * power);
+					cube[i][j][k] = (short) saturate(cube[i][j][k] + gaussian, 0, 255);
+				}
+			}
+		}
 	}
 	
 }
