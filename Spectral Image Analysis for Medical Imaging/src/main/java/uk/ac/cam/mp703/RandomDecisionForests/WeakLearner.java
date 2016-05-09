@@ -1,7 +1,6 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
 import java.io.Serializable;
-import java.security.InvalidParameterException;
 import java.util.Random;
 
 /***
@@ -70,10 +69,10 @@ public abstract class WeakLearner implements Serializable {
 			return lowerBound;
 		} 
 		if (lowerBound > higherBound) {
-			throw new InvalidParameterException("The higher bound needs to be larger than the lower bound");
+			throw new IllegalArgumentException("The higher bound needs to be larger than the lower bound");
 		}
 		if (Double.isNaN(lowerBound) || Double.isNaN(higherBound)) {
-			throw new InvalidParameterException("Neither bound can be NaN");
+			throw new IllegalArgumentException("Neither bound can be NaN");
 		}
 		
 		// If one of the bounds is infinite then alter it to the max value

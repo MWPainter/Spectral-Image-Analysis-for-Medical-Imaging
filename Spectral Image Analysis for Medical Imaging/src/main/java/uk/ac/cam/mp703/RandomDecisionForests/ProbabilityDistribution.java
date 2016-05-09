@@ -24,7 +24,7 @@ public class ProbabilityDistribution implements Serializable {
 	/***
 	 * A mapping from class numbers to probabilities
 	 */
-	final Map<Integer, Double> probabilities;
+	final Map<ClassLabel, Double> probabilities;
 	
 	/***
 	 * The most probable classification
@@ -42,14 +42,14 @@ public class ProbabilityDistribution implements Serializable {
 	 * @param noClasses How many classifications that the distribution spans
 	 * @throws MalformedProbabilityDistributionException 
 	 */
-	public ProbabilityDistribution(Map<Integer, Double> distribution, int noClasses) 
+	public ProbabilityDistribution(Map<ClassLabel, Double> distribution, int noClasses) 
 			throws MalformedProbabilityDistributionException {
 		
 		// Validate that the distribution is correct
 		double sum = 0.0;
-		for (Map.Entry<Integer, Double> entry : distribution.entrySet()) {
+		for (Map.Entry<ClassLabel, Double> entry : distribution.entrySet()) {
 			// Classes correct
-			if (entry.getKey() < 0 || entry.getKey() >= noClasses) {
+			if (entry.getKey().getClassId() < 0 || entry.getKey().getClassId() >= noClasses) {
 				throw new MalformedProbabilityDistributionException("Distribution includes an invalid class "
 						+ "number");
 			}
@@ -87,7 +87,7 @@ public class ProbabilityDistribution implements Serializable {
 	 * Get the distributions
 	 * @return Map representing the distributions
 	 */
-	public Map<Integer, Double> getProbabilityDistribution() {
+	public Map<ClassLabel, Double> getProbabilityDistribution() {
 		return this.probabilities;
 	}
 	
@@ -98,9 +98,9 @@ public class ProbabilityDistribution implements Serializable {
 	private int computeMostProbableClass() {
 		int classNo = 0;
 		double prob = 0.0;
-		for (Map.Entry<Integer, Double> entry : probabilities.entrySet()) {
+		for (Map.Entry<ClassLabel, Double> entry : probabilities.entrySet()) {
 			if (entry.getValue() > prob) {
-				classNo = entry.getKey();
+				classNo = entry.getKey().getClassId();
 				prob = entry.getValue();
 			}
 		}
@@ -123,10 +123,10 @@ public class ProbabilityDistribution implements Serializable {
 		// Loop over all elements in the sum
 		// Be careful to avoid the case when prob = 0 as it may give an infinity
 		double entropy = 0.0; 
-		for (int i = 0; i < probabilities.size(); i++) {
-			double prob = probabilities.get(i);
+		for (Map.Entry<ClassLabel, Double> entry : probabilities.entrySet()) {
+			double prob = entry.getValue();
 			if (prob != 0.0) {
-				entropy -= prob * Math.log(prob);
+				entropy -= prob * Math.log(prob) / Math.log(2); // div by log(2) as log we use is natural
 			}
 		}
 		

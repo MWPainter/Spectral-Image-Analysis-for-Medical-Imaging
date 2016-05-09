@@ -47,16 +47,9 @@ public class DecisionForest implements Cloneable, Serializable {
 	double normalisationReference; 
 	
 	/*** 
-	 * Map from classification numbers to classifications. 
-	 * Each class has a description (string) and an associated number, when we classify a 
-	 * piece of data get a number, the number is an index into this array.
+	 * A list of classes. Each has a classid which is it's index into the list.
 	 */
-	List<String> classStrings;
-	
-	/*** 
-	 * A list of class colours, indexed by the class number
-	 */
-	List<Integer> classColours;
+	List<ClassLabel> classes;
 
 	/***
 	 * What type of weak learner the tree uses.
@@ -120,31 +113,17 @@ public class DecisionForest implements Cloneable, Serializable {
 	}
 
 	/**
-	 * @return the classStrings
+	 * @return the classes
 	 */
-	public List<String> getClassStrings() {
-		return classStrings;
+	public List<ClassLabel> getClasses() {
+		return classes;
 	}
 
 	/**
-	 * @param classStrings the classStrings to set
+	 * @param classes the list of classes to set
 	 */
-	public void setClassStrings(List<String> classStrings) {
-		this.classStrings = classStrings;
-	}
-
-	/**
-	 * @return the classColours
-	 */
-	public List<Integer> getClassColours() {
-		return classColours;
-	}
-
-	/**
-	 * @param classColours the classColours to set
-	 */
-	public void setClassColours(List<Integer> classColours) {
-		this.classColours = classColours;
+	public void setClasses(List<ClassLabel> classes) {
+		this.classes = classes;
 	}
 
 	/**
@@ -180,8 +159,7 @@ public class DecisionForest implements Cloneable, Serializable {
 			DecisionForest frst = (DecisionForest) in.readObject();
 			this.rootNodes = frst.rootNodes;
 			this.dataDimension = frst.dataDimension;
-			this.classStrings = frst.classStrings;
-			this.classColours = frst.classColours;
+			this.classes = frst.classes;
 			this.weakLearnerType = frst.weakLearnerType;
 			this.normalisedClassification = frst.normalisedClassification;
 			this.normalisationReference = frst.normalisationReference;
@@ -243,17 +221,17 @@ public class DecisionForest implements Cloneable, Serializable {
 		}
 		
 		// Initialize an accumulating distribution for summing over/voting
-		int numberOfClasses = classStrings.size();
-		Map<Integer, Double> outputDistr = new HashMap<Integer, Double>(numberOfClasses);
-		for (int i = 0; i < numberOfClasses; i++) {
-			outputDistr.put(i, 0.0);
+		int numberOfClasses = classes.size();
+		Map<ClassLabel, Double> outputDistr = new HashMap<ClassLabel, Double>(numberOfClasses);
+		for (ClassLabel clazz : classes) {
+			outputDistr.put(clazz, 0.0);
 		}
 		
-		// Itterate through all tree's votes, and sum the distributions
+		// Iterate through all tree's votes, and sum the distributions
 		for (TreeNode node : rootNodes) {
-			Map<Integer, Double> leafDistr = traverseTree(node, splitter, instance).getProbabilityDistribution();
-			for (int i = 0; i < numberOfClasses; i++) {
-				outputDistr.put(i, outputDistr.get(i) + leafDistr.get(i));
+			Map<ClassLabel, Double> leafDistr = traverseTree(node, splitter, instance).getProbabilityDistribution();
+			for (ClassLabel clazz : classes) {
+				outputDistr.put(clazz, outputDistr.get(clazz) + leafDistr.get(clazz));
 			}
 		}
 		
@@ -261,12 +239,12 @@ public class DecisionForest implements Cloneable, Serializable {
 		// Mathematically this can be done by dividing by the tree count, however we will have 
 		// floating point error
 		double normalisationFactor = 0.0;
-		for (int i = 0; i < numberOfClasses; i++) {
-			normalisationFactor += outputDistr.get(i);
+		for (ClassLabel clazz : classes) {
+			normalisationFactor += outputDistr.get(clazz);
 		}
 		
-		for (int i = 0; i < numberOfClasses; i++) {
-			outputDistr.put(i, outputDistr.get(i) / normalisationFactor);
+		for (ClassLabel clazz : classes) {
+			outputDistr.put(clazz, outputDistr.get(clazz) / normalisationFactor);
 		}
 		
 		// Return the probability distribution
@@ -334,6 +312,12 @@ public class DecisionForest implements Cloneable, Serializable {
 		SplitParameters splitParams;
 		
 		/***
+		 * A cached value of the information gained 
+		 * Stored for analysis of how important the decision at this node is later
+		 */
+		double informationGain = 0.0;
+		
+		/***
 		 * Defualt constructor
 		 */
 		TreeNode() {
@@ -353,12 +337,13 @@ public class DecisionForest implements Cloneable, Serializable {
 		 * @throws MalformedProbabilityDistributionException 
 		 */
 		TreeNode(TrainingSequence sequence, TreeNode leftChld, TreeNode rightChld, 
-				SplitParameters splitParams) throws MalformedProbabilityDistributionException {
+				SplitParameters splitParams, double informationGain) throws MalformedProbabilityDistributionException {
 
 			this.probabilityDistribution = sequence.empiricalDistribution();
 			this.leftChild = leftChld;
 			this.rightChild = rightChld;
 			this.splitParams = splitParams;  
+			this.informationGain = informationGain;
 		}
 
 		/**
@@ -417,6 +402,20 @@ public class DecisionForest implements Cloneable, Serializable {
 			this.splitParams = splitParams;
 		}
 		
+		/**
+		 * @return the informationGain
+		 */
+		public double getInformationGain() {
+			return informationGain;
+		}
+
+		/**
+		 * @param informationGain the informationGain to set
+		 */
+		public void setInformationGain(double informationGain) {
+			this.informationGain = informationGain;
+		}
+
 		/***
 		 * Checks if the node is a leaf node
 		 * Throws an error if we have a single child (we should have none or two)

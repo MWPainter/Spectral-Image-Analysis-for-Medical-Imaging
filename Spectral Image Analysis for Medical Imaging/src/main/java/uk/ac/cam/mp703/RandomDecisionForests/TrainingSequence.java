@@ -33,16 +33,10 @@ public class TrainingSequence implements Serializable {
 	List<TrainingSample> trainingSequence;
 	
 	/***
-	 * The list of class names is specified in the file and we should keep a mapping.
-	 * The forests must keep a mapping from class numbers to class names, which is part of training.
+	 * The list of classes is specified in the class colour mapping.
+	 * The forests must keep a list of classes, which is part of training.
 	 */
-	List<String> classNames;
-	
-	/***
-	 * A list of class colours, which are just integer values. 
-	 * The colours are indexed by the class numbers.
-	 */
-	List<Integer> classColours;
+	List<ClassLabel> classes;
 
 	/***
 	 * Only a getter is provided for the training sequence as we shouldn't need to change it.
@@ -62,38 +56,24 @@ public class TrainingSequence implements Serializable {
 	}
 	
 	/**
-	 * @return the classNames
+	 * @return the classes
 	 */
-	public List<String> getClassNames() {
-		return classNames;
+	public List<ClassLabel> getClasses() {
+		return classes;
 	}
 
 	/**
-	 * @param classNames the classNames to set
+	 * @param classes the classes to set
 	 */
-	public void setClassNames(List<String> classNames) {
-		this.classNames = classNames;
-	}
-	
-	/**
-	 * @return the classColours
-	 */
-	public List<Integer> getClassColours() {
-		return classColours;
-	}
-
-	/**
-	 * @param classColours the classColours to set
-	 */
-	public void setClassColours(List<Integer> classColours) {
-		this.classColours = classColours;
+	public void setClasses(List<ClassLabel> classes) {
+		this.classes = classes;
 	}
 
 	/***
 	 * @return The number of classes in this sequence
 	 */
 	public int getNoClasses() {
-		return this.classNames.size();
+		return this.classes.size();
 	}
 	
 	/*** 
@@ -106,15 +86,11 @@ public class TrainingSequence implements Serializable {
 	/***
 	 * Constructor for a training sequence
 	 * @param trainingSequence The sequence of (Class,Instance) pairs
-	 * @param classNames The array of class names used in the training sequence
-	 * @param classColours The array of class colours corresponding to the class names in the 
-	 * 			training sequences 
+	 * @param classes The array of classes used in the training sequence
 	 */
-	public TrainingSequence(List<TrainingSample> trainingSequence, List<String> classNames, 
-			List<Integer> classColours) {
+	public TrainingSequence(List<TrainingSample> trainingSequence, List<ClassLabel> classes) {
 		this.trainingSequence = trainingSequence;
-		this.classNames = classNames;
-		this.classColours = classColours;
+		this.classes = classes;
 	}
 
 	/***
@@ -122,11 +98,6 @@ public class TrainingSequence implements Serializable {
 	 * in training sequences needs to be specific to the type of instance. 
 	 * The format of the text file should be:
 	 * ------------------------------
-	 * | Class1Name, 0xFFFFFF, 		|
-	 * | Class2Name, 0xFFFFFF, 		|
-	 * | Class3Name, 0xFFFFFF, 		|
-	 * | ...		 				|
-	 * | ClassMName, 0xFFFFFF; 		|
 	 * | c_1,x_11,x_12,...,x_1n;	|
 	 * | c_2,x_21,x_22,...,x_2n;	|
 	 * | c_3,x_31,x_32,...,x_3n;	|
@@ -135,111 +106,34 @@ public class TrainingSequence implements Serializable {
 	 * | ...						|
 	 * | c_k,x_k1,x_k2,...,x_kn;	|
 	 * ------------------------------
-	 * Where m is the number of classes, c's are classes, x's are feature vectors, each x_ij is a 
-	 * real number, n is the dimension of data and k is the number of samples in the sequence
+	 * Where m is the number of classes, c's are classes (names, as specified by a class map file), 
+	 * x's are feature vectors, each x_ij is a real number, n is the dimension of data and k is 
+	 * the number of samples in the sequence
 	 * 
 	 * N.B. new lines are ignored, only the commas and semi-colons are used for reading. All class 
 	 * names must begin with an alphabetic character, but they may use any valid unicode characters 
 	 * subsequently.
 	 * 
-	 * N.B.B. The numbers 0xFFFFFF stand for a hex number that should correspond to the colour 
-	 * associated with the class.
-	 * 
-	 * @param filename The text file 
+	 * @param trainingSequenceFilename The text file containing the training sequence 
+	 * @param classMapFilename The text file containing the mapping from classnames to colours
 	 * @throws TrainingSequenceFormatException
 	 * @throws FileNotFoundException
+	 * @throws FileFormatException 
 	 */
-	public static TrainingSequence newNDRealVectorTrainingSequence(String filename) 
-			throws TrainingSequenceFormatException, FileNotFoundException{
+	public static TrainingSequence newNDRealVectorTrainingSequence(String trainingSequenceFilename,
+			String classMapFilename) 
+			throws TrainingSequenceFormatException, FileNotFoundException, FileFormatException{
+		
+		// Firstly get the list of classes
+		List<ClassLabel> classes = ClassLabel.loadClassList(classMapFilename);
+		
+		// We will use names to reference the classes, so compute the name to class map
+		Map<String, ClassLabel> nameToClassMap = ClassLabel.computeNameToClassMap(classes);
 		
 		// Open the file using a Scanner, and use ";" to initially separate out the data
 		// N.B. We use the \s at the beginning and end to ignore unnecessary whitespace.
-		Scanner scanner = new Scanner(new File(filename));
+		Scanner scanner = new Scanner(new File(trainingSequenceFilename));
 		scanner.useDelimiter("\\s*;\\s*");
-		
-		// Get the array of class names (from the first string from the scanner) and using a 
-		// secondary scanner, which has a delimiter of "," with surrounding whitespace.
-		// We also need to extract the class colours from this
-		List<String> classNames = new ArrayList<String>();
-		List<Integer> classColours = new ArrayList<Integer>();
-		String classNameString = scanner.next(); 
-		Scanner classNameScanner = new Scanner(classNameString);
-		classNameScanner.useDelimiter("\\s*,\\s*");
-		
-		// Iterate through the class names and colours and add them to their lists
-		while (classNameScanner.hasNext()) {
-			// Get the name and add that to the list
-			classNames.add(classNameScanner.next());
-			
-			// Check that there is a corresponding colour
-			if (!classNameScanner.hasNext()) {
-				scanner.close();
-				classNameScanner.close();
-				throw new TrainingSequenceFormatException("Every class name needs to have a "
-						+ "corresponsing colour defined.");
-			}
-			
-			// GET the colour, remember that it may have a prepended "0x" and a postpended ";"
-			try {
-				// extract the hex string
-				String classColourString = classNameScanner.next();
-				classColourString = classColourString.replaceAll("0x", "");
-				classColourString = classColourString.replaceAll("\\s*;", ""); // For extra convenience allow whitespace
-				
-				// Check that its the correct length
-				if (classColourString.length() != 6) {
-					scanner.close();
-					classNameScanner.close();
-					throw new TrainingSequenceFormatException("The colour for each class should "
-							+ "specified by a 6 digit hex number");
-				}
-				
-				// Parse the integer and add it to the class colours
-				classColours.add(Integer.parseInt(classColourString, 16));
-				
-			// Catch a number format exception, that means that there was a format error
-			} catch (NumberFormatException e) {
-				scanner.close();
-				classNameScanner.close();
-				throw new TrainingSequenceFormatException("Each class needs to have an associated "
-						+ "colour, specified by a 6 digit hex number.");
-			}
-		}
-		
-		// Remember to close the class name scanner at the end
-		classNameScanner.close();
-		
-		// Check that all class names are unique, and begin with an alphabetic character
-		// And that all of the colours are unique
-		Set<String> uniqueClassNames = new HashSet<String>();
-		Set<Integer> uniqueClassColours = new HashSet<Integer>();
-		for (int i = 0; i < classNames.size(); i++) {
-			
-			// Check for if this value is a repeat
-			if (uniqueClassNames.contains(classNames.get(i))) {
-				scanner.close();
-				throw new TrainingSequenceFormatException("Duplicate class name in the training "
-						+ "sequence file.");
-			} else if (!classNames.get(i).matches("[a-zA-z].*")) {
-				scanner.close();
-				throw new TrainingSequenceFormatException("Class names must begin with alphabetic "
-						+ "characters");
-			} else if (uniqueClassColours.contains(classColours.get(i))) {
-				scanner.close();
-				throw new TrainingSequenceFormatException("Duplicate class colour in the training "
-						+ "sequence file.");
-			}
-				
-			// Add the name and colour to their hash sets
-			uniqueClassNames.add(classNames.get(i));
-			uniqueClassColours.add(classColours.get(i));
-		}
-		
-		// If there are no class names provided then the file is incorrect in format
-		if (classNames.isEmpty()) {
-			scanner.close();
-			throw new TrainingSequenceFormatException("No class names were provided in the file.");
-		}
 		
 		// Load in training samples
 		List<TrainingSample> trainingSamples = new ArrayList<TrainingSample>();
@@ -250,15 +144,15 @@ public class TrainingSequence implements Serializable {
 			Scanner vectorScanner = new Scanner(nextVector); 
 			vectorScanner.useDelimiter("\\s*,\\s*");
 			
-			// Get the class number if possible, and check that it's in a valid range
-			// N.B. USER SEES numbers 1->M, INTERNALLY USE 0->(M-1)
-			int classNumber = 0;
+			// Get the class name, and lookup the class label for it
+			String className;
 			try {
-				classNumber = vectorScanner.nextInt() - 1;	
-				if (classNumber < 0 || classNumber >= classNames.size()) {
+				className = vectorScanner.next();
+				if (!nameToClassMap.containsKey(className)) {
 					scanner.close();
 					vectorScanner.close();
-					throw new TrainingSequenceFormatException("Class number was either too large or negative");
+					throw new TrainingSequenceFormatException("Class name in training sequence was "
+							+ "not found in the colour class map");
 				}
 			} catch (NoSuchElementException e) {
 				scanner.close();
@@ -267,6 +161,9 @@ public class TrainingSequence implements Serializable {
 						"Each vector must start with an integer class number");
 			}
 			
+			// Get the class label from the name
+			ClassLabel classLabel = nameToClassMap.get(className);
+			
 			// Now iterate through the rest of the numbers in the vector
 			List<Double> vector = new ArrayList<Double>();
 			while (vectorScanner.hasNextDouble()) {
@@ -274,7 +171,7 @@ public class TrainingSequence implements Serializable {
 			}
 			
 			// Create the training sample now we've read the data in, and add it to the list
-			trainingSamples.add(new TrainingSample(classNumber, new NDRealVector(vector)));
+			trainingSamples.add(new TrainingSample(classLabel, new NDRealVector(vector)));
 			vectorScanner.close();
 		}
 		
@@ -300,7 +197,7 @@ public class TrainingSequence implements Serializable {
 		}
 		
 		// Return the training sequence that was just loaded in
-		return new TrainingSequence(trainingSamples, classNames, classColours);
+		return new TrainingSequence(trainingSamples, classes);
 	}	
 	
 	/***
@@ -317,18 +214,18 @@ public class TrainingSequence implements Serializable {
 		}
 		
 		// Create an array of counts, and populate it
-		int numberOfClasses = classNames.size();
-		int[] counts = new int[classNames.size()];
+		int numberOfClasses = classes.size();
+		int[] counts = new int[classes.size()];
 		for (TrainingSample sample : trainingSequence) {
-			counts[sample.classNumber]++;
+			counts[sample.classLabel.getClassId()]++;
 		}
 		
 		// Now compute the emperical probabilities in a hashmap
 		// Note that totalCount is a double to force the correct value of the emperical probability 
 		double totalCount = (double) trainingSequence.size();
-		Map<Integer, Double> empericalProbabilities = new HashMap<Integer, Double>(classNames.size());
-		for (int i = 0; i < numberOfClasses; i++) {
-			empericalProbabilities.put(i, counts[i] / totalCount);
+		Map<ClassLabel, Double> empericalProbabilities = new HashMap<ClassLabel, Double>(classes.size());
+		for (ClassLabel clazz : classes) {
+			empericalProbabilities.put(clazz, counts[clazz.getClassId()] / totalCount);
 		}
 		
 		// Now simply return a probability distribution with the given probabilities
@@ -357,12 +254,12 @@ public class TrainingSequence implements Serializable {
 	 * @param sequence2 Second sequence to be joined
 	 * @return Returns a training sequence that is the union of the two sequences given.
 	 */
-	static TrainingSequence join(TrainingSequence sequence1, TrainingSequence sequence2) {
+	public static TrainingSequence join(TrainingSequence sequence1, TrainingSequence sequence2) {
 		List<TrainingSample> newTrainingSequence = new ArrayList<TrainingSample>(
 				sequence1.trainingSequence.size() + sequence2.trainingSequence.size());
 		newTrainingSequence.addAll(sequence1.trainingSequence);
 		newTrainingSequence.addAll(sequence2.trainingSequence);
-		return new TrainingSequence(newTrainingSequence, sequence1.classNames, sequence1.classColours);
+		return new TrainingSequence(newTrainingSequence, sequence1.classes);
 	}
 	
 	/***
@@ -430,24 +327,11 @@ public class TrainingSequence implements Serializable {
 		File file = new File(filename);
 		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 		
-		// Add the classes and colours
-		for (int i = 0; i < classNames.size(); i++) {
-			// Class name
-			writer.write(classNames.get(i) + ", ");
-			
-			// Class colour (%06X specifies a 6 digit hex string) 
-			writer.write("0x" + String.format("%06X", classColours.get(i)));
-			
-			// Add the appropriate , or ; at the end of the line
-			String app = (i == classNames.size()-1) ? ";\n" : ",\n";
-			writer.write(app);
-		}
-		
 		// Now we need to iterate through all of the instances printing out their values and classes
 		for (TrainingSample sample : trainingSequence) {
 			// Write the class number
 			// Reminder: the user sees 1, ..., N, internally we use 0, ..., N-1
-			writer.write((sample.classNumber+1) + ", ");
+			writer.write((sample.classLabel.getName()) + ", ");
 			
 			// Print out the instance
 			writer.write(sample.instance.toString() + ";\n");

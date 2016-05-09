@@ -15,9 +15,9 @@ public class TrainingSample implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/***
-	 * The class number that this training sample has been assigned by hand.
+	 * The class label that this training sample has been assigned by hand.
 	 */
-	int classNumber;
+	ClassLabel classLabel;
 	
 	/***
 	 * An instance which has a well known classification.
@@ -26,18 +26,18 @@ public class TrainingSample implements Serializable {
 	
 
 	/**
-	 * @return the classNumber
+	 * @return the classLabel
 	 */
-	public int getClassNumber() {
-		return classNumber;
+	public ClassLabel getClassNumber() {
+		return classLabel;
 	}
 
 
 	/**
-	 * @param classNumber the classNumber to set
+	 * @param classLabel the classLabel to set
 	 */
-	public void setClassNumber(int classNumber) {
-		this.classNumber = classNumber;
+	public void setClassLabel(ClassLabel classLabel) {
+		this.classLabel = classLabel;
 	}
 
 
@@ -59,11 +59,11 @@ public class TrainingSample implements Serializable {
 
 	/***
 	 * Constructor using a NDRealVector instance.
-	 * @param classNumber
+	 * @param classLabel
 	 * @param ndRealVector
 	 */
-	public TrainingSample(int classNumber, NDRealVector vector) {
-		this.classNumber = classNumber;
+	public TrainingSample(ClassLabel classLabel, NDRealVector vector) {
+		this.classLabel = classLabel;
 		this.instance = vector;
 	}
 }

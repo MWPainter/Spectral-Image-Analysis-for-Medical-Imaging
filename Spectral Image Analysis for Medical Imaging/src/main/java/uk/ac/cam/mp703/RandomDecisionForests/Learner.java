@@ -1,7 +1,6 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
 import java.io.Serializable;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,24 +43,24 @@ public class Learner implements Serializable {
 		
 		// If we are given nonsensical input, throw an exception
 		if (trainingSequence == null || trainingSequence.size() == 0 ||
-				trainingSequence.classNames.size() == 0) {
-			throw new InvalidParameterException("We need a non-empty, non-null training sequence to "
+				trainingSequence.classes.size() == 0) {
+			throw new IllegalArgumentException("We need a non-empty, non-null training sequence to "
 					+ "train a tree.");
 		} else if (weakLearner == null) {
-			throw new InvalidParameterException("We need a non-null weak learner to be able to train "
+			throw new IllegalArgumentException("We need a non-null weak learner to be able to train "
 					+ "a tree.");
 		} else if (maxTrees <= 0) {
-			throw new InvalidParameterException("A non-positive number of trees doesn't make sense "
+			throw new IllegalArgumentException("A non-positive number of trees doesn't make sense "
 					+ "for a forest.");
 		} else if (maxDepth <= 0) {
-			throw new InvalidParameterException("A non-negative depth doesn't make sense for a tree. A "
+			throw new IllegalArgumentException("A non-negative depth doesn't make sense for a tree. A "
 					+ "tree consisting of a single node has depth 0. If we limit trees to be just "
 					+ "leaves then there is no decisions being made - the tree does nothing.");
 		} else if (randomnessParameter <= 0) {
-			throw new InvalidParameterException("We need a positive randomness parameter, it doens't "
+			throw new IllegalArgumentException("We need a positive randomness parameter, it doens't "
 					+ "make sense to have a negative quantity.");
 		} else if (informationGainCutoff < 0.0) {
-			throw new InvalidParameterException("Information gain is a strictly non-negative value, "
+			throw new IllegalArgumentException("Information gain is a strictly non-negative value, "
 					+ "so must have a cutoff of more than or equal to zero.");
 		}
 		
@@ -78,8 +77,7 @@ public class Learner implements Serializable {
 		// Create a DecisionForest instance
 		DecisionForest forest = new DecisionForest();
 		forest.setDataDimension(trainingSequence.trainingSequence.get(0).instance.getDimension());
-		forest.setClassStrings(trainingSequence.classNames);
-		forest.setClassColours(trainingSequence.classColours);
+		forest.setClasses(trainingSequence.classes);
 		forest.setWeakLearnerType(weakLearner.getWeakLearnerType());
 
 		// Now build each of the trees in turn, compact it, and add it to the root set
@@ -89,6 +87,7 @@ public class Learner implements Serializable {
 					randomnessParameter, rand, informationGainCutoff);
 			node.compact();
 			rootNodes.add(node);
+			System.out.println("Tree number " + (i+1) + " trained.");
 		}
 		
 		// Add the root nodes to the forest structure
@@ -122,7 +121,7 @@ public class Learner implements Serializable {
 					throws MalformedProbabilityDistributionException {
 		// Check for the training sequence being 0 in size, that should never happen
 		if (trainingSequence.size() == 0) {
-			throw new InvalidParameterException("Can't generate a tree from an empty sequence.");
+			throw new IllegalArgumentException("Can't generate a tree from an empty sequence.");
 		}
 		
 		// If the depth is zero or there is only one sample in the training sequences, then we need 
@@ -160,10 +159,8 @@ public class Learner implements Serializable {
 			}
 			
 			// See what information gain this leads to
-			TrainingSequence leftSplit = new TrainingSequence(leftList, 
-					trainingSequence.classNames, trainingSequence.classColours);
-			TrainingSequence rightSplit = new TrainingSequence(rightList, 
-					trainingSequence.classNames, trainingSequence.classColours);
+			TrainingSequence leftSplit = new TrainingSequence(leftList, trainingSequence.classes);
+			TrainingSequence rightSplit = new TrainingSequence(rightList, trainingSequence.classes);
 			double informationGain = TrainingSequence.informationGain(leftSplit, rightSplit);
 			
 			// If its the best information gain found so far, remember it!
@@ -192,7 +189,8 @@ public class Learner implements Serializable {
 					rand, informationGainCutoff);
 			TreeNode rightChild = generateTree(bestRightSplit, weakLearner, depth-1, randomnessParameter, 
 					rand, informationGainCutoff);
-			node = new TreeNode(trainingSequence, leftChild, rightChild, bestSplitParameters);
+			node = new TreeNode(trainingSequence, leftChild, rightChild, 
+					bestSplitParameters, bestInformationGain);
 		}
 		
 		// We have trained a tree! Return it
