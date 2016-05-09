@@ -1,0 +1,1 @@
+\contentsline {lstlisting}{\numberline {3.1}The \texttt {ClassLabel} class, used to encapsulate a classification label and it's associated meta-data. Member functions are ommitted.}{30}{lstlisting.3.1}
