@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,9 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import uk.ac.cam.mp703.ImagePixelLabelling.DataCube;
+import uk.ac.cam.mp703.ImagePixelLabelling.LabelledImageType;
 import uk.ac.cam.mp703.Noise.ArtificialNoise;
+import uk.ac.cam.mp703.RandomDecisionForests.ClassLabel;
 import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest;
 import uk.ac.cam.mp703.RandomDecisionForests.FileFormatException;
 import uk.ac.cam.mp703.RandomDecisionForests.Learner;
@@ -23,6 +24,7 @@ import uk.ac.cam.mp703.RandomDecisionForests.MalformedForestException;
 import uk.ac.cam.mp703.RandomDecisionForests.MalformedProbabilityDistributionException;
 import uk.ac.cam.mp703.RandomDecisionForests.OneDimensionalLinearWeakLearner;
 import uk.ac.cam.mp703.RandomDecisionForests.TrainingSequence;
+import uk.ac.cam.mp703.RandomDecisionForests.TrainingSequenceFormatException;
 import uk.ac.cam.mp703.RandomDecisionForests.WeakLearner;
 import uk.ac.cam.mp703.TrainingTools.TrainingSequenceGeneration;
 
@@ -39,6 +41,7 @@ public class EntryPoint {
 		"runRF",
 		"runNN",
 		"applyPoissonNoise",
+		"applyGaussianNoise",
 		"trainingTool"
 	};
 
@@ -88,14 +91,15 @@ public class EntryPoint {
 			// TRAIN RANDOM FOREST
 			try {
 				String trainingFilename = args[1];
-				String outputFilename = args[2];
-				int maxTrees = Integer.parseInt(args[3]);
-				int maxDepth = Integer.parseInt(args[4]);
-				int randomnessParameter = Integer.parseInt(args[5]);
-				double informationGainCutoff = Double.parseDouble(args[6]);
-				boolean normaliseSpectra = Boolean.parseBoolean(args[7]);
-				mainLearning(trainingFilename, outputFilename, maxTrees, maxDepth, 
-						randomnessParameter, informationGainCutoff, normaliseSpectra);
+				String classColourMapFilename = args[2];
+				String outputFilename = args[3];
+				int maxTrees = Integer.parseInt(args[4]);
+				int maxDepth = Integer.parseInt(args[5]);
+				int randomnessParameter = Integer.parseInt(args[6]);
+				double informationGainCutoff = Double.parseDouble(args[7]);
+				boolean normaliseSpectra = Boolean.parseBoolean(args[8]);
+				mainLearning(trainingFilename, classColourMapFilename, outputFilename, maxTrees,
+						maxDepth, randomnessParameter, informationGainCutoff, normaliseSpectra);
 				
 			} catch (NullPointerException e) {
 				System.err.println("Error reading in arguments to task " + tasks[2]);
@@ -116,7 +120,11 @@ public class EntryPoint {
 		} else if (args[0].equals(tasks[4])) {
 			// RUN RANDOM FOREST CLASSIFICATION
 			try {
-				mainRFRun(args[1], args[2], args[3]);
+				if (args.length > 5) {
+					mainRFRun(args[1], args[2], args[3], args[4], args[5]);
+				} else {
+					mainRFRun(args[1], args[2], args[3], args[4], null);
+				}
 				
 			} catch (NullPointerException e) {
 				System.err.println("Error reading in arguments to task " + tasks[0]);
@@ -139,7 +147,7 @@ public class EntryPoint {
 			
 		
 		} else if (args[0].equals(tasks[6])) {
-			// APPLY A RANDOM NOISE
+			// APPLY A POISSON NOISE
 			try {
 				mainPNRun(args[1], args[2]);
 				
@@ -158,10 +166,30 @@ public class EntryPoint {
 			
 			
 		} else if (args[0].equals(tasks[7])) {
+			// APPLY A GAUSSIAN NOISE
+			try {
+				String inputImage = args[1];
+				double power = Double.parseDouble(args[2]);
+				String outputImage = args[3];
+				mainGNRun(inputImage, power, outputImage);
+				
+			} catch (NullPointerException e) {
+				System.err.println("Error reading in arguments to task " + tasks[0]);
+				printUsage(System.err);
+				
+			} catch (IOException e) {
+				System.err.println("There was an IO error: " + e.getMessage());
+				
+			} catch (FileFormatException e) {
+				System.err.println("You need to include a '%' in your input image specifier if and "
+						+ "only if the output image specifier contains a '%'. Also check each only "
+						+ "contains a single '%'.");
+			}
+			
+			
+		} else if (args[0].equals(tasks[8])) {
 			// GENERATE A TRAINING SEQUENCE FROM AN EXAMPLE LABELLING
-			TrainingSequence ts = TrainingSequenceGeneration.trainingSequenceFromExample(args[1], 
-					args[2], args[3]);
-			ts.saveToTextFile(args[4]);
+			mainTrainingTools(args[1], args[2], args[3], args[4]);
 			
 			
 		} else {
@@ -320,6 +348,7 @@ public class EntryPoint {
 	/***
 	 * Produce a tree from a training file.
 	 * @param trainingFilename Filename of the training sequence
+	 * @param classColourMapFilename Filename of the map from classes to colours
 	 * @param outputFilename Filename of the .frst file to output
 	 * @param maxTrees Number of trees in the forest
 	 * @param maxDepth Maximum depth of any tree
@@ -330,13 +359,17 @@ public class EntryPoint {
 	 * @throws IOException
 	 * @throws MalformedForestException
 	 * @throws MalformedProbabilityDistributionException
+	 * @throws FileFormatException 
+	 * @throws TrainingSequenceFormatException 
 	 */
-	private static void mainLearning(String trainingFilename, String outputFilename, int maxTrees, 
-			int maxDepth, int randomnessParameter, double informationGainCutoff, boolean normaliseSpectra) 
-					throws IOException, MalformedForestException, MalformedProbabilityDistributionException {
+	private static void mainLearning(String trainingFilename, String classColourMapFilename, 
+			String outputFilename, int maxTrees, int maxDepth, int randomnessParameter, 
+			double informationGainCutoff, boolean normaliseSpectra) 
+					throws IOException, MalformedForestException, MalformedProbabilityDistributionException, TrainingSequenceFormatException, FileFormatException {
 		
 		// Get the training sequence
-		TrainingSequence ts = TrainingSequence.newNDRealVectorTrainingSequence(trainingFilename);
+		TrainingSequence ts = 
+				TrainingSequence.newNDRealVectorTrainingSequence(trainingFilename, classColourMapFilename);
 		
 		// Weak learner to use
 		WeakLearner wl = new OneDimensionalLinearWeakLearner();
@@ -354,14 +387,18 @@ public class EntryPoint {
 	 * @param forestFilename The filename of the .frst file to use
 	 * @param imageSpecifier The filename of the image. If it contains a '%' char then assume that 
 	 * 					it's a set of monochrome images, otherwise assume RGB.
-	 * @param outputFilename
+	 * @param outputFilename The filename of the output image
+	 * @param imageType The type of image that we wish to output
+	 * @param singleProbClassName If we are outputting a single class probability, then we need to 
+	 * 					input the class' name 
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws FileFormatException
 	 * @throws MalformedForestException
 	 * @throws MalformedProbabilityDistributionException
 	 */
-	public static void mainRFRun(String forestFilename, String imageSpecifier, String outputFilename) 
+	public static void mainRFRun(String forestFilename, String imageSpecifier, String outputFilename,
+			String imageType, String singleProbClassName) 
 			throws FileNotFoundException, IOException, FileFormatException, MalformedForestException, 
 			MalformedProbabilityDistributionException {
 		// Load forest
@@ -370,8 +407,33 @@ public class EntryPoint {
 		// Now use the forest to classify an image
 		DataCube dc = DataCube.generateDataCubeFromImageSpecifier(imageSpecifier);
 		
-		// Generate the pixel labeled image
-		dc.generatePixelLabeledImage(df, outputFilename);
+		// Generate the pixel labeled image, depending on the image option picked!
+		if (imageType.equals("prob")) {
+			dc.generatePixelLabeledImage(df, outputFilename, LabelledImageType.PROBABILITY, null);
+		} else if (imageType.equals("mostlikely")) {
+			dc.generatePixelLabeledImage(df, outputFilename, LabelledImageType.MOST_LIKELY, null);
+		} else if (imageType.equals("entropy")) {
+			dc.generatePixelLabeledImage(df, outputFilename, LabelledImageType.ENTROPY, null);
+		} else if (imageType.equals("singleprob")) {
+			// In the case of a single probability class, we need to find the class first!
+			ClassLabel ourClass = null;
+			for (ClassLabel clazz : df.getClasses()) {
+				if (clazz.getName().equals(singleProbClassName)) {
+					ourClass = clazz;
+				}
+			}
+			
+			// Potentially generate an error
+			if (ourClass == null) {
+				throw new IllegalArgumentException("A valid class name was not specified for the "
+						+ "single class probability image.");
+			}
+			
+			// Generate the image finally
+			dc.generatePixelLabeledImage(df, outputFilename, LabelledImageType.SINGLE_CLASS_PROBABILITY, ourClass);
+		} else {
+			throw new IllegalArgumentException("You need to specify an image type to output.");
+		}
 	}
 	
 	/***
@@ -389,7 +451,7 @@ public class EntryPoint {
 		if (imageSpecifier.contains("%") != outputImageSpecifier.contains("%") ||
 				imageSpecifier.indexOf("%") != imageSpecifier.lastIndexOf("%") ||
 				outputImageSpecifier.indexOf("%") != outputImageSpecifier.lastIndexOf("%")) {
-			throw new InvalidParameterException("Image and output file specifiers should "
+			throw new IllegalArgumentException("Image and output file specifiers should "
 					+ "contain a single '%' character if using a set of monochrome images, they "
 					+ "should contain no '%' characters if using an RGB image. The input file "
 					+ "specifier should contain a '%' iff the output file specifier does.");
@@ -407,6 +469,76 @@ public class EntryPoint {
 		} else {
 			dc.printToMonochromeImages(outputImageSpecifier);
 		}
+	}
+	
+	/***
+	 * Take a hyperspectral image and add a gaussian noise to it.
+	 * 
+	 * @param imageSpecifier The hyperspectral image specifier input
+	 * @param power The power of the gaussian noise that we will apply
+	 * @param outputImageSpecifier The hyperspectral image specifier output 
+	 * @throws FileFormatException 
+	 * @throws IOException 
+	 */
+	public static void mainGNRun(String imageSpecifier, double power, String outputImageSpecifier) 
+			throws FileFormatException, IOException {
+		
+		// Check that the inputs are ok
+		if (imageSpecifier.contains("%") != outputImageSpecifier.contains("%") ||
+				imageSpecifier.indexOf("%") != imageSpecifier.lastIndexOf("%") ||
+				outputImageSpecifier.indexOf("%") != outputImageSpecifier.lastIndexOf("%")) {
+			throw new IllegalArgumentException("Image and output file specifiers should "
+					+ "contain a single '%' character if using a set of monochrome images, they "
+					+ "should contain no '%' characters if using an RGB image. The input file "
+					+ "specifier should contain a '%' iff the output file specifier does.");
+		} else if (power < 0) {
+			throw new IllegalArgumentException("Power needs to be a valid non-negative number");
+		}
+		
+		// Load the image in
+		DataCube dc = DataCube.generateDataCubeFromImageSpecifier(imageSpecifier);
+							
+		// Apply the Poisson noise
+		ArtificialNoise.applyGaussianNoise(dc, power);
+		
+		// Output the image
+		if (!outputImageSpecifier.contains("%")) {
+			dc.printToColourImage(outputImageSpecifier);
+		} else {
+			dc.printToMonochromeImages(outputImageSpecifier);
+		}
+	}
+	
+	/***
+	 * Create a training sequence from an example ground truth image
+	 * 
+	 * N.B. If the outputFilename exists already, then we APPEND to the file
+	 * 
+	 * @param colourClassMapFilename
+	 * @param exampleLabelingFilename
+	 * @param exampleImageSpecifier
+	 * @param outputFilename
+	 * @throws FileFormatException 
+	 * @throws IOException 
+	 */
+	private static void mainTrainingTools(String colourClassMapFilename, String exampleLabelingFilename,
+			String exampleImageSpecifier, String outputFilename) throws IOException, FileFormatException {
+		
+		// Load in the new additions to the training sequence
+		TrainingSequence tsImg = 
+				TrainingSequenceGeneration.trainingSequenceFromExample(colourClassMapFilename, 
+				exampleLabelingFilename, exampleImageSpecifier);
+		
+		// Check if the output filename ALREADY exists, if it does then APPEND new training data
+		TrainingSequence ts;
+		if (new File(outputFilename).exists()) {
+			TrainingSequence tsExist = 
+					TrainingSequence.newNDRealVectorTrainingSequence(outputFilename, colourClassMapFilename);
+			ts = TrainingSequence.join(tsExist, tsImg);
+		} else {
+			ts = tsImg;
+		}
+		ts.saveToTextFile(outputFilename);
 	}
 	
 	/***
@@ -437,20 +569,22 @@ public class EntryPoint {
 		o.println("<task> = " + tasks[2]);
 		o.println("\t arg1 = trainingFilename (string)");
 		o.println("\t\t The filename of the training sequence file.");
-		o.println("\t arg2 = outputFilename (string)");
+		o.println("\t arg2 = classColourMapFilename (string)");
+		o.println("\t\t The filename of the class to colour mapping text file.");
+		o.println("\t arg3 = outputFilename (string)");
 		o.println("\t\t The filename of the .frst file to be output.");
-		o.println("\t arg3 = numberOfTrees (int)");
+		o.println("\t arg4 = numberOfTrees (int)");
 		o.println("\t\t The number of trees to be trained in the forest.");
-		o.println("\t arg4 = maxDepth (int)");
+		o.println("\t arg5 = maxDepth (int)");
 		o.println("\t\t The maximum depth of a tree.");
-		o.println("\t arg5 = randomnessParameter (int)");
+		o.println("\t arg6 = randomnessParameter (int)");
 		o.println("\t\t How many 'split parameters' to try at each 'split node' "
 				+ "\n\t\t whilst training. A greater value corresponds to a less "
 				+ "\n\t\t random tree.");
-		o.println("\t arg6 = informationGainCutoff (double)");
+		o.println("\t arg7 = informationGainCutoff (double)");
 		o.println("\t\t The minimal 'information' we wish to gain at any given "
 				+ "\n\t\t split node.");
-		o.println("\t arg7 = normaliseSpectra (bool) (true/false/yes/no)");
+		o.println("\t arg8 = normaliseSpectra (bool) (true/false/yes/no)");
 		o.println("\t\t Should image spectra be normalised when labelling "
 				+ "\n\t\t and training? (Normalise power of the spectrum.)");
 		o.println();
@@ -469,6 +603,14 @@ public class EntryPoint {
 		o.println("\t arg3 = outputFilename (string)");
 		o.println("\t\t The filename to output a RGB image indicating the pixel "
 				+ "\n\t\t pixel labelling.");
+		o.println("\t arg4 = imageType (string)");
+		o.println("\t\t This should be one of \"prob\", \"mostlikely\", \"entropy\", "
+				+ "\n\t\t \"singleprob\" for a probability output, a most likely "
+				+ "labelling, an entropy labelling or a labelling according to "
+				+ "the probabiltiy of a single class respectively.");
+		o.println("\t (OPTIONAL) arg5 = className");
+		o.println("\t\t If we specify \"singleprob\" then we need to specify the "
+				+ "\n\t\t associated class name.");
 		o.println();
 		o.println("Use a Neural Network to label pixels in an image.");
 		o.println("TODO");
@@ -487,21 +629,40 @@ public class EntryPoint {
 				+ "\n\t\t an image with higher dimensions. arg2 should include a '%'"
 				+ "\n\t\t if and only if arg1 does.");
 		o.println();
-		o.println("Generate a training sequence from an example pixel labeled image.");
+		o.println("Add a Gaussian noise to an image");
 		o.println("<task> = " + tasks[7]);
+		o.println("\t arg1 = imageSpecifier (string)");
+		o.println("\t\t The specficier of the image. This is either just the "
+				+ "\n\t\t filename of an RGB image or if it contains a '%' "
+				+ "\n\t\t character it will replace the '%' with numbers to form "
+				+ "\n\t\t an image with higher dimensions.");
+		o.println("\t arg2 = power (double)");
+		o.println("\t\t The power of the Gaussian noise that you would like to "
+				+ "\n\t\t to the image. Power = (standard deviation)^2");
+		o.println("\t arg3 = outputImageSpecifier (string)");
+		o.println("\t\t The specficier of the output image. This is either just the "
+				+ "\n\t\t filename of an RGB image or if it contains a '%' "
+				+ "\n\t\t character it will replace the '%' with numbers to form "
+				+ "\n\t\t an image with higher dimensions. arg2 should include a '%'"
+				+ "\n\t\t if and only if arg1 does.");
+		o.println();
+		o.println("Generate a training sequence from an example pixel labeled image.");
+		o.println("<task> = " + tasks[8]);
 		o.println("\t arg1 = classColourMapFilename (string)");
 		o.println("\t\t The filename of a .txt file that describes a mapping between "
 				+ "\n\t\t class names and their pixel label colours.");
 		o.println("\t arg2 = exampleLabelingFilename (string)");
 		o.println("\t\t The filename of an example pixel labeling of the corresponding "
-				+ "spectral image (arg3).");
+				+ "\n\t\t spectral image (arg3).");
 		o.println("\t arg3 = exampleImageSpecifier (string)");
 		o.println("\t\t The specficier of the example image. This is either just the "
 				+ "\n\t\t filename of an RGB image or if it contains a '%' "
 				+ "\n\t\t character it will replace the '%' with numbers to form "
 				+ "\n\t\t an image with higher dimensions.");
 		o.println("\t arg4 = trainingSequenceFile (string)");
-		o.println("\t\t The intended filename for the training sequence being generated.");
+		o.println("\t\t The intended filename for the training sequence being generated."
+				+ "\n\t\t If the file already exists, then we APPEND the new data to "
+				+ "\n\t\t this new file.");
 		
 	}
 

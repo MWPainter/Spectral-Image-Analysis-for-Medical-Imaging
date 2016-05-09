@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.versatile.NormalizationHelper;
 import org.encog.neural.networks.BasicNetwork;
 
+import uk.ac.cam.mp703.RandomDecisionForests.ClassLabel;
 import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest;
 import uk.ac.cam.mp703.RandomDecisionForests.MalformedForestException;
 import uk.ac.cam.mp703.RandomDecisionForests.MalformedProbabilityDistributionException;
@@ -163,7 +163,7 @@ public class DataCube {
 		// Check the format of the string
 		if (!filenameSpecifier.contains("%") || 
 				filenameSpecifier.indexOf("%") != filenameSpecifier.lastIndexOf("%")) {
-			throw new InvalidParameterException("Filename specifier must contain exactly one '%'.");
+			throw new IllegalArgumentException("Filename specifier must contain exactly one '%'.");
 		}
 		
 		// Find the dimension (number of monochrome images) of the hyperspectral image
@@ -227,7 +227,7 @@ public class DataCube {
 	public void printToColourImage(String filename) throws IOException {
 		// Check the format of the string
 		if (filename.contains("%")) {
-			throw new InvalidParameterException("Filename specifier for a colour image shouldn't "
+			throw new IllegalArgumentException("Filename specifier for a colour image shouldn't "
 					+ "contain a '%'.");
 		}
 		
@@ -265,7 +265,7 @@ public class DataCube {
 		// Check the format of the string
 		if (!filenameSpecifier.contains("%") || 
 				filenameSpecifier.indexOf("%") != filenameSpecifier.lastIndexOf("%")) {
-			throw new InvalidParameterException("Filename specifier must contain exactly one '%'.");
+			throw new IllegalArgumentException("Filename specifier must contain exactly one '%'.");
 		}
 		
 		// An image data structure to use to print out
@@ -299,11 +299,15 @@ public class DataCube {
 	 * @param classifier A decision forest used for classifications/pixel labeling
 	 * @param classMap A map from class numbers to colours for the pixel labeled image
 	 * @param filename The filename to save the image into
+	 * @param imageType The type of image to output, i.e. how do we want to convert the probability 
+	 * 		distribution into an image
+	 * @param clazz If imageType = singleClassProbability then this is the class we are looking at
 	 * @throws MalformedForestException
 	 * @throws IOException
 	 * @throws MalformedProbabilityDistributionException 
 	 */
-	public void generatePixelLabeledImage(DecisionForest classifier, String filename) 
+	public void generatePixelLabeledImage(DecisionForest classifier, String filename, 
+			LabelledImageType imageType, ClassLabel clazz) 
 			throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
 		
 		// Get the file extension, if no extension then throw exception immediately
@@ -312,7 +316,7 @@ public class DataCube {
 		if (l > 0) {
 		    extension = filename.substring(l+1);
 		} else {
-			throw new InvalidParameterException("No file extension for the file.");
+			throw new IllegalArgumentException("No file extension for the file.");
 		}
 		
 		// Create an RGB image that we will output for our pixel labeling
@@ -329,7 +333,15 @@ public class DataCube {
 				}
 				NDRealVector v = new NDRealVector(arr);
 				ProbabilityDistribution probabilities = classifier.classify(v);
-				image.setRGB(i, j, interpolatedColour(probabilities, classifier.getClassColours()));
+				if (imageType == LabelledImageType.PROBABILITY) {
+					image.setRGB(i, j, interpolatedColour(probabilities, classifier.getClasses()));
+				} else if (imageType == LabelledImageType.SINGLE_CLASS_PROBABILITY) {
+					image.setRGB(i, j, singleProbColour(probabilities, clazz));
+				} else if (imageType == LabelledImageType.MOST_LIKELY) {
+					image.setRGB(i, j, mostlikelyColour(probabilities, classifier.getClasses()));
+				} else if (imageType == LabelledImageType.ENTROPY) {
+					image.setRGB(i, j, entropyColour(probabilities));
+				}  
 			}
 		}
 		
@@ -357,7 +369,7 @@ public class DataCube {
 		if (l > 0) {
 		    extension = filename.substring(l+1);
 		} else {
-			throw new InvalidParameterException("No file extension for the file.");
+			throw new IllegalArgumentException("No file extension for the file.");
 		}
 		
 		// Create an RGB image that we will output for our pixel labeling
@@ -398,24 +410,24 @@ public class DataCube {
 	 * Given a probability distribution and a class -> colour map, compute an interpolated colour 
 	 * from these.
 	 * @param probDistr The probability distribution of the instance being each class
-	 * @param colourMap A list of class colours (indexed by the class number)
+	 * @param classes A list of class colours (indexed by the class number)
 	 * @return A colour for the pixel labeling. THe closer it is to a one of the colours in the 
 	 * 		colour map, the more cirtain we are that is 
 	 */
-	public int interpolatedColour(ProbabilityDistribution probDistr, List<Integer> colourMap) {
-		Map<Integer, Double> probabilities = probDistr.getProbabilityDistribution();
+	public int interpolatedColour(ProbabilityDistribution probDistr, List<ClassLabel> classes) {
+		Map<ClassLabel, Double> probabilities = probDistr.getProbabilityDistribution();
 		double rSum = 0.0;
 		double gSum = 0.0;
 		double bSum = 0.0;
 		
 		// Sum colours according to probs
 		// Split into components to do so
-		for (int i = 0; i < colourMap.size(); i++) {
-			int colour = colourMap.get(i);
+		for (ClassLabel clazz : classes) {
+			int colour = clazz.getColour();
 			int r = ((colour >> 16) & 0xFF);
 			int g = ((colour >> 8)  & 0xFF);
 			int b = ((colour >> 0)  & 0xFF);
-			double prob = probabilities.get(i);
+			double prob = probabilities.get(clazz);
 			rSum += prob * r;
 			gSum += prob * g;
 			bSum += prob * b; 
@@ -425,4 +437,74 @@ public class DataCube {
 		return (((int)rSum & 0xFF) << 16) + (((int)gSum & 0xFF) << 8) + (((int)bSum & 0xFF) << 0);
 	}
 	
+	/***
+	 * Given a probability distribution and a class, compute the colour depending on 
+	 * a single probability
+	 * 
+	 * @param probDistr The probability distribution of the instance being each class
+	 * @param clazz The class we are looking at outputting the probability distribution of
+	 * @return A colour for the pixel labeling. THe closer it is to a one of the colours in the 
+	 * 		colour map, the more cirtain we are that is 
+	 */
+	public int singleProbColour(ProbabilityDistribution probDistr, ClassLabel clazz) {
+		Map<ClassLabel, Double> probabilities = probDistr.getProbabilityDistribution();
+		
+		// Get the probability depending on the class
+		double prob = probabilities.get(clazz);
+		
+		// Compute the magnitude of the greyscale, white being an area of high probability
+		int val = (int) (prob * 255);
+		
+		// Return the colour in an integer form |..R..|..G..|..B..|
+		return (((int)val & 0xFF) << 16) + (((int)val & 0xFF) << 8) + (((int)val & 0xFF) << 0);
+	}
+	
+	/***
+	 * Given a probability distribution and a class -> colour map, compute an interpolated colour 
+	 * from these.
+	 * @param probDistr The probability distribution of the instance being each class
+	 * @param classes A list of class colours (indexed by the class number)
+	 * @return A colour for the pixel labeling. THe closer it is to a one of the colours in the 
+	 * 		colour map, the more cirtain we are that is 
+	 */
+	public int mostlikelyColour(ProbabilityDistribution probDistr, List<ClassLabel> classes) {
+		Map<ClassLabel, Double> probabilities = probDistr.getProbabilityDistribution();
+		
+		// Look for the most likely class and use its colour
+		double bestProb = 0.0;
+		int bestColour = 0;
+		for (ClassLabel clazz : classes) {
+			double prob = probabilities.get(clazz);
+			if (prob > bestProb) {
+				bestProb = prob;
+				bestColour = clazz.getColour();
+			}
+		}
+		
+		// Return the colour of the most likely classification
+		return bestColour;
+	}
+	
+	/***
+	 * Given a probability distribution compute the entropy and output a suitable pixel value.
+	 * Note that white means high entropy, and so we have NO IDEA what it is. BLACK IS GOOD HERE!
+	 * 
+	 * @param probDistr The probability distribution of the instance being each class
+	 * @return A colour for the pixel labeling. THe closer it is to a one of the colours in the 
+	 * 		colour map, the more cirtain we are that is 
+	 */
+	public int entropyColour(ProbabilityDistribution probDistr) {
+		// Get the entropy from the probability distribution
+		double entropy = probDistr.entropy();
+		
+		// Work out what the maximum possible entropy was from the number of classes
+		double maxEntropy = Math.log(probDistr.getProbabilityDistribution().entrySet().size()) / Math.log(2);
+		
+		// Compute a greyscale value based on normalised entropy
+		double normalisedEntropy = entropy / maxEntropy;
+		int val = (int) (normalisedEntropy * 255);
+		
+		// Return the colour in an integer form |..R..|..G..|..B..|
+		return (((int)val & 0xFF) << 16) + (((int)val & 0xFF) << 8) + (((int)val & 0xFF) << 0);
+	}
 }

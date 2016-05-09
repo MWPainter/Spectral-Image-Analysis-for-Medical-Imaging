@@ -57,9 +57,4 @@ public class NeuralNetworkCouple {
 		this.network = network;
 		this.helper = helper;
 	}
-	
-	/***
-	 * Network getter
-	 */
-	
 }
