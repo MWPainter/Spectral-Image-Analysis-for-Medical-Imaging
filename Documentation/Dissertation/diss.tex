@@ -1,6 +1,7 @@
 \documentclass[12pt,twoside,notitlepage]{report}
 
 %packages
+\usepackage{float}                  % Allow use of H for figures, to allow for exact placement
 \usepackage{a4}
 \usepackage{hyperref}
 \usepackage{verbatim}
@@ -15,24 +16,63 @@
 \usepackage[toc]{glossaries}
 \usepackage{changebar}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{rotating}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{framed}                 % Frames/boxes - used in appendix describing file formats
+\usepackage{enumitem}               % Fancier item lists - used for lists in languages and tools section
+\usepackage{hyperref}               % Reference urls
 
-% listings style
+% Shorthands
+% Var in mathmode
+\newcommand{\var}{\text{Var}}
+% vectors in mathmode
+\newcommand{\vc}[1]{\mathbf{#1}}
+% math fonts shorthand
+\newcommand{\cl}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%Argmin/max operators
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+% Maximum likelihood and maximum a-posterior
+\newcommand{\ML}{\text{ML}}
+\newcommand{\MAP}{\text{MAP}}
+
+% Names for the datasets we have
+\newcommand{\siris}{[[Siri's]]}
+\newcommand{\tengs}{[[Teng's]]}
+
+% Tikz imports
+\usetikzlibrary{
+    arrows,
+    shapes,
+    snakes,
+    automata,
+    backgrounds,
+    calc,
+    petri,
+    patterns,
+}
+
+% Tikz styles
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} 
+\pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+%Setup listings env for when we don't want to use minted
 \lstset{
   basicstyle=\footnotesize\tt,                                          % the size of the fonts that are used for the code
   breakatwhitespace=false,                                              % sets if automatic breaks should only happen at whitespace
   breaklines=true,                                                      % sets automatic line breaking
   prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},     % add arrows to indicate line breaks added
   framesep = 5px,                                                       % add padding to the top/bottom of listings
-  captionpos=b,                                                         % sets the caption-position to bottom
+  captionpos=b,                                                          % sets the caption-position to bottom
   extendedchars=true,                                                   % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-  frame=TB,                                                             % adds a frame around the code (frame at bot and top)
-  language=Caml,                                                        % the language of the code
+  frame=single,                                                             % adds a frame around the code (frame at bot and top)
+  language=Java,                                                        % the language of the code
   showspaces=false,                                                     % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
   showstringspaces=false,                                               % underline spaces within strings only
   showtabs=false,                                                       % show tabs within strings adding particular underscores
@@ -46,6 +86,7 @@
 
 % Graphics extensions used
 \DeclareGraphicsExtensions{.pdf, .png, .jpg, .eps}
+\graphicspath{ {figs/} }
 
 % ??
 \newcolumntype{R}{>{\raggedleft\arraybackslash}X}
@@ -95,21 +136,22 @@
 
 \begin{document}
 
+
 % glossary definitions
-\newacronym{btb}{BTB} {Branch Target Buffer}
-\newacronym{bp0}{BTB8} {branch predictor with BTB and tablesize 8}
-\newacronym{bp1}{BTB512} {branch predictor with BTB and tablesize 512}
-\newacronym{sat}{SAT} {branch predictor with 3-bit saturating counters}
-\newacronym{lhbp}{LHBP} {local history branch predictor}
-\newacronym{pc}{PC} {Program Counter}
-\newacronym{alu}{ALU} {Arithmetic Logic Unit}
-\newacronym{risc}{RISC} {Reduced Instruction Set Computer}
-\newacronym{ISA}{ISA} {Instruction Set Architecture}
-\newacronym{ipc}{IPC} {Instructions Per Cycle}
-\newacronym{cpi}{CPI} {Cycles per Instruction}
-\newacronym{fpga}{FPGA} {Field Programmable Logic Array}
-\newacronym{alut}{ALUT}{Adaptive Look-Up Table}
-\newacronym{alm}{ALM} {Adaptive Logic Module}
+% \newacronym{btb}{BTB} {Branch Target Buffer}
+% \newacronym{bp0}{BTB8} {branch predictor with BTB and tablesize 8}
+% \newacronym{bp1}{BTB512} {branch predictor with BTB and tablesize 512}
+% \newacronym{sat}{SAT} {branch predictor with 3-bit saturating counters}
+% \newacronym{lhbp}{LHBP} {local history branch predictor}
+% \newacronym{pc}{PC} {Program Counter}
+% \newacronym{alu}{ALU} {Arithmetic Logic Unit}
+% \newacronym{risc}{RISC} {Reduced Instruction Set Computer}
+% \newacronym{ISA}{ISA} {Instruction Set Architecture}
+% \newacronym{ipc}{IPC} {Instructions Per Cycle}
+% \newacronym{cpi}{CPI} {Cycles per Instruction}
+% \newacronym{fpga}{FPGA} {Field Programmable Logic Array}
+% \newacronym{alut}{ALUT}{Adaptive Look-Up Table}
+% \newacronym{alm}{ALM} {Adaptive Logic Module}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title
@@ -147,14 +189,14 @@
     \vfill
 \end{center}
 
-\cleardoublepage
-
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Proforma, table of contents and list of figures
+% Proforma
+
+\cleardoublepage
 
 \setcounter{page}{1}
 \pagenumbering{roman}
@@ -168,7 +210,7 @@ Name:               & \bf Michael Painter                      \\
 College:            & \bf Churchill College                     \\
 Project Title:      & \bf Spectral Image Analysis for Medical Imaging \\
 Examination:        & \bf Computer Science Part II Project Dissertation, May 2016        \\
-Word Count:         & \bf 579\footnotemark[1]\\
+Word Count:         & \bf 2232\footnotemark[1]\\
 Project Originator: & Dr Pietro Lio'              \\
 Supervisor:         & Dr Pietro Lio' \& Dr Gianluca Ascolani       \\ 
 \end{tabularx}
@@ -189,7 +231,14 @@ Supervisor:         & Dr Pietro Lio' \& Dr Gianluca Ascolani       \\
 \section*{Special difficulties}
     None.
  
-\newpage
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Declaration
+
+\cleardoublepage
 \section*{Declaration}
 
 I, Michael Painter of Churchill College, being a candidate for Part II of the Computer Science Tripos, hereby declare 
@@ -259,13 +308,12 @@ purpose.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % acknowledgements
 
-\newpage
+\clearpage
 \section*{Acknowledgements}
 
 I thank my supervisors, director of studies and tutor for their extensive support, especially for putting up with me 
-throughout the year. [TODO - anymore thanks] %I would also like to thank Malavika Nair, Ioana Bica and Yanie de Nadaillac
-% for their support, multiple proof readings without complaint and helping my through the good days and bad days. 
-% Without any single one of you this project would not have happened.
+throughout the year. I would also like to thank Malavika Nair, Ioana Bica and Yanie de Nadaillac for all of their 
+support and helping me keep it together through the tougher parts of the year.
 
 
 
@@ -305,24 +353,221 @@ throughout the year. [TODO - anymore thanks] %I would also like to thank Malavik
 
 \cleardoublepage
 \chapter{Introduction}
-    In this chapter we introduce the problem: what data we are given and what would we like to do with it? We will 
-    suggest some possible methods that could be used to implement a solution. We describe how we might want to 
-    evaluate the performance of the system. Finally we will outline the overall pipeline of the system.
+    In this chapter we introduce the problem: what sort of data are we given and what would we like to do with it? We 
+    begin by introducing new terminology, and specifically defining terms that might otherwise be ambiguous. We briefly 
+    discus the motivation behind the implementation of this system, where we then suggest some possible methods that 
+    could be used to implement a solution, decide one that we might want to explore and what we might hope to discover 
+    by exploring said solution. Finally we will outline the overall pipeline of the system and define an interface for 
+    the system.
 
-    \section{What are we trying to do?}
-        *TODO* \\
+    \section{Terminology and preliminary definitions} \label{sec:term_and_def}
+        To begin with we will introduce some terminology and preliminary definitions that we will use throughout the 
+        dissertation, including the rest of the introduction chapter.
 
-        We can briefly describe the system as taking an image with a spectrum of intensity values at each pixel and we wish to 
-        produce a pixel labelling. A pixel labelling is... and is often referred to as an image segmentation.
+        Firstly we will use $\bb{N}_k$ where $k\in \bb{N}$ to denote the set $\{ n \in \bb{N}\ |\ n < k \} = 
+        \{0, 1, ..., (k-1)\}$. We will also use $\bb{B}$ to denote the set $\{0, 1\} = \bb{N}_2$, for a boolean choice.
+
+        Typically we use the word \textit{spectral} to refer to use of the Fourier domain, for example 
+        \textit{spectral methods} refers to the use of Fourier domain to solve differential equations. For our purposes 
+        we will say that the \textit{spectrum} of some signal is the Fourier transform of the time-domain signal, more 
+        specifically, we will usually be referring to a quantised spectrum. We will use the word \textit{spectrum} to 
+        refer to either a continuous or quantised spectrum, for which the context should make it obvious which one is 
+        intended. 
+
+        \begin{figure}[H]
+            \centering
+
+                \scalebox{0.80}{ 
+                    \begin{tikzpicture}
+                        \begin{scope}
+                            \begin{axis}[
+                                name = plot1,
+                                axis lines = left,
+                                xlabel = $t$,
+                                ylabel = $f(t)$
+                            ]
+                                \addplot[domain=-3:0, blue] {0};
+                                \addplot[domain=0:1, blue] {1};
+                                \addplot[domain=1:3, blue] {0};
+                                \draw[dotted] (axis cs:0,0) -- (axis cs:0,1);
+                                \draw[dotted] (axis cs:1,1) -- (axis cs:1,0);
+                                \addplot[holdot] coordinates{(0,0)(0,1)(1,1)(1,0)};
+                                \addplot[soldot] coordinates{(0,0.5)(1,0.5)};
+                            \end{axis}
+                            \node at (plot1.above north west) [anchor=south west] {(a)};
+                        \end{scope}
+
+                        \begin{scope}[xshift=9cm]
+                            \begin{axis}[
+                                name = plot2,
+                                axis lines = left,
+                                xlabel = $\omega$,
+                                ylabel = $F(\omega)$
+                            ]
+                                \addplot[domain=-3:3, samples = 500, red] {((sin(deg(x) * pi))/((deg(x) * pi) * 1.74 * 0.01)) * sin(-(deg(x)*pi)/2)};
+                                \addlegendentry{$\Re(F(\omega))$}
+                                \addplot[domain=-3:3, samples = 500, blue] {((sin(deg(x) * pi))/((deg(x) * pi) * 1.74 * 0.01)) * cos(-(deg(x)*pi)/2)};
+                                \addlegendentry{$\Im(F(\omega))$}
+                                \draw (axis cs:-3,0) -- (axis cs:3,0);
+                            \end{axis}
+                            \node at (plot2.above north west) [anchor=south west] {(b)};
+                        \end{scope}
+
+                        \begin{scope}[yshift=-8cm]
+                            \begin{axis}[
+                                name = plot3,
+                                axis lines = left,
+                                xlabel = $\omega$,
+                                ylabel = $\left|F(\omega)\right|^2$
+                            ]
+                                \addplot[domain=-3:3, samples = 500, blue] {((sin(deg(x) * pi))/((deg(x) * pi) * 1.74 * 0.01))^2};
+                            \end{axis}
+                            \node at (plot3.above north west) [anchor=south west] {(c)};
+                        \end{scope}
+
+                        \begin{scope}[xshift=9cm, yshift=-8cm]
+                            \begin{axis}[
+                                name = plot4,
+                                axis lines = left,
+                                xlabel = $\omega$,
+                            ]
+                                \addplot[ybar interval, draw=blue,pattern=horizontal lines light blue] coordinates {
+                                    (-3,0.02) 
+                                    (-2,0.045)
+                                    (-1,0.1)
+                                    (-0.5,0.7)
+                                    (-0.125,1)
+                                    (0.125,0.7)
+                                    (0.5,0.1)
+                                    (1,0.045)
+                                    (2,0.02)
+                                    (3,0.02)
+                                };
+                                \addplot[domain=-3:3, samples = 100, dashed] {((sin(deg(x) * pi)/((deg(x) * pi) * 1.74 * 0.01))^2};
+                            \end{axis}
+                            \node at (plot4.above north west) [anchor=south west] {(d)};
+                        \end{scope}
+
+
+                    \end{tikzpicture}
+                }
+
+
+            \caption{Examples of (a) a time-domain signal $f(t)$, (b) it's Fourier transform $F(\omega)$, (c) it's power 
+                spectrum $|F(\omega)|^2$ and (d) a quantisation of c.}
+            \label{fig:spectrum}
+        \end{figure}
+
+        We will use the term \textit{spectral bin} to refer to a interval of wavelengths. Typically we will be referring 
+        to the case where we are dealing with quantised spectra, where the spectral bin refers to the range of 
+        wavelengths some bar in the histogram represents. For example consider (c) in figure \ref{fig:spectrum}.
+
+        We will use \textit{spectral image} to refer to an image with an arbitrary number of frequency components. More 
+        formally we define an \textit{image} as a function $I : \bb{N}_w \times \bb{N}_h \rightarrow \bb{N}$, 
+        where $w$ is the width, $h$ is the height. An image 
+        is simply a function of two spatial values. For a \textit{spectral image} $I'$ we extend the concept to a 
+        function $I' : \bb{N}_w \times \bb{N}_h \times \bb{N}_f \rightarrow \bb{N}$, where $w$ is the width, 
+        $h$ is the height and $f$ is the number of spectral bins. We call this a spectral image, because at each `pixel' 
+        (coordinate), we have a spectrum of values, that is we can define the spectrum $s_{xy}$ of the pixel $(x,y)$ by
+        $s_{xy}(\cdot) = I'(x,y,\cdot)$. An intuitive way to think of a \textit{spectral image} is a cube of values, so 
+        a spectral image is commonly referred to as a \textit{data cube} (as in \cite{Qingli:2013:spectralImagingTech} 
+        and \cite{Bioucas-Dias:2012:unmixingOverview}) and we will use this interchangeably with the term 
+        \textit{spectral image}.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=1.0]{spectral_image}
+            \caption{Examples of a monochrome image (left) and a spectral image (right).}
+        \end{figure}
+
+        We specifically note that a common form of spectral image is an ``RGB'' image, where we have $f=3$, with a 
+        spectral bin for the red, green and blue regions of the visible spectrum.
+
+        Finally some literature refers to \textit{multispectral} and \textit{hyperspectral} images (which may be 
+        referenced such as in \cite{Luthman:2015:hyperspectralImager} and \cite{Bioucas-Dias:2012:unmixingOverview}), 
+        which are simply special cases of a spectral image. A multispectral image refers to a small number of spectral 
+        bands (such as 5) and a hyperspectral image refers to a large number of spectral bands (such as 50). Intuitively 
+        we can think of the difference between multispectral and hyperspectral in terms of their spectra, a 
+        multispectral image should be thought of as having quantised spectra (histograms), whereas a hyperspectral 
+        image can be thought of as attempting to approximate the continuous spectra.
+
+
+    \section{What are we trying to do?} \label{sec:what_are_we_trying_to_do}
+        Nowadays computer vision techniques are used in abundance to aid medical diagnosis, and are used by doctors 
+        to help provide more accurate and earlier diagnoses. This is clearly an area of interest, as such tools 
+        may help improve, or even save lives where we wouldn't have been able to do so in the past. 
+
+        In this project we consider using spectral images (recall that this includes RGB images) for medical purposes, 
+        and we wish to segment the image to indicate different regions of interest, typically indicating some form of 
+        disease of abnormality. The problem can easily be described mathematically: given an arbitrary spectral image 
+        $I : \bb{N}_w \times \bb{N}_h \times \bb{N}_f \rightarrow \bb{N}$ and a set of possible classes 
+        $\cl{C}$, we want to output a \textit{pixel labelling} $\cl{P} : \bb{N}_w \times \bb{N}_h 
+        \rightarrow \cl{C}$ that correctly identifies regions of the image according to $\cl{C}$. Succinctly 
+        put, we want to perform \textit{image segmentation}, on (noisy) medical (spectral) images.
+
+        The motivation for this project comes from use of a hyperspectral imager for use with contrast agents 
+        \cite{Luthman:2015:hyperspectralImager}. The aim is that the imager can be used to identify the presence of 
+        fluorescent contrast agents, some of which have a negative binding response to cancerous cells in the oesophagus, 
+        so allow cancerous tissues to be identified.
+
+        To summarise, we wish to produce a system capable of producing a pixel labelling from a spectral image. The 
+        pixel labelling will depend highly on the data and so we would likely wish to learn from some examples.
 
     \section{Possible solutions}
-        *TODO*
+        \begin{itemize}
+            \item TODO: Describe datasets - Siri's, Tengs
+        \end{itemize}
 
-    \section{My approach}
-        *TODO*
+        As we will be looking to segment images, we will need to identify regions of the image based on the data 
+        available. One approach that we might take is to try and identify some properties manually, for example one 
+        possible solution in the \siris dataset is to explicitly find the spectra of \textit{endmembers} (the 
+        fluorescents) in the images and use a \textit{spectral unmixing} algorithm \cite{keshava2003survey} such as 
+        constrained least squares to identify the proportions of endmembers present at each given point 
+        \cite{Luthman:2015:hyperspectralImager}.
 
-    \section{Evaluation of system performance}
-        *TODO*
+        An alternative that we will pursue is utilising machine learning methods, where we might hope to learn 
+        relationships within the data through supervised learning. Such a system may be more versatile, able to 
+        solve many similar problems and not constrained to a specific problem. For example, the spectral unmixing 
+        solution above requires the endmembers to be measurable, requiring significant work prior to putting the data 
+        through the algorithm. We would hope by using machine learning that we can avoid such additional work, and even 
+        solve problems where the `endmembers' aren't separable, having explicitly measurable spectra.
+
+    \section{Related work}
+        Medical imaging is an active research area and will likely be for a long time. Medical imaging is ubiquitous in 
+        hospitals and an essential tool to aid doctors in diagnosing a patient. Along with medical imaging comes 
+        medical image analysis, where image processing methods are used to give more information to doctors which they 
+        may not be able to see with the naked eye.The task of image segmentation is important in medicine illnesses and 
+        viruses are commonly localised, only affecting parts of tissues and identification of which parts of tissues 
+        are healthy or not is important to successful treatment.
+
+        There is plenty of work and research that has gone into image segmentation, and it is common technique used in 
+        medical imaging, implemented using a variety of methods such as classifiers, thresholding and region growing
+        \cite{pham2000current}. However non-machine learning methods seem to be out of trend, with it being 
+        difficult to find papers written in this decade, whilst these methods are likely still being actively 
+        researched, and almost definitely still used in hospitals, they are currently outweighed vastly by machine 
+        learning papers. 
+
+        Lately neural networks has seen a major dominance with regards to machine learning, however within medical 
+        imaging other areas of machine learning are still finding success, with whole books still dedicated to the 
+        topic \cite{criminisi2013decision}. True to the current trend, there is plenty of current work utilising 
+        neural networks in medical imaging, for example they have been successfully applied to segment different 
+        regions of the brain, such as `white matter', `gray matter', and `cerebrospinal fluid' \cite{zhao2016segmenting},
+        and similarly for segmentation of brain tumours \cite{zhao2016multiscale}.
+
+        However, other machine learning methods are still of interest and random forests are still an active area of 
+        research within medical imaging and computer vision \cite{conjeti2016supervised}, especially because of their 
+        simplicity and lack of complexity, potentially making them very efficient \cite{criminisi2012decision}.
+
+        SegNet \cite{badrinarayanan2015segnet2} is a deep convolution neural network architecture built on top of Caffe 
+        \cite{jia2014caffe} for pixel wise labelling, and provides some inspiration for the project. SegNet uses 
+        supervised learning to train the neural network, takes some image as input and outputs a pixel labelling. An extension 
+        to SegNet, Bayesian SegNet, includes an additional output image, which is a mapping of uncertainty in each pixel labelling, 
+        something that we will want to include in our own system. The Caffe implementation includes support for OpenCL 
+        (an open source GPU programming language), that allows for an efficient implementation of SegNet, realised by 
+        applying it to run on a real-time video stream, with 360 by 480 resolution. Whilst this implementation isn't 
+        necessarily geared towards medical purposes, it could certainly be utilised for a medical application, and 
+        is a good example of a system solving the more general problem of image segmentation/pixel labelling.
+
 
 
 
@@ -338,32 +583,1200 @@ throughout the year. [TODO - anymore thanks] %I would also like to thank Malavik
 
 \cleardoublepage
 \chapter{Preparation}
-    In this section we investigate multiple machine learning algorithms, and decide on which may be reasonable to use
-    in this project. We then investigate noise models for images, how they can be applied to our `hyperspectral' case 
-    and what can be implemented to reduce or eliminate the noise. 
+    In this section we will introduce the area of image segmentation and how we may perform segmentation. Then we 
+    introduce decision trees and explain the supervised learning method of random forests. Many medical imaging 
+    techniques tend to require short exposure times they frequently exhibit visible noise, leading to grainy images. So, 
+    we then discuss how we may want to model the noise and how we can deal with this. In the second half of the chapter 
+    we outline the design with a requirements analysis, pipeline overview, what tools we will use and how we will 
+    evaluate our performance.
 
-    \section{A summary of machine learning algorithms}
-        *TODO*
-        \subsection{Method 1}
-            *TODO*
+    From a list of machine learning algorithms: State Vector Machine \cite{klein2004lagrange}, \cite{law2006simple}, 
+    Hidden Markov Models \cite{seymore1999learning}, k Nearest Neighbour \cite{cunningham2007k}, Random Forests 
+    \cite{criminisi2013decision}, and Neural Networks \cite{heaton2008introduction}. We decide that two algorithms that 
+    would be useful in our case are Random Forests and Neural Networks, so we will implement a Random Forests library 
+    and use the Encog library for Neural Networks in Java \cite{JMLR:v16:heaton15a}.
+
+
+
+    \section{An introduction to image segmentation}
+        Image segmentation concerns splitting an image into connected subsets, in some meaningful way. It is typically an 
+        ill-posed problem with no `best' segmentation, however we often have some desired segmentation that we would 
+        like our system to perform, which we usually refer to as `ground truth'. When training a supervised learning 
+        system we provide some number of ground truth images. 
+
+        More formally if we let $\Omega$ be the set of pixels in some image, a valid image segmentation is $(S_1, ..., 
+        S_n)$ for some $n \in \bb{N}$ which satisfy the following:
+
+        \begin{align}
+            \Omega = \bigcup\limits_{i=1}^n S_i \\
+            S_i \cap S_j = \emptyset && \text{for all } i \neq j 
+        \end{align}
+
+        and each $S_i$ is connected, which means that there is a path between any two pixels of $S_i$, 
+        where a path may take steps of one pixel up, left, down or right \cite{PAL19931277}. 
+
+        There are a number of ways that we may try to perform an image segmentation. One such method consists of 
+        finding the edges present in an image, which can be found using the zero crossings of some gradient operator 
+        such as the Laplacian. Furthermore, we may want to look at edges at different scales, which suggests blurring 
+        the image before taking the gradient operator, leading to the Laplacian of Gaussian operator, as discussed by 
+        Pal et al \cite{PAL19931277}. An even simpler method would be to use grey level threshold, where we segment 
+        images depending on if they fall above or below some threshold, also discussed by Pal et al \cite{PAL19931277}.
+
+        Finally, the method that we will use is to generate some pixel labelling $\cl{P}:\Omega \rightarrow \cl{C}$ as 
+        described in section \ref{sec:what_are_we_trying_to_do}. This implicitly defines a segmentation of an image 
+        via regions of similarly classed pixels.
+
+
+
+
+    \section{Supervised learning for classification} \label{sec:supervised_learning}
+        Before we discuss any machine learning methods we first need to define some terminology that we will be using. 
+        In classification we are given a \textit{feature vector} (or \textit{instance}) $\vc{x} = (x_1, x_2, ..., x_d) 
+        \in \bb{R}^d$ and a set of classes $\cl{C} = \{C_1, C_2, ..., C_n\}$. We want to \textit{learn} some 
+        hypothesis $h:\bb{R}^d \rightarrow \cl{C}$ which maps instances to their classification. To learn 
+        what hypothesis/hypotheses are appropriate we rely on a \textit{training sequence} $\vc{s} = ((\vc{x}_1, c_1), 
+        (\vc{x}_2, c_2), ..., (\vc{x}_m, c_m))$, hence why the method is \textit{supervised}. We usually assume that 
+        the training sequence is noisy, which can be sufficiently represented by noise just in the classes of $\vc{s}$, 
+        that is $c_1, ..., c_m$ and so we can consider each of the $c_i$ to be a random variable, and hence consider 
+        $\vc{s}$ to be a random variable. Two sensible approaches that we might take to picking some hypothesis $h$ 
+        are picking
+
+        \begin{align}
+            h_{\ML} = \argmax_{h\in\cl{H}} \Pr(h | \vc{s})
+        \end{align}
+
+        or picking
+
+        \begin{align}
+            h_{\MAP} = \argmax_{h\in\cl{H}} \Pr(\vc{s} | h) \Pr(h).
+        \end{align} 
+
+        Where $\ML$ stands for \textit{maximum likelihood} and $\MAP$ stands for \textit{maximum a-posteriori}. The $\MAP$ 
+        hypothesis allows the prior $\Pr(h)$ to be used (indicating some prior knowledge about the hypothesis), however 
+        if $\Pr(h)$ is uniform, then the $\ML$ and $\MAP$ hypothesis are easily shown to be equivilent using Bayes' theorem. 
+        These two methods of picking a hypothesis are referred to as Bayesian learning methods, as we look to maximise 
+        likelihoods and we will see that this is not the only way to pick a suitable hypothesis. \cite{russell1995modern}
+
+        We often also see that some hypothesis will take the form of $h':\bb{R}^d \rightarrow (\cl{C} \rightarrow [0,1])$, 
+        that is it gives a probability distribution over classes. We can then simply set 
+        
+        \begin{align}
+            h(\vc{x}) = \argmax_{c\in\cl{C}} h'(\vc{x})(c)
+        \end{align}
+
+        which is `the most likely class'.
+
+        
+
+
+
+    \section{Decision trees and random forests} \label{sec:rand_forest}
+        We will now define what a decision tree is, how we can use it in supervised learning and then extend it onto 
+        the concept of random forests. As mentioned in section \ref{sec:supervised_learning} we opt for a hypothesis 
+        which outputs a probability distribution over classes as opposed to a single class, which can be used to give 
+        a single class as mentioned previously.
+
+        \subsection{Introduction to decision trees}
+            Decision trees consist of a simple binary tree structure. Intuitively we think about asking a question at each 
+            node, makeing a decision on which child node to traverse to and eventually reach some conclusion at a leaf node. 
+            We can use this model in the situation described in section \ref{sec:supervised_learning}, where we are allowed 
+            to `ask a question' about the feature vector at each decision node and leaf nodes consider
+
+            \begin{figure}[H]
+                \centering
+
+                \tikzset{QuestionNode/.style = { rectangle, rounded corners, shade, 
+                              top color = white, bottom color = blue!50!black!20, 
+                              draw = blue!40!black!60, very thick, text ragged },
+                          EdgeNodeStyle/.style = {draw = none}, above,
+                          EmptyNode/.style = {draw = none}}
+                \begin{tikzpicture}
+                    [
+                        sibling distance = 3cm,
+                        level distance = 4cm,
+                        edge from parent/.style = {draw, arrows = ->},
+                        level 1/.style = {sibling distance = 3cm, level distance = 3cm},
+                        level 2/.style = {sibling distance = 1.5cm, level distance = 3cm},
+                    ]
+                    \node [QuestionNode] {Blond hair?}
+                        child {
+                            node [QuestionNode] {Brown hair?}
+                            child {
+                                node [EmptyNode] {$\vdots$}
+                                edge from parent
+                                  node [EdgeNodeStyle, left] {no}
+                            }
+                            child {
+                                node [EmptyNode] {$\vdots$}
+                                edge from parent
+                                  node [EdgeNodeStyle, right] {yes}
+                            }
+                            edge from parent node [EdgeNodeStyle, left] {no}
+                        }   
+                        child {
+                            node [QuestionNode] {Blue eyes?}
+                            child {
+                                node [EmptyNode] {$\vdots$}
+                                edge from parent
+                                  node [EdgeNodeStyle, left] {no}
+                            }
+                            child {
+                                node [EmptyNode] {$\vdots$}
+                                edge from parent
+                                  node [EdgeNodeStyle, right] {yes}
+                            }
+                            edge from parent node [EdgeNodeStyle, right] {yes}
+                        };
+                    \end{tikzpicture}
+
+                \caption{Example of (part of) a tree used to classify humans.}
+            \end{figure}
+
+            More formally we can define a decision tree $T$ for classification, which has a set of states $Q \subseteq 
+            \bb{N}$, where if $i \in Q$ is a decision node, then it has children $2i, 2i+1 \in Q$. 
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale=0.5]{tree_node_labels.jpeg}
+                \caption{Example of node numberings in a decision tree.}
+            \end{figure}
+
+            For our model we specify some function $f:\bb{R}^d \times \cl{T} \rightarrow \bb{B}$, where $\cl{T}$ is some 
+            parameter space and is used to specify a function from $\bb{R}^d$ to $\bb{B}$ at each decision node. We call 
+            $f$ a \textit{weak learner} or a \textit{split function}. In a decision tree for each state $i \in Q$ we have 
+            some associated $\vc{\theta}_i \in \cl{T}$ which is used to specify $f_i(\vc{x}) = f(\vc{x}; \vc{theta}_i)$. The 
+            function\footnote{$\bb{B}$ is defined in section \ref{sec:term_and_def}} $f_i : \bb{R}^d \rightarrow \bb{B}$ 
+            is then used to make a decision to traverse to state $2i$ or $2i+1$ next. Finally when we hit a leaf node 
+            $j \in Q$ we need to specify some probability distribution $p_j:\cl{C} \rightarrow [0,1]$ where we say 
+            \begin{align}
+                p_j(c) = \Pr(\vc{x} \in c | \vc{x} \text{ traversed to } j \text{ in } T).
+            \end{align}
+
+            As can be seen in figure \ref{fig:decision_tree_classify} to classify some instance $\vc{x}$ using a 
+            decision tree $T$ we simply traverse $T$ using $f_i$ at each node $i \in Q$ to make a decision whether 
+            to traverse to $2i$ or $2i+1$ next. We usually use the rule if $f_i(\vc{x}) = 0$ then traverse to 
+            $2i$, otherwise if $f_i(\vc{x}) = 1$ then travers to $2i+1$. \cite{criminisi2013decision}
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale=0.5]{tree_example_classification.jpeg}
+                \caption{Example of how some instance $\vc{x}$ would be classified using a decision tree.}
+                \label{fig:decision_tree_classify}
+            \end{figure}
+
+        \subsection{Training a decision tree}
+            When we train a decision tree we use a greedy approach, we train at each node optimally. We must use a 
+            greedy approach because optimising over all possible trees is a computationally infeasible task. So consider 
+            having a set of states $Q$ and for each $i \in Q$ wanting to learn $\vc{\theta}_i \in \cl{T}$. Let $\vc{s}_i$ 
+            be the training sequence that $i$ is trained on. It is sensible to let $\vc{s_0}=\vc{s}$. 
+
+            We first define the \textit{entropy} of a training sequence
+
+            \begin{align}
+                H(s) = - \sum_{c\in\cl{C}} p(c) \log (p(c)).
+            \end{align}
+
+            We assume feature vectors in $s$ to be unique for ease of notation and let
+
+            \begin{align}
+                p(c) = \frac{\left| \{\vc{v}\ |\ c' = c \land (\vc{v},c') \in S \} \right|}{\left| S \right|},
+            \end{align}
             
-        \subsection{Method 2}
-            *TODO*
+            which is the empirical probability of a training sample vector in $s$ being classified as $c$. Now we define 
+            a left and right split of $\vc{s}$, using some parameter $\vc{\theta} \in \cl{T}$ according to our weak 
+            learner $f$ as follows
 
-        \subsection{Method 3}
-            *TODO*
+            \begin{align}
+                L(\vc{s},\vc{\theta}) & = \{ (\vc{x}, c) \in s | f(\vc{x}, \vc{theta}) = 0 \} \\
+                R(\vc{s},\vc{\theta}) & = \{ (\vc{x}, c) \in s | f(\vc{x}, \vc{theta}) = 1 \}.
+            \end{align}
+
+            We then consider the \textit{information gain} $I$ for performing a split according to $\vc{\theta}$ of 
+
+            \begin{align}
+                I(\vc{s}, \vc{\theta}) = H(\vc{s}) - \frac{1}{|\vc{s}|} \left( |L(\vc{s}, \vc{\theta})| H(L(\vc{s}, \vc{\theta})) 
+                                                                          + |R(\vc{s}, \vc{\theta})| H(R(\vc{s}, \vc{\theta})) \right).
+            \end{align} 
+
+            We now have a way that we might want to pick $\vc{\theta}_i$ at each node
+
+            \begin{align} 
+                \vc{\theta}_i = \argmax_{\theta\in\cl{T}} I(\vc{s}_i, \vc{\theta}).
+            \end{align} 
+
+            Once we have found a $\vc{\theta}_i$ we then set $s_{2i} = L(\vc{s}_i, \vc{\theta}_i)$ and 
+            $s_{2i+1} = R(\vc{s}_i, \vc{\theta}_i)$, which allows us to begin training at node $0$ with $\vc{s}_0 = \vc{s}$ 
+            and then recursively train down the tree. \cite{criminisi2013decision}
+
+
+        \subsection{Moving swiftly on to random forests}
+            Decision trees have a couple major disadvantages, which are solved by extending the concept to random 
+            forests. The first problem is that we learn $\vc{\theta}_i$ using
+
+            \begin{align} 
+                \vc{\theta}_i = \argmax_{\theta\in\cl{T}} I(\vc{s}_i, \vc{\theta}),
+            \end{align}
+
+            which is a problem because $|\cl{T}|$ may be infinite. We solve this problem by randomly sampling $\cl{T}$ with 
+            $\rho$ values, so let $\cl{T}_\rho = \{ \vc{\theta}_i^{(1)}, ..., \vc{\theta}_i^{(\rho)} \} \subseteq \cl{T}$.
+            So we instead set 
+
+            \begin{align} 
+                \vc{\theta}_i = \argmax_{\theta\in\cl{T}_\rho} I(\vc{s}_i, \vc{\theta}),
+            \end{align}            
+
+            when training at node $i$, and a \textit{fresh} $\rho$ samples are taken from $\cl{T}$ per node. This 
+            optimisation is called the \textit{random node optimisation}. The second problem with decision trees is that 
+            we can easily over fit and also we cannot solve some XOR/parity problems \cite{criminisi2013decision}. We 
+            can solve this problem by using a \textit{forest} of decision trees. A forest $F$ is simply a set of trees, 
+            that is $F = \{ T_1, T_2, ..., T_k \}$, where each $T_\ell$ is trained separately with training sequence 
+            $\vc{s}$. As we randomly trained each tree on the same data, it is reasonable to say that the probability of 
+            any given tree in $F$ being the `correct' tree is equally likely, hence we set $\Pr(T_\ell) = 1/k$ for each 
+            $\ell$. Finally, when we wish to classify some instance $\vc{x}$ using a random forest we output 
+
+            \begin{align}
+                p(c) & = \Pr(\vc{x} \in c) \\
+                    & = \sum_{\ell=1}^k \Pr(\vc{x} \in c, T_\ell) \\
+                    & = \sum_{\ell=1}^k \Pr(\vc{x} \in c | T_\ell) \Pr(T_\ell) \\
+                    & = \frac{1}{k} \sum_{\ell=1}^k \Pr(\vc{x} \in c | T_\ell)
+            \end{align}
+
+            and each $\Pr(\vc{x} \in c | T_\ell)$ is simply the probability given by traversing each tree. \cite{criminisi2013decision}
+
+            Simply put, to classify using a forest, we just take an average of the outputs from the trees. 
 
 
 
-    \section{Image noise and noise simulation}
-    *TODO*
+
+
+    \section{Neural Networks}
+        \begin{itemize}
+            \item something here
+        \end{itemize}
 
 
 
-    \section{De-noising}
-    *TODO*
+    \section{Imaging and image noise} 
+        We now consider image sensor arrays, we want to know at a high level how images are captured and what might 
+        cause image noise. We will the define what the quantum noise model is and why it is appropriate in many 
+        cases of medical imaging. 
+
+        \subsection{Image sensor arrays}
+            All forms of digital imaging involve some form of sensor array. Two common technologies are used in image 
+            sensors, Charge-Coupled Devices (CCD) and Complementary Metal-Oxide Semiconductor (CMOS). These devices are 
+            laid out in a grid, which are typically combined with (colour) wavelength filters. 
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale=0.30]{sensor_arrays}
+                \caption{CCD and CMOS sensor arrays. Reproduced from Gamel et al \cite{gamal2005cmos}.}
+                \label{fig:image_pipeline}
+            \end{figure}
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale=0.30]{imaging_pipeline}
+                \caption{Overview of an imaging `pipeline'. Reproduced from Gamel et al \cite{gamal2005cmos}.}
+                \label{fig:image_pipeline}
+            \end{figure}
+
+            In a camera we will have a focussing lens, followed by wavelength filters and then our sensors. So it 
+            suffices to consider a model where we have parallel streams of photons hitting each sensor.
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale=0.5]{photon_stream}
+                \caption{Parallel stream of photons incident on one sensor in a sensor array.}
+                \label{fig:photon_stream}
+            \end{figure}
+
+            For our purpose it is enough to consider that a stream of photons, will be hitting some photodiode (the 
+            part of a sensor that induces a current when absorbing a current), causing charge to collect on some 
+            capacitor, which will increase linearly with respect to time at a rate proportional to the rate of photons 
+            incident on the photoreceptor (the photocurrent). \cite{gamal2005cmos}
+
+            \begin{figure}[H]
+                \centering
+
+                    \begin{tikzpicture}
+                        \begin{axis}[
+                            name = plot2,
+                            axis lines = left,
+                            xtick={0,1},
+                            xticklabels={$\ $,$t_{\text{exposure}}$},
+                            ytick={0,1},
+                            yticklabels={$\ $,$Q_{\text{max}}$},
+                            xlabel = $t$ (time),
+                            ylabel = $Q$ (charge),
+                            legend pos=outer north east,
+                            xmin=0,
+                            ymin=0,
+                            xmax=1.1,
+                            ymax=1.1
+                        ]
+                            \draw[dotted] (axis cs:0,1) -- (axis cs:1.2,1);
+                            \draw[dotted] (axis cs:1,0) -- (axis cs:1,1.2);
+                            \addplot[domain=0:0.75, samples = 5, red] {4 * x/3};
+                            \addlegendentry{`High light'};
+                            \addplot[domain=0:1, samples = 5, blue] {x/2};     %N.b. filthy haxx to get legend to show 1 red, 1 blue instead of 2 red
+                            \addlegendentry{`Low light'};
+                            \addplot[domain=0.75:1, samples = 5, red] {1};
+                        \end{axis}
+
+                    \end{tikzpicture}
+
+                \caption{The charge held on a capacitor is linear with respect time, until it hits some maximum \cite{gamal2005cmos}.}
+                \label{fig:linear_charge_wrt_photon_rate}
+            \end{figure}
 
 
+        \subsection{Quantum noise}
+            \textit{Quantum noise}, \textit{photon noise} or \textit{Poisson noise} can be thought of as a uncertainty 
+            associated with the measurement of light, due to the quantised nature of electromagnetic waves and the 
+            independence of photon detections \cite{hasinoff2014photon}. More mathematically suppose we have some 
+            noiseless image $I(x,y)$, then we define an image corrupted by photon noise $\tilde{I}$ by
+
+            \begin{align}
+                \tilde{I}(x,y) \sim \text{Poisson}(I(x,y)).
+            \end{align}
+
+            So we have
+
+            \begin{align}
+                \Pr(\tilde{I}(x,y) = k) & = 
+                    \begin{cases}
+                        e^{-I(x,y)} \frac{I(x,y)^k}{k!} & 0 \leq k              \label{eq:image_poisson} \\
+                        0 & \text{otherwise}
+                    \end{cases} \\
+                \bb{E}\left[ \tilde{I}(x,y) \right] & = I(x,y) \\
+                \var\left[ \tilde{I}(x,y) \right] & = I(x,y).                 
+            \end{align}
+
+            We can see that this is appropriate considering figure \ref{fig:photon_stream} as a Poisson process, where 
+            each event is a photon hitting the photoreceptor. Suppose the exposure time to the sensor is 
+            $t_{\text{exposure}}$, the average rate of events is $\phi$ and that $N(t)$ is the number of events that 
+            occur in the interval $[0,t]$, then we have $N(t) \sim \text{Poisson}(\phi t)$ \cite{ross2002probability}. 
+            And so we have $N(t_{\text{exposure}}) \sim \text{Poisson}(\phi t_{\text{exposure}})$. From figure 
+            \ref{fig:linear_charge_wrt_photon_rate} we can justifiably say that if $\phi$ is the rate/intensity of 
+            photons hitting sensor at index $(x,y)$ in the array, then $I(x,y) \propto N(t_{\text{exposure}})$.
+            
+            The model is easily and obviously extended to spatial images by including spectral bin indices 
+
+            \begin{align}
+                \tilde{I}(x,y,\lambda) \sim \text{Poisson}(I(x,y,\lambda)).
+            \end{align}
+
+            Because of the filters (shown in figure \ref{fig:image_pipeline}) being spatially separated we can consider 
+            each value in the datacube to be an independent random variable. This means that 
+
+            \begin{align}
+                (x,y,\lambda) \neq (x',y',\lambda') \Rightarrow 
+                      \Pr(\tilde{I}(x,y,\lambda), \tilde{I}(x',y',\lambda')) = \Pr(\tilde{I}(x,y,\lambda)) \Pr(\tilde{I}(x',y',\lambda')).
+            \end{align}
+
+            However, in images the values are constrained to a finite range, typically we have that for each $x, y, 
+            \lambda$ that $I(x,y,\lambda) \in \bb{N}_{256}$, but this however doesn't restrict the value of
+            $\tilde{I}(x,y,\lambda)$ to $\bb{N}_{256}$. By considering figure \ref{fig:linear_charge_wrt_photon_rate} 
+            we see that the charge becomes \textit{saturated} at the upper limit, that is if we increase the photon 
+            intensity above the rate which achieves the maximum value, we still get the maximum value. To deal with this 
+            it makes sense to define a \textit{Saturated Poisson} distribution. So we say $X \sim \text{SPoisson}(\mu, n)$ 
+            if 
+
+            \begin{align}
+                \Pr(X = k) & = 
+                    \begin{cases}
+                        e^{\mu} \frac{\mu^k}{k!} & 0 \leq k < n-1 \\
+                        \sum\limits_{i=n-1}^\infty e^{\mu} \frac{\mu^i}{i!} & k = n-1 \\
+                        0 & \text{otherwise}.
+                    \end{cases} 
+            \end{align}
+
+            \begin{figure}[H]
+                \centering 
+                \includegraphics[scale=0.5]{poisson_distributions}
+                \caption{Example of Poisson($\mu$) and Poisson($\mu$, 30) distributions, for $\mu = 5,15,25$.}
+            \end{figure}
+
+        \subsection{Additive White Gaussian Noise}
+            TODO??
+
+        \subsection{Medical imaging noise}
+            We end this section by considering how we should use our noise models ing medical imaging. For many methods 
+            of medical imaging we use ionising radiation that would be considered harmful given extended exposure times 
+            \cite{picano2004sustainability}. Because of this there is an inherent trade off between exposure time (for 
+            greater image clarity) and risk of causing damage \cite{sprawls1987physical}. Because we may potentially 
+            use shorter exposure times, or we may be imaging something in low light we find that often the quantum noise 
+            model is more appropriate and also cannot be approximated by Gaussian noise. However, there are many cases 
+            such as ultrasound where we may want to consider more sophisticated noise models \cite{coupe2009nonlocal}, 
+            but for the purpose of this dissertation we will restrict ourselves to the above.
+
+
+
+
+
+
+
+
+    \section{TVMM Image De-Noising}
+        \begin{framed}
+        \begin{itemize}
+            \item A method developed for additive white Gaussian noise \cite{figueiredo2006total}, which even when produced 
+                is outperformed by wavelet methods, outperforms algorithms developed for Poisson noise \cite{rodrigues2008denoising}.
+            \item Definition of total variation
+            \item Definition of the optimisation problem and the $Q$ function used
+            \item Some properties of the Q function, that allow us to find the optimal solution to the optimisation problem
+            \item Outline of the procedure
+            \item Requires solution of linear equations. Can be done using conjugate gradients (appendix B).
+            \item Trying to solve an inherently ill-posed problem
+        \end{itemize}
+        \end{framed}
+
+
+
+    \section{Requirements analysis}
+        With the background reading out of the way, we move onto the design of the system. Firstly we carefully consider 
+        the requirements of the system. This is important to begin identifying the work that needs to be undertaken 
+        and where the potential risk lies. 
+
+        \begin{table}[H]
+            \begin{minipage}{\textwidth}
+                \begin{tabular}{lccc}
+                    \hline 
+                        \textbf{Goal Requirement} & \textbf{Priority} & \textbf{Risk} & \textbf{Difficulty} \\
+                    \hline 
+                        Build a random forests machine learning library       & High      & Low         & Medium    \\
+                        Incorporate a neural network library (Encog)          & High      & Medium      & Medium    \\
+                        Image segmentation via pixel labelling                & High      & Low         & Low       \\
+                        Suitably model and account for image noise            & Medium    & High        & High      \\ 
+                        Train the pixel labelling system on real data         & High      & High        & Low       \\
+                        Build an aid to help create training sets             & Medium    & Low         & Low       \\
+                        Model uncertainty and output in a certainty map       & Medium    & Medium      & Medium    \\
+%                        Optimise algorithms and implementations for GPU       & Low       & High        & High      \\
+                    \hline  
+                \end{tabular}
+            \end{minipage}
+            \caption{High level goals and desired outcomes for the project.}
+        \end{table}
+
+
+    \section{System Design}
+        Here we outline the overview of the the whole system, where we begin with a work flow diagram comprising of 
+        files and system components. We then divide the system into it's separate components and use it to define an 
+        interface, along with a brief description of each module, defining inputs and outputs. The formats of the files 
+        that the user should input can be found in appendix \ref{app:file_formats}.
+
+
+        \subsection{Pipeline/Overview}
+            We now define here an overview of what we want the system to do (the pipeline of the system) in terms of the 
+            files input and output by different modules of the system. In the system overview below, blue boxes are code 
+            modules and red boxes represent files.
+
+            \begin{figure}[H]
+                \centering
+                    \scalebox{0.55}{ 
+                        \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
+
+                            \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                            \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
+                            \tikzstyle{file}=[commonNode, fill=red!30]
+                            \tikzstyle{unusedModule}=[module, fill=blue!10, line width=0pt]
+                            \tikzstyle{unusedFile}=[file, fill=red!10, line width=0pt]
+                            \tikzstyle{intermediateFile}=[file, dash pattern=on 3pt off 3pt, line width=1pt]
+
+                            \begin{scope}
+                                % Spacing the nodes out
+                                \def \hspacing {5}
+                                \def \vspacing {3}
+                                \def \indent {0.25}
+
+                                % Background
+                                %\fill[black!20, rounded corners=10] (-0.75*\hspacing, 0.5*\vspacing) rectangle (4.5*\hspacing, 5.5*\vspacing);
+
+                                % Title
+                                %\node at (-0.75*\hspacing+\indent, 5.5*\vspacing-\indent) [anchor=north west] {\textbf{System Overview}};
+
+                                % Inputs
+                                \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
+                                \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
+                                \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
+                                \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
+                                \node at (-1*\hspacing, 1*\vspacing) (HIin) {};
+
+                                % Files and modules
+                                \node at (0*\hspacing, 4.5*\vspacing) [file]    (EHI)     {Example \\ Spectral Image}
+                                    edge  [pre]   (EHIin);
+                                \node at (0*\hspacing, 4*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
+                                    edge  [pre]   (EILin);
+                                \node at (0*\hspacing, 3.5*\vspacing) [file]    (LM)      {Label Map}
+                                    edge  [pre]   (LMin);
+                                \node at (1*\hspacing, 4*\vspacing)   [module]  (TT)      {Training \\ Tools}
+                                    edge  [pre]   (EHI)
+                                    edge  [pre]   (EIL)
+                                    edge  [pre]   (LM);
+                                \node at (1*\hspacing, 2.75*\vspacing)   [file]    (TS)      {Training \\ Sequence}
+                                    edge  [pre]   (TSin)
+                                    edge  [pre]   (TT);
+                                \node at (3*\hspacing, 3*\vspacing)   [module]  (L)       {Learner}
+                                    edge  [pre]   (LM)
+                                    edge  [pre]   (TS);
+                                \node at (2.5*\hspacing, 2*\vspacing) [file]    (F)       {Decision \\ Forest}
+                                    edge  [pre]   (L);
+                                \node at (3.5*\hspacing, 2*\vspacing) [file]    (NN)      {Neural \\ Network}
+                                    edge  [pre]   (L);
+                                \node at (0*\hspacing, 2*\vspacing)   [file]    (NHI)     {Noisy \\ Spectral Image}
+                                    edge  [pre]   (NHIin);
+                                \node at (1*\hspacing, 2*\vspacing)   [module]  (DB)      {DeNoising}
+                                    edge  [pre]   (NHI);
+                                \node at (1*\hspacing, 1*\vspacing)   [file]    (HI)      {Spectral Image}
+                                    edge  [pre]   (HIin)
+                                    edge  [pre]   (DB);
+                                \node at (3*\hspacing, 1*\vspacing)   [module]  (C)       {Pixel Labeller}
+                                    edge  [pre]   (F)
+                                    edge  [pre]   (NN)
+                                    edge  [pre]   (HI);
+                                \node at (4*\hspacing, 1*\vspacing)   [file]    (PL)      {Pixel \\ Labelling}
+                                    edge  [pre]   (C);
+                            \end{scope}
+
+                            % \begin{pgfonlayer}{background}
+                                
+                            % \end{pgfonlayer}
+                        \end{tikzpicture}
+                    }
+
+                \caption{Overview of the system and its intended use.}
+                \label{fig:system_overview}
+            \end{figure}   
+
+
+
+        \subsection{Interface/Usage}
+            We will allow usage for each module separately, however we will also allow for combined steps, that will 
+            avoid unnecessary intermediate files to be produced. For our interface we extend our diagrams that consisted 
+            of red boxes for files and blue boxes for code modules, to denote files/modules unused in a given function 
+            by a faded/duller colour, and we denote an intermediate file that isn't saved during some function by a 
+            regularly bright, but dashed boarder. It should be assumed that an intermediate file need not be provided 
+            by the user.
+
+
+
+
+            \subsubsection{Training Tools}
+                The training tools function is to take an example class map, pixel labelling and spectral image (see 
+                appendix \ref{app:file_formats} for how their formats). From this `ground truth' we will output a 
+                training sequence as specified in appendix \ref{app:file_formats}. The use of this function is that we 
+                can generate vast quantities of training data with very little effort.
+
+                \begin{figure}[H]
+                    \centering
+                        \scalebox{0.55}{ 
+                            \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
+
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
+                                \tikzstyle{file}=[commonNode, fill=red!30]
+                                \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
+                                \tikzstyle{unusedFile}=[file, fill=red!10, line width=1pt]
+                                \tikzstyle{intermediateFile}=[file, dash pattern=on 3pt off 3pt, line width=1pt]
+
+                                \begin{scope}
+                                    % Spacing the nodes out
+                                    \def \hspacing {5}
+                                    \def \vspacing {3}
+                                    \def \indent {0.25}
+
+                                    % Background
+                                    %\fill[black!20, rounded corners=10] (-0.75*\hspacing, 0.5*\vspacing) rectangle (4.5*\hspacing, 5.5*\vspacing);
+
+                                    % Title
+                                    %\node at (-0.75*\hspacing+\indent, 5.5*\vspacing-\indent) [anchor=north west] {\textbf{System Overview}};
+
+                                    % Inputs
+                                    \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
+                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
+                                    \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
+                                    \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
+                                    \node at (-1*\hspacing, 1*\vspacing) (HIin) {};
+
+                                    % Files and modules
+                                    \node at (0*\hspacing, 4.5*\vspacing) [file]    (EHI)     {Example \\ Spectral Image}
+                                        edge  [pre]   (EHIin);
+                                    \node at (0*\hspacing, 4*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
+                                        edge  [pre]   (EILin);
+                                    \node at (0*\hspacing, 3.5*\vspacing) [file]    (LM)      {Label Map}
+                                        edge  [pre]   (LMin);
+                                    \node at (1*\hspacing, 4*\vspacing)   [module]  (TT)      {Training \\ Tools}
+                                        edge  [pre]   (EHI)
+                                        edge  [pre]   (EIL)
+                                        edge  [pre]   (LM);
+                                    \node at (1*\hspacing, 2.75*\vspacing)   [file]    (TS)      {Training \\ Sequence}
+                                        edge  [pre]   (TSin)
+                                        edge  [pre]   (TT);
+                                    \node at (3*\hspacing, 3*\vspacing)   [unusedModule]  (L)       {Learner}
+                                        edge  [pre]   (LM)
+                                        edge  [pre]   (TS);
+                                    \node at (2.5*\hspacing, 2*\vspacing) [unusedFile]    (F)       {Decision \\ Forest}
+                                        edge  [pre]   (L);
+                                    \node at (3.5*\hspacing, 2*\vspacing) [unusedFile]    (NN)      {Neural \\ Network}
+                                        edge  [pre]   (L);
+                                    \node at (0*\hspacing, 2*\vspacing)   [unusedFile]    (NHI)     {Noisy \\ Spectral Image}
+                                        edge  [pre]   (NHIin);
+                                    \node at (1*\hspacing, 2*\vspacing)   [unusedModule]  (DB)      {DeNoising}
+                                        edge  [pre]   (NHI);
+                                    \node at (1*\hspacing, 1*\vspacing)   [unusedFile]    (HI)      {Spectral Image}
+                                        edge  [pre]   (HIin)
+                                        edge  [pre]   (DB);
+                                    \node at (3*\hspacing, 1*\vspacing)   [unusedModule]  (C)       {Pixel Labeller}
+                                        edge  [pre]   (F)
+                                        edge  [pre]   (NN)
+                                        edge  [pre]   (HI);
+                                    \node at (4*\hspacing, 1*\vspacing)   [unusedFile]    (PL)      {Pixel \\ Labelling}
+                                        edge  [pre]   (C);
+                                \end{scope}
+
+                                % \begin{pgfonlayer}{background}
+                                    
+                                % \end{pgfonlayer}
+                            \end{tikzpicture}
+                        }
+
+                    \caption{Overview of the training tools function.}
+                \end{figure} 
+
+
+
+            \subsubsection{Train}
+                The train function will take a training sequence and then produce either a forest file or a neural 
+                network file. These files will be output to be used later by the pixel labeller.
+
+                \begin{figure}[H]
+                    \centering
+                        \scalebox{0.55}{ 
+                            \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
+
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
+                                \tikzstyle{file}=[commonNode, fill=red!30]
+                                \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
+                                \tikzstyle{unusedFile}=[file, fill=red!10, line width=1pt]
+                                \tikzstyle{intermediateFile}=[file, dash pattern=on 3pt off 3pt, line width=1pt]
+
+                                \begin{scope}
+                                    % Spacing the nodes out
+                                    \def \hspacing {5}
+                                    \def \vspacing {3}
+                                    \def \indent {0.25}
+
+                                    % Background
+                                    %\fill[black!20, rounded corners=10] (-0.75*\hspacing, 0.5*\vspacing) rectangle (4.5*\hspacing, 5.5*\vspacing);
+
+                                    % Title
+                                    %\node at (-0.75*\hspacing+\indent, 5.5*\vspacing-\indent) [anchor=north west] {\textbf{System Overview}};
+
+                                    % Inputs
+                                    \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
+                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
+                                    \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
+                                    \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
+                                    \node at (-1*\hspacing, 1*\vspacing) (HIin) {};
+
+                                    % Files and modules
+                                    \node at (0*\hspacing, 4.5*\vspacing) [unusedFile]    (EHI)     {Example \\ Spectral Image}
+                                        edge  [pre]   (EHIin);
+                                    \node at (0*\hspacing, 4*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
+                                        edge  [pre]   (EILin);
+                                    \node at (0*\hspacing, 3.5*\vspacing) [unusedFile]    (LM)      {Label Map}
+                                        edge  [pre]   (LMin);
+                                    \node at (1*\hspacing, 4*\vspacing)   [unusedModule]  (TT)      {Training \\ Tools}
+                                        edge  [pre]   (EHI)
+                                        edge  [pre]   (EIL)
+                                        edge  [pre]   (LM);
+                                    \node at (1*\hspacing, 2.75*\vspacing)   [file]    (TS)      {Training \\ Sequence}
+                                        edge  [pre]   (TSin)
+                                        edge  [pre]   (TT);
+                                    \node at (3*\hspacing, 3*\vspacing)   [module]  (L)       {Learner}
+                                        edge  [pre]   (LM)
+                                        edge  [pre]   (TS);
+                                    \node at (2.5*\hspacing, 2*\vspacing) [file]    (F)       {Decision \\ Forest}
+                                        edge  [pre]   (L);
+                                    \node at (3.5*\hspacing, 2*\vspacing) [file]    (NN)      {Neural \\ Network}
+                                        edge  [pre]   (L);
+                                    \node at (0*\hspacing, 2*\vspacing)   [unusedFile]    (NHI)     {Noisy \\ Spectral Image}
+                                        edge  [pre]   (NHIin);
+                                    \node at (1*\hspacing, 2*\vspacing)   [unusedModule]  (DB)      {DeNoising}
+                                        edge  [pre]   (NHI);
+                                    \node at (1*\hspacing, 1*\vspacing)   [unusedFile]    (HI)      {Spectral Image}
+                                        edge  [pre]   (HIin)
+                                        edge  [pre]   (DB);
+                                    \node at (3*\hspacing, 1*\vspacing)   [unusedModule]  (C)       {Pixel Labeller}
+                                        edge  [pre]   (F)
+                                        edge  [pre]   (NN)
+                                        edge  [pre]   (HI);
+                                    \node at (4*\hspacing, 1*\vspacing)   [unusedFile]    (PL)      {Pixel \\ Labelling}
+                                        edge  [pre]   (C);
+                                \end{scope}
+
+                                % \begin{pgfonlayer}{background}
+                                    
+                                % \end{pgfonlayer}
+                            \end{tikzpicture}
+                        }
+
+                    \caption{Overview of the train function.}
+                \end{figure} 
+
+
+
+            \subsubsection{Learn From Example}
+                The learn from example function is a composite of the training tools and train functions. This will 
+                take the same inputs as the training tools function, but instead will immediately use the training 
+                sequence produced to train a random forest or neural network, \textit{not} saving the training 
+                sequence in the process.
+
+                \begin{figure}[H]
+                    \centering
+                        \scalebox{0.55}{ 
+                            \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
+
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
+                                \tikzstyle{file}=[commonNode, fill=red!30]
+                                \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
+                                \tikzstyle{unusedFile}=[file, fill=red!10, line width=1pt]
+                                \tikzstyle{intermediateFile}=[file, dash pattern=on 3pt off 3pt, line width=1pt]
+
+                                \begin{scope}
+                                    % Spacing the nodes out
+                                    \def \hspacing {5}
+                                    \def \vspacing {3}
+                                    \def \indent {0.25}
+
+                                    % Background
+                                    %\fill[black!20, rounded corners=10] (-0.75*\hspacing, 0.5*\vspacing) rectangle (4.5*\hspacing, 5.5*\vspacing);
+
+                                    % Title
+                                    %\node at (-0.75*\hspacing+\indent, 5.5*\vspacing-\indent) [anchor=north west] {\textbf{System Overview}};
+
+                                    % Inputs
+                                    \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
+                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
+                                    \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
+                                    \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
+                                    \node at (-1*\hspacing, 1*\vspacing) (HIin) {};
+
+                                    % Files and modules
+                                    \node at (0*\hspacing, 4.5*\vspacing) [file]    (EHI)     {Example \\ Spectral Image}
+                                        edge  [pre]   (EHIin);
+                                    \node at (0*\hspacing, 4*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
+                                        edge  [pre]   (EILin);
+                                    \node at (0*\hspacing, 3.5*\vspacing) [file]    (LM)      {Label Map}
+                                        edge  [pre]   (LMin);
+                                    \node at (1*\hspacing, 4*\vspacing)   [module]  (TT)      {Training \\ Tools}
+                                        edge  [pre]   (EHI)
+                                        edge  [pre]   (EIL)
+                                        edge  [pre]   (LM);
+                                    \node at (1*\hspacing, 2.75*\vspacing)   [intermediateFile]    (TS)      {Training \\ Sequence}
+                                        edge  [pre]   (TSin)
+                                        edge  [pre]   (TT);
+                                    \node at (3*\hspacing, 3*\vspacing)   [module]  (L)       {Learner}
+                                        edge  [pre]   (LM)
+                                        edge  [pre]   (TS);
+                                    \node at (2.5*\hspacing, 2*\vspacing) [file]    (F)       {Decision \\ Forest}
+                                        edge  [pre]   (L);
+                                    \node at (3.5*\hspacing, 2*\vspacing) [file]    (NN)      {Neural \\ Network}
+                                        edge  [pre]   (L);
+                                    \node at (0*\hspacing, 2*\vspacing)   [unusedFile]    (NHI)     {Noisy \\ Spectral Image}
+                                        edge  [pre]   (NHIin);
+                                    \node at (1*\hspacing, 2*\vspacing)   [unusedModule]  (DB)      {DeNoising}
+                                        edge  [pre]   (NHI);
+                                    \node at (1*\hspacing, 1*\vspacing)   [unusedFile]    (HI)      {Spectral Image}
+                                        edge  [pre]   (HIin)
+                                        edge  [pre]   (DB);
+                                    \node at (3*\hspacing, 1*\vspacing)   [unusedModule]  (C)       {Pixel Labeller}
+                                        edge  [pre]   (F)
+                                        edge  [pre]   (NN)
+                                        edge  [pre]   (HI);
+                                    \node at (4*\hspacing, 1*\vspacing)   [unusedFile]    (PL)      {Pixel \\ Labelling}
+                                        edge  [pre]   (C);
+                                \end{scope}
+
+                                % \begin{pgfonlayer}{background}
+                                    
+                                % \end{pgfonlayer}
+                            \end{tikzpicture}
+                        }
+
+                    \caption{Overview of the learn from example function.}
+                \end{figure} 
+
+
+
+
+            \subsubsection{Pixel Labeller}
+                The pixel labeller could be considered the `main' part of the system. It uses the pixel labeller 
+                module to label a spectral image using a trained forest/neural network.
+
+                \begin{figure}[H]
+                    \centering
+                        \scalebox{0.55}{ 
+                            \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
+
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
+                                \tikzstyle{file}=[commonNode, fill=red!30]
+                                \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
+                                \tikzstyle{unusedFile}=[file, fill=red!10, line width=1pt]
+                                \tikzstyle{intermediateFile}=[file, dash pattern=on 3pt off 3pt, line width=1pt]
+
+                                \begin{scope}
+                                    % Spacing the nodes out
+                                    \def \hspacing {5}
+                                    \def \vspacing {3}
+                                    \def \indent {0.25}
+
+                                    % Background
+                                    %\fill[black!20, rounded corners=10] (-0.75*\hspacing, 0.5*\vspacing) rectangle (4.5*\hspacing, 5.5*\vspacing);
+
+                                    % Title
+                                    %\node at (-0.75*\hspacing+\indent, 5.5*\vspacing-\indent) [anchor=north west] {\textbf{System Overview}};
+
+                                    % Inputs
+                                    \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
+                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
+                                    \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
+                                    \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
+                                    \node at (-1*\hspacing, 1*\vspacing) (HIin) {};
+
+                                    % Files and modules
+                                    \node at (0*\hspacing, 4.5*\vspacing) [unusedFile]    (EHI)     {Example \\ Spectral Image}
+                                        edge  [pre]   (EHIin);
+                                    \node at (0*\hspacing, 4*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
+                                        edge  [pre]   (EILin);
+                                    \node at (0*\hspacing, 3.5*\vspacing) [unusedFile]    (LM)      {Label Map}
+                                        edge  [pre]   (LMin);
+                                    \node at (1*\hspacing, 4*\vspacing)   [unusedModule]  (TT)      {Training \\ Tools}
+                                        edge  [pre]   (EHI)
+                                        edge  [pre]   (EIL)
+                                        edge  [pre]   (LM);
+                                    \node at (1*\hspacing, 2.75*\vspacing)   [unusedFile]    (TS)      {Training \\ Sequence}
+                                        edge  [pre]   (TSin)
+                                        edge  [pre]   (TT);
+                                    \node at (3*\hspacing, 3*\vspacing)   [unusedModule]  (L)       {Learner}
+                                        edge  [pre]   (LM)
+                                        edge  [pre]   (TS);
+                                    \node at (2.5*\hspacing, 2*\vspacing) [file]    (F)       {Decision \\ Forest}
+                                        edge  [pre]   (L);
+                                    \node at (3.5*\hspacing, 2*\vspacing) [file]    (NN)      {Neural \\ Network}
+                                        edge  [pre]   (L);
+                                    \node at (0*\hspacing, 2*\vspacing)   [unusedFile]    (NHI)     {Noisy \\ Spectral Image}
+                                        edge  [pre]   (NHIin);
+                                    \node at (1*\hspacing, 2*\vspacing)   [unusedModule]  (DB)      {DeNoising}
+                                        edge  [pre]   (NHI);
+                                    \node at (1*\hspacing, 1*\vspacing)   [file]    (HI)      {Spectral Image}
+                                        edge  [pre]   (HIin)
+                                        edge  [pre]   (DB);
+                                    \node at (3*\hspacing, 1*\vspacing)   [module]  (C)       {Pixel Labeller}
+                                        edge  [pre]   (F)
+                                        edge  [pre]   (NN)
+                                        edge  [pre]   (HI);
+                                    \node at (4*\hspacing, 1*\vspacing)   [file]    (PL)      {Pixel \\ Labelling}
+                                        edge  [pre]   (C);
+                                \end{scope}
+
+                                % \begin{pgfonlayer}{background}
+                                    
+                                % \end{pgfonlayer}
+                            \end{tikzpicture}
+                        }
+
+                    \caption{Overview of the pixel labeller function.}
+                \end{figure} 
+
+
+
+
+            \subsubsection{De-Noiser}
+                The de-noiser function simply attempts to reduce the effect of noise on the image. It takes a spectral 
+                image as input and outputs the de-noised spectral image.
+
+                \begin{figure}[H]
+                    \centering
+                        \scalebox{0.55}{ 
+                            \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
+
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
+                                \tikzstyle{file}=[commonNode, fill=red!30]
+                                \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
+                                \tikzstyle{unusedFile}=[file, fill=red!10, line width=1pt]
+                                \tikzstyle{intermediateFile}=[file, dash pattern=on 3pt off 3pt, line width=1pt]
+
+                                \begin{scope}
+                                    % Spacing the nodes out
+                                    \def \hspacing {5}
+                                    \def \vspacing {3}
+                                    \def \indent {0.25}
+
+                                    % Background
+                                    %\fill[black!20, rounded corners=10] (-0.75*\hspacing, 0.5*\vspacing) rectangle (4.5*\hspacing, 5.5*\vspacing);
+
+                                    % Title
+                                    %\node at (-0.75*\hspacing+\indent, 5.5*\vspacing-\indent) [anchor=north west] {\textbf{System Overview}};
+
+                                    % Inputs
+                                    \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
+                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
+                                    \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
+                                    \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
+                                    \node at (-1*\hspacing, 1*\vspacing) (HIin) {};
+
+                                    % Files and modules
+                                    \node at (0*\hspacing, 4.5*\vspacing) [unusedFile]    (EHI)     {Example \\ Spectral Image}
+                                        edge  [pre]   (EHIin);
+                                    \node at (0*\hspacing, 4*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
+                                        edge  [pre]   (EILin);
+                                    \node at (0*\hspacing, 3.5*\vspacing) [unusedFile]    (LM)      {Label Map}
+                                        edge  [pre]   (LMin);
+                                    \node at (1*\hspacing, 4*\vspacing)   [unusedModule]  (TT)      {Training \\ Tools}
+                                        edge  [pre]   (EHI)
+                                        edge  [pre]   (EIL)
+                                        edge  [pre]   (LM);
+                                    \node at (1*\hspacing, 2.75*\vspacing)   [unusedFile]    (TS)      {Training \\ Sequence}
+                                        edge  [pre]   (TSin)
+                                        edge  [pre]   (TT);
+                                    \node at (3*\hspacing, 3*\vspacing)   [unusedModule]  (L)       {Learner}
+                                        edge  [pre]   (LM)
+                                        edge  [pre]   (TS);
+                                    \node at (2.5*\hspacing, 2*\vspacing) [unusedFile]    (F)       {Decision \\ Forest}
+                                        edge  [pre]   (L);
+                                    \node at (3.5*\hspacing, 2*\vspacing) [unusedFile]    (NN)      {Neural \\ Network}
+                                        edge  [pre]   (L);
+                                    \node at (0*\hspacing, 2*\vspacing)   [file]    (NHI)     {Noisy \\ Spectral Image}
+                                        edge  [pre]   (NHIin);
+                                    \node at (1*\hspacing, 2*\vspacing)   [module]  (DB)      {DeNoising}
+                                        edge  [pre]   (NHI);
+                                    \node at (1*\hspacing, 1*\vspacing)   [file]    (HI)      {Spectral Image}
+                                        edge  [pre]   (HIin)
+                                        edge  [pre]   (DB);
+                                    \node at (3*\hspacing, 1*\vspacing)   [unusedModule]  (C)       {Pixel Labeller}
+                                        edge  [pre]   (F)
+                                        edge  [pre]   (NN)
+                                        edge  [pre]   (HI);
+                                    \node at (4*\hspacing, 1*\vspacing)   [unusedFile]    (PL)      {Pixel \\ Labelling}
+                                        edge  [pre]   (C);
+                                \end{scope}
+
+                                % \begin{pgfonlayer}{background}
+                                    
+                                % \end{pgfonlayer}
+                            \end{tikzpicture}
+                        }
+
+                    \caption{Overview of the de-noiser function.}
+                \end{figure} 
+
+
+
+
+            \subsubsection{Noisy Pixel Labeller}
+                The noisy pixel labeller is a composite of the de-noiser and pixel labeller functions. We take a noisy 
+                spectral image as input, along with a trained forest or neural network. De-noising is run on the image 
+                before plugging the spectral image into the pixel labeller.
+
+                \begin{figure}[H]
+                    \centering
+                        \scalebox{0.55}{ 
+                            \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
+
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
+                                \tikzstyle{file}=[commonNode, fill=red!30]
+                                \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
+                                \tikzstyle{unusedFile}=[file, fill=red!10, line width=1pt]
+                                \tikzstyle{intermediateFile}=[file, dash pattern=on 3pt off 3pt, line width=1pt]
+
+                                \begin{scope}
+                                    % Spacing the nodes out
+                                    \def \hspacing {5}
+                                    \def \vspacing {3}
+                                    \def \indent {0.25}
+
+                                    % Background
+                                    %\fill[black!20, rounded corners=10] (-0.75*\hspacing, 0.5*\vspacing) rectangle (4.5*\hspacing, 5.5*\vspacing);
+
+                                    % Title
+                                    %\node at (-0.75*\hspacing+\indent, 5.5*\vspacing-\indent) [anchor=north west] {\textbf{System Overview}};
+
+                                    % Inputs
+                                    \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
+                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
+                                    \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
+                                    \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
+                                    \node at (-1*\hspacing, 1*\vspacing) (HIin) {};
+
+                                    % Files and modules
+                                    \node at (0*\hspacing, 4.5*\vspacing) [unusedFile]    (EHI)     {Example \\ Spectral Image}
+                                        edge  [pre]   (EHIin);
+                                    \node at (0*\hspacing, 4*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
+                                        edge  [pre]   (EILin);
+                                    \node at (0*\hspacing, 3.5*\vspacing) [unusedFile]    (LM)      {Label Map}
+                                        edge  [pre]   (LMin);
+                                    \node at (1*\hspacing, 4*\vspacing)   [unusedModule]  (TT)      {Training \\ Tools}
+                                        edge  [pre]   (EHI)
+                                        edge  [pre]   (EIL)
+                                        edge  [pre]   (LM);
+                                    \node at (1*\hspacing, 2.75*\vspacing)   [unusedFile]    (TS)      {Training \\ Sequence}
+                                        edge  [pre]   (TSin)
+                                        edge  [pre]   (TT);
+                                    \node at (3*\hspacing, 3*\vspacing)   [unusedModule]  (L)       {Learner}
+                                        edge  [pre]   (LM)
+                                        edge  [pre]   (TS);
+                                    \node at (2.5*\hspacing, 2*\vspacing) [file]    (F)       {Decision \\ Forest}
+                                        edge  [pre]   (L);
+                                    \node at (3.5*\hspacing, 2*\vspacing) [file]    (NN)      {Neural \\ Network}
+                                        edge  [pre]   (L);
+                                    \node at (0*\hspacing, 2*\vspacing)   [file]    (NHI)     {Noisy \\ Spectral Image}
+                                        edge  [pre]   (NHIin);
+                                    \node at (1*\hspacing, 2*\vspacing)   [module]  (DB)      {DeNoising}
+                                        edge  [pre]   (NHI);
+                                    \node at (1*\hspacing, 1*\vspacing)   [intermediateFile]    (HI)      {Spectral Image}
+                                        edge  [pre]   (HIin)
+                                        edge  [pre]   (DB);
+                                    \node at (3*\hspacing, 1*\vspacing)   [module]  (C)       {Pixel Labeller}
+                                        edge  [pre]   (F)
+                                        edge  [pre]   (NN)
+                                        edge  [pre]   (HI);
+                                    \node at (4*\hspacing, 1*\vspacing)   [file]    (PL)      {Pixel \\ Labelling}
+                                        edge  [pre]   (C);
+                                \end{scope}
+
+                                % \begin{pgfonlayer}{background}
+                                    
+                                % \end{pgfonlayer}
+                            \end{tikzpicture}
+                        }
+
+                    \caption{Overview of the noisy pixel labeller function.}
+                \end{figure} 
+
+
+
+
+
+
+
+    \section{Languages and tools}
+        In this section we briefly describe the languages, libraries and tools that we used for the project.
+
+        \subsubsection{Programming Languages and Libraries}
+            \begin{description}[font=\normalfont\itshape, labelindent=10pt]
+                \item[Java:] provides an OS independent language and is object oriented to allow for modular design.
+                \item[JUnit:] a Java library used for unit testing, used for white box and black box testing throughout 
+                    the development of the system. Unit tests are essential to find bugs and prevent their re-introduction.
+                \item[Encog:] an easy to use neural networks library in Java/C\# written by Heaton research \cite{JMLR:v16:heaton15a}. 
+            \end{description}
+
+        \subsubsection{Integrated development environment}
+            \begin{description}[font=\normalfont\itshape, labelindent=10pt]
+                \item[Eclipse:] allows for rapid development in Java and integrates easily with libraries and tools such 
+                    as JUnit and Git.
+                \item[EclEmma:] an Eclipse plug-in the works with JUnit which highlights lines to indicate code coverage 
+                    of unit tests.
+            \end{description}
+
+        \subsubsection{Statistical analysis and visualisation}
+            \begin{description}[font=\normalfont\itshape, labelindent=10pt]
+                \item[Matlab:] an easy to use, extensible statistical package used for producing graphs.
+            \end{description}
+
+        \subsubsection{Document preparation}
+            \begin{description}[font=\normalfont\itshape, labelindent=10pt]
+                \item[\LaTeX:] used for typesetting this dissertation in a precise manor allowing control over most 
+                    aspects of document layout and style.
+                \item[Tikz:] a \LaTeX\ library useful for producing diagrams, such as figure \ref{fig:system_overview}.
+                \item[Listings:] a \LaTeX\ library allowing colour formatted code for a plethora of languages.
+                \item[Adobe Photoshop:] image editing software used to produce some diagrams.
+            \end{description}
+
+        \subsubsection{Version Control}
+            \begin{description}[font=\normalfont\itshape, labelindent=10pt]
+                \item[Git:] allows code to be developed systematically and rollback if necessary, as well as providing  
+                    the ability to fork my core repository to try different strategies.
+            \end{description}
+
+        \subsubsection{Backup}
+            \begin{description}[font=\normalfont\itshape, labelindent=10pt]
+                \item[DropBox and Google Drive:] repositories were kept in both DropBox and Google Drive folders, which 
+                    synced every time a file was changed.
+                \item[Github:] provides a remote Git repository to store code, so also helps in provision of version 
+                    control. The repository was updated every time a stable commit was made.
+                \item[Time machine:] Apple's automatic backup system, allowing for hourly backups of the whole hard drive 
+                    to be taken.
+            \end{description}
+
+
+
+    \section{Software engineering techniques}
+        \subsection{Development model}
+            After the design of the system it was fairly obvious that a mixture of iterative and waterfall models. 
+            The system would have to be implemented in a modular form (the modules can be seen in figure 
+            \ref{fig:system_overview}). Each module then needed to be implemented and was tested rigorously before 
+            moving onto the next, which is important because of dependencies between modules. For each module it was 
+            possible to manually produce the input files necessary to perform testing.
+
+            Once a working system produce was produced, tested and we have confidence that it is correct, additional 
+            features and improvements to the system were added in an iterative manor, similar to a spiral model. Unit 
+            tests were used to make sure that any new additions don't break the existing, working parts of the system.
+
+        \subsection{Testing}
+            The development was test driven, and used a mixture of testing techniques to write unit tests. All tests 
+            were written as unit tests so that they could be reused later to make sure that the system still works.
+            The following methodologies were employed:
+            \begin{description}[font=\normalfont\itshape, labelindent=10pt]
+                \item[Black box testing:] this is when then internal system design not taken into account, used to make sure 
+                    that the system works as a `black box', in terms of the expected input/outputs we specified in the 
+                    design. To assure that internal system design wasn't taken into account these were written 
+                    \textit{before} any code was written.
+                \item[White box testing:] this is when the internal system design is taken into account, tests are designed so that every 
+                    line of code is checked using the unit tests. This is difficult to check manually, so Eclipse plug-in 
+                    EclEmma was used, a code coverage tool that works with JUnit.
+                \item[Input sanitisation testing:] additional unit tests were written to make sure that erroneous inputs 
+                    were handled correctly.
+                \item[Incremental integration testing:] this refers to using a bottom up approach, testing functionality 
+                    as it is implemented.
+                \item[Usability testing:] a few users were asked to try use the system given only instructions in a readme 
+                    file, the feedback from this was vital and shaped the design of the training tools module.
+            \end{description}
+
+        \subsection{Backup Plan}
+            It is important to make sure that we have an effective backup plan to avoid any software, hardware or 
+            user error that may result in a loss of work, something which is important to make sure that we do not 
+            loose a years worth of work. 
+
+            To make sure that no work was lost a number of systems were set in place to not only regularly back up 
+            any work but also provide rollback if necessary. Google Drive and DropBox were employed to keep shadow 
+            copies of the project directory, GitHub was used as a remote repository which was pushed to regularly. 
+            Finally Apple's time machine software was also used to automatically take backups of the whole local 
+            file system every hour.
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale=0.75]{backup_plan}
+                \caption[Overview of the backup strategy employed.]{Overview of the backup strategy employed\footnotemark.}
+            \end{figure}
+            \footnotetext{Image modified from: 
+                \href{http://www.apple.com/airport-time-capsule/}{apple.com}, 
+                \href{https://www.google.com/drive/}{google.com}, 
+                \href{https://www.dropbox.com/business/why-dropbox-for-business}{dropbox.com}, 
+                \href{https://github.com/}{github.com}, 
+                \href{http://www.clipartpanda.com/categories/mac-computer-clip-art}{clipartpanda.com}}.
 
 
 
@@ -374,34 +1787,165 @@ throughout the year. [TODO - anymore thanks] %I would also like to thank Malavik
 
 \cleardoublepage
 \chapter{Implementation}
-    In this chapter we elaborate on the implementations of the randomised forests and neural network solutions. 
-    Similarly we discuss the de-noising aspect of the system. We then look at how each of the random forests and neural 
-    networks were trained for the example data sets provided. We finally return to look at the overview of the system 
-    and how all of the components fit together into a pipeline.
+    We begin this chapter by elaborating on the implementation of the Random Forests algorithm and the use of the Encog, a 
+    neural network library for Java. We then proceed to use the supervised learning methods to build a procedure for 
+    producing a pixel labelling from a spectral image. We ignore until later the problems of how we will produce 
+    training data for the supervised learning methods, as these likely need to be extracted from an example labelling, 
+    a problem that will be addressed in section \ref{sec:training_tools}. Finally we have also ignored dealing with 
+    image noise that is inherent in medical imaging, which will be discussed in section \ref{sec:de_noising}.
 
-    \section{Randomised Forests}
-    *TODO*
+    The project is modularised into a number of packages, each building on top of each other. Dependencies can be 
+    visualised in figure \ref{fig:package_dependencies}.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.5]{todo}
+        \caption{The dependencies between different packages/modules in the system.}
+        \label{fig:package_dependencies}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.5]{todo}
+        \caption{UML diagram for classes in the system.}
+    \end{figure}
+
+
+    \section{Randomised Forests Library}
+        We begin by describing our implementation of random forests, looking specifically at some critical design 
+        choices there were made.
+
+        \subsection{Data structures}
+            A number of important data structures are used throughout the library, each requiring an efficient 
+            implementation and provides necessary abstraction needed. Before we move onto the more complicated issues 
+            regarding supervised learning, we first need to implement the structures that it requires.
+
+            \subsubsection{ClassLabels}
+                We first collect our classification labels into a separate class, which initially may seem unneccessary 
+                to begin with, but was a crucial abstraction to reduce code complexity. What may seem obvious is that 
+                this allows us to implement a mapping between classifications and probabilities, which is useful for 
+                for a simplistic implementation of probability distributions, as described in section 
+                \ref{sec:rand_forest}. 
+
+                \begin{lstlisting}[caption={The \texttt{ClassLabel} class, used to encapsulate a classification label and it's 
+                        associated meta-data. Member functions are ommitted.}]
+public class ClassLabel implements Serializable {
+
+  // Member variables
+  private static final long serialVersionUID = 1L;
+  int classId;
+  int colour;
+  String name;
+
+  ...
+
+}
+                \end{lstlisting}
+
+                Contained in the class definition is a number of convenience methods. Firstly, a method 
+                \texttt{loadClassList} is used to read in a list of classes given a ``class colour map'' as specified 
+                in appendix \ref{app:file_formats}. We note that \texttt{classId} isn't specified by the user and only used 
+                internally. We also define functions \texttt{computeColourToClassMap} and \texttt{computeNameToClassMap} 
+                which return values of type \texttt{Map<Integer, ClassLabel>} and \texttt{Map<String, ClassLabel>} 
+                respectively. The purpose of these functions is obvious from their names, they provide a convenient 
+                method of generating a map that can be used to look up \texttt{ClassLabel} objects from a given colour 
+                or name, which we utilise later in section \ref{sec:pixel_label}.
+
+                \subsubsect{reply to tesxts and emails}
+
+
 
       \subsection{Training}
-      *TODO*
+          \begin{framed}
+              \begin{itemize}
+                  \item Outline implementation and algorithms (simple listings)
+                  \item Uses a random sample of possible weak learners and picks the entropy maximising one
+                  \item Psuedocode for breadth first/depth first learning and explaination of why chose depth first
+              \end{itemize}
+          \end{framed}
 
       \subsection{Classification}
-      *TODO*
+          \begin{framed}
+              \begin{itemize}
+                  \item Outline implementation and algorithms (simple listings)
+                  \item Uses probability distribution given by each tree and then uses the average as output
+              \end{itemize}
+          \end{framed}
 
     \section{Neural Networks}
-    *TODO*
+        \begin{framed}
+            \begin{itemize}
+                \item Introduce encog
+                \item Explain usage of the library and features we used
+            \end{itemize}
+        \end{framed}
 
-      \subsection{Training}
-      *TODO*
+        \subsection{Training}
+            \begin{framed}
+                \begin{itemize}
+                    \item Outline how we wrapped up the training of the neural network
+                    \item Describe roughly what it does?
+                \end{itemize}
+            \end{framed}
 
-      \subsection{Classification}
-      *TODO*
+        \subsection{Classification}
+            \begin{framed}
+                \begin{itemize}
+                    \item Outline how we wrapped up the classifier
+                    \item Describe roughly what it does?
+                \end{itemize}
+            \end{framed}
 
-    \section{De-noising}
-    *TODO*
+    \section{The classifier} \label{sec:pixel_label}
+        \begin{itemize}
+            \item We've given the overview of two supervised machine learning techniques
+            \item Assume for now that we have appropriate training data - dealt with later
+            \item We now need to use that to provide a pixel labelling
+            \item Listing for the datacube, and listing that implements the pixel labelling
+            \item Assuming we have appropriate training data, and non-noisy images we are now done! Unfortunately not the case.
+        \end{itemize}
+
+    \section{Training Tools} \label{sec:training_tools}
+        \begin{itemize}
+            \item Take an image with a manually created ground truth pixel labelling
+            \item Take these and convert into a training sequence, and output to a text file
+            \item The append option -> we can pass in a perameter and an existing training sequence and append training sequences
+            % \item Adding uniform data between certain points, at a given density - and why this might be useful. Novel idea of generation of data using given data and some linear model
+        \end{itemize}
+
+    \section{De-noising} \label{sec:de-noising}
+        \begin{itemize}
+            \item Explain total variation
+            \item Minimising gradients, can think of this as removing high frequency components
+            \item Listing for overview of 
+        \end{itemize}
 
     %\section{Using the GPU using OpenCL}
 
+    %\section{Tree analysis and principle component analysis}
+
+    % -mention about a typical optimisation is over ||w|| + sum of errors squared -> find a paper that explains this idea and reference it!!
+    % -that assumes that the features are lowely/not correlated
+    % in this case THEY ARE, so we can use this as a tool and we definitely DONT want to optimise over the above!
+
+    \section{Application on example data sets}
+        \begin{itemize}
+            \item We've build a system, but we need to actually apply it to some problems!
+        \end{itemize} 
+
+        \subsection{Siri's data}
+            \begin{itemize}
+                \item TODO: Come up with a better title for this subsection
+                \item Explanation of how produced training data
+                \item Example pixel labellings
+            \end{itemize}
+
+        \subsection{Teng's data}
+            \begin{itemize}
+                \item TODO: Come up with a better title for this subsection
+                \item Explanation of how produced training data
+                \item Example pixel labellings
+            \end{itemize}
 
 
 
@@ -415,39 +1959,61 @@ throughout the year. [TODO - anymore thanks] %I would also like to thank Malavik
 
 \cleardoublepage
 \chapter{Evaluation}
-    In this section we will evaluate the performance of the implemented machine learning solutions, comparing them based 
-    on the following metrics: accuracy of pixel labellings from a test set with known classifications prior, training 
-    time (as a function of the size of the training sequence) and classification time (as a function of the size of the 
-    image). I will also look at how each of the components of the system effects each of the metrics mentioned in 
-    isolation.
+    In this section we will look at the performance of the different components of the system based on a number of 
+    metrics. 
 
-    \section{Accuracy}
-    *TODO*
+    \section{Performance measures for classifiers}
+        \begin{itemize}
+            \item Briefly say about the different measures as described at the end of AI II.
+            \item Justify what might be the most informative here.
+        \end{itemize}
 
-    \section{Training time}
-    *TODO*
+    \section{Evaluation of Random Forests pixel labelling}
+        \begin{itemize}
+            \item Compute the performance measures for a noiseless toy image, noisy toy image and two data sets provided, and compare
+        \end{itemize}
 
-    \section{Classification time}
-    *TODO*
+
+    \section{Evaluation of Neural Networks pixel labelling}
+        \begin{itemize}
+            \item Compute the performance measures for a noiseless toy image, noisy toy image and two data sets provided, and compare
+            \item Compare with random forests - success criterion (table of results and say a bit about which did better)
+        \end{itemize}
+
+    \section{Evaluation of the Random Forests library}
+        \begin{itemize}
+            \item Define a standard training set, this can actually be independent of pixel labelling and similar to the Chriminsi forests paper.
+        \end{itemize}
+
+        \subsection{Training time}
+        \subsection{Classification time}
+        \subsection{The effect of the number of trees}
+        \subsection{The effect of the depth of trees}
+        \subsection{The effect of the randomness of trees}
+
 
     \section{The effect of the de-noising component}
-    *TODO*
+        \begin{itemize}
+            \item Use a couple images with added noise
+            \item Compare the SNR for the method with respect to different noise models (does it handle any other types of noise?)
+            \item Plot SNR as a function of the parameter lambda in the TVMM method
+            \item Plot SNR as a function of noise power (for different types of nois)
+        \end{itemize}
 
-    \section{The effect of the number of trees}
-    *TODO*
 
-    \section{The effect of the depth of trees}
-    *TODO*
-
-    \section{The effect of the randomness of trees}
-    *TODO*
-
-    % \section{Performance of de-blurring in OpenCL}
-    % *TODO* - compare FFT and non-FFT methods of convolution etc
-
-    % \section{Performance of classification time in OpenCL}
+    % \section{Performance speed ups in OpenCL}=
     % *TODO* - compare to classification time with OpenCL in encog turned on, also compare to non openCL time.
     % Compare the classification times with openCL on/off in encog.
+
+
+    % \section{Evaluation of the analysis module}
+    %     \begin{itemize}
+    %         \item Made for Siri's data set
+    %         \item Run the analyisis
+    %         \item Find the principle components
+    %         \item Compare with a standard method - such as the Kovendasjdk transform
+    %         \item On the reduced sets, train and compare the pixel labelling measures above
+    %     \end{itemize}
 
 
 
@@ -464,17 +2030,19 @@ throughout the year. [TODO - anymore thanks] %I would also like to thank Malavik
 
 \cleardoublepage
 \chapter{Conclusion}
-    *TODO* - Summarise how the decision forests and neural networks compared (accuracy on the test data etc), basically 
-    discuss the results from the evaluation.
+  \section{Summary}
+        \begin{itemize}
+            \item Overview and summary of work undertaken - re describe system overall
+            \item What was achieved, what was different
+            \item What did the evaluation show?
+            % \item Novel method of principle component analysis
+        \end{itemize}
 
-    \section{Section 1}
-    *TODO*
-
-    \section{Section 2}
-    *TODO*
-
-    \section{Section 3}
-    *TODO* \cite{Luthman:2015:hyperspectralImager}
+    \section{Further Work}
+        \begin{itemize}
+            \item Implement a convolutional neural network solution to allow local spatial data to influence the labelling of a pixel. This may allow the model to incorporate image de-noising and could compact two stages of the pipeline into one.
+            \item Implementation of the random forests library to support GPU processing. We could use a language such as OpenCL. Parallelism could be exploited either in the random forest implementation OR/AND the inherent parallelism from performing image processing.
+        \end{itemize}
 
 
 
@@ -511,18 +2079,33 @@ throughout the year. [TODO - anymore thanks] %I would also like to thank Malavik
 % description of benchmark tests
 
 \cleardoublepage
-\chapter {Benchmark descriptions}
-    *TODO*
+\chapter{File formats}    \label{app:file_formats}
+    Here we define the file formats that a user might be expected to input into the system, an explanation of the 
+    files that are output by the system and how to interpret them.
 
-    \section{Section 1}
-    *TODO*
+    \section{(Example/Noisy) Spectral Image}
+        ...
 
-    \section{Section 2}
-    *TODO*
 
-    \section{Section 3}
-    *TODO*
+    \section{Example Image Labelling}
+        ...
+    
+    \section{Label Map}
+        \begin{figure}[H]
+            \begin{framed}
+                {\tt typewriter .txt file eg here }
+            \end{framed}
+        \end{figure}
 
+    \section{Training Sequence}
+        \begin{figure}[H]
+            \begin{framed}
+                {\tt typewriter .txt file eg here }
+            \end{framed}
+        \end{figure}
+
+    \section{Output Files}
+        ...
 
 
 
@@ -536,17 +2119,9 @@ throughout the year. [TODO - anymore thanks] %I would also like to thank Malavik
 % evaluation data
 
 \cleardoublepage
-\chapter{Evaluation results}
-    *TODO*
+\chapter{A brief explanation of the method of conjugate gradients}
+    TODO
 
-    \section{Section 1}
-    *TODO*
-
-    \section{Section 2}
-    *TODO*
-
-    \section{Section 3}
-    *TODO*
 
 
 

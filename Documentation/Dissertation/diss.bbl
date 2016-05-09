@@ -1,9 +1,167 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{badrinarayanan2015segnet2}
+Vijay Badrinarayanan, Ankur Handa, and Roberto Cipolla.
+\newblock Segnet: A deep convolutional encoder-decoder architecture for robust
+  semantic pixel-wise labelling.
+\newblock {\em arXiv preprint arXiv:1505.07293}, 2015.
+
+\bibitem{Bioucas-Dias:2012:unmixingOverview}
+Jos{\'e}~M. Bioucas-Dias, Antonio Plaza, Nicolas Dobigeon, Mario Parente, Qian
+  Du, Paul Gader, and Jocelyn Chanussot.
+\newblock Hyperspectal unmixing overview: Geometrical, statistical, and sparse
+  regression-based approaches.
+\newblock {\em IEEE Journal of Selected Topics in Applied Earth Observations
+  and Remote Sensing}, 5, 2012.
+
+\bibitem{conjeti2016supervised}
+Sailesh Conjeti, Amin Katouzian, Abhijit~Guha Roy, Lo{\"\i}c Peter, Debdoot
+  Sheet, St{\'e}phane Carlier, Andrew Laine, and Nassir Navab.
+\newblock Supervised domain adaptation of decision forests: Transfer of models
+  trained in vitro for in vivo intravascular ultrasound tissue
+  characterization.
+\newblock {\em Medical Image Analysis}, 32:1--17, 2016.
+
+\bibitem{coupe2009nonlocal}
+Pierrick Coup{\'e}, Pierre Hellier, Charles Kervrann, and Christian Barillot.
+\newblock Nonlocal means-based speckle filtering for ultrasound images.
+\newblock {\em Image Processing, IEEE Transactions on}, 18(10):2221--2229,
+  2009.
+
+\bibitem{criminisi2013decision}
+Antonio Criminisi and Jamie Shotton.
+\newblock {\em Decision forests for computer vision and medical image
+  analysis}.
+\newblock Springer Science \& Business Media, 2013.
+
+\bibitem{criminisi2012decision}
+Antonio Criminisi, Jamie Shotton, and Ender Konukoglu.
+\newblock Decision forests: A unified framework for classification, regression,
+  density estimation, manifold learning and semi-supervised learning.
+\newblock {\em Foundations and Trends{\textregistered} in Computer Graphics and
+  Vision}, 7(2--3):81--227, 2012.
+
+\bibitem{cunningham2007k}
+Padraig Cunningham and Sarah~Jane Delany.
+\newblock k-nearest neighbour classifiers.
+\newblock {\em Multiple Classifier Systems}, pages 1--17, 2007.
+
+\bibitem{figueiredo2006total}
+Mario~AT Figueiredo, J~Bioucas Dias, Joao~P Oliveira, and Robert~D Nowak.
+\newblock On total variation denoising: A new majorization-minimization
+  algorithm and an experimental comparisonwith wavalet denoising.
+\newblock In {\em Image Processing, 2006 IEEE International Conference on},
+  pages 2633--2636. IEEE, 2006.
+
+\bibitem{gamal2005cmos}
+AE~Gamal and H~Eltoukhy.
+\newblock Cmos image sensors, an introduction to the technology, design, and
+  performance limits, presenting recent development and future directions.
+\newblock {\em IEEE circuits and devices mag}, pages 8755--3996, 2005.
+
+\bibitem{hasinoff2014photon}
+Samuel~W Hasinoff.
+\newblock Photon, poisson noise.
+\newblock In {\em Computer Vision}, pages 608--610. Springer, 2014.
+
+\bibitem{heaton2008introduction}
+Jeff Heaton.
+\newblock {\em Introduction to neural networks with Java}.
+\newblock Heaton Research, Inc., 2008.
+
+\bibitem{JMLR:v16:heaton15a}
+Jeff Heaton.
+\newblock Encog: Library of interchangeable machine learning models for java
+  and c\#.
+\newblock {\em Journal of Machine Learning Research}, 16:1243--1247, 2015.
+
+\bibitem{jia2014caffe}
+Yangqing Jia, Evan Shelhamer, Jeff Donahue, Sergey Karayev, Jonathan Long, Ross
+  Girshick, Sergio Guadarrama, and Trevor Darrell.
+\newblock Caffe: Convolutional architecture for fast feature embedding.
+\newblock {\em arXiv preprint arXiv:1408.5093}, 2014.
+
+\bibitem{keshava2003survey}
+Nirmal Keshava.
+\newblock A survey of spectral unmixing algorithms.
+\newblock {\em Lincoln Laboratory Journal}, 14(1):55--78, 2003.
+
+\bibitem{klein2004lagrange}
+Dan Klein.
+\newblock Lagrange multipliers without permanent scarring.
+\newblock {\em University of California at Berkeley, Computer Science
+  Division}, 2004.
+
+\bibitem{law2006simple}
+Martin Law.
+\newblock A simple introduction to support vector machines.
+\newblock {\em Lecture for CSE}, 802, 2006.
+
+\bibitem{Qingli:2013:spectralImagingTech}
+Qingli Li, Xiaofu He, Yiting Wang, Hongying Liu, Dongrong Xu, and Fangmin Guo.
+\newblock Review of spectral imaging technology in biomedical engineering:
+  achievements and challenges.
+\newblock {\em Journal of Biomedical Optics}, 18, 2013.
 
 \bibitem{Luthman:2015:hyperspectralImager}
 A.~Siri Luthman and Sarah~E. Bohndiek.
 \newblock Experimental evaluation of a hyperspectral imager for near-infrared
   fluorescent contrast agent studies.
 \newblock Technical report, University of Cambridge, 2015.
+
+\bibitem{PAL19931277}
+Nikhil~R Pal and Sankar~K Pal.
+\newblock A review on image segmentation techniques.
+\newblock {\em Pattern Recognition}, 26(9):1277 -- 1294, 1993.
+
+\bibitem{pham2000current}
+Dzung~L Pham, Chenyang Xu, and Jerry~L Prince.
+\newblock Current methods in medical image segmentation 1.
+\newblock {\em Annual review of biomedical engineering}, 2(1):315--337, 2000.
+
+\bibitem{picano2004sustainability}
+Eugenio Picano.
+\newblock Sustainability of medical imaging: doctors and patients should be
+  more aware of the long term risks of radiological investigations.
+\newblock {\em British Medical Journal}, 328(7439):578--581, 2004.
+
+\bibitem{rodrigues2008denoising}
+Isabel Rodrigues, Joao Sanches, and Jose Bioucas-Dias.
+\newblock Denoising of medical images corrupted by poisson noise.
+\newblock In {\em Image Processing, 2008. ICIP 2008. 15th IEEE International
+  Conference on}, pages 1756--1759. IEEE, 2008.
+
+\bibitem{ross2002probability}
+Sheldon~M Ross.
+\newblock {\em Probability models for computer science}.
+\newblock Harcourt Academic Press San Diego, 2002.
+
+\bibitem{russell1995modern}
+Stuart Russell, Peter Norvig, and Artificial Intelligence.
+\newblock A modern approach.
+\newblock {\em Artificial Intelligence. Prentice-Hall, Egnlewood Cliffs},
+  25:27, 1995.
+
+\bibitem{seymore1999learning}
+Kristie Seymore, Andrew McCallum, and Roni Rosenfeld.
+\newblock Learning hidden markov model structure for information extraction.
+\newblock In {\em AAAI-99 Workshop on Machine Learning for Information
+  Extraction}, pages 37--42, 1999.
+
+\bibitem{sprawls1987physical}
+Perry Sprawls.
+\newblock {\em Physical principles of medical imaging}.
+\newblock Aspen Publishers, 1987.
+
+\bibitem{zhao2016segmenting}
+Guangjun Zhao, Xuchu Wang, Yanmin Niu, Liwen Tan, and Shao-Xiang Zhang.
+\newblock Segmenting brain tissues from chinese visible human dataset by
+  deep-learned features with stacked autoencoder.
+\newblock {\em BioMed Research International}, 2016, 2016.
+
+\bibitem{zhao2016multiscale}
+Liya Zhao and Kebin Jia.
+\newblock Multiscale cnns for brain tumor segmentation and diagnosis.
+\newblock {\em Computational and Mathematical Methods in Medicine}, 2016, 2016.
 
 \end{thebibliography}

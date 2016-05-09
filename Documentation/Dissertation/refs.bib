@@ -1,5 +1,6 @@
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
 // Spectral imaging (hardware/optics)
-@artical{Qingli:2013:spectralImagingTech,
+@article{Qingli:2013:spectralImagingTech,
     author = "Qingli Li and Xiaofu He and Yiting Wang and Hongying Liu and Dongrong Xu and Fangmin Guo",
     title = "Review of spectral imaging technology in biomedical engineering: achievements and challenges",
     journal = "Journal of Biomedical Optics",
@@ -7,15 +8,17 @@
     volume = "18"
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
 // Spectral unmixing
-@artical{Shi:2014:spectralUnmixing,
+@article{Shi:2014:spectralUnmixing,
     author = "Chen Shi and Le Wang",
     title = "Incorporating spatial information in spectral unmixing: A review",
     journal = "Elsevier",
     year = "2014",
     volume = "149"
 }
-@artical{Bioucas-Dias:2012:unmixingOverview,
+
+@article{Bioucas-Dias:2012:unmixingOverview,
     author = "Jos{\'e} M. Bioucas-Dias and Antonio Plaza and Nicolas Dobigeon and Mario Parente and Qian Du and Paul Gader and Jocelyn Chanussot",
     title = "Hyperspectal Unmixing Overview: Geometrical, Statistical, and Sparse Regression-Based Approaches",
     journal = "IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing",
@@ -23,6 +26,18 @@
     volume = "5"
 }
 
+@article{keshava2003survey,
+  title={A survey of spectral unmixing algorithms},
+  author={Keshava, Nirmal},
+  journal={Lincoln Laboratory Journal},
+  volume={14},
+  number={1},
+  pages={55--78},
+  year={2003},
+  publisher={LINCOLN LABORATORY M IT}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
 // Biological and soft systems research group
 @techreport{Luthman:2015:hyperspectralImager,
     author = "A. Siri Luthman and Sarah E. Bohndiek",
@@ -31,17 +46,161 @@
     year = "2015"
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Poisson noise generation and de-noising
+
+// Comparisons paper
+@inproceedings{rodrigues2008denoising,
+  title={Denoising of medical images corrupted by Poisson noise},
+  author={Rodrigues, Isabel and Sanches, Joao and Bioucas-Dias, Jose},
+  booktitle={Image Processing, 2008. ICIP 2008. 15th IEEE International Conference on},
+  pages={1756--1759},
+  year={2008},
+  organization={IEEE}
+}
+
+// Total variation de-noising
+@inproceedings{figueiredo2006total,
+  title={On total variation denoising: A new majorization-minimization algorithm and an experimental comparisonwith wavalet denoising},
+  author={Figueiredo, Mario AT and Dias, J Bioucas and Oliveira, Joao P and Nowak, Robert D},
+  booktitle={Image Processing, 2006 IEEE International Conference on},
+  pages={2633--2636},
+  year={2006},
+  organization={IEEE}
+}
+
+// More on this (this one actually gives the matrix)
+@article{selesnick2012total,
+  title={Total variation denoising (an MM algorithm)},
+  author={Selesnick, Ivan},
+  journal={NYU Polytechnic School of Engineering Lecture Notes},
+  year={2012}
+}
+
+// Conjugate gradients
+@misc{shewchuk1994introduction,
+  title={An introduction to the conjugate gradient method without the agonizing pain},
+  author={Shewchuk, Jonathan Richard},
+  year={1994},
+  publisher={Carnegie-Mellon University. Department of Computer Science}
+}
+
+// Definition of photon/poisson noise - use when explaining what it is
+@incollection{hasinoff2014photon,
+  title={Photon, Poisson Noise},
+  author={Hasinoff, Samuel W},
+  booktitle={Computer Vision},
+  pages={608--610},
+  year={2014},
+  publisher={Springer}
+}
+
+// DWT denoising
+@article{luisier2010fast,
+  title={Fast interscale wavelet denoising of Poisson-corrupted images},
+  author={Luisier, Florian and Vonesch, C{\'e}dric and Blu, Thierry and Unser, Michael},
+  journal={Signal Processing},
+  volume={90},
+  number={2},
+  pages={415--427},
+  year={2010},
+  publisher={Elsevier}
+}
+
+// Comparison and denoising methods for MANY types of noise
+@article{patidar2010image,
+  title={Image de-noising by various filters for different noise},
+  author={Patidar, Pawan and Gupta, Manoj and Srivastava, Sumit and Nagawat, Ashok Kumar},
+  journal={International Journal of Computer Applications (0975--8887) Volume},
+  year={2010},
+  publisher={Citeseer}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Random forests
+
+// Microsoft research
+@article{criminisi2012decision,
+  title={Decision forests: A unified framework for classification, regression, density estimation, manifold learning and semi-supervised learning},
+  author={Criminisi, Antonio and Shotton, Jamie and Konukoglu, Ender},
+  journal={Foundations and Trends{\textregistered} in Computer Graphics and Vision},
+  volume={7},
+  number={2--3},
+  pages={81--227},
+  year={2012},
+  publisher={Now Publishers Inc.}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Random forests for medical imaging
+@book{criminisi2013decision,
+  title={Decision forests for computer vision and medical image analysis},
+  author={Criminisi, Antonio and Shotton, Jamie},
+  year={2013},
+  publisher={Springer Science \& Business Media}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Other machine learning methods researched
+
+// SVM
+@article{law2006simple,
+  title={A simple introduction to support vector machines},
+  author={Law, Martin},
+  journal={Lecture for CSE},
+  volume={802},
+  year={2006}
+}
+
+// Lagrange multipliers (w/out scarring)
+@article{klein2004lagrange,
+  title={Lagrange multipliers without permanent scarring},
+  author={Klein, Dan},
+  journal={University of California at Berkeley, Computer Science Division},
+  year={2004}
+}
+
+// Hidden Markov Models
+@inproceedings{seymore1999learning,
+  title={Learning hidden Markov model structure for information extraction},
+  author={Seymore, Kristie and McCallum, Andrew and Rosenfeld, Roni},
+  booktitle={AAAI-99 Workshop on Machine Learning for Information Extraction},
+  pages={37--42},
+  year={1999}
+}
+
+// kNN
+@article{cunningham2007k,
+  title={k-Nearest neighbour classifiers},
+  author={Cunningham, Padraig and Delany, Sarah Jane},
+  journal={Multiple Classifier Systems},
+  pages={1--17},
+  year={2007},
+  publisher={Springer}
+}
+
+// Neural network
+@book{heaton2008introduction,
+  title={Introduction to neural networks with Java},
+  author={Heaton, Jeff},
+  year={2008},
+  publisher={Heaton Research, Inc.}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
 // Encog library
 @article{JMLR:v16:heaton15a,
   author  = {Jeff Heaton},
-  title   = {Encog: Library of Interchangeable Machine Learning Models for Java and C#},
+  title   = {Encog: Library of Interchangeable Machine Learning Models for Java and C\#},
   journal = {Journal of Machine Learning Research},
-  year    = {2015},
+  year    = {2015}, 
   volume  = {16},
   pages   = {1243-1247},
   url     = {http://jmlr.org/papers/v16/heaton15a.html}
 }
 
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
 // Visual random forests
 @INPROCEEDING{ Haensch:2015:IVAPP15,
   author = {Hänsch, Ronny and Hellwich, Olaf},
@@ -52,7 +211,155 @@
   year   = {2015}
 }
 
-// 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Generating points on the unit sphere correctly
+@article{polandthree,
+  title={Three different algorithms for generating uniformly distributed random points on the n-sphere, 2000},
+  author={Poland, Jan},
+  journal={URL http://www-alg. ist. hokudai. ac. jp/jan/notes. html}
+}
 
-// Machine learning algorithms
--DECISION FORESTS BOOK
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Image sensor arrays
+@article{gamal2005cmos,
+  title={CMOS image sensors, an introduction to the technology, design, and performance limits, presenting recent development and future directions},
+  author={Gamal, AE and Eltoukhy, H},
+  journal={IEEE circuits and devices mag},
+  pages={8755--3996},
+  year={2005}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Medical imaging (physics)
+@book{sprawls1987physical,
+  title={Physical principles of medical imaging},
+  author={Sprawls, Perry},
+  year={1987},
+  publisher={Aspen Publishers}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Medical imaging (radiation damage)
+@article{picano2004sustainability,
+  title={Sustainability of medical imaging: doctors and patients should be more aware of the long term risks of radiological investigations},
+  author={Picano, Eugenio},
+  journal={British Medical Journal},
+  volume={328},
+  number={7439},
+  pages={578--581},
+  year={2004},
+  publisher={British Medical Association}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Medical imaging (complex noise models)
+@article{coupe2009nonlocal,
+  title={Nonlocal means-based speckle filtering for ultrasound images},
+  author={Coup{\'e}, Pierrick and Hellier, Pierre and Kervrann, Charles and Barillot, Christian},
+  journal={Image Processing, IEEE Transactions on},
+  volume={18},
+  number={10},
+  pages={2221--2229},
+  year={2009},
+  publisher={IEEE}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Probability methods - math meth poisson process stuff
+@book{ross2002probability,
+  title={Probability models for computer science},
+  author={Ross, Sheldon M},
+  year={2002},
+  publisher={Harcourt Academic Press San Diego}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Current methods in medical image segmentation
+@article{pham2000current,
+  title={Current methods in medical image segmentation 1},
+  author={Pham, Dzung L and Xu, Chenyang and Prince, Jerry L},
+  journal={Annual review of biomedical engineering},
+  volume={2},
+  number={1},
+  pages={315--337},
+  year={2000},
+  publisher={Annual Reviews 4139 El Camino Way, PO Box 10139, Palo Alto, CA 94303-0139, USA}
+}
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Segnet
+@article{badrinarayanan2015segnet2,
+  title={SegNet: A Deep Convolutional Encoder-Decoder Architecture for Robust Semantic Pixel-Wise Labelling},
+  author={Badrinarayanan, Vijay and Handa, Ankur and Cipolla, Roberto},
+  journal={arXiv preprint arXiv:1505.07293},
+  year={2015}
+}
+
+@article{jia2014caffe,
+  Author = {Jia, Yangqing and Shelhamer, Evan and Donahue, Jeff and Karayev, Sergey and Long, Jonathan and Girshick, Ross and Guadarrama, Sergio and Darrell, Trevor},
+  Journal = {arXiv preprint arXiv:1408.5093},
+  Title = {Caffe: Convolutional Architecture for Fast Feature Embedding},
+  Year = {2014}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Recent random forests paper
+@article{conjeti2016supervised,
+  title={Supervised domain adaptation of decision forests: Transfer of models trained in vitro for in vivo intravascular ultrasound tissue characterization},
+  author={Conjeti, Sailesh and Katouzian, Amin and Roy, Abhijit Guha and Peter, Lo{\"\i}c and Sheet, Debdoot and Carlier, St{\'e}phane and Laine, Andrew and Navab, Nassir},
+  journal={Medical Image Analysis},
+  volume={32},
+  pages={1--17},
+  year={2016},
+  publisher={Elsevier}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Medical imaging segmentation examples
+@article{zhao2016segmenting,
+  title={Segmenting Brain Tissues from Chinese Visible Human Dataset by Deep-Learned Features with Stacked Autoencoder},
+  author={Zhao, Guangjun and Wang, Xuchu and Niu, Yanmin and Tan, Liwen and Zhang, Shao-Xiang},
+  journal={BioMed Research International},
+  volume={2016},
+  year={2016},
+  publisher={Hindawi Publishing Corporation}
+}
+
+@article{zhao2016multiscale,
+  title={Multiscale CNNs for Brain Tumor Segmentation and Diagnosis},
+  author={Zhao, Liya and Jia, Kebin},
+  journal={Computational and Mathematical Methods in Medicine},
+  volume={2016},
+  year={2016},
+  publisher={Hindawi Publishing Corporation}
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// Image segmentation
+@article{PAL19931277,
+  title = "A review on image segmentation techniques",
+  journal = "Pattern Recognition",
+  volume = "26",
+  number = "9",
+  pages = "1277 - 1294",
+  year = "1993",
+  note = "",
+  issn = "0031-3203",
+  doi = "http://dx.doi.org/10.1016/0031-3203(93)90135-J",
+  url = "http://www.sciencedirect.com/science/article/pii/003132039390135J",
+  author = "Nikhil R Pal and Sankar K Pal"
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// AI book - for machine learning jargon
+@article{russell1995modern,
+  title={A modern approach},
+  author={Russell, Stuart and Norvig, Peter and Intelligence, Artificial},
+  journal={Artificial Intelligence. Prentice-Hall, Egnlewood Cliffs},
+  volume={25},
+  pages={27},
+  year={1995},
+  publisher={Citeseer}
+}
