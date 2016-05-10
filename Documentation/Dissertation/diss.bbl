@@ -1,5 +1,10 @@
 \begin{thebibliography}{10}
 
+\bibitem{1985--ieee754}
+{\em {IEEE standard for binary floating-point arithmetic}}.
+\newblock Institute of Electrical and Electronics Engineers, New York, 1985.
+\newblock Note: Standard 754--1985.
+
 \bibitem{badrinarayanan2015segnet2}
 Vijay Badrinarayanan, Ankur Handa, and Roberto Cipolla.
 \newblock Segnet: A deep convolutional encoder-decoder architecture for robust

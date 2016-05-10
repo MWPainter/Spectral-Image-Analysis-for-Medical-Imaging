@@ -468,21 +468,7 @@ public class DataCube {
 	 * 		colour map, the more cirtain we are that is 
 	 */
 	public int mostlikelyColour(ProbabilityDistribution probDistr, List<ClassLabel> classes) {
-		Map<ClassLabel, Double> probabilities = probDistr.getProbabilityDistribution();
-		
-		// Look for the most likely class and use its colour
-		double bestProb = 0.0;
-		int bestColour = 0;
-		for (ClassLabel clazz : classes) {
-			double prob = probabilities.get(clazz);
-			if (prob > bestProb) {
-				bestProb = prob;
-				bestColour = clazz.getColour();
-			}
-		}
-		
-		// Return the colour of the most likely classification
-		return bestColour;
+		return probDistr.mostProbableClass().getColour();
 	}
 	
 	/***

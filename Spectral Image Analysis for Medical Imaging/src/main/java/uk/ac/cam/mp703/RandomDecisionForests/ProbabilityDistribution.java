@@ -1,6 +1,7 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Map;
 
 /***
@@ -14,12 +15,6 @@ public class ProbabilityDistribution implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/***
-	 * The maximum class number in the distribution
-	 * So we have class numbers 0, 1, ..., maxClassNumber
-	 */
-	final int maxClassNumber;
 	
 	/***
 	 * A mapping from class numbers to probabilities
@@ -29,7 +24,7 @@ public class ProbabilityDistribution implements Serializable {
 	/***
 	 * The most probable classification
 	 */
-	final int mostProbableClass;
+	final ClassLabel mostProbableClass;
 	
 	/***
 	 * The entropy of this distribution
@@ -69,18 +64,9 @@ public class ProbabilityDistribution implements Serializable {
 		}
 		
 		// Assign variables
-		this.probabilities = distribution;
-		this.maxClassNumber = noClasses;
+		this.probabilities = Collections.unmodifiableMap(distribution);
 		this.mostProbableClass = computeMostProbableClass();
 		this.entropy = computeEntropy();
-	}
-	
-	/***
-	 * Get the number of possible classifications
-	 * @return Number of classes
-	 */
-	public int getMaxClassNumber() {
-		return this.maxClassNumber;
 	}
 	
 	/***
@@ -95,23 +81,23 @@ public class ProbabilityDistribution implements Serializable {
 	 * Compute the most probable class
 	 * @return The most probable class number
 	 */
-	private int computeMostProbableClass() {
-		int classNo = 0;
+	private ClassLabel computeMostProbableClass() {
+		ClassLabel clazz = null;
 		double prob = 0.0;
 		for (Map.Entry<ClassLabel, Double> entry : probabilities.entrySet()) {
 			if (entry.getValue() > prob) {
-				classNo = entry.getKey().getClassId();
+				clazz = entry.getKey();
 				prob = entry.getValue();
 			}
 		}
-		return classNo;
+		return clazz;
 	}
 
 	/***
 	 * Get the most probable class
 	 * @return The most probable class number
 	 */
-	public int mostProbableClass() {
+	public ClassLabel mostProbableClass() {
 		return this.mostProbableClass;
 	}
 	
@@ -126,7 +112,7 @@ public class ProbabilityDistribution implements Serializable {
 		for (Map.Entry<ClassLabel, Double> entry : probabilities.entrySet()) {
 			double prob = entry.getValue();
 			if (prob != 0.0) {
-				entropy -= prob * Math.log(prob) / Math.log(2); // div by log(2) as log we use is natural
+				entropy -= prob * Math.log(prob);
 			}
 		}
 		

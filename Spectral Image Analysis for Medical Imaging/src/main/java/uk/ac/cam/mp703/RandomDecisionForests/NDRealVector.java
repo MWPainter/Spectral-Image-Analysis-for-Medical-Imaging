@@ -8,12 +8,7 @@ import java.util.List;
  * @author michaelpainter
  * 
  */
-public class NDRealVector extends Instance  {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class NDRealVector implements Instance  {
 	
 	/***
 	 * The vector represented as a list of doubles.
@@ -52,7 +47,7 @@ public class NDRealVector extends Instance  {
 	}
 	
 	/***
-	 * Get the power of the spectrum
+	 * Get the power of the spectrum (compute lazily)
 	 * @return The power of the spectrum
 	 */
 	public double getPower() {
@@ -63,11 +58,11 @@ public class NDRealVector extends Instance  {
 	}
 	
 	/***
-	 * Compute the power (lazily)
+	 * Compute the power
 	 */
 	private void computePower() {
 		// Compute
-		double power = getPower();
+		double power = 0;
 		for (Double d : vector) {
 			power += d * d;
 		}

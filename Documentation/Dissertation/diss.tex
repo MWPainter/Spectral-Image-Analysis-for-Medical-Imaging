@@ -1,5 +1,11 @@
 \documentclass[12pt,twoside,notitlepage]{report}
 
+% Some texcount commands so that we count text that occurs in tables
+%TC:group table 0 1
+%TC:group tabular 1 1
+%TC:group tabularx 2 1
+%TC:group lstlisting 0 1
+
 %packages
 \usepackage{float}                  % Allow use of H for figures, to allow for exact placement
 \usepackage{a4}
@@ -26,6 +32,7 @@
 \usepackage{framed}                 % Frames/boxes - used in appendix describing file formats
 \usepackage{enumitem}               % Fancier item lists - used for lists in languages and tools section
 \usepackage{hyperref}               % Reference urls
+\usepackage{tabularx}               % Allows the width of a tabular environment to be specified along with the use of X in the collumn specifiers
 
 % Shorthands
 % Var in mathmode
@@ -45,6 +52,9 @@
 % Names for the datasets we have
 \newcommand{\siris}{[[Siri's]]}
 \newcommand{\tengs}{[[Teng's]]}
+
+% Numbering on subsubsections
+\setcounter{secnumdepth}{3}
 
 % Tikz imports
 \usetikzlibrary{
@@ -81,7 +91,9 @@
   keywordstyle=\color[rgb]{0,0,1}\ttfamily,
   stringstyle=\color[rgb]{0.627,0.126,0.941}\ttfamily,
   commentstyle=\color[rgb]{0.133,0.545,0.133}\ttfamily,
-  morecomment=[l][\color{magenta}]{\#}
+  morecomment=[l][\color{magenta}]{\#},
+  aboveskip=2em,                                                        % spacing above listings
+  belowskip=1.5em                                                         % spacing below listings
 }
 
 % Graphics extensions used
@@ -217,7 +229,7 @@ Supervisor:         & Dr Pietro Lio' \& Dr Gianluca Ascolani       \\
 }
 
 \footnotetext[1]{
-    This word count was computed by {\tt texcount -total diss.tex }
+    This word count was computed by {\tt texcount.pl -total diss.tex }
 }
 \stepcounter{footnote}
 
@@ -676,7 +688,7 @@ support and helping me keep it together through the tougher parts of the year.
         which outputs a probability distribution over classes as opposed to a single class, which can be used to give 
         a single class as mentioned previously.
 
-        \subsection{Introduction to decision trees}
+        \subsection{Introduction to decision trees} \label{sec:intro_decision_trees}
             Decision trees consist of a simple binary tree structure. Intuitively we think about asking a question at each 
             node, makeing a decision on which child node to traverse to and eventually reach some conclusion at a leaf node. 
             We can use this model in the situation described in section \ref{sec:supervised_learning}, where we are allowed 
@@ -744,10 +756,12 @@ support and helping me keep it together through the tougher parts of the year.
             For our model we specify some function $f:\bb{R}^d \times \cl{T} \rightarrow \bb{B}$, where $\cl{T}$ is some 
             parameter space and is used to specify a function from $\bb{R}^d$ to $\bb{B}$ at each decision node. We call 
             $f$ a \textit{weak learner} or a \textit{split function}. In a decision tree for each state $i \in Q$ we have 
-            some associated $\vc{\theta}_i \in \cl{T}$ which is used to specify $f_i(\vc{x}) = f(\vc{x}; \vc{theta}_i)$. The 
-            function\footnote{$\bb{B}$ is defined in section \ref{sec:term_and_def}} $f_i : \bb{R}^d \rightarrow \bb{B}$ 
-            is then used to make a decision to traverse to state $2i$ or $2i+1$ next. Finally when we hit a leaf node 
-            $j \in Q$ we need to specify some probability distribution $p_j:\cl{C} \rightarrow [0,1]$ where we say 
+            some associated $\vc{\theta}_i \in \cl{T}$ called a \textit{split parameter}, used to specify 
+            $f_i(\vc{x}) = f(\vc{x}; \vc{\theta}_i)$. The function\footnote{$\bb{B}$ is defined in section 
+            \ref{sec:term_and_def}} $f_i : \bb{R}^d \rightarrow \bb{B}$ is then used to make a decision to traverse to 
+            state $2i$ or $2i+1$ next. Finally when we hit a leaf node $j \in Q$ we need to specify some probability 
+            distribution $p_j:\cl{C} \rightarrow [0,1]$ where we say 
+
             \begin{align}
                 p_j(c) = \Pr(\vc{x} \in c | \vc{x} \text{ traversed to } j \text{ in } T).
             \end{align}
@@ -755,7 +769,7 @@ support and helping me keep it together through the tougher parts of the year.
             As can be seen in figure \ref{fig:decision_tree_classify} to classify some instance $\vc{x}$ using a 
             decision tree $T$ we simply traverse $T$ using $f_i$ at each node $i \in Q$ to make a decision whether 
             to traverse to $2i$ or $2i+1$ next. We usually use the rule if $f_i(\vc{x}) = 0$ then traverse to 
-            $2i$, otherwise if $f_i(\vc{x}) = 1$ then travers to $2i+1$. \cite{criminisi2013decision}
+            $2i$, otherwise if $f_i(\vc{x}) = 1$ then traverse to $2i+1$. \cite{criminisi2013decision}
 
             \begin{figure}[H]
                 \centering
@@ -766,9 +780,10 @@ support and helping me keep it together through the tougher parts of the year.
 
         \subsection{Training a decision tree}
             When we train a decision tree we use a greedy approach, we train at each node optimally. We must use a 
-            greedy approach because optimising over all possible trees is a computationally infeasible task. So consider 
-            having a set of states $Q$ and for each $i \in Q$ wanting to learn $\vc{\theta}_i \in \cl{T}$. Let $\vc{s}_i$ 
-            be the training sequence that $i$ is trained on. It is sensible to let $\vc{s_0}=\vc{s}$. 
+            greedy approach because optimising over all possible trees is a computationally infeasible task (it is an 
+            NP-complete problem to decide if a tree is optimal). So consider having a set of states $Q$ and for each 
+            $i \in Q$ wanting to learn the split parameter $\vc{\theta}_i \in \cl{T}$. Let $\vc{s}_i$ be the training 
+            sequence that $i$ is trained on. It is sensible to let $\vc{s_0}=\vc{s}$. 
 
             We first define the \textit{entropy} of a training sequence
 
@@ -780,15 +795,16 @@ support and helping me keep it together through the tougher parts of the year.
 
             \begin{align}
                 p(c) = \frac{\left| \{\vc{v}\ |\ c' = c \land (\vc{v},c') \in S \} \right|}{\left| S \right|},
+                \label{eq:empirical_distribution}
             \end{align}
             
             which is the empirical probability of a training sample vector in $s$ being classified as $c$. Now we define 
-            a left and right split of $\vc{s}$, using some parameter $\vc{\theta} \in \cl{T}$ according to our weak 
+            a left and right split of $\vc{s}$, using some split parameter $\vc{\theta} \in \cl{T}$ according to our weak 
             learner $f$ as follows
 
             \begin{align}
-                L(\vc{s},\vc{\theta}) & = \{ (\vc{x}, c) \in s | f(\vc{x}, \vc{theta}) = 0 \} \\
-                R(\vc{s},\vc{\theta}) & = \{ (\vc{x}, c) \in s | f(\vc{x}, \vc{theta}) = 1 \}.
+                L(\vc{s},\vc{\theta}) & = \{ (\vc{x}, c) \in s | f(\vc{x}, \vc{\theta}) = 0 \}  \label{eq:left_split}\\
+                R(\vc{s},\vc{\theta}) & = \{ (\vc{x}, c) \in s | f(\vc{x}, \vc{\theta}) = 1 \}. \label{eq:right_split}
             \end{align}
 
             We then consider the \textit{information gain} $I$ for performing a split according to $\vc{\theta}$ of 
@@ -796,6 +812,7 @@ support and helping me keep it together through the tougher parts of the year.
             \begin{align}
                 I(\vc{s}, \vc{\theta}) = H(\vc{s}) - \frac{1}{|\vc{s}|} \left( |L(\vc{s}, \vc{\theta})| H(L(\vc{s}, \vc{\theta})) 
                                                                           + |R(\vc{s}, \vc{\theta})| H(R(\vc{s}, \vc{\theta})) \right).
+                \label{eq:information_gain}
             \end{align} 
 
             We now have a way that we might want to pick $\vc{\theta}_i$ at each node
@@ -994,7 +1011,7 @@ support and helping me keep it together through the tougher parts of the year.
             \begin{figure}[H]
                 \centering 
                 \includegraphics[scale=0.5]{poisson_distributions}
-                \caption{Example of Poisson($\mu$) and Poisson($\mu$, 30) distributions, for $\mu = 5,15,25$.}
+                \caption{Example of Poisson($\mu$) and SPoisson($\mu$, 30) distributions, for $\mu = 5,15,25$.}
             \end{figure}
 
         \subsection{Additive White Gaussian Noise}
@@ -1673,9 +1690,9 @@ support and helping me keep it together through the tougher parts of the year.
 
 
     \section{Languages and tools}
-        In this section we briefly describe the languages, libraries and tools that we used for the project.
+        In this section we briefly describe the languages, libraries and tools that we used for the project. \\
 
-        \subsubsection{Programming Languages and Libraries}
+        \noindent\textbf{Programming Languages and Libraries}
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
                 \item[Java:] provides an OS independent language and is object oriented to allow for modular design.
                 \item[JUnit:] a Java library used for unit testing, used for white box and black box testing throughout 
@@ -1683,7 +1700,7 @@ support and helping me keep it together through the tougher parts of the year.
                 \item[Encog:] an easy to use neural networks library in Java/C\# written by Heaton research \cite{JMLR:v16:heaton15a}. 
             \end{description}
 
-        \subsubsection{Integrated development environment}
+        \noindent\textbf{Integrated development environment}
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
                 \item[Eclipse:] allows for rapid development in Java and integrates easily with libraries and tools such 
                     as JUnit and Git.
@@ -1691,12 +1708,12 @@ support and helping me keep it together through the tougher parts of the year.
                     of unit tests.
             \end{description}
 
-        \subsubsection{Statistical analysis and visualisation}
+        \noindent\textbf{Statistical analysis and visualisation}
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
                 \item[Matlab:] an easy to use, extensible statistical package used for producing graphs.
             \end{description}
 
-        \subsubsection{Document preparation}
+        \noindent\textbf{Document preparation}
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
                 \item[\LaTeX:] used for typesetting this dissertation in a precise manor allowing control over most 
                     aspects of document layout and style.
@@ -1705,13 +1722,13 @@ support and helping me keep it together through the tougher parts of the year.
                 \item[Adobe Photoshop:] image editing software used to produce some diagrams.
             \end{description}
 
-        \subsubsection{Version Control}
+        \noindent\textbf{Version Control}
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
                 \item[Git:] allows code to be developed systematically and rollback if necessary, as well as providing  
                     the ability to fork my core repository to try different strategies.
             \end{description}
 
-        \subsubsection{Backup}
+        \noindent\textbf{Backup}
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
                 \item[DropBox and Google Drive:] repositories were kept in both DropBox and Google Drive folders, which 
                     synced every time a file was changed.
@@ -1811,24 +1828,35 @@ support and helping me keep it together through the tougher parts of the year.
     \end{figure}
 
 
-    \section{Randomised Forests Library}
+    \section{Random Forests Library}
         We begin by describing our implementation of random forests, looking specifically at some critical design 
-        choices there were made.
+        choices there were made. We implement a generic and easily extensible random forests library, which could 
+        be specialised for many applications, then write specific subclasses that can utilise the library for our 
+        purpose of providing a pixel labelling.
 
         \subsection{Data structures}
             A number of important data structures are used throughout the library, each requiring an efficient 
-            implementation and provides necessary abstraction needed. Before we move onto the more complicated issues 
-            regarding supervised learning, we first need to implement the structures that it requires.
+            implementation and provides necessary abstraction. Before we move onto the more complicated issues 
+            regarding supervised learning, we first describe the structures used. In this subsection 
+            we will give short listings for each of the structures which are cut down for readability. We 
+            in general will omit constructors, getters and setters and functions from these classes unless there is 
+            anything of interest in particular and we give a table of functions each class implements, which can 
+            be used as a reference in later sections. 
+
+
 
             \subsubsection{ClassLabels}
-                We first collect our classification labels into a separate class, which initially may seem unneccessary 
-                to begin with, but was a crucial abstraction to reduce code complexity. What may seem obvious is that 
-                this allows us to implement a mapping between classifications and probabilities, which is useful for 
-                for a simplistic implementation of probability distributions, as described in section 
-                \ref{sec:rand_forest}. 
+                We first collect our classification labels into a separate class, which initially may seem unnecessary, 
+                but was a crucial abstraction to reduce code complexity, prior to making this abstraction code was 
+                messy and involved maintaining (with difficulty) lists of strings and lists of colours that were 
+                consistently ordered.
 
-                \begin{lstlisting}[caption={The \texttt{ClassLabel} class, used to encapsulate a classification label and it's 
-                        associated meta-data. Member functions are ommitted.}]
+                This allows us to implement a mapping between classifications and probabilities, giving a class to use as 
+                an index in a \texttt{Map}, which is useful for for a simplistic implementation of probability 
+                distributions in section \ref{sec:prob_dist}, as described in section \ref{sec:rand_forest}. 
+
+                \begin{lstlisting}[caption={The \texttt{ClassLabel} declaration, used to encapsulate a classification label and it's 
+                        associated meta-data.}, label={lst:ClassLabel}]
 public class ClassLabel implements Serializable {
 
   // Member variables
@@ -1842,29 +1870,666 @@ public class ClassLabel implements Serializable {
 }
                 \end{lstlisting}
 
-                Contained in the class definition is a number of convenience methods. Firstly, a method 
-                \texttt{loadClassList} is used to read in a list of classes given a ``class colour map'' as specified 
-                in appendix \ref{app:file_formats}. We note that \texttt{classId} isn't specified by the user and only used 
-                internally. We also define functions \texttt{computeColourToClassMap} and \texttt{computeNameToClassMap} 
-                which return values of type \texttt{Map<Integer, ClassLabel>} and \texttt{Map<String, ClassLabel>} 
-                respectively. The purpose of these functions is obvious from their names, they provide a convenient 
-                method of generating a map that can be used to look up \texttt{ClassLabel} objects from a given colour 
-                or name, which we utilise later in section \ref{sec:pixel_label}.
+                \begin{table}[H]
+                    \begin{tabularx}{\textwidth}{l|X}
+                        \textbf{Function Name} & \textbf{Function Description} \\
+                        \hline
+
+                        \texttt{loadClassList} & 
+                            Returns a value of type \texttt{List<ClassLabel>} given a filename specifying ``class colour 
+                            map'' as in appendix \ref{app:file_formats}, of classes specified in the file. \\
+                        \hline
+
+                        \texttt{computeColourToClassMap} & 
+                            Returns a value of type \texttt{Map<Integer, ClassLabel>}, a mapping from a class colours to 
+                            their corresponding \texttt{ClassLabel} objects. \\ 
+                        \hline
+
+                        \texttt{computeNameToClassMap} & 
+                            Returns a value of type \texttt{Map<String, ClassLabel>}, a mapping from a class names to 
+                            their corresponding \texttt{ClassLabel} objects. \\
+                        \hline
+
+                        \texttt{equals} &
+                            An override of \texttt{Object}'s equality function. This is needed as we will frequently 
+                            use \texttt{ClassLabel} as the key to a map structure. \\
+                        \hline
+
+                        \texttt{hashCode} &
+                            Similarly to \texttt{equals} this is overridden for a correct implementation when 
+                            \texttt{ClassLabel} is used as the key in a (hash) map structure.
+
+                    \end{tabularx}
+                    \caption{Member functions of the \texttt{ClassLabel} class.}
+                    \label{tab:ClassLabel}
+                \end{table}
+
+                We note that \texttt{classId} isn't specified by the user and only used internally in the system. In the 
+                class we also define a number of convenience functions as described in table \ref{tab:ClassLabel}, but 
+                their definitions are omitted from listing \ref{lst:ClassLabel}. It is clear that class colours and 
+                class names both need to be unique values per \texttt{ClassLabel} instance, this is checked and 
+                preserved by any functions that create \texttt{ClassLabel} instances, such as \texttt{loadClassList}. 
+                Lastly we also note that the class implements the \texttt{Serializable} interface, which is necessary 
+                to be able to use \texttt{ObjectOutputStream} in section \ref{sec:DecisionForest}, when saving forests 
+                to a file.
+
+
+
+
+            \subsubsection{Instances}
+                The \texttt{Instance} class is used to specify a feature vector, or some instance of our problem. We 
+                define an interface to represent the base structure of an instance. 
+
+                \begin{lstlisting}[caption={The \texttt{Instance} declaration, an interface any concrete instance 
+                class should at least present.},label={lst:Instance}]
+public interface Instance {
+
+  public int getDimension();
+  public double getNormalisationReference(); 
+  public void normalise(double referenceValue);
+}
+                \end{lstlisting}
+
+                A feature vector will have some finite number of `features' that we use, the \texttt{getDimension} 
+                function refers to getting the number of features in a feature vector. The functions 
+                \texttt{getNormalisationReference} and \texttt{normalise} are used to define some sort of `power' value 
+                for each instance, and to allow normalisation so that classification can be performed on instances of 
+                a single power. By putting this into the interface we force implementations to provide the facility of 
+                normalisation, however it is only optionally used in the learning and classification algorithms in 
+                sections \ref{sec:training} and \ref{sec:classification}. 
+
+                We also define \texttt{NDRealVector}, a concrete implementation of \texttt{Instance} which can be used 
+                to represent spectra in spectral images, that is, values in $\bb{R}^N$. We can simply think of this as 
+                a wrapper for a list of values, and we store the power of the spectrum also. The \textit{power} of a 
+                spectrum or vector we define to be the sum of squared values in the list. For clarity we leave the implementation 
+                of \texttt{computePower} in listing \ref{lst:NDRealVector}.
+
+
+                \begin{lstlisting}[caption={The \texttt{NDVector} class, a concrete implementation of \texttt{Instance}.}, label={lst:NDRealVector}]
+public class NDRealVector implements Instance  {
+  
+  List<Double> vector;
+  Double power = null;
+
+  ...
+
+  private void computePower() {
+    double power = 0;
+    for (Double d : vector) {
+      power += d * d;
+    }
+    this.power = power;
+  }
+}
+                \end{lstlisting}
+
+                \begin{table}[H]
+                    \begin{tabularx}{\textwidth}{l|X}
+                        \textbf{Function Name} & \textbf{Function Description} \\
+                        \hline
+
+                        \texttt{getDimension} & 
+                            This returns $n$ if there are $n$ values in \texttt{vector}, our list of doubles.  \\ 
+                        \hline
+
+                        \texttt{getPower} & 
+                            This returns the power of the spectrum of values. If we consider the list of values 
+                            to be $\vc{v}$ then we return $||\vc{v}||^2$. \\ 
+                        \hline
+
+                        \texttt{getNormalisationReference} & 
+                            This function returns the power of the spectrum. \\
+                        \hline
+
+                        \texttt{normalise} & 
+                            Normalisation of vectors can be implemented by scalar division of the vector with the power. 
+                            I.e. we divide all values in the spectrum by the power. \\ 
+                        \hline
+
+                        \texttt{toString} & 
+                            We override \texttt{Object}'s \texttt{toString} method. This is used later in section 
+                            \ref{sec:training_tools} when we wish to print a training sequence to a text file. It 
+                            simply returns a comma separated list of values. 
+
+                    \end{tabularx}
+                    \caption{Member functions of the \texttt{NDRealVector} class.}
+                    \label{tab:NDRealVector}
+                \end{table}
+
+
+
+            \subsubsection{Probability Distributions} \label{sec:prob_dist}
+                As discussed in section \ref{sec:rand_forest} probability distributions are associated with each node, 
+                and is the effective output from the classification algorithm. So any implementation of Random Forests 
+                needs to have some way to represent probability distributions over possible classifications. Although 
+                we can represent a probability distribution as \texttt{Map<ClassLabel, Double>}, we choose to 
+                encapsulate this in it's own class \texttt{ProbabilityDistribution} so that we can check that 
+                it is a valid distribution and cache frequently used values such as entropy.
+
+                The class is made immutable so that we cannot accidentally modify the distribution into something 
+                invalid. We make use of the \texttt{unmodifiableMap} function in the \texttt{Java.Collections} package, 
+                which makes a copy of a map, which crucially cannot be modified, we set all member variables to 
+                \texttt{final} and don't provide getters so that the class immutable. 
+
+                In listing \ref{lst:ProbabilityDistribution} we use ``\texttt{throw new Exception}'' as a shorthand, 
+                where in the production code we throw a more meaningful exception, with a message saying what exactly 
+                was the problem and we have left the constructor as it is non-trivial in this case. We also leave 
+                \texttt{computeEntropy} in, because there we need in computing the sum. Consider that in accordance with the 
+                IEEE 754 standard \cite{1985--ieee754} we set the following
+
+                \begin{align}
+                  \log(0.0) &= -\infty 
+                \end{align}
+
+                where $\infty$ is a special value specified in the standard to represent infinity. According to the 
+                standard we should throw an error on trying to multiply zero and infinity and indeed Java sets the value 
+                to \texttt{NaN} when we attempt this. Hence we need to specifically skip zero values in the sum which 
+                will set
+
+                \begin{align}
+                  \texttt{sum} &= \texttt{sum} + 0.0 * \log(0.0) \\
+                    &= \texttt{sum} + 0.0 * -\infty \\
+                    &= \texttt{sum} + \texttt{NaN}\\
+                    &= \texttt{NaN}.
+                \end{align}
+
+                \begin{lstlisting}[caption={The \texttt{ProbabilityDistribution} declaration, used to provide a 
+                probability distribution over \texttt{ClassLabel}s.}]
+public class ProbabilityDistribution implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+  final Map<ClassLabel, Double> probabilities;
+  final int mostProbableClass;
+  final double entropy;
+
+  ...
+
+  public ProbabilityDistribution(Map<ClassLabel, Double> distribution, int noClasses) 
+      throws MalformedProbabilityDistributionException {
+    
+    // Check each value is in [0,1] and sum values
+    double sum = 0.0;
+    for (Map.Entry<ClassLabel, Double> entry : distribution.entrySet()) {
+
+      if (entry.getValue() < 0.0 || entry.getValue() > 1.0) {
+        throw new MalformedProbabilityDistributionException;
+      }
+      sum += entry.getValue();
+    }
+    
+    // Check that values sum to 1, allowing for a small floating point error
+    double eps = 1e-10;
+    if (sum < 1.0-eps || 1.0+eps < sum) {
+      throw new MalformedProbabilityDistributionException;
+    }
+    
+    // Assign the values (so they are immutable)
+    this.probabilities = Collections.unmodifiableMap(distribution);
+    this.mostProbableClass = computeMostProbableClass();
+    this.entropy = computeEntropy();
+  }
+
+  ...
+
+  private double computeEntropy() {
+    // Be careful to avoid the case when prob = 0 as it may give an NaN value
+    double entropy = 0.0; 
+    for (Map.Entry<ClassLabel, Double> entry : probabilities.entrySet()) {
+      double prob = entry.getValue();
+      if (prob != 0.0) {
+        entropy -= prob * Math.log(prob);
+      }
+    }
+    
+    // Divide by log(2) as Math.log is base e
+    return entropy / Math.log(2);
+  }
+}
+                \end{lstlisting}
+
+                \begin{table}[H]
+                    \begin{tabularx}{\textwidth}{l|X}
+                        \textbf{Function Name} & \textbf{Function Description} \\
+                        \hline
+
+                        \texttt{computeMostPorbableClass} & 
+                            Returns the \texttt{ClassLabel} with the highest probability in the distribution. This 
+                            function is labelled private and is only used in the constructor. \\ 
+                        \hline
+
+                        \texttt{mostProbableClass} & 
+                            Getter for the \texttt{mostProbableClass} value. \\ 
+                        \hline
+
+                        \texttt{computeEntropy} & 
+                            Computes the entropy and returns the value. This function is labelled private and is only 
+                            used in the constructor. \\ 
+                        \hline
+
+                        \texttt{entropy} & 
+                            Getter for the \texttt{entropy} value. \\ 
+                        \hline
+
+                        \texttt{equals} & 
+                            Override of \texttt{Object}'s function \texttt{equals}, returns true if the variable 
+                            \texttt{probabilities} are equal in the two objects. We want this when comparing 
+                            probability distributions rather than referential equality. \\ 
+                        \hline
+
+                        \texttt{hashCode} & 
+                            Override of \texttt{Object}'s function \texttt{equals}, as we have overridden the 
+                            \texttt{equals} function. \\ 
+
+                    \end{tabularx}
+                    \caption{Member functions of the \texttt{ProbabilityDistribution} class.}
+                    \label{tab:ProbabilityDistribution}
+                \end{table}
+
+
+
+            \subsubsection{Training Sequences}
+                Firstly we define the \texttt{TrainingSample} object. This is simply a pairing between a 
+                \texttt{ClassLabel} and an \texttt{Instance}. There is no other functions in this class other than the 
+                getters, setters and constructor.
+
+                \begin{lstlisting}[caption={The \texttt{TrainingSample} declaration.}]
+public class TrainingSample {
+  
+  ClassLabel classLabel;
+  Instance instance;
+
+  ...
+
+}
+                \end{lstlisting}
+
+                A \texttt{TrainingSequence} consists of a list of \texttt{TrainingSample}s, and we keep a list of 
+                \texttt{ClassLabel}s for reference. A number of convenience functions are defined in the class and 
+                are listed in table \ref{tab:TrainingSequence}.
+
+                \begin{lstlisting}[caption={The \texttt{TrainingSequence} declaration.}]
+public class TrainingSequence {
+
+  List<TrainingSample> trainingSequence;
+  List<ClassLabel> classes;
+
+  ...
+  
+}
+
+                \end{lstlisting}
+
+                \begin{table}[H]
+                    \begin{tabularx}{\textwidth}{p{4.5cm}|X}
+                        \textbf{Function Name} & \textbf{Function Description} \\
+                        \hline
+
+                        {\tt newNDRealVector\-TrainingSequence} & 
+                            \texttt{newNDRealVectorTrainingSequence} is a \texttt{static} function taking two file names. 
+                            One specifying 
+                            a ``class colour map'' file and one specifying a training sequence. Both these files should 
+                            be of the format described in appendix \ref{app:file_formats}. This function parses the 
+                            files and returns a \texttt{TrainingSequence} instance generated from it, with instances 
+                            of the type \texttt{NDRealVector} defined in listing \ref{lst:NDRealVector}. \\ 
+                        \hline
+
+                        \texttt{empericalDistribution} & 
+                            Returns a \texttt{ProbabilityDistribution} that represents the empirical distribution of the 
+                            training sequence, as defined in equation \ref{eq:empirical_distribution}. \\
+                        \hline
+
+                        \texttt{entropy} & 
+                            This returns the entropy of the empirical distribution. It is essentially just a shorthand 
+                            for calling \texttt{empiricalDistribution().entropy()}. \\
+                        \hline
+
+                        \texttt{join} & 
+                            A \texttt{static} function that takes two \texttt{TrainingSequence}s, and joins them 
+                            together. This simply appends the lists of \texttt{TrainingSample}s from two 
+                            \texttt{TrainingSequence}s into a new \texttt{TrainingSequence} instance. \\
+                        \hline
+
+                        \texttt{informationGain} & 
+                            A \texttt{static} function that takes two \texttt{TrainingSequence}s \texttt{ts1} and 
+                            \texttt{ts2}. The function returns the information gain for splitting the training 
+                            sequence \texttt{join(ts1,ts2)} into the training sequences \texttt{ts1} and \texttt{ts2} 
+                            according to equation \ref{eq:information_gain}. \\
+                        \hline
+
+                        \texttt{normalise} & 
+                            This parses all of the \texttt{Instance}s in the training sequence and computes an average 
+                            ``normalisation reference'' (see \texttt{getNormalisationReference} in listing 
+                            \ref{lst:Instance} and in table \ref{tab:NDRealVector}). It then returns a new training 
+                            sequence where every sample has been normalised to this average value. \\
+                        \hline
+
+                        \texttt{saveToTextFile} & 
+                            This \texttt{static} function writes out a training sequence file with the data from the 
+                            given \texttt{TrainingSequence} instance, in accordance with the file format specified in 
+                            appendix \ref{app:file_formats}. \\
+
+                    \end{tabularx}
+                    \caption{Member functions of the \texttt{TrainingSequence} class.}
+                    \label{tab:TrainingSequence}
+                \end{table}
 
 
 
 
 
-      \subsection{Training}
+            \subsubsection{Split Parameters} \label{sec:split_params}
+                We define an abstract class \texttt{SplitParameters} used as a common super class for any implementation 
+                of a split parameter. We make this an abstract class so that we can specify that it implements 
+                \texttt{Serializable} to force any implementing classes to also implement this interface, which is again 
+                necessary to be able to use \texttt{ObjectOutputStream} in section \ref{sec:DecisionForest}, when saving 
+                forests to a file. We also specify at this point that each split parameter needs to be 
+                able to specify what weak learner it is for, which is because we only save the split parameters in the 
+                decision tree and we need some way to determine which \texttt{WeakLearner} subclass to use from the 
+                \texttt{SplitParameter} instance. 
+
+                \begin{lstlisting}[caption={The \texttt{SplitParameters} abstract class declaration.}]
+public abstract class SplitParameters implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
+  public abstract WeakLearnerType getWeakLearnerType();
+}
+                \end{lstlisting}
+
+                We consider also a concrete implementation of \texttt{SplitParameters}, specifically 
+                \texttt{OneDimensionalLinearSplitParameters} which specifies a ``dimension'' and a threshold as needed 
+                for the \texttt{OneDimensionalLinearWeakLearner} in section \ref{sec:weak_learner}. We see an example of 
+                \texttt{OneDimensionalLinearSplitParameters} being able to specify that it is for a 
+                \texttt{OneDimensionalLinearWeakLearner} in \texttt{getWeakLearnerType()}, which uses the \texttt{enum} defined 
+                in listing \ref{lst:WeakLearnerType}. 
+
+                The \texttt{SplitParameter} classes are simple and only include getters, setters and constructors.
+
+                \begin{lstlisting}[caption={Example of a concrete subclass of \texttt{SplitParameters}.}]
+public static class OneDimensionalLinearSplitParameters extends SplitParameters {
+  
+  private static final long serialVersionUID = 1L;
+  int dimension;
+  double threshold;
+
+  ...
+
+  @Override
+  public WeakLearnerType getWeakLearnerType() {
+    return WeakLearnerType.ONE_DIMENSIONAL_LINEAR;
+  } 
+}
+                \end{lstlisting}
+
+
+            \subsubsection{Weak Learners} \label{sec:weak_learner}
+                We implement \texttt{WeakLearner} as an abstract class, this time because we provide only a partial 
+                implementation. Any common code between subclasses can be put directly into the \texttt{WeakLearner} 
+                abstract class. The function of each abstract method is explained in table 
+                \ref{tab:OneDimensionalLinearWeakLearner}. The function \texttt{uniformRandomDoubleInRange} is a simple 
+                convenience method that is used to generate a value uniformly in the range \texttt{[lowerBound,highBound]}, 
+                and uses Java's implementation of generating a uniform random variable in the range \texttt{[0,1]}. To 
+                identify the type of each weak learner with some tag we define an \texttt{enum} type in listing 
+                \ref{lst:WeakLearnerType}. 
+
+                \begin{lstlisting}[caption={The \texttt{WeakLearner} abstract class declaration}.]
+public abstract class WeakLearner {
+
+  public abstract WeakLearnerType getWeakLearnerType();
+  public abstract Direction split(SplitParameters splitParams, Instance instance);
+  public abstract SplitParameters generateRandomSplitParameters(int dataDimension, Random rand);
+  public abstract void giveHint(TrainingSequence trainingSequence);
+
+  public final double uniformRandomDoubleInRange(double lowerBound, double higherBound, Random rand) {
+    ...
+  }
+}
+                \end{lstlisting}
+
+                \begin{lstlisting}[caption={The \texttt{WeakLearnerType} enum, used to identify particular weak learners.},
+                label={lst:WeakLearnerType}]
+public enum WeakLearnerType implements Serializable {
+  ONE_DIMENSIONAL_LINEAR,
+  TWO_DIMENSIONAL_LINEAR,
+  GENERAL_LINEAR,
+  TWO_DIMENSIONAL_QUADRATIC,
+}
+                \end{lstlisting}
+
+                We also consider a concrete implementation for an example, using the \texttt{OneDimensionalLinearWeakLearner} 
+                class. This is the most simple weak learner function that we can decide and has the simplest parameters, 
+                when we are considering \texttt{NDRealVector} instances. We note that subclasses of \texttt{WeakLearner}s are
+                specific to particular subclasses of \texttt{Instance}. 
+                The \texttt{OneDimensionalLinearWeakLearner} simply picks one value in the feature vector/instance, compares 
+                it to some threshold and then makes a decision based on this. For example consider (mathematically) an 
+                instance $\vc{v} \in \bb{R}^n$, in this case our split parameters are $\vc{\theta} = (i,\tau) \in 
+                \bb{Z}_n \times \bb{R}$, and the split function/weak learner is
+
+                \begin{align}
+                  f(\vc{v}; \vc{\theta}) = f(\vc{v}; (i,\tau)) = \begin{cases}
+                    1 & \text{ if } v_i \geq \tau \\
+                    0 & \text{ otherwise.}
+                  \end{cases}
+                  \label{eq:split_equation}
+                \end{align}
+
+                These split parameters for the \texttt{OneDimensionalLinearWeakLearner} class are represented by the 
+                \texttt{OneDimensionalLinearSplitParameters} class, this is an example that each subclass of 
+                \texttt{WeakLearner} should have a corresponding subclass of \texttt{SplitParameters} which it uses to 
+                represent it's split parameters. 
+
+                The \texttt{split} function is of particular interest in listing \ref{lst:OneDimensionalLinearWeakLearner} as 
+                it implements equation \ref{eq:split_equation}. 
+
+                \begin{lstlisting}[caption={The \texttt{OneDimensionalLinearWeakLearner} declaration, a concrete implementation 
+                of the \texttt{WeakLearner} class.}, label={lst:OneDimensionalLinearWeakLearner}]
+public class OneDimensionalLinearWeakLearner extends WeakLearner {
+
+  List<Double> minimumValues;
+  List<Double> maximumValues;
+
+  ...
+  
+  @Override
+  public Direction split(SplitParameters splitParams, Instance instance) {
+    // Cast the split parameters and instance into their correct subclasses
+    OneDimensionalLinearSplitParameters params = null;
+    NDRealVector vector = null;
+    try {
+      params = (OneDimensionalLinearSplitParameters) splitParams;
+      vector = (NDRealVector) instance;
+    } catch (ClassCastException e) {
+      throw new IncompatibleInstanceAndWeakLearnerException("The split parameters and "
+          + "instance are incompatible with this weak learner.");
+    }
+    
+    // Now make a left choice if lower than the threshold
+    if (vector.vector.get(params.dimension) < params.threshold) {
+      return Direction.LEFT;
+    } else {
+      return Direction.RIGHT;
+    }
+  }
+}
+                \end{lstlisting}
+
+                \begin{table}[H]
+                    \begin{tabularx}{\textwidth}{l|X}
+                        \textbf{Function Name} & \textbf{Function Description} \\
+                        \hline
+
+                        \texttt{getWeakLearnerType} & 
+                            A function that is used to identify what type of weak learner an instance is. This is 
+                            useful when a subclass is cast to \texttt{WeakLearner} and we want to cast it back to 
+                            the subclass without causing an exception. \\ 
+                        \hline
+
+                        \texttt{split} & 
+                            This function takes a split parameter and an instance, it is the concrete implementation 
+                            of the split function. It returns an enum of type \texttt{Direction}, which specifies if 
+                            we should traverse to the left or right child of a decision tree node. \\ 
+                        \hline
+
+                        \texttt{giveHint} & 
+                            In this function we are passed the training sequence prior to training a decision tree. 
+                            It is used as a chance to look at the data to give a hint to what split parameters we 
+                            might want to generate, or more specifically not generate. \\ 
+                        \hline
+
+                        \texttt{generateRandomSplitParameters} & 
+                            This function provides a routine for generating a random split parameter to be tried in the 
+                            split function during training a decision tree. \\ 
+
+                    \end{tabularx}
+                    \caption{Member functions of the \texttt{OneDimensionalLinearWeakLearner} class.}
+                    \label{tab:OneDimensionalLinearWeakLearner}
+                \end{table}
+
+                The \texttt{OneDimensionalLinearWeakLearner} makes use of the \texttt{giveHint} function by iterating through 
+                all \texttt{NDRealVector} instances in the training sequence and recording a minimum and maximum value 
+                for each dimension. This therefore allows us to avoid picking particularly bad 
+                \texttt{OneDimensionalLinearSplitParameters}, as for any of the features/dimensions in the \texttt{NDRealVector} 
+                that are chosen, if we pick a threshold value outside the range between the minimum and maximum we know that 
+                the split function will split the training sequence with zero information gain. Using the notation from 
+                equations \ref{eq:left_split} and \ref{eq:right_split} it means that one of $L(\vc{s},\vc{\theta})$ or 
+                $R(\vc{s},\vc{\theta})$ will be empty, leading to an information gain of zero ($I(\vc{s},\vc{\theta}) = 0$ 
+                in equation \ref{eq:information_gain}).
+
+                \begin{figure}[H]
+                  \centering
+                  \includegraphics[scale=0.25]{one_dimensional_weak_learner_optimisation.jpeg}
+                  \caption{Knowing the minimum and maximum values in each dimension allows us to make an informed 
+                  choice on split parameters to pick, which in this case is the green zone of values.}
+                \end{figure}
+
+
+
+
+            \subsubsection{Decision Tree Node}
+                Finally we move onto defining our decision tree, where we only found it necessary to define the node 
+                structure \texttt{TreeNode} and directly use it in \texttt{DecisionForest}. Each node has a reference 
+                to a left and right child node, which are set to \texttt{null} in a leaf node. Every node caches a 
+                probability distribution, as can be seen in the two constructors in listing \ref{lst:TreeNode}. The 
+                probability distribution that is cached is the empirical distribution of the training sequence that is 
+                passed to it. Each decision node has a reference to a \texttt{SplitParameters} instance, which it 
+                uses with a weak learner to make decisions for tree traversal as in section 
+                \ref{sec:intro_decision_trees}. Finally we cache the information gain, computed according to the 
+                equation \ref{eq:information_gain} during the training algorithm.
+
+                We also see in listing \ref{lst:TreeNode} the function \texttt{compact}. This is an optimisation 
+                used to eliminate unnecessary nodes from the tree after its construction. The idea is that if we are at 
+                some decision node and it has two children are leaf nodes with identical distributions, then we 
+                can replace this decision node by a single leaf node with the same distribution. The implementation 
+                simply performs \texttt{compact} recursively on the left and right children of a decision node first, 
+                and \texttt{compact} does nothing in the base case (a leaf node), after we try to compact at the 
+                given node. Essentially, compaction is performed from the bottom of the tree upwards.
+
+                We also note that the \texttt{TreeNode} class implements the \texttt{Serializable} interface, 
+                which is again necessary to be able to use \texttt{ObjectOutputStream} in section 
+                \ref{sec:DecisionForest}, when saving forests to a file.
+
+                \begin{figure}[H]
+                  \centering
+                  \includegraphics[scale=0.35]{tree_compaction.jpeg}
+                  \caption{An example of how \texttt{compact} could be used to reduce the size of a decision tree.}
+                \end{figure}
+
+                \begin{lstlisting}[caption={The \texttt{TreeNode} declaration, found as a static class within the 
+                \texttt{DecisionForest} class.},label={lst:TreeNode}]
+static class TreeNode implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+  TreeNode leftChild;
+  TreeNode rightChild;
+  ProbabilityDistribution probabilityDistribution;
+  SplitParameters splitParams;
+  double informationGain = 0.0;
+
+  ...
+
+  TreeNode(TrainingSequence sequence) throws MalformedProbabilityDistributionException {
+    this.probabilityDistribution = 
+          sequence.empiricalDistribution();
+  }
+
+  TreeNode(TrainingSequence sequence, TreeNode leftChld, 
+      TreeNode rightChld, SplitParameters splitParams, 
+      double informationGain) 
+    throws MalformedProbabilityDistributionException {
+
+    this.probabilityDistribution = 
+            sequence.empiricalDistribution();
+    this.leftChild = leftChld;
+    this.rightChild = rightChld;
+    this.splitParams = splitParams;  
+    this.informationGain = informationGain;
+  }
+
+  ...
+
+  void compact() throws MalformedForestException {
+    if (this.isLeafNode()) {
+      return;
+    }
+    
+    this.leftChild.compact();
+    this.rightChild.compact();
+
+    if (!this.isLeafNode() && 
+        leftChild.isLeafNode() &&
+        rightChild.isLeafNode() &&
+        probabilityDistribution.equals(leftChild.probabilityDistribution) &&
+        probabilityDistribution.equals(rightChild.probabilityDistribution)) {
+      
+      // Make this node a leaf node
+      leftChild = null;
+      rightChild = null;
+    }
+  }
+}
+                \end{lstlisting}
+
+                \begin{table}[H]
+                    \begin{tabularx}{\textwidth}{l|X}
+                        \textbf{Function Name} & \textbf{Function Description} \\
+                        \hline
+
+                        \texttt{isLeafNode} & 
+                            Checks if the \texttt{leftChild} and \texttt{rightChild} have a value of \texttt{null}. If 
+                            they are then the node is a leaf and this functions returns a true value. If only one of the 
+                            nodes has a value of \texttt{null} then the tree is invalid and an exception is raised. 
+                            Otherwise it returns a false value. \\ 
+                        \hline
+
+                        \texttt{compact} & 
+                            As described above, this compacts the tree to an equivalent tree, replacing any unnecessary 
+                            decision nodes with a leaf node. \\ 
+
+                    \end{tabularx}
+                    \caption{Member functions of the \texttt{TreeNode} class.}
+                    \label{tab:TreeNode}
+                \end{table}
+
+
+
+
+
+
+            \subsubsection{Decision Forest} \label{sec:DecisionForest}
+
+
+
+      \subsection{Training} \label{sec:training}
           \begin{framed}
               \begin{itemize}
                   \item Outline implementation and algorithms (simple listings)
                   \item Uses a random sample of possible weak learners and picks the entropy maximising one
                   \item Psuedocode for breadth first/depth first learning and explaination of why chose depth first
+                  \item Abstraction of split parameter generation into the weak learner (etc.) allows for a SINGLE learning routine to be implemented for all WeakLearners.
               \end{itemize}
           \end{framed}
 
-      \subsection{Classification}
+      \subsection{Classification} \label{sec:classification}
           \begin{framed}
               \begin{itemize}
                   \item Outline implementation and algorithms (simple listings)

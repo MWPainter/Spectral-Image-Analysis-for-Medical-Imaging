@@ -21,59 +21,60 @@
 \contentsline {section}{\numberline {2.8}System Design}{20}{section.2.8}
 \contentsline {subsection}{\numberline {2.8.1}Pipeline/Overview}{20}{subsection.2.8.1}
 \contentsline {subsection}{\numberline {2.8.2}Interface/Usage}{20}{subsection.2.8.2}
-\contentsline {subsubsection}{Training Tools}{21}{section*.23}
-\contentsline {subsubsection}{Train}{21}{section*.25}
-\contentsline {subsubsection}{Learn From Example}{22}{section*.27}
-\contentsline {subsubsection}{Pixel Labeller}{22}{section*.29}
-\contentsline {subsubsection}{De-Noiser}{23}{section*.31}
-\contentsline {subsubsection}{Noisy Pixel Labeller}{23}{section*.33}
+\contentsline {subsubsection}{\numberline {2.8.2.1}Training Tools}{21}{subsubsection.2.8.2.1}
+\contentsline {subsubsection}{\numberline {2.8.2.2}Train}{21}{subsubsection.2.8.2.2}
+\contentsline {subsubsection}{\numberline {2.8.2.3}Learn From Example}{22}{subsubsection.2.8.2.3}
+\contentsline {subsubsection}{\numberline {2.8.2.4}Pixel Labeller}{22}{subsubsection.2.8.2.4}
+\contentsline {subsubsection}{\numberline {2.8.2.5}De-Noiser}{23}{subsubsection.2.8.2.5}
+\contentsline {subsubsection}{\numberline {2.8.2.6}Noisy Pixel Labeller}{23}{subsubsection.2.8.2.6}
 \contentsline {section}{\numberline {2.9}Languages and tools}{24}{section.2.9}
-\contentsline {subsubsection}{Programming Languages and Libraries}{24}{section*.35}
-\contentsline {subsubsection}{Integrated development environment}{24}{section*.36}
-\contentsline {subsubsection}{Statistical analysis and visualisation}{25}{section*.37}
-\contentsline {subsubsection}{Document preparation}{25}{section*.38}
-\contentsline {subsubsection}{Version Control}{25}{section*.39}
-\contentsline {subsubsection}{Backup}{25}{section*.40}
 \contentsline {section}{\numberline {2.10}Software engineering techniques}{25}{section.2.10}
 \contentsline {subsection}{\numberline {2.10.1}Development model}{25}{subsection.2.10.1}
 \contentsline {subsection}{\numberline {2.10.2}Testing}{26}{subsection.2.10.2}
 \contentsline {subsection}{\numberline {2.10.3}Backup Plan}{26}{subsection.2.10.3}
 \contentsline {chapter}{\numberline {3}Implementation}{29}{chapter.3}
-\contentsline {section}{\numberline {3.1}Randomised Forests Library}{30}{section.3.1}
+\contentsline {section}{\numberline {3.1}Random Forests Library}{30}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}Data structures}{30}{subsection.3.1.1}
-\contentsline {subsubsection}{ClassLabels}{30}{section*.44}
-\contentsline {subsection}{\numberline {3.1.2}Training}{31}{subsection.3.1.2}
-\contentsline {subsection}{\numberline {3.1.3}Classification}{31}{subsection.3.1.3}
-\contentsline {section}{\numberline {3.2}Neural Networks}{32}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Training}{32}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Classification}{32}{subsection.3.2.2}
-\contentsline {section}{\numberline {3.3}The classifier}{32}{section.3.3}
-\contentsline {section}{\numberline {3.4}Training Tools}{33}{section.3.4}
-\contentsline {section}{\numberline {3.5}De-noising}{33}{section.3.5}
-\contentsline {section}{\numberline {3.6}Application on example data sets}{33}{section.3.6}
-\contentsline {subsection}{\numberline {3.6.1}Siri's data}{33}{subsection.3.6.1}
-\contentsline {subsection}{\numberline {3.6.2}Teng's data}{33}{subsection.3.6.2}
-\contentsline {chapter}{\numberline {4}Evaluation}{35}{chapter.4}
-\contentsline {section}{\numberline {4.1}Performance measures for classifiers}{35}{section.4.1}
-\contentsline {section}{\numberline {4.2}Evaluation of Random Forests pixel labelling}{35}{section.4.2}
-\contentsline {section}{\numberline {4.3}Evaluation of Neural Networks pixel labelling}{35}{section.4.3}
-\contentsline {section}{\numberline {4.4}Evaluation of the Random Forests library}{36}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Training time}{36}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Classification time}{36}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}The effect of the number of trees}{36}{subsection.4.4.3}
-\contentsline {subsection}{\numberline {4.4.4}The effect of the depth of trees}{36}{subsection.4.4.4}
-\contentsline {subsection}{\numberline {4.4.5}The effect of the randomness of trees}{36}{subsection.4.4.5}
-\contentsline {section}{\numberline {4.5}The effect of the de-noising component}{36}{section.4.5}
-\contentsline {chapter}{\numberline {5}Conclusion}{37}{chapter.5}
-\contentsline {section}{\numberline {5.1}Summary}{37}{section.5.1}
-\contentsline {section}{\numberline {5.2}Further Work}{37}{section.5.2}
-\contentsline {chapter}{Bibliography}{39}{section.5.2}
-\contentsline {chapter}{\numberline {A}File formats}{43}{appendix.A}
-\contentsline {section}{\numberline {A.1}(Example/Noisy) Spectral Image}{43}{section.A.1}
-\contentsline {section}{\numberline {A.2}Example Image Labelling}{43}{section.A.2}
-\contentsline {section}{\numberline {A.3}Label Map}{43}{section.A.3}
-\contentsline {section}{\numberline {A.4}Training Sequence}{43}{section.A.4}
-\contentsline {section}{\numberline {A.5}Output Files}{44}{section.A.5}
-\contentsline {chapter}{\numberline {B}A brief explanation of the method of conjugate gradients}{45}{appendix.B}
-\contentsline {chapter}{\numberline {C}Project Proposal}{47}{appendix.C}
-\contentsline {chapter}{\numberline {D}Glossary}{59}{appendix.D}
+\contentsline {subsubsection}{\numberline {3.1.1.1}ClassLabels}{30}{subsubsection.3.1.1.1}
+\contentsline {subsubsection}{\numberline {3.1.1.2}Instances}{32}{subsubsection.3.1.1.2}
+\contentsline {subsubsection}{\numberline {3.1.1.3}Probability Distributions}{33}{subsubsection.3.1.1.3}
+\contentsline {subsubsection}{\numberline {3.1.1.4}Training Sequences}{36}{subsubsection.3.1.1.4}
+\contentsline {subsubsection}{\numberline {3.1.1.5}Split Parameters}{39}{subsubsection.3.1.1.5}
+\contentsline {subsubsection}{\numberline {3.1.1.6}Weak Learners}{40}{subsubsection.3.1.1.6}
+\contentsline {subsubsection}{\numberline {3.1.1.7}Decision Tree Node}{44}{subsubsection.3.1.1.7}
+\contentsline {subsubsection}{\numberline {3.1.1.8}Decision Forest}{47}{subsubsection.3.1.1.8}
+\contentsline {subsection}{\numberline {3.1.2}Training}{47}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Classification}{47}{subsection.3.1.3}
+\contentsline {section}{\numberline {3.2}Neural Networks}{47}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Training}{47}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Classification}{48}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}The classifier}{48}{section.3.3}
+\contentsline {section}{\numberline {3.4}Training Tools}{48}{section.3.4}
+\contentsline {section}{\numberline {3.5}De-noising}{48}{section.3.5}
+\contentsline {section}{\numberline {3.6}Application on example data sets}{49}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Siri's data}{49}{subsection.3.6.1}
+\contentsline {subsection}{\numberline {3.6.2}Teng's data}{49}{subsection.3.6.2}
+\contentsline {chapter}{\numberline {4}Evaluation}{51}{chapter.4}
+\contentsline {section}{\numberline {4.1}Performance measures for classifiers}{51}{section.4.1}
+\contentsline {section}{\numberline {4.2}Evaluation of Random Forests pixel labelling}{51}{section.4.2}
+\contentsline {section}{\numberline {4.3}Evaluation of Neural Networks pixel labelling}{51}{section.4.3}
+\contentsline {section}{\numberline {4.4}Evaluation of the Random Forests library}{52}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Training time}{52}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Classification time}{52}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}The effect of the number of trees}{52}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.4}The effect of the depth of trees}{52}{subsection.4.4.4}
+\contentsline {subsection}{\numberline {4.4.5}The effect of the randomness of trees}{52}{subsection.4.4.5}
+\contentsline {section}{\numberline {4.5}The effect of the de-noising component}{52}{section.4.5}
+\contentsline {chapter}{\numberline {5}Conclusion}{53}{chapter.5}
+\contentsline {section}{\numberline {5.1}Summary}{53}{section.5.1}
+\contentsline {section}{\numberline {5.2}Further Work}{53}{section.5.2}
+\contentsline {chapter}{Bibliography}{55}{section.5.2}
+\contentsline {chapter}{\numberline {A}File formats}{59}{appendix.A}
+\contentsline {section}{\numberline {A.1}(Example/Noisy) Spectral Image}{59}{section.A.1}
+\contentsline {section}{\numberline {A.2}Example Image Labelling}{59}{section.A.2}
+\contentsline {section}{\numberline {A.3}Label Map}{59}{section.A.3}
+\contentsline {section}{\numberline {A.4}Training Sequence}{59}{section.A.4}
+\contentsline {section}{\numberline {A.5}Output Files}{60}{section.A.5}
+\contentsline {chapter}{\numberline {B}A brief explanation of the method of conjugate gradients}{61}{appendix.B}
+\contentsline {chapter}{\numberline {C}Project Proposal}{63}{appendix.C}
+\contentsline {chapter}{\numberline {D}Glossary}{75}{appendix.D}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.5)  9 MAY 2016 14:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.5)  10 MAY 2016 07:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1371,7 +1371,7 @@ This is `epsf.tex' v2.7.4 <14 February 2011>
 \glo@main@file=\write7
 \openout7 = `diss.glo'.
 
-Package glossaries Info: Writing glossary file diss.glo on input line 124.
+Package glossaries Info: Writing glossary file diss.glo on input line 136.
  (./diss.aux
 
 LaTeX Warning: Label `fig:image_pipeline' multiply defined.
@@ -1379,22 +1379,22 @@ LaTeX Warning: Label `fig:image_pipeline' multiply defined.
 )
 \openout1 = `diss.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 137.
-LaTeX Font Info:    ... okay on input line 137.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
 \AtBeginShipoutBox=\box72
-Package hyperref Info: Link coloring OFF on input line 137.
+Package hyperref Info: Link coloring OFF on input line 149.
  (/usr/local/texlive/2015basic/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -1404,9 +1404,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count194
 )
-LaTeX Info: Redefining \ref on input line 137.
-LaTeX Info: Redefining \pageref on input line 137.
-LaTeX Info: Redefining \nameref on input line 137.
+LaTeX Info: Redefining \ref on input line 149.
+LaTeX Info: Redefining \pageref on input line 149.
+LaTeX Info: Redefining \nameref on input line 149.
  (./diss.out) (./diss.out)
 \@outlinefile=\write8
 \openout8 = `diss.out'.
@@ -1435,18 +1435,18 @@ Package caption Info: End \AtBeginDocument code.
 Package pgfplots notification 'compat/show suggested version=true': document ha
 s been generated with the most recent feature set (\pgfplotsset{compat=1.13}).
 
-<titleimg/camcrest.png, id=79, 2007.5pt x 2326.6925pt>
+<titleimg/camcrest.png, id=174, 2007.5pt x 2326.6925pt>
 File: titleimg/camcrest.png Graphic file (type png)
 
 <use titleimg/camcrest.png>
-Package pdftex.def Info: titleimg/camcrest.png used on input line 186.
+Package pdftex.def Info: titleimg/camcrest.png used on input line 198.
 (pdftex.def)             Requested size: 198.74005pt x 230.33972pt.
 
-<titleimg/chucrest.png, id=81, 699.61375pt x 826.08624pt>
+<titleimg/chucrest.png, id=176, 699.61375pt x 826.08624pt>
 File: titleimg/chucrest.png Graphic file (type png)
 
 <use titleimg/chucrest.png>
-Package pdftex.def Info: titleimg/chucrest.png used on input line 187.
+Package pdftex.def Info: titleimg/chucrest.png used on input line 199.
 (pdftex.def)             Requested size: 195.3354pt x 230.6471pt.
  [1
 
@@ -1457,7 +1457,7 @@ titleimg/camcrest.png> <./titleimg/chucrest.png>] [2
 
 ] (/usr/local/texlive/2015basic/texmf-dist/tex/latex/amsfonts/umsa.fd)
 (/usr/local/texlive/2015basic/texmf-dist/tex/latex/amsfonts/umsb.fd)
-Underfull \hbox (badness 10000) in paragraph at lines 216--218
+Underfull \hbox (badness 10000) in paragraph at lines 228--230
 
  []
 
@@ -1467,31 +1467,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 216--218
 
 ] [3] [4
 
-] (./diss.toc)
+] (./diss.toc [5
+
+])
 \tf@toc=\write9
 \openout9 = `diss.toc'.
 
- [5
-
-] (./diss.lof)
+ [6] (./diss.lof)
 \tf@lof=\write10
 \openout10 = `diss.lof'.
 
- [6
+ [7
 
 ] (./diss.lot)
 \tf@lot=\write11
 \openout11 = `diss.lot'.
 
- [7
+ [8
 
-] (./diss.lol)
+]
+(./diss.lol)
 \tf@lol=\write12
 \openout12 = `diss.lol'.
 
-[8
-
-] [9
+ [9
 
 ] [10
 
@@ -1501,238 +1500,81 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.460 
+l.472 
        [1
 
 
-]
 
-LaTeX Warning: Citation `Qingli:2013:spectralImagingTech' on page 2 undefined o
-n input line 473.
-
-
-LaTeX Warning: Citation `Bioucas-Dias:2012:unmixingOverview' on page 2 undefine
-d on input line 474.
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
-been already used, duplicate ignored
+]pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
+ been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.476 
-       [2] <figs/spectral_image.png, id=168, 394.47375pt x 202.7575pt>
+l.488 
+       [2] <figs/spectral_image.png, id=396, 394.47375pt x 202.7575pt>
 File: figs/spectral_image.png Graphic file (type png)
 
 <use figs/spectral_image.png>
-Package pdftex.def Info: figs/spectral_image.png used on input line 479.
+Package pdftex.def Info: figs/spectral_image.png used on input line 491.
 (pdftex.def)             Requested size: 394.47278pt x 202.757pt.
+ [3 <./figs/spectral_image.png>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 530.
 
-
-LaTeX Warning: Citation `Luthman:2015:hyperspectralImager' on page 3 undefined 
-on input line 487.
-
-
-LaTeX Warning: Citation `Bioucas-Dias:2012:unmixingOverview' on page 3 undefine
-d on input line 487.
-
-[3 <./figs/spectral_image.png>]
-
-LaTeX Warning: Citation `Luthman:2015:hyperspectralImager' on page 4 undefined 
-on input line 509.
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 518.
 
 (/usr/local/texlive/2015basic/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 518.
-
-
-LaTeX Warning: Citation `keshava2003survey' on page 4 undefined on input line 5
-24.
-
-
-LaTeX Warning: Citation `Luthman:2015:hyperspectralImager' on page 4 undefined 
-on input line 526.
-
-[4]
-
-LaTeX Warning: Citation `pham2000current' on page 5 undefined on input line 545
-.
-
-
-LaTeX Warning: Citation `criminisi2013decision' on page 5 undefined on input li
-ne 552.
-
-
-LaTeX Warning: Citation `zhao2016segmenting' on page 5 undefined on input line 
-554.
-
-
-LaTeX Warning: Citation `zhao2016multiscale' on page 5 undefined on input line 
-555.
-
-
-LaTeX Warning: Citation `conjeti2016supervised' on page 5 undefined on input li
-ne 558.
-
-
-LaTeX Warning: Citation `criminisi2012decision' on page 5 undefined on input li
-ne 559.
-
-
-LaTeX Warning: Citation `badrinarayanan2015segnet2' on page 5 undefined on inpu
-t line 561.
-
-
-LaTeX Warning: Citation `jia2014caffe' on page 5 undefined on input line 562.
-
-[5] [6
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 530.
+ [4] [5]
+[6
 
 ]
 Chapter 2.
-
-LaTeX Warning: Citation `klein2004lagrange' on page 7 undefined on input line 5
-93.
-
-
-LaTeX Warning: Citation `law2006simple' on page 7 undefined on input line 593.
-
-
-LaTeX Warning: Citation `seymore1999learning' on page 7 undefined on input line
- 594.
-
-
-LaTeX Warning: Citation `cunningham2007k' on page 7 undefined on input line 594
-.
-
-
-LaTeX Warning: Citation `criminisi2013decision' on page 7 undefined on input li
-ne 595.
-
-
-LaTeX Warning: Citation `heaton2008introduction' on page 7 undefined on input l
-ine 595.
-
-
-LaTeX Warning: Citation `JMLR:v16:heaton15a' on page 7 undefined on input line 
-597.
-
 [7
 
-]
-
-LaTeX Warning: Citation `PAL19931277' on page 8 undefined on input line 616.
-
-
-LaTeX Warning: Citation `PAL19931277' on page 8 undefined on input line 622.
-
-
-LaTeX Warning: Citation `PAL19931277' on page 8 undefined on input line 623.
-
-
-LaTeX Warning: Citation `russell1995modern' on page 8 undefined on input line 6
-58.
-
-[8] [9] <figs/tree_node_labels.jpeg, id=212, 909.3975pt x 649.42625pt>
+] [8] [9] <figs/tree_node_labels.jpeg, id=482, 909.3975pt x 649.42625pt>
 File: figs/tree_node_labels.jpeg Graphic file (type jpg)
 
 <use figs/tree_node_labels.jpeg>
-Package pdftex.def Info: figs/tree_node_labels.jpeg used on input line 740.
+Package pdftex.def Info: figs/tree_node_labels.jpeg used on input line 752.
 (pdftex.def)             Requested size: 454.69765pt x 324.71233pt.
 
-Overfull \hbox (42.75888pt too wide) in paragraph at lines 740--741
+Overfull \hbox (42.75888pt too wide) in paragraph at lines 752--753
  [][] 
  []
 
 [10 <./figs/tree_node_labels.jpeg>]
-
-LaTeX Warning: Citation `criminisi2013decision' on page 11 undefined on input l
-ine 758.
-
-<figs/tree_example_classification.jpeg, id=222, 730.73pt x 632.3625pt>
+<figs/tree_example_classification.jpeg, id=492, 730.73pt x 632.3625pt>
 File: figs/tree_example_classification.jpeg Graphic file (type jpg)
 
 <use figs/tree_example_classification.jpeg>
 Package pdftex.def Info: figs/tree_example_classification.jpeg used on input li
-ne 762.
+ne 776.
 (pdftex.def)             Requested size: 365.3641pt x 316.18048pt.
- [11 <./figs/tree_example_classification.jpeg>]
-
-LaTeX Warning: Citation `criminisi2013decision' on page 12 undefined on input l
-ine 809.
-
-[12]
-
-LaTeX Warning: Citation `criminisi2013decision' on page 13 undefined on input l
-ine 830.
-
-
-LaTeX Warning: Citation `criminisi2013decision' on page 13 undefined on input l
-ine 844.
-
-[13] <figs/sensor_arrays.png, id=255, 889.3225pt x 499.8675pt>
+ [11 <./figs/tree_example_classification.jpeg>] [12] [13]
+<figs/sensor_arrays.png, id=527, 889.3225pt x 499.8675pt>
 File: figs/sensor_arrays.png Graphic file (type png)
 
 <use figs/sensor_arrays.png>
-Package pdftex.def Info: figs/sensor_arrays.png used on input line 871.
+Package pdftex.def Info: figs/sensor_arrays.png used on input line 888.
 (pdftex.def)             Requested size: 266.7988pt x 149.9614pt.
 
-
-LaTeX Warning: Citation `gamal2005cmos' on page 14 undefined on input line 872.
-
-
-
-LaTeX Warning: Citation `gamal2005cmos' on page 14 undefined on input line 872.
-
-
-<figs/imaging_pipeline.png, id=256, 1121.18875pt x 519.9425pt>
+<figs/imaging_pipeline.png, id=530, 1121.18875pt x 519.9425pt>
 File: figs/imaging_pipeline.png Graphic file (type png)
 
 <use figs/imaging_pipeline.png>
-Package pdftex.def Info: figs/imaging_pipeline.png used on input line 878.
+Package pdftex.def Info: figs/imaging_pipeline.png used on input line 895.
 (pdftex.def)             Requested size: 336.35922pt x 155.98395pt.
-
-
-LaTeX Warning: Citation `gamal2005cmos' on page 14 undefined on input line 879.
-
-
-
-LaTeX Warning: Citation `gamal2005cmos' on page 14 undefined on input line 879.
-
-
-[14 <./figs/sensor_arrays.png>]
-<figs/photon_stream.png, id=264, 639.38875pt x 374.39874pt>
+ [14 <./figs/sensor_arrays.png>]
+<figs/photon_stream.png, id=539, 639.38875pt x 374.39874pt>
 File: figs/photon_stream.png Graphic file (type png)
 
 <use figs/photon_stream.png>
-Package pdftex.def Info: figs/photon_stream.png used on input line 888.
+Package pdftex.def Info: figs/photon_stream.png used on input line 905.
 (pdftex.def)             Requested size: 319.69359pt x 187.19891pt.
-
-
-LaTeX Warning: Citation `gamal2005cmos' on page 15 undefined on input line 896.
-
-
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
-
-LaTeX Warning: Citation `gamal2005cmos' on page 15 undefined on input line 928.
-
-
-
-LaTeX Warning: Citation `gamal2005cmos' on page 15 undefined on input line 928.
-
-
-[15 <./figs/imaging_pipeline.png> <./figs/photon_stream.png>]
-
-LaTeX Warning: Citation `hasinoff2014photon' on page 16 undefined on input line
- 936.
-
-
-LaTeX Warning: Citation `ross2002probability' on page 16 undefined on input lin
-e 958.
-
-[16]
+ [15 <./figs/imaging_pipeline.png> <./figs/photon_stream.png>] [16]
 Package epstopdf Info: Source file: <figs/poisson_distributions.eps>
 (epstopdf)                    date: 2016-05-03 12:22:02
 (epstopdf)                    size: 93959 bytes
@@ -1742,189 +1584,293 @@ o.pdf>
 (epstopdf)                    size: 15262 bytes
 (epstopdf)             Command: <repstopdf --outfile=figs/poisson_distributions
 -eps-converted-to.pdf figs/poisson_distributions.eps>
-(epstopdf)             \includegraphics on input line 996.
+(epstopdf)             \includegraphics on input line 1013.
 Package epstopdf Info: Output file is already uptodate.
 
-<figs/poisson_distributions-eps-converted-to.pdf, id=287, 836.12375pt x 613.291
+<figs/poisson_distributions-eps-converted-to.pdf, id=565, 836.12375pt x 613.291
 24pt>
 File: figs/poisson_distributions-eps-converted-to.pdf Graphic file (type pdf)
  <use figs/poisson_distributions-eps-converted-to.pdf>
 Package pdftex.def Info: figs/poisson_distributions-eps-converted-to.pdf used o
-n input line 996.
+n input line 1013.
 (pdftex.def)             Requested size: 418.06085pt x 306.64487pt.
 
-Overfull \hbox (6.12209pt too wide) in paragraph at lines 996--997
+Overfull \hbox (6.12209pt too wide) in paragraph at lines 1013--1014
  [][] 
  []
 
-[17]
-
-LaTeX Warning: Citation `picano2004sustainability' on page 18 undefined on inpu
-t line 1006.
-
-
-LaTeX Warning: Citation `sprawls1987physical' on page 18 undefined on input lin
-e 1007.
-
-
-LaTeX Warning: Citation `coupe2009nonlocal' on page 18 undefined on input line 
-1010.
-
-[18 <./figs/poisson_distributions-eps-converted-to.pdf>]
-
-LaTeX Warning: Citation `figueiredo2006total' on page 19 undefined on input lin
-e 1023.
-
-
-LaTeX Warning: Citation `rodrigues2008denoising' on page 19 undefined on input 
-line 1024.
-
-
-Overfull \hbox (34.20958pt too wide) in paragraph at lines 1043--1057
+[17] [18 <./figs/poisson_distributions-eps-converted-to.pdf>]
+Overfull \hbox (34.20958pt too wide) in paragraph at lines 1060--1074
 [][] 
  []
 
-
-LaTeX Warning: Reference `app:file_formats' on page 19 undefined on input line 
-1066.
-
 [19]
-Overfull \hbox (3.73799pt too wide) in paragraph at lines 1146--1147
+Overfull \hbox (3.73799pt too wide) in paragraph at lines 1163--1164
  [][] 
  []
-
-
-LaTeX Warning: Reference `app:file_formats' on page 20 undefined on input line 
-1167.
-
-
-LaTeX Warning: Reference `app:file_formats' on page 20 undefined on input line 
-1168.
 
 [20]
-Overfull \hbox (3.463pt too wide) in paragraph at lines 1243--1244
+Overfull \hbox (3.463pt too wide) in paragraph at lines 1260--1261
  [][] 
  []
 
 
-Overfull \hbox (3.463pt too wide) in paragraph at lines 1326--1327
+Overfull \hbox (3.463pt too wide) in paragraph at lines 1343--1344
  [][] 
  []
 
 [21]
-Overfull \hbox (3.463pt too wide) in paragraph at lines 1411--1412
+Overfull \hbox (3.463pt too wide) in paragraph at lines 1428--1429
  [][] 
  []
 
 
-Overfull \hbox (3.73799pt too wide) in paragraph at lines 1495--1496
+Overfull \hbox (3.73799pt too wide) in paragraph at lines 1512--1513
  [][] 
  []
 
 [22]
-Overfull \hbox (3.463pt too wide) in paragraph at lines 1579--1580
+Overfull \hbox (3.463pt too wide) in paragraph at lines 1596--1597
  [][] 
  []
 
 
-Overfull \hbox (3.73799pt too wide) in paragraph at lines 1664--1665
+Overfull \hbox (3.73799pt too wide) in paragraph at lines 1681--1682
  [][] 
  []
 
 [23]
+Underfull \hbox (badness 10000) in paragraph at lines 1693--1694
 
-LaTeX Warning: Citation `JMLR:v16:heaton15a' on page 24 undefined on input line
- 1683.
+ []
 
 [24]
-Underfull \hbox (badness 1424) in paragraph at lines 1716--1718
+Underfull \hbox (badness 1424) in paragraph at lines 1733--1735
 []\OT1/cmr/m/n/12 repositories were kept in both Drop-Box and
  []
 
-[25] [26] <figs/backup_plan.png, id=374, 455.7025pt x 341.275pt>
+[25] [26] <figs/backup_plan.png, id=651, 455.7025pt x 341.275pt>
 File: figs/backup_plan.png Graphic file (type png)
 
 <use figs/backup_plan.png>
-Package pdftex.def Info: figs/backup_plan.png used on input line 1771.
+Package pdftex.def Info: figs/backup_plan.png used on input line 1788.
 (pdftex.def)             Requested size: 341.77602pt x 255.95561pt.
  [27 <./figs/backup_plan.png>] [28
 
 ]
 Chapter 3.
 
-LaTeX Warning: Reference `sec:training_tools' on page 29 undefined on input lin
-e 1794.
+LaTeX Warning: Reference `sec:de_noising' on page 29 undefined on input line 18
+12.
 
-
-LaTeX Warning: Reference `sec:de_noising' on page 29 undefined on input line 17
-95.
-
-<figs/todo.jpg, id=393, 399.4925pt x 303.1325pt>
+<figs/todo.jpg, id=670, 399.4925pt x 303.1325pt>
 File: figs/todo.jpg Graphic file (type jpg)
  <use figs/todo.jpg>
-Package pdftex.def Info: figs/todo.jpg used on input line 1802.
+Package pdftex.def Info: figs/todo.jpg used on input line 1819.
 (pdftex.def)             Requested size: 199.74576pt x 151.56587pt.
 File: figs/todo.jpg Graphic file (type jpg)
 
 <use figs/todo.jpg>
-Package pdftex.def Info: figs/todo.jpg used on input line 1809.
+Package pdftex.def Info: figs/todo.jpg used on input line 1826.
 (pdftex.def)             Requested size: 199.74576pt x 151.56587pt.
  [29
 
- <./figs/todo.jpg>]
+ <./figs/todo.jpg>] [30]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 1831.
- [30]
+nput line 1859.
 
-LaTeX Warning: Reference `app:file_formats' on page 31 undefined on input line 
-1847.
+Underfull \hbox (badness 1152) in paragraph at lines 1902--1902
+[]|\OT1/cmr/m/n/12 Returns a value of type \OT1/cmtt/m/n/12 List<ClassLabel>
+ []
 
 
-LaTeX Warning: Reference `sec:pixel_label' on page 31 undefined on input line 1
-852.
+Underfull \hbox (badness 10000) in paragraph at lines 1902--1902
+[]|\OT1/cmr/m/n/12 Returns a value of type \OT1/cmtt/m/n/12 Map<Integer,
+ []
 
-[31] [32] [33] [34
+
+Underfull \hbox (badness 10000) in paragraph at lines 1902--1902
+[]|\OT1/cmr/m/n/12 Returns a value of type \OT1/cmtt/m/n/12 Map<String,
+ []
+
+[31] [32] [33]
+
+LaTeX Warning: Reference `lst:ProbabilityDistribution' on page 34 undefined on 
+input line 2014.
+
+[34] [35] [36]
+Underfull \hbox (badness 10000) in paragraph at lines 2211--2211
+[]|\OT1/cmtt/m/n/12 newNDRealVector-
+ []
+
+
+Overfull \hbox (1.63766pt too wide) in paragraph at lines 2211--2211
+[]|\OT1/cmtt/m/n/12 empericalDistribution| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2211--2211
+[]|\OT1/cmr/m/n/12 A \OT1/cmtt/m/n/12 static \OT1/cmr/m/n/12 func-tion that tak
+es two
+ []
+
+
+Underfull \hbox (badness 1975) in paragraph at lines 2211--2211
+\OT1/cmtt/m/n/12 TrainingSequence\OT1/cmr/m/n/12 s, and joins them to-gether.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2211--2211
+\OT1/cmr/m/n/12 from two \OT1/cmtt/m/n/12 TrainingSequence\OT1/cmr/m/n/12 s int
+o a new
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2211--2211
+[]|\OT1/cmr/m/n/12 A \OT1/cmtt/m/n/12 static \OT1/cmr/m/n/12 func-tion that tak
+es two
+ []
+
+
+Underfull \hbox (badness 1038) in paragraph at lines 2211--2211
+\OT1/cmtt/m/n/12 TrainingSequence\OT1/cmr/m/n/12 s \OT1/cmtt/m/n/12 ts1 \OT1/cm
+r/m/n/12 and \OT1/cmtt/m/n/12 ts2\OT1/cmr/m/n/12 . The func-
+ []
+
+
+Underfull \hbox (badness 3895) in paragraph at lines 2211--2211
+[]|\OT1/cmr/m/n/12 This \OT1/cmtt/m/n/12 static \OT1/cmr/m/n/12 func-tion write
+s out a train-ing
+ []
+
+
+Underfull \hbox (badness 3158) in paragraph at lines 2211--2211
+\OT1/cmr/m/n/12 se-quence file with the data from the given
+ []
+
+[37] [38]
+
+LaTeX Warning: Reference `sec:weak_learner' on page 39 undefined on input line 
+2241.
+
+
+LaTeX Warning: Reference `lst:WeakLearnerType' on page 39 undefined on input li
+ne 2244.
+
+[39]
+
+LaTeX Warning: Reference `tab:OneDimensionalLinearWeakLearner' on page 40 undef
+ined on input line 2269.
+
+
+LaTeX Warning: Reference `lst:WeakLearnerType' on page 40 undefined on input li
+ne 2273.
+
+[40]
+Underfull \hbox (badness 2401) in paragraph at lines 2299--2307
+\OT1/cmr/m/n/12 learner func-tion that we can de-cide and has the sim-plest pa-
+ram-e-ters,
+ []
+
+
+LaTeX Warning: Reference `lst:OneDimensionalLinearWeakLearner' on page 41 undef
+ined on input line 2321.
+
+
+LaTeX Warning: Reference `eq:split_equation' on page 41 undefined on input line
+ 2322.
+
+[41]
+Underfull \hbox (badness 1092) in paragraph at lines 2383--2383
+\OT1/cmr/m/n/12 is use-ful when a sub-class is cast to
+ []
+
+[42]
+
+LaTeX Warning: Reference `eq:left_split' on page 43 undefined on input line 239
+4.
+
+
+LaTeX Warning: Reference `eq:right_split' on page 43 undefined on input line 23
+94.
+
+
+Underfull \hbox (badness 2913) in paragraph at lines 2388--2397
+[]\OT1/cmr/m/n/12 The \OT1/cmtt/m/n/12 OneDimensionalLinearWeakLearner \OT1/cmr
+/m/n/12 makes use of the \OT1/cmtt/m/n/12 giveHint
+ []
+
+
+Underfull \hbox (badness 2302) in paragraph at lines 2388--2397
+\OT1/cmr/m/n/12 func-tion by it-er-at-ing through all \OT1/cmtt/m/n/12 NDRealVe
+ctor \OT1/cmr/m/n/12 in-stances in the train-
+ []
+
+
+Underfull \hbox (badness 3000) in paragraph at lines 2388--2397
+\OT1/cmr/m/n/12 men-sion. This there-fore al-lows us to avoid pick-ing par-tic-
+u-larly bad
+ []
+
+
+<figs/one_dimensional_weak_learner_optimisation.jpeg, id=954, 944.52875pt x 506
+.89375pt>
+File: figs/one_dimensional_weak_learner_optimisation.jpeg Graphic file (type jp
+g)
+ <use figs/one_dimensional_weak_learner_optimisation.jpeg>
+Package pdftex.def Info: figs/one_dimensional_weak_learner_optimisation.jpeg us
+ed on input line 2400.
+(pdftex.def)             Requested size: 236.1316pt x 126.72313pt.
+ [43]
+<figs/tree_compaction.jpeg, id=966, 989.6975pt x 511.9125pt>
+File: figs/tree_compaction.jpeg Graphic file (type jpg)
+
+<use figs/tree_compaction.jpeg>
+Package pdftex.def Info: figs/tree_compaction.jpeg used on input line 2433.
+(pdftex.def)             Requested size: 346.3993pt x 179.17206pt.
+ [44 <./figs/one_dimensional_weak_learner_optimisation.jpeg>] [45 <./figs/tree_
+compaction.jpeg>] [46] [47] [48] [49] [50
 
 ]
 Chapter 4.
 
-Underfull \hbox (badness 1052) in paragraph at lines 1971--1971
+Underfull \hbox (badness 1052) in paragraph at lines 2636--2636
 []\OT1/cmr/bx/n/17.28 Evaluation of Ran-dom Forests pixel la-
  []
 
-[35
+[51
 
-] [36]
+] [52]
 Chapter 5.
-[37
+[53
 
 
-] [38
+] [54
 
 ] (./diss.bbl
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 41.
- [39
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 46.
+ [55
 
-] [40]) [41] [42
+] [56]) [57] [58
 
 ]
 Appendix A.
-[43
+[59
 
 
-] [44]
+] [60]
 Appendix B.
-[45
+[61
 
 
 ]
 Overfull \hbox (97.24023pt too wide) has occurred while \output is active
-\OT1/cmr/m/n/12 46 \OT1/cmr/m/sl/12 APPENDIX B.  A BRIEF EXPLANATION OF THE MET
+\OT1/cmr/m/n/12 62 \OT1/cmr/m/sl/12 APPENDIX B.  A BRIEF EXPLANATION OF THE MET
 HOD OF CONJUGATE GRADIENTS
  []
 
-[46
+[62
 
 ]
 Appendix C.
@@ -1938,7 +1884,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--43
 
  []
 
-[47
+[63
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 44--50
@@ -1950,7 +1896,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--56
 
  []
 
-[48]
+[64]
 Underfull \hbox (badness 10000) in paragraph at lines 165--167
 
  []
@@ -1960,12 +1906,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 179--184
 
  []
 
-[49]
+[65]
 Underfull \hbox (badness 10000) in paragraph at lines 253--258
 
  []
 
-[50]
+[66]
 Underfull \hbox (badness 1168) in paragraph at lines 269--269
 [][]\OT1/cmr/bx/n/17.28 Timetable: Work-plan and Mile-stones to be
  []
@@ -1980,7 +1926,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 302--306
 
  []
 
-[51
+[67
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 337--340
@@ -1997,7 +1943,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 376--379
 
  []
 
-[52]
+[68]
 Underfull \hbox (badness 10000) in paragraph at lines 402--405
 
  []
@@ -2022,7 +1968,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 439--442
 
  []
 
-[53]
+[69]
 Underfull \hbox (badness 10000) in paragraph at lines 464--468
 
  []
@@ -2042,7 +1988,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 503--508
 
  []
 
-[54]
+[70]
 Underfull \hbox (badness 10000) in paragraph at lines 533--537
 
  []
@@ -2057,7 +2003,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 579--580
 
  []
 
-[55]
+[71]
 Underfull \hbox (badness 10000) in paragraph at lines 603--605
 
  []
@@ -2072,69 +2018,70 @@ Underfull \hbox (badness 10000) in paragraph at lines 643--645
 
  []
 
-[56]) [57] [58
+[72]) [73] [74
 
 ]
 Appendix D.
 No file diss.gls.
-[59
+[75
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2160.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2160.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2825.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2825.
  (./diss.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2160.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2160.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2825.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2825.
 
+Package rerunfilecheck Info: File `diss.out' has not changed.
+(rerunfilecheck)             Checksum: 7D518BB9D20ED201FB9128ED3DA7585C;2795.
 
-
-Package rerunfilecheck Warning: File `diss.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `diss.out':
-(rerunfilecheck)             Before: E5AEF604E9626F79721BD141F3D750F9;1213
-(rerunfilecheck)             After:  3420E0BBF82D96FF19DB7EA3579FDC0B;2799.
 
 LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2160.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2825.
  ) 
 Here is how much of TeX's memory you used:
- 37472 strings out of 494501
- 864832 string characters out of 6167030
- 1300134 words of memory out of 5000000
- 39769 multiletter control sequences out of 15000+600000
- 16897 words of font info for 64 fonts, out of 8000000 for 9000
+ 37867 strings out of 494501
+ 871487 string characters out of 6167030
+ 1427469 words of memory out of 5000000
+ 39914 multiletter control sequences out of 15000+600000
+ 17233 words of font info for 66 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  71i,21n,103p,1935b,2257s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
-2.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbx8.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmex10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi12.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi6.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015basic/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015basic/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsl12.pfb></usr/local/texlive/2015basic/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015basic/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015basic/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2015basi
-c/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2015b
-asic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2
-015basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texli
-ve/2015basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on diss.pdf (71 pages, 1675215 bytes).
+pdfTeX warning (dest): name{table.caption.37} has been referenced but does no
+t exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.36} has been referenced but does not
+ exist, replaced by a fixed one
+
+</usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.
+pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
+x8.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmex10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmmi10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi12.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmmi6.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2015basic/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2015basic/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015basic/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015basic/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/local/texlive/2015basic/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015basic/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015basic/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2015ba
+sic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/201
+5basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive
+/2015basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/tex
+live/2015basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on diss.pdf (87 pages, 1902182 bytes).
 PDF statistics:
- 740 PDF objects out of 1000 (max. 8388607)
- 620 compressed objects within 7 object streams
- 261 named destinations out of 1000 (max. 500000)
- 222 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1356 PDF objects out of 1440 (max. 8388607)
+ 1191 compressed objects within 12 object streams
+ 508 named destinations out of 1000 (max. 500000)
+ 424 words of extra memory for PDF output out of 10000 (max. 10000000)
 

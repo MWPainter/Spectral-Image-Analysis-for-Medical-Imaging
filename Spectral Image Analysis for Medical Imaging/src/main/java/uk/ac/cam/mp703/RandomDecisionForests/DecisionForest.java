@@ -458,6 +458,8 @@ public class DecisionForest implements Cloneable, Serializable {
 			//      = p_L(x) = p_R(x)
 			// where T_i = |S_i|, T_T = T_L+T_R and p_i(x) are the probability distributions of the children
 			if (!this.isLeafNode() && 
+					this.leftChild.isLeafNode() &&
+					this.rightChild.isLeafNode() &&
 					this.probabilityDistribution.equals(this.leftChild.probabilityDistribution) &&
 					this.probabilityDistribution.equals(this.rightChild.probabilityDistribution)) {
 				

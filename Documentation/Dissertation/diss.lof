@@ -9,18 +9,20 @@
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Overview of an imaging `pipeline'. Reproduced from Gamel et al \cite {gamal2005cmos}.\relax }}{15}{figure.caption.17}
 \contentsline {figure}{\numberline {2.6}{\ignorespaces Parallel stream of photons incident on one sensor in a sensor array.\relax }}{15}{figure.caption.18}
 \contentsline {figure}{\numberline {2.7}{\ignorespaces The charge held on a capacitor is linear with respect time, until it hits some maximum \cite {gamal2005cmos}.\relax }}{16}{figure.caption.19}
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Example of Poisson($\mu $) and Poisson($\mu $, 30) distributions, for $\mu = 5,15,25$.\relax }}{18}{figure.caption.20}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Example of Poisson($\mu $) and SPoisson($\mu $, 30) distributions, for $\mu = 5,15,25$.\relax }}{18}{figure.caption.20}
 \contentsline {figure}{\numberline {2.9}{\ignorespaces Overview of the system and its intended use.\relax }}{20}{figure.caption.22}
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Overview of the training tools function.\relax }}{21}{figure.caption.24}
-\contentsline {figure}{\numberline {2.11}{\ignorespaces Overview of the train function.\relax }}{22}{figure.caption.26}
-\contentsline {figure}{\numberline {2.12}{\ignorespaces Overview of the learn from example function.\relax }}{22}{figure.caption.28}
-\contentsline {figure}{\numberline {2.13}{\ignorespaces Overview of the pixel labeller function.\relax }}{23}{figure.caption.30}
-\contentsline {figure}{\numberline {2.14}{\ignorespaces Overview of the de-noiser function.\relax }}{23}{figure.caption.32}
-\contentsline {figure}{\numberline {2.15}{\ignorespaces Overview of the noisy pixel labeller function.\relax }}{24}{figure.caption.34}
-\contentsline {figure}{\numberline {2.16}{\ignorespaces Overview of the backup strategy employed.}}{27}{figure.caption.41}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Overview of the training tools function.\relax }}{21}{figure.caption.23}
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Overview of the train function.\relax }}{22}{figure.caption.24}
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Overview of the learn from example function.\relax }}{22}{figure.caption.25}
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Overview of the pixel labeller function.\relax }}{23}{figure.caption.26}
+\contentsline {figure}{\numberline {2.14}{\ignorespaces Overview of the de-noiser function.\relax }}{23}{figure.caption.27}
+\contentsline {figure}{\numberline {2.15}{\ignorespaces Overview of the noisy pixel labeller function.\relax }}{24}{figure.caption.28}
+\contentsline {figure}{\numberline {2.16}{\ignorespaces Overview of the backup strategy employed.}}{27}{figure.caption.29}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces The dependencies between different packages/modules in the system.\relax }}{29}{figure.caption.42}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces UML diagram for classes in the system.\relax }}{30}{figure.caption.43}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The dependencies between different packages/modules in the system.\relax }}{29}{figure.caption.30}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces UML diagram for classes in the system.\relax }}{30}{figure.caption.31}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Knowing the minimum and maximum values in each dimension allows us to make an informed choice on split parameters to pick, which in this case is the green zone of values.\relax }}{44}{figure.caption.37}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces An example of how \texttt {compact} could be used to reduce the size of a decision tree.\relax }}{45}{figure.caption.38}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

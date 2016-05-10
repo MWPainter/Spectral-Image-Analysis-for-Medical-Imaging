@@ -3,44 +3,47 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: diss.aux
 The style file: plain.bst
 Database file #1: refs.bib
-You've used 28 entries,
+Warning--to sort, need author, editor, or key in 1985--ieee754
+Warning--empty author and editor in 1985--ieee754
+You've used 29 entries,
             2118 wiz_defined-function locations,
-            669 strings with 9575 characters,
-and the built_in function-call counts, 9562 in all, are:
-= -- 942
-> -- 480
+            675 strings with 9725 characters,
+and the built_in function-call counts, 9751 in all, are:
+= -- 960
+> -- 481
 < -- 6
-+ -- 194
++ -- 195
 - -- 162
-* -- 640
-:= -- 1614
-add.period$ -- 87
-call.type$ -- 28
-change.case$ -- 162
+* -- 652
+:= -- 1639
+add.period$ -- 90
+call.type$ -- 29
+change.case$ -- 164
 chr.to.int$ -- 0
-cite$ -- 28
-duplicate$ -- 368
-empty$ -- 706
+cite$ -- 31
+duplicate$ -- 381
+empty$ -- 730
 format.name$ -- 162
-if$ -- 1991
+if$ -- 2035
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 31
-newline$ -- 143
+int.to.str$ -- 29
+missing$ -- 32
+newline$ -- 148
 num.names$ -- 56
-pop$ -- 164
+pop$ -- 169
 preamble$ -- 1
-purify$ -- 137
+purify$ -- 139
 quote$ -- 0
-skip$ -- 270
+skip$ -- 276
 stack$ -- 0
-substring$ -- 543
-swap$ -- 84
+substring$ -- 548
+swap$ -- 85
 text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 104
-warning$ -- 0
+type$ -- 106
+warning$ -- 2
 while$ -- 89
-width$ -- 30
-write$ -- 306
+width$ -- 31
+write$ -- 317
+(There were 2 warnings)
