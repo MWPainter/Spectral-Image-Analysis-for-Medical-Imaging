@@ -96,6 +96,5 @@ public abstract class WeakLearner implements Serializable {
 		}
 		
 		return lowerBound + range * rand.nextDouble();
-		
 	}
 }

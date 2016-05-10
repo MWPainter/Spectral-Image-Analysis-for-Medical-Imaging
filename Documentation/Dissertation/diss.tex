@@ -33,6 +33,8 @@
 \usepackage{enumitem}               % Fancier item lists - used for lists in languages and tools section
 \usepackage{hyperref}               % Reference urls
 \usepackage{tabularx}               % Allows the width of a tabular environment to be specified along with the use of X in the collumn specifiers
+\usepackage{mathtools}
+\usepackage[bottom]{footmisc}
 
 % Shorthands
 % Var in mathmode
@@ -52,6 +54,9 @@
 % Names for the datasets we have
 \newcommand{\siris}{[[Siri's]]}
 \newcommand{\tengs}{[[Teng's]]}
+
+% Def eq math symbol
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\tiny\mbox{def}}}{=}}
 
 % Numbering on subsubsections
 \setcounter{secnumdepth}{3}
@@ -222,7 +227,7 @@ Name:               & \bf Michael Painter                      \\
 College:            & \bf Churchill College                     \\
 Project Title:      & \bf Spectral Image Analysis for Medical Imaging \\
 Examination:        & \bf Computer Science Part II Project Dissertation, May 2016        \\
-Word Count:         & \bf 2232\footnotemark[1]\\
+Word Count:         & \bf 8432\footnotemark[1]\\
 Project Originator: & Dr Pietro Lio'              \\
 Supervisor:         & Dr Pietro Lio' \& Dr Gianluca Ascolani       \\ 
 \end{tabularx}
@@ -324,8 +329,8 @@ purpose.
 \section*{Acknowledgements}
 
 I thank my supervisors, director of studies and tutor for their extensive support, especially for putting up with me 
-throughout the year. I would also like to thank Malavika Nair, Ioana Bica and Yanie de Nadaillac for all of their 
-support and helping me keep it together through the tougher parts of the year.
+throughout the year. I would also like to thank Malavika Nair, Ioana Bica and Yanie de Nadaillac for 
+all of their support and helping me keep it together through the tougher parts of the year.
 
 
 
@@ -788,7 +793,8 @@ support and helping me keep it together through the tougher parts of the year.
             We first define the \textit{entropy} of a training sequence
 
             \begin{align}
-                H(s) = - \sum_{c\in\cl{C}} p(c) \log (p(c)).
+                H(s) = - \sum_{c\in\cl{C}} p(c) \log_2 (p(c)).
+                \label{eq:training_seq_entropy}
             \end{align}
 
             We assume feature vectors in $s$ to be unique for ease of notation and let
@@ -867,9 +873,16 @@ support and helping me keep it together through the tougher parts of the year.
 
 
     \section{Neural Networks}
-        \begin{itemize}
-            \item something here
-        \end{itemize}
+        We now move on to a describe a second method of supervised learning, artificial neural networks. We will begin 
+        by defining a single artificial neuron (referred to as just neurons and neural networks henceforth) and we look 
+        at how it operates. We then move onto looking at a network of neurons and how we can vary the weights in the 
+        network to train it. 
+
+        \begin{framed}
+            TODO
+        \end{framed}
+
+
 
 
 
@@ -908,9 +921,9 @@ support and helping me keep it together through the tougher parts of the year.
             \end{figure}
 
             For our purpose it is enough to consider that a stream of photons, will be hitting some photodiode (the 
-            part of a sensor that induces a current when absorbing a current), causing charge to collect on some 
+            part of a sensor that induces a current when absorbing a photon), causing charge to collect on some 
             capacitor, which will increase linearly with respect to time at a rate proportional to the rate of photons 
-            incident on the photoreceptor (the photocurrent). \cite{gamal2005cmos}
+            incident on the photoreceptor (the photocurrent), until it hits some maximum value. \cite{gamal2005cmos}
 
             \begin{figure}[H]
                 \centering
@@ -948,7 +961,7 @@ support and helping me keep it together through the tougher parts of the year.
 
 
         \subsection{Quantum noise}
-            \textit{Quantum noise}, \textit{photon noise} or \textit{Poisson noise} can be thought of as a uncertainty 
+            \textit{Quantum noise}, \textit{Photon noise} or \textit{Poisson noise} can be thought of as a uncertainty 
             associated with the measurement of light, due to the quantised nature of electromagnetic waves and the 
             independence of photon detections \cite{hasinoff2014photon}. More mathematically suppose we have some 
             noiseless image $I(x,y)$, then we define an image corrupted by photon noise $\tilde{I}$ by
@@ -1706,6 +1719,7 @@ support and helping me keep it together through the tougher parts of the year.
                     as JUnit and Git.
                 \item[EclEmma:] an Eclipse plug-in the works with JUnit which highlights lines to indicate code coverage 
                     of unit tests.
+                \item[ObjectAid:] another Eclipse plug-in, used to create UML class diagrams.
             \end{description}
 
         \noindent\textbf{Statistical analysis and visualisation}
@@ -1808,67 +1822,62 @@ support and helping me keep it together through the tougher parts of the year.
     neural network library for Java. We then proceed to use the supervised learning methods to build a procedure for 
     producing a pixel labelling from a spectral image. We ignore until later the problems of how we will produce 
     training data for the supervised learning methods, as these likely need to be extracted from an example labelling, 
-    a problem that will be addressed in section \ref{sec:training_tools}. Finally we have also ignored dealing with 
-    image noise that is inherent in medical imaging, which will be discussed in section \ref{sec:de_noising}.
+    a problem that will be addressed in section \ref{sec:training_tools}. Finally we also wait until nearer the end of 
+    the chapter to deal with image noise in section \ref{sec:de-noising}.
 
     The project is modularised into a number of packages, each building on top of each other. Dependencies can be 
-    visualised in figure \ref{fig:package_dependencies}.
+    visualised in figure \ref{fig:package_dependencies}. We will use UML class diagrams\footnote{http://www.uml-diagrams.org/class-reference.html is a good reference for UML class diagrams} to show the 
+    overview of classes within each package.
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.5]{todo}
-        \caption{The dependencies between different packages/modules in the system.}
+        \includegraphics[scale=0.5]{package_dependencies.jpeg}
+        \caption{The dependencies between different packages/modules in the system. Although TrainingTools package is
+        capable of producing training sequence files both the NeuralNetworks and RandomDecisionForests, it only 
+        \textit{depends} on RandomDecisionForests as it uses the class \texttt{TrainingSequence}.}
         \label{fig:package_dependencies}
     \end{figure}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.5]{todo}
-        \caption{UML diagram for classes in the system.}
-    \end{figure}
+
 
 
     \section{Random Forests Library}
         We begin by describing our implementation of random forests, looking specifically at some critical design 
-        choices there were made. We implement a generic and easily extensible random forests library, which could 
-        be specialised for many applications, then write specific subclasses that can utilise the library for our 
+        choices that were made. We implement a generic and easily extensible random forests library, which can 
+        be specialised for many applications, then write specialising subclasses that utilise the library for our 
         purpose of providing a pixel labelling.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.25, angle=90]{Forest_UML}
+            \caption{An overview of classes in the RandomDecisionForest package.}
+            \label{fig:forest_uml}
+        \end{figure}
 
         \subsection{Data structures}
             A number of important data structures are used throughout the library, each requiring an efficient 
-            implementation and provides necessary abstraction. Before we move onto the more complicated issues 
-            regarding supervised learning, we first describe the structures used. In this subsection 
-            we will give short listings for each of the structures which are cut down for readability. We 
-            in general will omit constructors, getters and setters and functions from these classes unless there is 
-            anything of interest in particular and we give a table of functions each class implements, which can 
-            be used as a reference in later sections. 
+            implementation and providing necessary abstraction and before we move onto the more complicated issues 
+            regarding supervised learning we need to describe the structures used. In this subsection 
+            we will describe the main classes that are used in the RandomDecisionForest package, providing a table of 
+            functions defined with corresponding English descriptions of what they do and some small code listings 
+            where necessary.
 
 
 
             \subsubsection{ClassLabels}
-                We first collect our classification labels into a separate class, which initially may seem unnecessary, 
-                but was a crucial abstraction to reduce code complexity, prior to making this abstraction code was 
-                messy and involved maintaining (with difficulty) lists of strings and lists of colours that were 
-                consistently ordered.
+                Our first class, \texttt{ClassLabels}, abstracts classification labels into its own class. As can be 
+                seen in figure \ref{fig:class_label_uml} \texttt{ClassLabels} groups together a class name and its 
+                corresponding colour, both of which should be unique, and we note that \texttt{classId} is only used 
+                internally. The colour will be used sections 
+                \ref{sec:pixel_label} and \ref{sec:training_tools} to indicate its corresponding class in a pixel 
+                labelling, where the pixel labelling is either input in a ``ground truth'' image or output by our system.                
 
-                This allows us to implement a mapping between classifications and probabilities, giving a class to use as 
-                an index in a \texttt{Map}, which is useful for for a simplistic implementation of probability 
-                distributions in section \ref{sec:prob_dist}, as described in section \ref{sec:rand_forest}. 
-
-                \begin{lstlisting}[caption={The \texttt{ClassLabel} declaration, used to encapsulate a classification label and it's 
-                        associated meta-data.}, label={lst:ClassLabel}]
-public class ClassLabel implements Serializable {
-
-  // Member variables
-  private static final long serialVersionUID = 1L;
-  int classId;
-  int colour;
-  String name;
-
-  ...
-
-}
-                \end{lstlisting}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[scale=0.5]{ClassLabel_Forest_UML}
+                    \caption{\texttt{ClassLabel} in figure \ref{fig:forest_uml} a bit closer.}
+                    \label{fig:class_label_uml}
+                \end{figure}
 
                 \begin{table}[H]
                     \begin{tabularx}{\textwidth}{l|X}
@@ -1876,8 +1885,10 @@ public class ClassLabel implements Serializable {
                         \hline
 
                         \texttt{loadClassList} & 
-                            Returns a value of type \texttt{List<ClassLabel>} given a filename specifying ``class colour 
-                            map'' as in appendix \ref{app:file_formats}, of classes specified in the file. \\
+                            A \texttt{static} function that returns a value of type \texttt{List<ClassLabel>} given a 
+                            filename specifying ``class colour map'' as in appendix \ref{app:file_formats}, of classes 
+                            specified in the file. In this function we make sure that we preserve the uniqueness of 
+                            class names their associated colours. \\
                         \hline
 
                         \texttt{computeColourToClassMap} & 
@@ -1892,7 +1903,9 @@ public class ClassLabel implements Serializable {
 
                         \texttt{equals} &
                             An override of \texttt{Object}'s equality function. This is needed as we will frequently 
-                            use \texttt{ClassLabel} as the key to a map structure. \\
+                            use \texttt{ClassLabel} as the key to a map structure, and might not use the same instance 
+                            as a key. The function checks that the class name's, class colour's and class id's are 
+                            identical. \\
                         \hline
 
                         \texttt{hashCode} &
@@ -1900,18 +1913,9 @@ public class ClassLabel implements Serializable {
                             \texttt{ClassLabel} is used as the key in a (hash) map structure.
 
                     \end{tabularx}
-                    \caption{Member functions of the \texttt{ClassLabel} class.}
+                    \caption{Important methods implemented in the \texttt{ClassLabel} class.}
                     \label{tab:ClassLabel}
                 \end{table}
-
-                We note that \texttt{classId} isn't specified by the user and only used internally in the system. In the 
-                class we also define a number of convenience functions as described in table \ref{tab:ClassLabel}, but 
-                their definitions are omitted from listing \ref{lst:ClassLabel}. It is clear that class colours and 
-                class names both need to be unique values per \texttt{ClassLabel} instance, this is checked and 
-                preserved by any functions that create \texttt{ClassLabel} instances, such as \texttt{loadClassList}. 
-                Lastly we also note that the class implements the \texttt{Serializable} interface, which is necessary 
-                to be able to use \texttt{ObjectOutputStream} in section \ref{sec:DecisionForest}, when saving forests 
-                to a file.
 
 
 
@@ -1920,48 +1924,29 @@ public class ClassLabel implements Serializable {
                 The \texttt{Instance} class is used to specify a feature vector, or some instance of our problem. We 
                 define an interface to represent the base structure of an instance. 
 
-                \begin{lstlisting}[caption={The \texttt{Instance} declaration, an interface any concrete instance 
-                class should at least present.},label={lst:Instance}]
-public interface Instance {
-
-  public int getDimension();
-  public double getNormalisationReference(); 
-  public void normalise(double referenceValue);
-}
-                \end{lstlisting}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[scale=0.5]{Instance_Forest_UML}
+                    \caption{\texttt{Instance} in figure \ref{fig:forest_uml} a bit closer.}
+                    \label{fig:instance_uml}
+                \end{figure}
 
                 A feature vector will have some finite number of `features' that we use, the \texttt{getDimension} 
-                function refers to getting the number of features in a feature vector. The functions 
-                \texttt{getNormalisationReference} and \texttt{normalise} are used to define some sort of `power' value 
-                for each instance, and to allow normalisation so that classification can be performed on instances of 
-                a single power. By putting this into the interface we force implementations to provide the facility of 
-                normalisation, however it is only optionally used in the learning and classification algorithms in 
-                sections \ref{sec:training} and \ref{sec:classification}. 
+                function should return the number of features (i.e. the dimension) in the instance. The functions 
+                \texttt{getNormalisationReference} and \texttt{normalise} are used for normalisation of instances. 
+                During classification we may want to normalise so that small changes in data with low variance have 
+                the same weighting as larger changes in data with low variance. This is explored more in section 
+                \ref{sec:effect_of_normalisation}. Intuitively we define some sort of `power' value for each instance 
+                and use normalisation so that all \texttt{Instance}s have the same power. It is optional to use 
+                normalisation in the learning (and therefore classification) algorithms in sections \ref{sec:training} 
+                and \ref{sec:classification}. 
 
-                We also define \texttt{NDRealVector}, a concrete implementation of \texttt{Instance} which can be used 
-                to represent spectra in spectral images, that is, values in $\bb{R}^N$. We can simply think of this as 
-                a wrapper for a list of values, and we store the power of the spectrum also. The \textit{power} of a 
-                spectrum or vector we define to be the sum of squared values in the list. For clarity we leave the implementation 
-                of \texttt{computePower} in listing \ref{lst:NDRealVector}.
-
-
-                \begin{lstlisting}[caption={The \texttt{NDVector} class, a concrete implementation of \texttt{Instance}.}, label={lst:NDRealVector}]
-public class NDRealVector implements Instance  {
-  
-  List<Double> vector;
-  Double power = null;
-
-  ...
-
-  private void computePower() {
-    double power = 0;
-    for (Double d : vector) {
-      power += d * d;
-    }
-    this.power = power;
-  }
-}
-                \end{lstlisting}
+                We also define \texttt{NDRealVector}, a concrete implementation of \texttt{Instance} which can also 
+                be seen in figure \ref{fig:instance_uml}. We use \texttt{NDRealVector} to represent spectra in spectral 
+                images, that is, values in $\bb{R}^N$. We can simply think of this as 
+                a wrapper for a list of values. We also store the power of the spectrum also, and use this as our 
+                ``normalisation reference'' value, and we define the \textit{power} of a spectrum or vector to be sum 
+                of squared values in the list.
 
                 \begin{table}[H]
                     \begin{tabularx}{\textwidth}{l|X}
@@ -1992,7 +1977,7 @@ public class NDRealVector implements Instance  {
                             simply returns a comma separated list of values. 
 
                     \end{tabularx}
-                    \caption{Member functions of the \texttt{NDRealVector} class.}
+                    \caption{Important methods implemented in the \texttt{NDRealVector} class.}
                     \label{tab:NDRealVector}
                 \end{table}
 
@@ -2003,61 +1988,83 @@ public class NDRealVector implements Instance  {
                 and is the effective output from the classification algorithm. So any implementation of Random Forests 
                 needs to have some way to represent probability distributions over possible classifications. Although 
                 we can represent a probability distribution as \texttt{Map<ClassLabel, Double>}, we choose to 
-                encapsulate this in it's own class \texttt{ProbabilityDistribution} so that we can check that 
-                it is a valid distribution and cache frequently used values such as entropy.
+                encapsulate this in it's own class \texttt{ProbabilityDistribution} so that we can perform validation
+                on the properties of a probability distribution, that is each probability is a value in $[0,1]$ and 
+                the probabilities sum to a $1$ and we also cache some frequently used values such as \texttt{entropy}. 
 
-                The class is made immutable so that we cannot accidentally modify the distribution into something 
-                invalid. We make use of the \texttt{unmodifiableMap} function in the \texttt{Java.Collections} package, 
-                which makes a copy of a map, which crucially cannot be modified, we set all member variables to 
-                \texttt{final} and don't provide getters so that the class immutable. 
-
-                In listing \ref{lst:ProbabilityDistribution} we use ``\texttt{throw new Exception}'' as a shorthand, 
-                where in the production code we throw a more meaningful exception, with a message saying what exactly 
-                was the problem and we have left the constructor as it is non-trivial in this case. We also leave 
-                \texttt{computeEntropy} in, because there we need in computing the sum. Consider that in accordance with the 
-                IEEE 754 standard \cite{1985--ieee754} we set the following
+                The \textit{entropy} of a probability distribution $p:\Omega\rightarrow[0,1]$ is defined to be
 
                 \begin{align}
-                  \log(0.0) &= -\infty 
+                  H(p) = \sum\limits_{x\in\Omega} -p(x) \log_2(p(x))
+                  \label{eq:prob_entropy}
                 \end{align}
 
-                where $\infty$ is a special value specified in the standard to represent infinity. According to the 
-                standard we should throw an error on trying to multiply zero and infinity and indeed Java sets the value 
-                to \texttt{NaN} when we attempt this. Hence we need to specifically skip zero values in the sum which 
-                will set
+                which is consistent with the definition of entropy given in equation \ref{eq:training_seq_entropy}.
+
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[scale=0.5]{ProbabilityDistribution_Forest_UML}
+                    \caption{\texttt{ProbabilityDistribution} in figure \ref{fig:forest_uml} a bit closer.}
+                    \label{fig:prob_dist_uml}
+                \end{figure}
+
+                We make the class immutable so that we cannot accidentally modify the distribution into something 
+                invalid. We make it immutable by making each variable \texttt{final} and removing any setter functions. 
+                We however also make use of the \texttt{unmodifiableMap} function in the \texttt{Java.Collections} 
+                package, when setting the \texttt{probabilities} variable. This gives a reference to a \texttt{Map} 
+                where no entries can be added, nor removed, which prevents someone from getting a reference to the map
+                \texttt{probabilities} and altering it.
+
+                Also in the implementation of the class constructor we allow for a small error in the sum, this is 
+                because we will often have small errors from rounding in floating point numbers. So the checks that 
+                are made in the constructor of \texttt{ProababilityDistribution} are:
+                \begin{itemize}
+                    \item 
+                        each value is in the range $[0,1]$;
+                    \item 
+                        the sum of values is in the range $[1-\epsilon,1+\epsilon]$, for some $0 < \epsilon \ll 1$.
+                \end{itemize}
+
+                Another implementation problem is found in the computation of entropy, as $-y\log_2(y)$ isn't defined for 
+                the value of $y=0$. Mathematically we solve this problem by setting
+
+                \begin{align}
+                    -y\log_2(y)|_{y=0} & \defeq \lim_{y\to 0} -y \log_2(u) \\
+                        & = 0.
+                \end{align}
+
+                Now when we compute entropy according to equation \ref{eq:prob_entropy} we try to sum with $p(x)=0$ for 
+                some $x$. In this case we would accidentally set the sum to a \texttt{NaN} value
 
                 \begin{align}
                   \texttt{sum} &= \texttt{sum} + 0.0 * \log(0.0) \\
                     &= \texttt{sum} + 0.0 * -\infty \\
                     &= \texttt{sum} + \texttt{NaN}\\
-                    &= \texttt{NaN}.
+                    &= \texttt{NaN},
                 \end{align}
 
-                \begin{lstlisting}[caption={The \texttt{ProbabilityDistribution} declaration, used to provide a 
-                probability distribution over \texttt{ClassLabel}s.}]
-public class ProbabilityDistribution implements Serializable {
+                where $\infty$ is the floating point representation of infinity, and we have 
 
-  private static final long serialVersionUID = 1L;
-  final Map<ClassLabel, Double> probabilities;
-  final int mostProbableClass;
-  final double entropy;
+                \begin{align}
+                  \log(0.0) &= -\infty, \\
+                  0.0 * \infty &= \texttt{NaN}.  
+                \end{align}
+
+                in accordance with the IEEE 754 standard \cite{1985--ieee754}. We hence need to skip over updating the 
+                accumulating \texttt{sum} variable when $p(x) = 0$ otherwise we will accidentally set \texttt{sum} to a 
+                \texttt{NaN} value.
+
+                \begin{lstlisting}[caption={Part of the \texttt{ProbabilityDirstribution} constructor, where we set $\epsilon = 2^{-10}$.}]
+public class ProbabilityDistribution implements Serializable {
 
   ...
 
   public ProbabilityDistribution(Map<ClassLabel, Double> distribution, int noClasses) 
       throws MalformedProbabilityDistributionException {
     
-    // Check each value is in [0,1] and sum values
-    double sum = 0.0;
-    for (Map.Entry<ClassLabel, Double> entry : distribution.entrySet()) {
-
-      if (entry.getValue() < 0.0 || entry.getValue() > 1.0) {
-        throw new MalformedProbabilityDistributionException;
-      }
-      sum += entry.getValue();
-    }
+    ...
     
-    // Check that values sum to 1, allowing for a small floating point error
+    // Check that the sum is 1, allowing for a small floating point error
     double eps = 1e-10;
     if (sum < 1.0-eps || 1.0+eps < sum) {
       throw new MalformedProbabilityDistributionException;
@@ -2070,22 +2077,9 @@ public class ProbabilityDistribution implements Serializable {
   }
 
   ...
-
-  private double computeEntropy() {
-    // Be careful to avoid the case when prob = 0 as it may give an NaN value
-    double entropy = 0.0; 
-    for (Map.Entry<ClassLabel, Double> entry : probabilities.entrySet()) {
-      double prob = entry.getValue();
-      if (prob != 0.0) {
-        entropy -= prob * Math.log(prob);
-      }
-    }
-    
-    // Divide by log(2) as Math.log is base e
-    return entropy / Math.log(2);
-  }
 }
-                \end{lstlisting}
+                \end{lstlisting}                
+
 
                 \begin{table}[H]
                     \begin{tabularx}{\textwidth}{l|X}
@@ -2121,43 +2115,29 @@ public class ProbabilityDistribution implements Serializable {
                             \texttt{equals} function. \\ 
 
                     \end{tabularx}
-                    \caption{Member functions of the \texttt{ProbabilityDistribution} class.}
+                    \caption{Important methods implemented in the \texttt{ProbabilityDistribution} class.}
                     \label{tab:ProbabilityDistribution}
                 \end{table}
 
 
 
             \subsubsection{Training Sequences}
-                Firstly we define the \texttt{TrainingSample} object. This is simply a pairing between a 
-                \texttt{ClassLabel} and an \texttt{Instance}. There is no other functions in this class other than the 
-                getters, setters and constructor.
-
-                \begin{lstlisting}[caption={The \texttt{TrainingSample} declaration.}]
-public class TrainingSample {
-  
-  ClassLabel classLabel;
-  Instance instance;
-
-  ...
-
-}
-                \end{lstlisting}
+                The \texttt{TrainingSample} object is simply a pairing between a \texttt{ClassLabel} and an 
+                \texttt{Instance}. There is no other functions in this class other than the getters, setters and 
+                constructor. 
 
                 A \texttt{TrainingSequence} consists of a list of \texttt{TrainingSample}s, and we keep a list of 
                 \texttt{ClassLabel}s for reference. A number of convenience functions are defined in the class and 
-                are listed in table \ref{tab:TrainingSequence}.
+                are listed in table \ref{tab:TrainingSequence}, which are used to compute useful values, such as
+                entropy and information gain from equations \ref{eq:training_seq_entropy} and \ref{eq:information_gain} 
+                respectively.
 
-                \begin{lstlisting}[caption={The \texttt{TrainingSequence} declaration.}]
-public class TrainingSequence {
-
-  List<TrainingSample> trainingSequence;
-  List<ClassLabel> classes;
-
-  ...
-  
-}
-
-                \end{lstlisting}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[scale=0.5]{TrainingSequence_Forest_UML}
+                    \caption{\texttt{TrainingSequence} and \texttt{TrainingSample} in figure \ref{fig:forest_uml} a bit closer.}
+                    \label{fig:training_seq_uml}
+                \end{figure}
 
                 \begin{table}[H]
                     \begin{tabularx}{\textwidth}{p{4.5cm}|X}
@@ -2218,83 +2198,51 @@ public class TrainingSequence {
 
 
             \subsubsection{Split Parameters} \label{sec:split_params}
-                We define an abstract class \texttt{SplitParameters} used as a common super class for any implementation 
-                of a split parameter. We make this an abstract class so that we can specify that it implements 
-                \texttt{Serializable} to force any implementing classes to also implement this interface, which is again 
-                necessary to be able to use \texttt{ObjectOutputStream} in section \ref{sec:DecisionForest}, when saving 
-                forests to a file. We also specify at this point that each split parameter needs to be 
-                able to specify what weak learner it is for, which is because we only save the split parameters in the 
-                decision tree and we need some way to determine which \texttt{WeakLearner} subclass to use from the 
+                We define an abstract class \texttt{SplitParameters}, which is used as a common superclass for any 
+                implementation of a split parameter, as defined in section \ref{sec:intro_decision_tree}. We 
+                make this an abstract class so that can implement \texttt{Serializable} forcing
+                any implementing classes to also implement this interface, which is 
+                necessary to be able to save decision forests to a file in section \ref{sec:DecisionForest}. 
+                We also specify that each split parameter needs to be 
+                able to specify what weak learner it is for, because we only save the split parameters in 
+                decision trees and we need some way to determine which \texttt{WeakLearner} subclass to use from a 
                 \texttt{SplitParameter} instance. 
-
-                \begin{lstlisting}[caption={The \texttt{SplitParameters} abstract class declaration.}]
-public abstract class SplitParameters implements Serializable {
-
-  private static final long serialVersionUID = 1L;
-
-  public abstract WeakLearnerType getWeakLearnerType();
-}
-                \end{lstlisting}
 
                 We consider also a concrete implementation of \texttt{SplitParameters}, specifically 
                 \texttt{OneDimensionalLinearSplitParameters} which specifies a ``dimension'' and a threshold as needed 
-                for the \texttt{OneDimensionalLinearWeakLearner} in section \ref{sec:weak_learner}. We see an example of 
-                \texttt{OneDimensionalLinearSplitParameters} being able to specify that it is for a 
-                \texttt{OneDimensionalLinearWeakLearner} in \texttt{getWeakLearnerType()}, which uses the \texttt{enum} defined 
-                in listing \ref{lst:WeakLearnerType}. 
+                for the \texttt{OneDimensionalLinearWeakLearner} in section \ref{sec:weak_learner}. 
 
-                The \texttt{SplitParameter} classes are simple and only include getters, setters and constructors.
+                The \texttt{SplitParameter} classes are simple and only include getters, setters and constructors. That 
+                is there are no `interesting' functions in these classes.
 
-                \begin{lstlisting}[caption={Example of a concrete subclass of \texttt{SplitParameters}.}]
-public static class OneDimensionalLinearSplitParameters extends SplitParameters {
-  
-  private static final long serialVersionUID = 1L;
-  int dimension;
-  double threshold;
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[scale=0.5]{SplitParam_Forest_UML}
+                    \caption{\texttt{SplitParamter} and \texttt{OneDimensionalLinearSplitParameter} in figure 
+                    \ref{fig:forest_uml} a bit closer.}
+                    \label{fig:split_param_uml}
+                \end{figure}
 
-  ...
 
-  @Override
-  public WeakLearnerType getWeakLearnerType() {
-    return WeakLearnerType.ONE_DIMENSIONAL_LINEAR;
-  } 
-}
-                \end{lstlisting}
 
 
             \subsubsection{Weak Learners} \label{sec:weak_learner}
-                We implement \texttt{WeakLearner} as an abstract class, this time because we provide only a partial 
+                We implement \texttt{WeakLearner} as an abstract class, because we provide a partial 
                 implementation. Any common code between subclasses can be put directly into the \texttt{WeakLearner} 
-                abstract class. The function of each abstract method is explained in table 
-                \ref{tab:OneDimensionalLinearWeakLearner}. The function \texttt{uniformRandomDoubleInRange} is a simple 
-                convenience method that is used to generate a value uniformly in the range \texttt{[lowerBound,highBound]}, 
+                abstract class, such as helper functions for generation of randomised parameters. The function of each 
+                abstract method is explained in table \ref{tab:OneDimensionalLinearWeakLearner}. The function 
+                \texttt{uniformRandomDoubleInRange} is a simple convenience method that is used to generate a value 
+                uniformly in some range \texttt{[lowerBound,highBound]}, 
                 and uses Java's implementation of generating a uniform random variable in the range \texttt{[0,1]}. To 
                 identify the type of each weak learner with some tag we define an \texttt{enum} type in listing 
-                \ref{lst:WeakLearnerType}. 
+                \ref{lst:WeakLearnerType}, seen in figure \ref{weak_learner_type_uml}. 
 
-                \begin{lstlisting}[caption={The \texttt{WeakLearner} abstract class declaration}.]
-public abstract class WeakLearner {
-
-  public abstract WeakLearnerType getWeakLearnerType();
-  public abstract Direction split(SplitParameters splitParams, Instance instance);
-  public abstract SplitParameters generateRandomSplitParameters(int dataDimension, Random rand);
-  public abstract void giveHint(TrainingSequence trainingSequence);
-
-  public final double uniformRandomDoubleInRange(double lowerBound, double higherBound, Random rand) {
-    ...
-  }
-}
-                \end{lstlisting}
-
-                \begin{lstlisting}[caption={The \texttt{WeakLearnerType} enum, used to identify particular weak learners.},
-                label={lst:WeakLearnerType}]
-public enum WeakLearnerType implements Serializable {
-  ONE_DIMENSIONAL_LINEAR,
-  TWO_DIMENSIONAL_LINEAR,
-  GENERAL_LINEAR,
-  TWO_DIMENSIONAL_QUADRATIC,
-}
-                \end{lstlisting}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[scale=0.5]{WeakLearnerType_Forest_UML}
+                    \caption{The \texttt{WeakLearnerType} enum in figure \ref{fig:forest_uml} a bit closer.}
+                    \label{fig:weak_learner_type_uml}
+                \end{figure}
 
                 We also consider a concrete implementation for an example, using the \texttt{OneDimensionalLinearWeakLearner} 
                 class. This is the most simple weak learner function that we can decide and has the simplest parameters, 
@@ -2313,45 +2261,23 @@ public enum WeakLearnerType implements Serializable {
                   \label{eq:split_equation}
                 \end{align}
 
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[scale=0.5]{WeakLearner_Forest_UML}
+                    \caption{\texttt{WeakLearner} and \texttt{OneDimensionalLinearWeakLearner} in figure \ref{fig:forest_uml} a bit closer.}
+                    \label{fig:weak_learner_uml}
+                \end{figure}
+
                 These split parameters for the \texttt{OneDimensionalLinearWeakLearner} class are represented by the 
-                \texttt{OneDimensionalLinearSplitParameters} class, this is an example that each subclass of 
-                \texttt{WeakLearner} should have a corresponding subclass of \texttt{SplitParameters} which it uses to 
-                represent it's split parameters. 
+                \texttt{OneDimensionalLinearSplitParameters} class as described in section \ref{sec:split_params}. This 
+                is an example that each subclass of \texttt{WeakLearner} should have a corresponding subclass of 
+                \texttt{SplitParameters} which it uses to represent it's split parameters. And we note that 
+                \texttt{OneDimensionalLinearSplitParameters} is implemented as a nested class within 
+                \texttt{OneDimensionalLinearWeakLearner}, to make this relationship obvious.
+
 
                 The \texttt{split} function is of particular interest in listing \ref{lst:OneDimensionalLinearWeakLearner} as 
                 it implements equation \ref{eq:split_equation}. 
-
-                \begin{lstlisting}[caption={The \texttt{OneDimensionalLinearWeakLearner} declaration, a concrete implementation 
-                of the \texttt{WeakLearner} class.}, label={lst:OneDimensionalLinearWeakLearner}]
-public class OneDimensionalLinearWeakLearner extends WeakLearner {
-
-  List<Double> minimumValues;
-  List<Double> maximumValues;
-
-  ...
-  
-  @Override
-  public Direction split(SplitParameters splitParams, Instance instance) {
-    // Cast the split parameters and instance into their correct subclasses
-    OneDimensionalLinearSplitParameters params = null;
-    NDRealVector vector = null;
-    try {
-      params = (OneDimensionalLinearSplitParameters) splitParams;
-      vector = (NDRealVector) instance;
-    } catch (ClassCastException e) {
-      throw new IncompatibleInstanceAndWeakLearnerException("The split parameters and "
-          + "instance are incompatible with this weak learner.");
-    }
-    
-    // Now make a left choice if lower than the threshold
-    if (vector.vector.get(params.dimension) < params.threshold) {
-      return Direction.LEFT;
-    } else {
-      return Direction.RIGHT;
-    }
-  }
-}
-                \end{lstlisting}
 
                 \begin{table}[H]
                     \begin{tabularx}{\textwidth}{l|X}
@@ -2387,8 +2313,9 @@ public class OneDimensionalLinearWeakLearner extends WeakLearner {
 
                 The \texttt{OneDimensionalLinearWeakLearner} makes use of the \texttt{giveHint} function by iterating through 
                 all \texttt{NDRealVector} instances in the training sequence and recording a minimum and maximum value 
-                for each dimension. This therefore allows us to avoid picking particularly bad 
-                \texttt{OneDimensionalLinearSplitParameters}, as for any of the features/dimensions in the \texttt{NDRealVector} 
+                for each dimension in the lists \texttt{minimumValues} and \texttt{maximumValues}. This therefore 
+                allows us to avoid picking particularly bad \texttt{OneDimensionalLinearSplitParameters}, 
+                as for any of the features/dimensions in the \texttt{NDRealVector} 
                 that are chosen, if we pick a threshold value outside the range between the minimum and maximum we know that 
                 the split function will split the training sequence with zero information gain. Using the notation from 
                 equations \ref{eq:left_split} and \ref{eq:right_split} it means that one of $L(\vc{s},\vc{\theta})$ or 
@@ -2406,17 +2333,24 @@ public class OneDimensionalLinearWeakLearner extends WeakLearner {
 
 
             \subsubsection{Decision Tree Node}
-                Finally we move onto defining our decision tree, where we only found it necessary to define the node 
-                structure \texttt{TreeNode} and directly use it in \texttt{DecisionForest}. Each node has a reference 
+                Finally we move onto defining our decision tree, implement the \texttt{TreeNode} class nested in 
+                \texttt{DecisionForest} to show that their behaviour is tightly coupled. Each node has a reference 
                 to a left and right child node, which are set to \texttt{null} in a leaf node. Every node caches a 
-                probability distribution, as can be seen in the two constructors in listing \ref{lst:TreeNode}. The 
+                probability distribution, even if it is a decision node, and the 
                 probability distribution that is cached is the empirical distribution of the training sequence that is 
                 passed to it. Each decision node has a reference to a \texttt{SplitParameters} instance, which it 
                 uses with a weak learner to make decisions for tree traversal as in section 
                 \ref{sec:intro_decision_trees}. Finally we cache the information gain, computed according to the 
                 equation \ref{eq:information_gain} during the training algorithm.
 
-                We also see in listing \ref{lst:TreeNode} the function \texttt{compact}. This is an optimisation 
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[scale=0.5]{Tree_Forest_UML}
+                    \caption{\texttt{TreeNode} and \texttt{DecisionForest} in figure \ref{fig:forest_uml} a bit closer.}
+                    \label{fig:weak_learner_uml}
+                \end{figure}
+
+                We see in listing \ref{lst:TreeNode} the function \texttt{compact}. This is an optimisation 
                 used to eliminate unnecessary nodes from the tree after its construction. The idea is that if we are at 
                 some decision node and it has two children are leaf nodes with identical distributions, then we 
                 can replace this decision node by a single leaf node with the same distribution. The implementation 
@@ -2436,55 +2370,23 @@ public class OneDimensionalLinearWeakLearner extends WeakLearner {
 
                 \begin{lstlisting}[caption={The \texttt{TreeNode} declaration, found as a static class within the 
                 \texttt{DecisionForest} class.},label={lst:TreeNode}]
-static class TreeNode implements Serializable {
-
-  private static final long serialVersionUID = 1L;
-  TreeNode leftChild;
-  TreeNode rightChild;
-  ProbabilityDistribution probabilityDistribution;
-  SplitParameters splitParams;
-  double informationGain = 0.0;
-
-  ...
-
-  TreeNode(TrainingSequence sequence) throws MalformedProbabilityDistributionException {
-    this.probabilityDistribution = 
-          sequence.empiricalDistribution();
+void compact() throws MalformedForestException {
+  if (this.isLeafNode()) {
+    return;
   }
+  
+  this.leftChild.compact();
+  this.rightChild.compact();
 
-  TreeNode(TrainingSequence sequence, TreeNode leftChld, 
-      TreeNode rightChld, SplitParameters splitParams, 
-      double informationGain) 
-    throws MalformedProbabilityDistributionException {
-
-    this.probabilityDistribution = 
-            sequence.empiricalDistribution();
-    this.leftChild = leftChld;
-    this.rightChild = rightChld;
-    this.splitParams = splitParams;  
-    this.informationGain = informationGain;
-  }
-
-  ...
-
-  void compact() throws MalformedForestException {
-    if (this.isLeafNode()) {
-      return;
-    }
+  if (!this.isLeafNode() && 
+      leftChild.isLeafNode() &&
+      rightChild.isLeafNode() &&
+      probabilityDistribution.equals(leftChild.probabilityDistribution) &&
+      probabilityDistribution.equals(rightChild.probabilityDistribution)) {
     
-    this.leftChild.compact();
-    this.rightChild.compact();
-
-    if (!this.isLeafNode() && 
-        leftChild.isLeafNode() &&
-        rightChild.isLeafNode() &&
-        probabilityDistribution.equals(leftChild.probabilityDistribution) &&
-        probabilityDistribution.equals(rightChild.probabilityDistribution)) {
-      
-      // Make this node a leaf node
-      leftChild = null;
-      rightChild = null;
-    }
+    // Make this node a leaf node
+    leftChild = null;
+    rightChild = null;
   }
 }
                 \end{lstlisting}
@@ -2504,6 +2406,14 @@ static class TreeNode implements Serializable {
                         \texttt{compact} & 
                             As described above, this compacts the tree to an equivalent tree, replacing any unnecessary 
                             decision nodes with a leaf node. \\ 
+                        \hline
+
+                        \texttt{traverseTree} &
+                            A method that given an instance of a \texttt{WeakLearner} and an \texttt{Instance} will 
+                            traverse the tree and return a probability distribution for that instance. As described in 
+                            section \ref{sec:intro_decision_trees} and visualised in figure 
+                            \ref{fig:decision_tree_classify}. The algorithm this method implements is covered in more 
+                            detail in section \ref{sec:classificiation}.
 
                     \end{tabularx}
                     \caption{Member functions of the \texttt{TreeNode} class.}
@@ -2513,28 +2423,72 @@ static class TreeNode implements Serializable {
 
 
 
-
-
             \subsubsection{Decision Forest} \label{sec:DecisionForest}
+                We finally define our \texttt{DecisionForest} class. It is basically a set of \texttt{TreeNode}s, 
+                however we also include additional metadata, which can be seen in figure \ref{fig:weak_learner_uml}. 
+                We have made sure that \texttt{TreeNode}, \texttt{WeakLearner}, \texttt{WeakLearnerType}, 
+                \texttt{SplitParameters} and \texttt{ClassLabel} (which are all composite in the forest data structure) 
+                implement the interface \texttt{Serializable} so that a concise ``save to file'' method can be 
+                implemented. We simply use an instance of \texttt{ObjectOutputStream} in the \texttt{Java.Io} package 
+                to write the object to a binary file in a single line ``\texttt{out.writeObject(this);}''.
+
+                \texttt{dataDimension} keeps track of the dimension of data this forest classifies, the 
+                \texttt{weakLearnerType} specifies what weak learner our forest is related to, and implicitly the type 
+                of data that it classifies. It keeps a reference to all the possible classification labels in 
+                \texttt{classes} and it uses \texttt{normalisedClassification} and \texttt{normalisationReference} to 
+                perform normalisation during classification if we specified that normalised values should be used during 
+                training.
+
+                \begin{table}[H]
+                    \begin{tabularx}{\textwidth}{l|X}
+                        \textbf{Function Name} & \textbf{Function Description} \\
+                        \hline
+
+                        \texttt{DecisionForest} & 
+                            We include the constructor here because we provide two. We have a \texttt{default} access 
+                            default constructor, which is used to construct forests in the training algorithm. The 
+                            other allows the forest to be loaded from a file using an \texttt{ObjectInputStream} from 
+                            the \texttt{Java.Io} package. \\ 
+                        \hline
+
+                        \texttt{saveToFrstFile} & 
+                            This function saves a forest to a persistent ``.frst'' file. It's implementation can be
+                            found in listing \ref{lst:DecisionForest}. \\ 
+                        \hline
+
+                        \texttt{classify} & 
+                            This takes an \texttt{Instance} and returns a probability distribution for it, according 
+                            to the forest. The algorithm implements is discussed in more detail in section 
+                            \ref{sec:classification}. \\ 
+
+                    \end{tabularx}
+                    \caption{Member functions of the \texttt{TreeNode} class.}
+                    \label{tab:DecisionForest}
+                \end{table}
+
+
+
 
 
 
       \subsection{Training} \label{sec:training}
           \begin{framed}
               \begin{itemize}
-                  \item Outline implementation and algorithms (simple listings)
-                  \item Uses a random sample of possible weak learners and picks the entropy maximising one
-                  \item Psuedocode for breadth first/depth first learning and explaination of why chose depth first
+                  \item Walk through algorithm, with a listing(s)
+                  \item Discuss information gain cutoff
+                  \item Discus tradeoffs between breadth and depth first training
                   \item Abstraction of split parameter generation into the weak learner (etc.) allows for a SINGLE learning routine to be implemented for all WeakLearners.
+                  \item (Still to implement). Parallellisation of training trees. Discuss that much more could be done.
+                  \item (Still to implement). Bagging to prevent bias \& overfitting
               \end{itemize}
           \end{framed}
 
+
+
+
       \subsection{Classification} \label{sec:classification}
           \begin{framed}
-              \begin{itemize}
-                  \item Outline implementation and algorithms (simple listings)
-                  \item Uses probability distribution given by each tree and then uses the average as output
-              \end{itemize}
+              todo
           \end{framed}
 
     \section{Neural Networks}
@@ -2561,7 +2515,7 @@ static class TreeNode implements Serializable {
                 \end{itemize}
             \end{framed}
 
-    \section{The classifier} \label{sec:pixel_label}
+    \section{Pixel Labelling} \label{sec:pixel_label}
         \begin{itemize}
             \item We've given the overview of two supervised machine learning techniques
             \item Assume for now that we have appropriate training data - dealt with later
@@ -2655,6 +2609,7 @@ static class TreeNode implements Serializable {
         \subsection{The effect of the number of trees}
         \subsection{The effect of the depth of trees}
         \subsection{The effect of the randomness of trees}
+        \subsection{The effect of normalisation} \label{sec:effect_of_normalisation}
 
 
     \section{The effect of the de-noising component}

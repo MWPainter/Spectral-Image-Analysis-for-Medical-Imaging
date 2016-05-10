@@ -82,6 +82,7 @@
 \newlabel{fig:decision_tree_classify}{{2.3}{11}{Example of how some instance $\vc {x}$ would be classified using a decision tree.\relax }{figure.caption.15}{}}
 \citation{criminisi2013decision}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Training a decision tree}{12}{subsection.2.3.2}}
+\newlabel{eq:training_seq_entropy}{{2.7}{12}{Training a decision tree}{equation.2.3.7}{}}
 \newlabel{eq:empirical_distribution}{{2.8}{12}{Training a decision tree}{equation.2.3.8}{}}
 \newlabel{eq:left_split}{{2.9}{12}{Training a decision tree}{equation.2.3.9}{}}
 \newlabel{eq:right_split}{{2.10}{12}{Training a decision tree}{equation.2.3.10}{}}
@@ -149,91 +150,98 @@
 \@writefile{toc}{\contentsline {chapter}{\numberline {3}Implementation}{29}{chapter.3}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces The dependencies between different packages/modules in the system.\relax }}{29}{figure.caption.30}}
-\newlabel{fig:package_dependencies}{{3.1}{29}{The dependencies between different packages/modules in the system.\relax }{figure.caption.30}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces UML diagram for classes in the system.\relax }}{30}{figure.caption.31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces The dependencies between different packages/modules in the system. Although TrainingTools package is capable of producing training sequence files both the NeuralNetworks and RandomDecisionForests, it only \textit  {depends} on RandomDecisionForests as it uses the class \texttt  {TrainingSequence}.\relax }}{30}{figure.caption.30}}
+\newlabel{fig:package_dependencies}{{3.1}{30}{The dependencies between different packages/modules in the system. Although TrainingTools package is capable of producing training sequence files both the NeuralNetworks and RandomDecisionForests, it only \textit {depends} on RandomDecisionForests as it uses the class \texttt {TrainingSequence}.\relax }{figure.caption.30}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}Random Forests Library}{30}{section.3.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Data structures}{30}{subsection.3.1.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.1}ClassLabels}{30}{subsubsection.3.1.1.1}}
-\newlabel{lst:ClassLabel}{{3.1}{31}{The \texttt {ClassLabel} declaration, used to encapsulate a classification label and it's associated meta-data}{lstlisting.3.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}The \texttt  {ClassLabel} declaration, used to encapsulate a classification label and it's associated meta-data.}{31}{lstlisting.3.1}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Member functions of the \texttt  {ClassLabel} class.\relax }}{31}{table.caption.32}}
-\newlabel{tab:ClassLabel}{{3.1}{31}{Member functions of the \texttt {ClassLabel} class.\relax }{table.caption.32}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.2}Instances}{32}{subsubsection.3.1.1.2}}
-\newlabel{lst:Instance}{{3.2}{32}{The \texttt {Instance} declaration, an interface any concrete instance class should at least present}{lstlisting.3.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}The \texttt  {Instance} declaration, an interface any concrete instance class should at least present.}{32}{lstlisting.3.2}}
-\newlabel{lst:NDRealVector}{{3.3}{32}{The \texttt {NDVector} class, a concrete implementation of \texttt {Instance}}{lstlisting.3.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.3}The \texttt  {NDVector} class, a concrete implementation of \texttt  {Instance}.}{32}{lstlisting.3.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Member functions of the \texttt  {NDRealVector} class.\relax }}{33}{table.caption.33}}
-\newlabel{tab:NDRealVector}{{3.2}{33}{Member functions of the \texttt {NDRealVector} class.\relax }{table.caption.33}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.3}Probability Distributions}{33}{subsubsection.3.1.1.3}}
-\newlabel{sec:prob_dist}{{3.1.1.3}{33}{Probability Distributions}{subsubsection.3.1.1.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces An overview of classes in the RandomDecisionForest package.\relax }}{31}{figure.caption.31}}
+\newlabel{fig:forest_uml}{{3.2}{31}{An overview of classes in the RandomDecisionForest package.\relax }{figure.caption.31}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Data structures}{32}{subsection.3.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.1}ClassLabels}{32}{subsubsection.3.1.1.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces \texttt  {ClassLabel} in figure \ref  {fig:forest_uml} a bit closer.\relax }}{32}{figure.caption.32}}
+\newlabel{fig:class_label_uml}{{3.3}{32}{\texttt {ClassLabel} in figure \ref {fig:forest_uml} a bit closer.\relax }{figure.caption.32}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Important methods implemented in the \texttt  {ClassLabel} class.\relax }}{33}{table.caption.33}}
+\newlabel{tab:ClassLabel}{{3.1}{33}{Important methods implemented in the \texttt {ClassLabel} class.\relax }{table.caption.33}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.2}Instances}{33}{subsubsection.3.1.1.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces \texttt  {Instance} in figure \ref  {fig:forest_uml} a bit closer.\relax }}{34}{figure.caption.34}}
+\newlabel{fig:instance_uml}{{3.4}{34}{\texttt {Instance} in figure \ref {fig:forest_uml} a bit closer.\relax }{figure.caption.34}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Important methods implemented in the \texttt  {NDRealVector} class.\relax }}{35}{table.caption.35}}
+\newlabel{tab:NDRealVector}{{3.2}{35}{Important methods implemented in the \texttt {NDRealVector} class.\relax }{table.caption.35}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.3}Probability Distributions}{35}{subsubsection.3.1.1.3}}
+\newlabel{sec:prob_dist}{{3.1.1.3}{35}{Probability Distributions}{subsubsection.3.1.1.3}{}}
+\newlabel{eq:prob_entropy}{{3.1}{35}{Probability Distributions}{equation.3.1.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces \texttt  {ProbabilityDistribution} in figure \ref  {fig:forest_uml} a bit closer.\relax }}{36}{figure.caption.36}}
+\newlabel{fig:prob_dist_uml}{{3.5}{36}{\texttt {ProbabilityDistribution} in figure \ref {fig:forest_uml} a bit closer.\relax }{figure.caption.36}{}}
 \citation{1985--ieee754}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.4}The \texttt  {ProbabilityDistribution} declaration, used to provide a probability distribution over \texttt  {ClassLabel}s.}{34}{lstlisting.3.4}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces Member functions of the \texttt  {ProbabilityDistribution} class.\relax }}{36}{table.caption.34}}
-\newlabel{tab:ProbabilityDistribution}{{3.3}{36}{Member functions of the \texttt {ProbabilityDistribution} class.\relax }{table.caption.34}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.4}Training Sequences}{36}{subsubsection.3.1.1.4}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.5}The \texttt  {TrainingSample} declaration.}{36}{lstlisting.3.5}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.6}The \texttt  {TrainingSequence} declaration.}{37}{lstlisting.3.6}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.4}{\ignorespaces Member functions of the \texttt  {TrainingSequence} class.\relax }}{38}{table.caption.35}}
-\newlabel{tab:TrainingSequence}{{3.4}{38}{Member functions of the \texttt {TrainingSequence} class.\relax }{table.caption.35}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.5}Split Parameters}{39}{subsubsection.3.1.1.5}}
-\newlabel{sec:split_params}{{3.1.1.5}{39}{Split Parameters}{subsubsection.3.1.1.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.7}The \texttt  {SplitParameters} abstract class declaration.}{39}{lstlisting.3.7}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.8}Example of a concrete subclass of \texttt  {SplitParameters}.}{39}{lstlisting.3.8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.6}Weak Learners}{40}{subsubsection.3.1.1.6}}
-\newlabel{sec:weak_learner}{{3.1.1.6}{40}{Weak Learners}{subsubsection.3.1.1.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.9}{The \texttt  {WeakLearner} abstract class declaration}.}{40}{lstlisting.3.9}}
-\newlabel{lst:WeakLearnerType}{{3.10}{40}{The \texttt {WeakLearnerType} enum, used to identify particular weak learners}{lstlisting.3.10}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.10}The \texttt  {WeakLearnerType} enum, used to identify particular weak learners.}{40}{lstlisting.3.10}}
-\newlabel{eq:split_equation}{{3.6}{41}{Weak Learners}{equation.3.1.6}{}}
-\newlabel{lst:OneDimensionalLinearWeakLearner}{{3.11}{41}{The \texttt {OneDimensionalLinearWeakLearner} declaration, a concrete implementation of the \texttt {WeakLearner} class}{lstlisting.3.11}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.11}The \texttt  {OneDimensionalLinearWeakLearner} declaration, a concrete implementation of the \texttt  {WeakLearner} class.}{41}{lstlisting.3.11}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.5}{\ignorespaces Member functions of the \texttt  {OneDimensionalLinearWeakLearner} class.\relax }}{43}{table.caption.36}}
-\newlabel{tab:OneDimensionalLinearWeakLearner}{{3.5}{43}{Member functions of the \texttt {OneDimensionalLinearWeakLearner} class.\relax }{table.caption.36}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Knowing the minimum and maximum values in each dimension allows us to make an informed choice on split parameters to pick, which in this case is the green zone of values.\relax }}{44}{figure.caption.37}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.7}Decision Tree Node}{44}{subsubsection.3.1.1.7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces An example of how \texttt  {compact} could be used to reduce the size of a decision tree.\relax }}{45}{figure.caption.38}}
-\newlabel{lst:TreeNode}{{3.12}{45}{The \texttt {TreeNode} declaration, found as a static class within the \texttt {DecisionForest} class}{lstlisting.3.12}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.12}The \texttt  {TreeNode} declaration, found as a static class within the \texttt  {DecisionForest} class.}{45}{lstlisting.3.12}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.6}{\ignorespaces Member functions of the \texttt  {TreeNode} class.\relax }}{46}{table.caption.39}}
-\newlabel{tab:TreeNode}{{3.6}{46}{Member functions of the \texttt {TreeNode} class.\relax }{table.caption.39}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.8}Decision Forest}{47}{subsubsection.3.1.1.8}}
-\newlabel{sec:DecisionForest}{{3.1.1.8}{47}{Decision Forest}{subsubsection.3.1.1.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Training}{47}{subsection.3.1.2}}
-\newlabel{sec:training}{{3.1.2}{47}{Training}{subsection.3.1.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Classification}{47}{subsection.3.1.3}}
-\newlabel{sec:classification}{{3.1.3}{47}{Classification}{subsection.3.1.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Neural Networks}{47}{section.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Training}{47}{subsection.3.2.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Classification}{48}{subsection.3.2.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}The classifier}{48}{section.3.3}}
-\newlabel{sec:pixel_label}{{3.3}{48}{The classifier}{section.3.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Training Tools}{48}{section.3.4}}
-\newlabel{sec:training_tools}{{3.4}{48}{Training Tools}{section.3.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}De-noising}{48}{section.3.5}}
-\newlabel{sec:de-noising}{{3.5}{48}{De-noising}{section.3.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.6}Application on example data sets}{49}{section.3.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Siri's data}{49}{subsection.3.6.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Teng's data}{49}{subsection.3.6.2}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation}{51}{chapter.4}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}Part of the \texttt  {ProbabilityDirstribution} constructor, where we set $\epsilon = 2^{-10}$.}{37}{lstlisting.3.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces Important methods implemented in the \texttt  {ProbabilityDistribution} class.\relax }}{38}{table.caption.37}}
+\newlabel{tab:ProbabilityDistribution}{{3.3}{38}{Important methods implemented in the \texttt {ProbabilityDistribution} class.\relax }{table.caption.37}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.4}Training Sequences}{38}{subsubsection.3.1.1.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces \texttt  {TrainingSequence} and \texttt  {TrainingSample} in figure \ref  {fig:forest_uml} a bit closer.\relax }}{39}{figure.caption.38}}
+\newlabel{fig:training_seq_uml}{{3.6}{39}{\texttt {TrainingSequence} and \texttt {TrainingSample} in figure \ref {fig:forest_uml} a bit closer.\relax }{figure.caption.38}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.4}{\ignorespaces Member functions of the \texttt  {TrainingSequence} class.\relax }}{40}{table.caption.39}}
+\newlabel{tab:TrainingSequence}{{3.4}{40}{Member functions of the \texttt {TrainingSequence} class.\relax }{table.caption.39}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.5}Split Parameters}{41}{subsubsection.3.1.1.5}}
+\newlabel{sec:split_params}{{3.1.1.5}{41}{Split Parameters}{subsubsection.3.1.1.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces \texttt  {SplitParamter} and \texttt  {OneDimensionalLinearSplitParameter} in figure \ref  {fig:forest_uml} a bit closer.\relax }}{41}{figure.caption.40}}
+\newlabel{fig:split_param_uml}{{3.7}{41}{\texttt {SplitParamter} and \texttt {OneDimensionalLinearSplitParameter} in figure \ref {fig:forest_uml} a bit closer.\relax }{figure.caption.40}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.6}Weak Learners}{42}{subsubsection.3.1.1.6}}
+\newlabel{sec:weak_learner}{{3.1.1.6}{42}{Weak Learners}{subsubsection.3.1.1.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces The \texttt  {WeakLearnerType} enum in figure \ref  {fig:forest_uml} a bit closer.\relax }}{42}{figure.caption.41}}
+\newlabel{fig:weak_learner_type_uml}{{3.8}{42}{The \texttt {WeakLearnerType} enum in figure \ref {fig:forest_uml} a bit closer.\relax }{figure.caption.41}{}}
+\newlabel{eq:split_equation}{{3.10}{43}{Weak Learners}{equation.3.1.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces \texttt  {WeakLearner} and \texttt  {OneDimensionalLinearWeakLearner} in figure \ref  {fig:forest_uml} a bit closer.\relax }}{43}{figure.caption.42}}
+\newlabel{fig:weak_learner_uml}{{3.9}{43}{\texttt {WeakLearner} and \texttt {OneDimensionalLinearWeakLearner} in figure \ref {fig:forest_uml} a bit closer.\relax }{figure.caption.42}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.5}{\ignorespaces Member functions of the \texttt  {OneDimensionalLinearWeakLearner} class.\relax }}{44}{table.caption.43}}
+\newlabel{tab:OneDimensionalLinearWeakLearner}{{3.5}{44}{Member functions of the \texttt {OneDimensionalLinearWeakLearner} class.\relax }{table.caption.43}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces Knowing the minimum and maximum values in each dimension allows us to make an informed choice on split parameters to pick, which in this case is the green zone of values.\relax }}{45}{figure.caption.44}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.7}Decision Tree Node}{45}{subsubsection.3.1.1.7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces \texttt  {TreeNode} and \texttt  {DecisionForest} in figure \ref  {fig:forest_uml} a bit closer.\relax }}{46}{figure.caption.45}}
+\newlabel{fig:weak_learner_uml}{{3.11}{46}{\texttt {TreeNode} and \texttt {DecisionForest} in figure \ref {fig:forest_uml} a bit closer.\relax }{figure.caption.45}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces An example of how \texttt  {compact} could be used to reduce the size of a decision tree.\relax }}{47}{figure.caption.46}}
+\newlabel{lst:TreeNode}{{3.2}{47}{The \texttt {TreeNode} declaration, found as a static class within the \texttt {DecisionForest} class}{lstlisting.3.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}The \texttt  {TreeNode} declaration, found as a static class within the \texttt  {DecisionForest} class.}{47}{lstlisting.3.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.6}{\ignorespaces Member functions of the \texttt  {TreeNode} class.\relax }}{48}{table.caption.47}}
+\newlabel{tab:TreeNode}{{3.6}{48}{Member functions of the \texttt {TreeNode} class.\relax }{table.caption.47}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1.8}Decision Forest}{48}{subsubsection.3.1.1.8}}
+\newlabel{sec:DecisionForest}{{3.1.1.8}{48}{Decision Forest}{subsubsection.3.1.1.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.7}{\ignorespaces Member functions of the \texttt  {TreeNode} class.\relax }}{49}{table.caption.48}}
+\newlabel{tab:DecisionForest}{{3.7}{49}{Member functions of the \texttt {TreeNode} class.\relax }{table.caption.48}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Training}{49}{subsection.3.1.2}}
+\newlabel{sec:training}{{3.1.2}{49}{Training}{subsection.3.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Classification}{49}{subsection.3.1.3}}
+\newlabel{sec:classification}{{3.1.3}{49}{Classification}{subsection.3.1.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Neural Networks}{50}{section.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Training}{50}{subsection.3.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Classification}{50}{subsection.3.2.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Pixel Labelling}{50}{section.3.3}}
+\newlabel{sec:pixel_label}{{3.3}{50}{Pixel Labelling}{section.3.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Training Tools}{51}{section.3.4}}
+\newlabel{sec:training_tools}{{3.4}{51}{Training Tools}{section.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}De-noising}{51}{section.3.5}}
+\newlabel{sec:de-noising}{{3.5}{51}{De-noising}{section.3.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Application on example data sets}{51}{section.3.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Siri's data}{51}{subsection.3.6.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Teng's data}{51}{subsection.3.6.2}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation}{53}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Performance measures for classifiers}{51}{section.4.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Evaluation of Random Forests pixel labelling}{51}{section.4.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation of Neural Networks pixel labelling}{51}{section.4.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Evaluation of the Random Forests library}{52}{section.4.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Training time}{52}{subsection.4.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Classification time}{52}{subsection.4.4.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}The effect of the number of trees}{52}{subsection.4.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}The effect of the depth of trees}{52}{subsection.4.4.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.5}The effect of the randomness of trees}{52}{subsection.4.4.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}The effect of the de-noising component}{52}{section.4.5}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusion}{53}{chapter.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Performance measures for classifiers}{53}{section.4.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Evaluation of Random Forests pixel labelling}{53}{section.4.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation of Neural Networks pixel labelling}{53}{section.4.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Evaluation of the Random Forests library}{54}{section.4.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Training time}{54}{subsection.4.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Classification time}{54}{subsection.4.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}The effect of the number of trees}{54}{subsection.4.4.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}The effect of the depth of trees}{54}{subsection.4.4.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.5}The effect of the randomness of trees}{54}{subsection.4.4.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.6}The effect of normalisation}{54}{subsection.4.4.6}}
+\newlabel{sec:effect_of_normalisation}{{4.4.6}{54}{The effect of normalisation}{subsection.4.4.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}The effect of the de-noising component}{54}{section.4.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusion}{55}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Summary}{53}{section.5.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Further Work}{53}{section.5.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Summary}{55}{section.5.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Further Work}{55}{section.5.2}}
 \bibdata{refs}
 \bibcite{1985--ieee754}{1}
 \bibcite{badrinarayanan2015segnet2}{2}
@@ -244,7 +252,7 @@
 \bibcite{criminisi2012decision}{7}
 \bibcite{cunningham2007k}{8}
 \bibcite{figueiredo2006total}{9}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{55}{section.5.2}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{57}{section.5.2}}
 \bibcite{gamal2005cmos}{10}
 \bibcite{hasinoff2014photon}{11}
 \bibcite{heaton2008introduction}{12}
@@ -265,21 +273,21 @@
 \bibcite{sprawls1987physical}{27}
 \bibcite{zhao2016segmenting}{28}
 \bibcite{zhao2016multiscale}{29}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}File formats}{59}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}File formats}{61}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:file_formats}{{A}{59}{File formats}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}(Example/Noisy) Spectral Image}{59}{section.A.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.2}Example Image Labelling}{59}{section.A.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.3}Label Map}{59}{section.A.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.4}Training Sequence}{59}{section.A.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.5}Output Files}{60}{section.A.5}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}A brief explanation of the method of conjugate gradients}{61}{appendix.B}}
+\newlabel{app:file_formats}{{A}{61}{File formats}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}(Example/Noisy) Spectral Image}{61}{section.A.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}Example Image Labelling}{61}{section.A.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Label Map}{61}{section.A.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.4}Training Sequence}{61}{section.A.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.5}Output Files}{62}{section.A.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}A brief explanation of the method of conjugate gradients}{63}{appendix.B}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {C}Project Proposal}{63}{appendix.C}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {C}Project Proposal}{65}{appendix.C}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {D}Glossary}{75}{appendix.D}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {D}Glossary}{77}{appendix.D}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}

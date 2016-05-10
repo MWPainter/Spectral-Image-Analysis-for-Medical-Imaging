@@ -19,10 +19,18 @@
 \contentsline {figure}{\numberline {2.15}{\ignorespaces Overview of the noisy pixel labeller function.\relax }}{24}{figure.caption.28}
 \contentsline {figure}{\numberline {2.16}{\ignorespaces Overview of the backup strategy employed.}}{27}{figure.caption.29}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces The dependencies between different packages/modules in the system.\relax }}{29}{figure.caption.30}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces UML diagram for classes in the system.\relax }}{30}{figure.caption.31}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Knowing the minimum and maximum values in each dimension allows us to make an informed choice on split parameters to pick, which in this case is the green zone of values.\relax }}{44}{figure.caption.37}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces An example of how \texttt {compact} could be used to reduce the size of a decision tree.\relax }}{45}{figure.caption.38}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The dependencies between different packages/modules in the system. Although TrainingTools package is capable of producing training sequence files both the NeuralNetworks and RandomDecisionForests, it only \textit {depends} on RandomDecisionForests as it uses the class \texttt {TrainingSequence}.\relax }}{30}{figure.caption.30}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces An overview of classes in the RandomDecisionForest package.\relax }}{31}{figure.caption.31}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces \texttt {ClassLabel} in figure \ref {fig:forest_uml} a bit closer.\relax }}{32}{figure.caption.32}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces \texttt {Instance} in figure \ref {fig:forest_uml} a bit closer.\relax }}{34}{figure.caption.34}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces \texttt {ProbabilityDistribution} in figure \ref {fig:forest_uml} a bit closer.\relax }}{36}{figure.caption.36}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces \texttt {TrainingSequence} and \texttt {TrainingSample} in figure \ref {fig:forest_uml} a bit closer.\relax }}{39}{figure.caption.38}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces \texttt {SplitParamter} and \texttt {OneDimensionalLinearSplitParameter} in figure \ref {fig:forest_uml} a bit closer.\relax }}{41}{figure.caption.40}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces The \texttt {WeakLearnerType} enum in figure \ref {fig:forest_uml} a bit closer.\relax }}{42}{figure.caption.41}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces \texttt {WeakLearner} and \texttt {OneDimensionalLinearWeakLearner} in figure \ref {fig:forest_uml} a bit closer.\relax }}{43}{figure.caption.42}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Knowing the minimum and maximum values in each dimension allows us to make an informed choice on split parameters to pick, which in this case is the green zone of values.\relax }}{45}{figure.caption.44}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces \texttt {TreeNode} and \texttt {DecisionForest} in figure \ref {fig:forest_uml} a bit closer.\relax }}{46}{figure.caption.45}
+\contentsline {figure}{\numberline {3.12}{\ignorespaces An example of how \texttt {compact} could be used to reduce the size of a decision tree.\relax }}{47}{figure.caption.46}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

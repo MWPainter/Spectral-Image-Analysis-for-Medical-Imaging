@@ -229,7 +229,7 @@ public class DecisionForest implements Cloneable, Serializable {
 		
 		// Iterate through all tree's votes, and sum the distributions
 		for (TreeNode node : rootNodes) {
-			Map<ClassLabel, Double> leafDistr = traverseTree(node, splitter, instance).getProbabilityDistribution();
+			Map<ClassLabel, Double> leafDistr = node.traverseTree(splitter, instance).getProbabilityDistribution();
 			for (ClassLabel clazz : classes) {
 				outputDistr.put(clazz, outputDistr.get(clazz) + leafDistr.get(clazz));
 			}
@@ -249,36 +249,6 @@ public class DecisionForest implements Cloneable, Serializable {
 		
 		// Return the probability distribution
 		return new ProbabilityDistribution(outputDistr, numberOfClasses);
-	}
-	
-	/***
-	 * Traverse a tree using a given split function
-	 * @param rootNode Root node of the tree to traverse
-	 * @param splitter Implements the WeakLearner interface, containing one function used to make decisions at each node 
-	 * @param instance The feature vector/instance that is being classified currently
-	 * @return The probability distribution of class instances 
-	 * @throws MalformedForestException If the tree is malformed it will throw a MalformedForestException
-	 */
-	ProbabilityDistribution traverseTree(TreeNode rootNode, WeakLearner splitter, Instance instance) throws MalformedForestException {
-		try {
-			// Use the split function to traverse the tree until we hit a root node
-			TreeNode currentNode = rootNode;
-			while (!currentNode.isLeafNode()) {
-				Direction splitDirection = splitter.split(currentNode.splitParams, instance);
-				if (splitDirection == Direction.LEFT) {
-					currentNode = currentNode.leftChild;
-				} else {
-					currentNode = currentNode.rightChild;
-				}
-			}
-			
-			// Return the class associated with the root node
-			return currentNode.probabilityDistribution;
-			
-		} catch (NullPointerException ex) {
-			// If we get a null pointer, then we must have a malformed tree
-			throw new MalformedForestException("Failed traversing a tree due to null pointer exception.");
-		}
 	}
 	
 	/***
@@ -468,6 +438,36 @@ public class DecisionForest implements Cloneable, Serializable {
 				// a leaf
 				this.leftChild = null;
 				this.rightChild = null;
+			}
+		}
+		
+		/***
+		 * Traverse a tree using a given split function
+		 * 
+		 * @param splitter Implements the WeakLearner interface, containing one function used to make decisions at each node 
+		 * @param instance The feature vector/instance that is being classified currently
+		 * @return The probability distribution of class instances 
+		 * @throws MalformedForestException If the tree is malformed it will throw a MalformedForestException
+		 */
+		private ProbabilityDistribution traverseTree(WeakLearner splitter, Instance instance) throws MalformedForestException {
+			try {
+				// Use the split function to traverse the tree until we hit a root node
+				TreeNode currentNode = this;
+				while (!currentNode.isLeafNode()) {
+					Direction splitDirection = splitter.split(currentNode.splitParams, instance);
+					if (splitDirection == Direction.LEFT) {
+						currentNode = currentNode.leftChild;
+					} else {
+						currentNode = currentNode.rightChild;
+					}
+				}
+				
+				// Return the class associated with the root node
+				return currentNode.probabilityDistribution;
+				
+			} catch (NullPointerException ex) {
+				// If we get a null pointer, then we must have a malformed tree
+				throw new MalformedForestException("Failed traversing a tree due to null pointer exception.");
 			}
 		}
 	}
