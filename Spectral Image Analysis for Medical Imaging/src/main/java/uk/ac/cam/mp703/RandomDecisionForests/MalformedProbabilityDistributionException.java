@@ -1,6 +1,6 @@
 package uk.ac.cam.mp703.RandomDecisionForests;
 
-public class MalformedProbabilityDistributionException extends Exception {
+public class MalformedProbabilityDistributionException extends RuntimeException {
 	/***
 	 * Serial id
 	 */

@@ -98,11 +98,11 @@
   commentstyle=\color[rgb]{0.133,0.545,0.133}\ttfamily,
   morecomment=[l][\color{magenta}]{\#},
   aboveskip=2em,                                                        % spacing above listings
-  belowskip=1.5em                                                         % spacing below listings
+  belowskip=1.5em,                                                         % spacing below listings
 }
 
 % Graphics extensions used
-\DeclareGraphicsExtensions{.pdf, .png, .jpg, .eps}
+\DeclareGraphicsExtensions{.pdf, .svg, .png, .jpg, .jpeg, .eps}
 \graphicspath{ {figs/} }
 
 % ??
@@ -329,8 +329,9 @@ purpose.
 \section*{Acknowledgements}
 
 I thank my supervisors, director of studies and tutor for their extensive support, especially for putting up with me 
-throughout the year. I would also like to thank Malavika Nair, Ioana Bica and Yanie de Nadaillac for 
-all of their support and helping me keep it together through the tougher parts of the year.
+throughout the year. I would like to thank Malavika Nair, Ioana Bica and Clare Pacini for diligently proofreading 
+this dissertation when it was abruptly thrust into their hands and also for their general support, helping me keep it together 
+through the tougher parts of the year. Further thanks to Yanie de Nadaillac for being a general life coach when needed.
 
 
 
@@ -493,7 +494,7 @@ all of their support and helping me keep it together through the tougher parts o
 
         \begin{figure}[H]
             \centering
-            \includegraphics[scale=1.0]{spectral_image}
+            \includegraphics[scale=0.25]{spectral_image}
             \caption{Examples of a monochrome image (left) and a spectral image (right).}
         \end{figure}
 
@@ -754,7 +755,7 @@ all of their support and helping me keep it together through the tougher parts o
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[scale=0.5]{tree_node_labels.jpeg}
+                \includegraphics[scale=0.5]{tree_node_labels}
                 \caption{Example of node numberings in a decision tree.}
             \end{figure}
 
@@ -778,7 +779,7 @@ all of their support and helping me keep it together through the tougher parts o
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[scale=0.5]{tree_example_classification.jpeg}
+                \includegraphics[scale=0.5]{tree_example_classification}
                 \caption{Example of how some instance $\vc{x}$ would be classified using a decision tree.}
                 \label{fig:decision_tree_classify}
             \end{figure}
@@ -832,7 +833,7 @@ all of their support and helping me keep it together through the tougher parts o
             and then recursively train down the tree. \cite{criminisi2013decision}
 
 
-        \subsection{Moving swiftly on to random forests}
+        \subsection{Moving swiftly on to random forests} \label{sec:moving_swiftly_onto_forests}
             Decision trees have a couple major disadvantages, which are solved by extending the concept to random 
             forests. The first problem is that we learn $\vc{\theta}_i$ using
 
@@ -1807,7 +1808,7 @@ all of their support and helping me keep it together through the tougher parts o
                 \href{https://www.google.com/drive/}{google.com}, 
                 \href{https://www.dropbox.com/business/why-dropbox-for-business}{dropbox.com}, 
                 \href{https://github.com/}{github.com}, 
-                \href{http://www.clipartpanda.com/categories/mac-computer-clip-art}{clipartpanda.com}}.
+                \href{http://www.clipartpanda.com/categories/mac-computer-clip-art}{clipartpanda.com}.}
 
 
 
@@ -1831,7 +1832,7 @@ all of their support and helping me keep it together through the tougher parts o
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.5]{package_dependencies.jpeg}
+        \includegraphics[scale=0.5]{package_dependencies}
         \caption{The dependencies between different packages/modules in the system. Although TrainingTools package is
         capable of producing training sequence files both the NeuralNetworks and RandomDecisionForests, it only 
         \textit{depends} on RandomDecisionForests as it uses the class \texttt{TrainingSequence}.}
@@ -2054,24 +2055,48 @@ all of their support and helping me keep it together through the tougher parts o
                 accumulating \texttt{sum} variable when $p(x) = 0$ otherwise we will accidentally set \texttt{sum} to a 
                 \texttt{NaN} value.
 
-                \begin{lstlisting}[caption={Part of the \texttt{ProbabilityDirstribution} constructor, where we set $\epsilon = 2^{-10}$.}]
+                When classifying a using a decision tree we need to take an average over many probability distributions. 
+                Consider the problem of numerically computing an average
+                \begin{align}
+                    \overline{x}_n = \frac{1}{n} \sum\limits_{i=1}^n x_i.
+                    \label{eq:sum}
+                \end{align}
+
+                Then a na\"{i}ve implementation would first compute the value of $\sum\limits_{i=1}^n x_i$ and then 
+                divide by $n$, however for very large $n$ this can lead to numerical instability, introducing a large 
+                rounding error. We know that the following relation holds 
+
+                \begin{align}
+                    \overline{x}_n = \overline{x}_{n-1} + \frac{x_n - \overline{x}_{n-1}}{n}
+                    \label{eq:numstabsum}
+                \end{align} 
+
+                and is easily verified by substituting equation \ref{eq:sum} in the right hand side of equation 
+                \ref{eq:numstabsum}. This can be used to compute $\overline{x}_n$ accurately for large $n$ and we 
+                should provide a method to perform the equivalent procedure to equation \ref{eq:numstabsum} over 
+                probability distributions.
+
+                \begin{lstlisting}[float=tp,caption={Part of the \texttt{ProbabilityDirstribution} constructor, where we set $\epsilon = 2^{-10}$.}]
 public class ProbabilityDistribution implements Serializable {
 
   ...
 
-  public ProbabilityDistribution(Map<ClassLabel, Double> distribution, int noClasses) 
+  public ProbabilityDistribution(
+    Map<ClassLabel, Double> distribution, int noClasses) 
       throws MalformedProbabilityDistributionException {
     
     ...
     
-    // Check that the sum is 1, allowing for a small floating point error
+    // Check that the sum is 1, allowing for a small floating 
+    // point error
     double eps = 1e-10;
     if (sum < 1.0-eps || 1.0+eps < sum) {
       throw new MalformedProbabilityDistributionException;
     }
     
     // Assign the values (so they are immutable)
-    this.probabilities = Collections.unmodifiableMap(distribution);
+    this.probabilities = 
+      Collections.unmodifiableMap(distribution);
     this.mostProbableClass = computeMostProbableClass();
     this.entropy = computeEntropy();
   }
@@ -2113,6 +2138,11 @@ public class ProbabilityDistribution implements Serializable {
                         \texttt{hashCode} & 
                             Override of \texttt{Object}'s function \texttt{equals}, as we have overridden the 
                             \texttt{equals} function. \\ 
+                        \hline
+
+                        \texttt{addRunningTotal} &
+                            Add a probability to a running average distribution to avoid numerical instability problems 
+                            as discussed above, using equation \ref{eq:numstabsum}.
 
                     \end{tabularx}
                     \caption{Important methods implemented in the \texttt{ProbabilityDistribution} class.}
@@ -2187,6 +2217,11 @@ public class ProbabilityDistribution implements Serializable {
                             This \texttt{static} function writes out a training sequence file with the data from the 
                             given \texttt{TrainingSequence} instance, in accordance with the file format specified in 
                             appendix \ref{app:file_formats}. \\
+                        \hline
+
+                        \texttt{bag} &
+                            This performs bagging on a training sequence, and returns a bagged training sequence. The 
+                            concept of \textit{bagging} is discussed in section \ref{sec:training}.
 
                     \end{tabularx}
                     \caption{Member functions of the \texttt{TrainingSequence} class.}
@@ -2324,9 +2359,10 @@ public class ProbabilityDistribution implements Serializable {
 
                 \begin{figure}[H]
                   \centering
-                  \includegraphics[scale=0.25]{one_dimensional_weak_learner_optimisation.jpeg}
+                  \includegraphics[scale=0.25]{one_dimensional_weak_learner_optimisation}
                   \caption{Knowing the minimum and maximum values in each dimension allows us to make an informed 
                   choice on split parameters to pick, which in this case is the green zone of values.}
+                  \label{fig:split_parameter_choice_optimisation}
                 \end{figure}
 
 
@@ -2364,11 +2400,11 @@ public class ProbabilityDistribution implements Serializable {
 
                 \begin{figure}[H]
                   \centering
-                  \includegraphics[scale=0.35]{tree_compaction.jpeg}
+                  \includegraphics[scale=0.35]{tree_compaction}
                   \caption{An example of how \texttt{compact} could be used to reduce the size of a decision tree.}
                 \end{figure}
 
-                \begin{lstlisting}[caption={The \texttt{TreeNode} declaration, found as a static class within the 
+                \begin{lstlisting}[float=tp,caption={The \texttt{TreeNode} declaration, found as a static class within the 
                 \texttt{DecisionForest} class.},label={lst:TreeNode}]
 void compact() throws MalformedForestException {
   if (this.isLeafNode()) {
@@ -2473,23 +2509,187 @@ void compact() throws MalformedForestException {
 
       \subsection{Training} \label{sec:training}
           \begin{framed}
-              \begin{itemize}
-                  \item Walk through algorithm, with a listing(s)
-                  \item Discuss information gain cutoff
-                  \item Discus tradeoffs between breadth and depth first training
-                  \item Abstraction of split parameter generation into the weak learner (etc.) allows for a SINGLE learning routine to be implemented for all WeakLearners.
-                  \item (Still to implement). Parallellisation of training trees. Discuss that much more could be done.
-                  \item (Still to implement). Bagging to prevent bias \& overfitting
-              \end{itemize}
+              To Ioana and Malavika: Sorry, I think WE still use we a lot here. We didn't mean to. :( \\
+              Again, thank you so much for proof reading this when there's such a short deadline $<$3 \\
+              P.s. The writing after this fits nicely below the head when I remove this box
           \end{framed}
+
+          The concept of training was discussed in section \ref{sec:supervised_learning} and there was an overview of 
+          how we can train decision trees and decision forests in section \ref{sec:rand_forest}. This section provides 
+          some simple psuedocode to generate trees given a training sequence, and extends it for a decision forest. We 
+          then discuss some design choices for an implementation of the algorithm, problems that may be encountered and 
+          some possible solutions to those problems.
+
+          \begin{lstlisting}[float=tp,caption={Psuedocode to train a decision tree.}, label={lst:generateTree}]
+TreeNode generateTree(trainingSequence, depth, randomnessParameter) {
+  // Base (terminating) case
+  if (depth <= 0) {
+    return new TreeNode(trainingSequence);
+  }
+
+  // Remember the best split
+  bestInfoGain = 0.0;
+  bestLeftSplit = null;
+  bestRightSplit = null;
+
+  // Try [randomnessParameter] number of times
+  for (int i = 0; i < randomnessParameter; i++) {
+    
+    // Split
+    splitParameter = generateRandomSplitParameter();
+    for (sample in trainingSequence) {
+      // 'split' is our split function
+      if (split(sample, splitPerameter) == 0) {
+        leftSplit.add(sample);
+      } else {
+        rightSplit.add(sample);
+      }
+    }
+
+    // Update best if necessary
+    infoGain = informationGain(leftSplit, rightSplit)
+    if (infoGain > bestInfoGain) {
+      bestInfoGain = infoGain;
+      bestLeftSplit = leftSplit;
+      bestRightSplit = rightSplit;
+    }
+  }
+
+  // Recurse
+  leftChild = generateTree(bestLeftSplit, depth-1, randomnessParameter);
+  rightChild =  generateTree(bestRightSplit, depth-1, randomnessParameter);
+
+  // Return the tree
+  return new TreeNode(leftChild, rightChild)
+}
+          \end{lstlisting}
+
+          \clearpage
+          The full code listing for training a decision tree is given in appendix \ref{app:train_tree}. The value 
+          \texttt{randomnessParameter} is the value $\rho$ from section \ref{sec:moving_swiftly_onto_forests}. The algorithm 
+          abstracts away from using a single weak learner and the \texttt{WeakLearner} class specifies functions 
+          synonymous to the \texttt{generateRandomSplitParameter} and \texttt{split} used in listing \ref{lst:generateTree}.
+          This allows the algorithm for training to be written in a generic way and allowing for high code re-usability. 
+
+          There are a number of things to consider when implementing this algorithm if we wish to return useful and 
+          efficient trees. Firstly, large trees (specified by a large depth) may be necessary to provide correct 
+          classifications in larger multi-class problems, however as we get deeper into the tree, decision nodes could 
+          be adding no information. I.e. consider when we have a empirical distribution at depth 
+          3 which is almost identical to the distribution found 
+          at depth 20, in this case the decisions made at depths 3 to 20 have made very little difference to the output 
+          and effectively waste computation time. To ameliorate the problem we can provide a threshold value for the 
+          information gain, which if not surpassed causes the training to terminate. This is included in the implementation seen in 
+          listing \ref{lst:actualGenerateTree} with the parameter \texttt{informationGainCutoff}. 
+
+          Secondly we consider the generation of split parameters. Sometimes with prior information, or even analysis 
+          of the training sequence, a more informed choice of split parameter can be made. We talk about this at the 
+          end of section \ref{sec:weak_learner}, when we discuss optimising \texttt{OneDimensionalWeakLearner} parameter 
+          selection. The optimisation discussed is included in the \texttt{OneDimensionalWeakLearner} implementation.
+
+          Lastly, in listing \ref{lst:generateTree} we see a depth first traversal of the tree as we train it, 
+          alternatively a breadth first approach can be imagined, as in figure \ref{fig:breadth_first}, where 
+          we train all nodes at some depth at the 
+          same time and the collective information gain is what we optimise over. In the implementation 
+          \ref{lst:actualGenerateTree} we decide to implement a depth first algorithm as it is easier to parallelise 
+          (and distribute if wanted), because each of the child nodes are trained independently.
+
+          \begin{figure}
+              \centering
+              \includegraphics[scale=0.3]{breadthfirst_vs_depthfirst}
+              \caption{Visualisation of breadth first vs depth first. Optimisation of information gain takes place over 
+              all of the nodes in the frontier. Recreated from Criminisi et al \cite{criminisi2013decision}.}
+              \label{fig:breadth_first}
+          \end{figure}
+
+          The algorithm for training a decision forest extends easily from training a decision tree and psuedocode is 
+          given in listing \ref{lst:train}.
+
+          \begin{lstlisting}[float=tp,caption={Psuedocode to train a decision forest.}, label={lst:classify}]
+DecisionForest train(trainingSequence, noTrees, depth, randomnessParameter) {
+
+  rootNodes = [];
+  for (int i = 0; i < noTrees; i++) {
+    subSequence = trainingSequence.bag();
+    treeNode = generateTree(subSequence, depth, randomnessParameter);
+    rootNodes.add(treeNode);
+  }
+
+  return new DecisionForest(rootNodes);
+}
+          \end{lstlisting}
+
+          In listing \ref{lst:train} the training sequence is `bagged' for each tree, which yields a subsequence of the 
+          training sequence, which is used to train each tree. The term \textit{bagging} refers to taking a subsequence 
+          of the training sequence and using that for training. Here it is used as a way to introduce randomness and 
+          is a way to reduce over-fitting. One problem which is commonly encountered and leads to over-fitting is when 
+          on class of data is abundantly in the training sequence, and another class of data isn't. In this case the 
+          abundant data will have a large influence on the information gain from equation \ref{eq:information_gain}. We 
+          can deal with this problem either by weighting the influence of each class inversely by its size in equation 
+          \ref{eq:information_gain} or by bagging in such a way that each tree is trained on a sequence with equal 
+          numbers of samples from each class. In our implementation in listing \ref{lst:actualTrainForest} we take the 
+          later approach. 
+
+          Another trick that can be used to reduce over-fitting is to increase the randomness of our choice of 
+          split parameters. By this we mean using a low value for $\rho$ or \texttt{randomnessParameter}. One option 
+          is to start with a low value of $\rho$ at high depths in the tree and increase it at lower depths. This is 
+          not included in our implementation.
+
+          Finally there is some obvious parallelism to exploit again, where each tree can be independently trained 
+          in it's own thread. This is a feature of the actual implementation and can be seen in listing 
+          \ref{lst:actualTrainForest}.
+
+
 
 
 
 
       \subsection{Classification} \label{sec:classification}
-          \begin{framed}
-              todo
-          \end{framed}
+          As discussed in section \ref{sec:moving_swiftly_onto_forests} we classify by walking along each tree and 
+          averaging over the different distributions. Psuedocode for traversing the tree is given in listing 
+          \ref{lst:traverseTree} and psuedocode for classification is given in listing \ref{lst:classify}.
+
+          \begin{lstlisting}[float=tp,caption={Psuedocode for traversing a decision tree.}, label={lst:traverseTree}]
+ProbabilityDistribution traverseTree(instance) {
+  currentNode = this;
+  while (!isLeaf(currentNode)) {
+    direction = split(currentNode.splitParams, instance);
+    if (direction == LEFT) {
+      currentNode = currentNode.leftChild;
+    } else {
+      currentNode = currentNode.rightChild;
+    }
+  }
+
+  // When we get here we are a leaf node
+  return currentNode.probabilityDistribution;
+}
+          \end{lstlisting}
+
+          \begin{lstlisting}[float=tp,caption={Psuedocode for classification using a decision tree.}, label={lst:classify}]
+public ProbabilityDistribution classify(instance) {
+  for (node in rootNodes) {
+    if (accumulatingDistr == null) {
+      accumulatingDistr = node.traverseTree(instance);
+      treesTraversed++;
+    } else {
+      leafDistr = node.traversTree(instance);
+      accumulatingDistr.addRunningTotal(leafDistr, ++treesTraversed);
+    }
+  }
+  return accumulatingDistr;
+}
+          \end{lstlisting}
+
+          Similar to the learning algorithm, parallelism can be exploited from traversing each tree in a separate 
+          thread, and again is in the implementation found in listing \ref{lst:classify}. We make use of the 
+          \texttt{addRunningTotal} function that we defined in section \ref{sec:prob_dist} so that we sum in a 
+          numerically stable fashion. There is not much more that can be said about the classification algorithm for 
+          random forests, its simplicity is one of its major advantages.
+
+
+
+
+
 
     \section{Neural Networks}
         \begin{framed}
@@ -2523,6 +2723,12 @@ void compact() throws MalformedForestException {
             \item Listing for the datacube, and listing that implements the pixel labelling
             \item Assuming we have appropriate training data, and non-noisy images we are now done! Unfortunately not the case.
         \end{itemize}
+
+        Now that 
+
+
+
+
 
     \section{Training Tools} \label{sec:training_tools}
         \begin{itemize}
@@ -2587,18 +2793,6 @@ void compact() throws MalformedForestException {
             \item Justify what might be the most informative here.
         \end{itemize}
 
-    \section{Evaluation of Random Forests pixel labelling}
-        \begin{itemize}
-            \item Compute the performance measures for a noiseless toy image, noisy toy image and two data sets provided, and compare
-        \end{itemize}
-
-
-    \section{Evaluation of Neural Networks pixel labelling}
-        \begin{itemize}
-            \item Compute the performance measures for a noiseless toy image, noisy toy image and two data sets provided, and compare
-            \item Compare with random forests - success criterion (table of results and say a bit about which did better)
-        \end{itemize}
-
     \section{Evaluation of the Random Forests library}
         \begin{itemize}
             \item Define a standard training set, this can actually be independent of pixel labelling and similar to the Chriminsi forests paper.
@@ -2617,7 +2811,7 @@ void compact() throws MalformedForestException {
             \item Use a couple images with added noise
             \item Compare the SNR for the method with respect to different noise models (does it handle any other types of noise?)
             \item Plot SNR as a function of the parameter lambda in the TVMM method
-            \item Plot SNR as a function of noise power (for different types of nois)
+            \item Plot SNR as a function of noise power (for different types of noise)
         \end{itemize}
 
 
@@ -2696,7 +2890,7 @@ void compact() throws MalformedForestException {
 \appendix
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% description of benchmark tests
+% file format
 
 \cleardoublepage
 \chapter{File formats}    \label{app:file_formats}
@@ -2736,13 +2930,343 @@ void compact() throws MalformedForestException {
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% evaluation data
+% code listing for training
 
 \cleardoublepage
-\chapter{A brief explanation of the method of conjugate gradients}
-    TODO
+\chapter{Code for training a decision forest} \label{app:train_tree}
+    
+    \begin{lstlisting}[float=tp,caption={The implementation code for tree generation.}, label={lst:actualGenerateTree}]
+private static TreeNode generateTree(
+  TrainingSequence trainingSequence, 
+  WeakLearner weakLearner, 
+  int depth, 
+  int randomnessParameter, 
+  double informationGainCutoff) 
+    throws MalformedProbabilityDistributionException {
+
+  // Check for the training sequence being 0 in size, that 
+  // should never happen
+  if (trainingSequence.size() == 0) {
+    throw new IllegalArgumentException(
+      "Can't generate a tree from an empty sequence.");
+  }
+  
+  // If the depth is zero or there is only one sample in 
+  // the training sequences, then we need to create a leaf 
+  // node, take the class as the majority vote from the 
+  // training sequence.
+  if (depth <= 0 || trainingSequence.size() == 1) {
+    return new TreeNode(trainingSequence);
+  }
+  
+  // Give the weak learner the training sequence as a hint
+  // for what subspace of the split parameter space it 
+  // should search
+  weakLearner.giveHint(trainingSequence);
+  
+  // We will generate split paramters, and we will keep 
+  // track of the best split. Initialise best information 
+  // gain to -1.0 so we have a check that it was explicitly 
+  // set at least once in the loop 
+  double bestInformationGain = -1.0;
+  TrainingSequence bestLeftSplit = null;
+  TrainingSequence bestRightSplit = null;
+  SplitParameters bestSplitParameters = null;
+  int dataDimension = trainingSequence.trainingSequence.
+      get(0).instance.getDimension();
+  
+  // Try "randomnessParameter" number of random split 
+  // parameters
+  for (int i = 0; i < randomnessParameter; i++) {
+    SplitParameters splitParameters = 
+      weakLearner.generateRandomSplitParameters(
+        dataDimension);
+    List<TrainingSample> leftList = new ArrayList<>();
+    List<TrainingSample> rightList = new ArrayList<>();
+    
+    // Split the training sequence into a left and right split
+    for (TrainingSample sample : 
+        trainingSequence.trainingSequence) {
+
+      if (weakLearner.split(splitParameters, sample.instance) 
+            == Direction.LEFT) {
+        leftList.add(sample);
+      } else {
+        rightList.add(sample);
+      }
+    }
+    
+    // See what information gain this leads to
+    TrainingSequence leftSplit = new TrainingSequence(
+      leftList, trainingSequence.classes);
+    TrainingSequence rightSplit = new TrainingSequence(
+      rightList, trainingSequence.classes);
+    double informationGain = 
+      TrainingSequence.informationGain(leftSplit, rightSplit);
+    
+    // If its the best information gain found so far, 
+    // remember it!
+    if (informationGain > bestInformationGain) {
+      bestInformationGain = informationGain;
+      bestLeftSplit = leftSplit;
+      bestRightSplit = rightSplit;
+      bestSplitParameters = splitParameters;
+    }
+  }
+  
+  // We make a greedy choice using the best split that we 
+  // found, and recursively build our child nodes.
+  // N.B. If the split doesn't gain enough information, then 
+  // just try again, (so we've used up "one depth").
+  // N.B.B. informationGainCutoff >= 0.0, and if one of the 
+  // sequences is empty, then there is and information gain of 
+  // 0.0, hence if one of the sequences is empty we don't EVER 
+  // pass the information gain cutoff. Hence any split that 
+  // actually causes a recursion will have two non empty 
+  // subsequences.
+  TreeNode node = null;
+  if (bestInformationGain <= informationGainCutoff) {
+    node = generateTree(trainingSequence, weakLearner, depth-1, 
+        randomnessParameter, informationGainCutoff);
+  } else {
+    TreeNode leftChild = 
+      generateTree(bestLeftSplit, weakLearner, depth-1, 
+        randomnessParameter,informationGainCutoff);
+    TreeNode rightChild = 
+      generateTree(bestRightSplit, weakLearner, depth-1, 
+        randomnessParameter, informationGainCutoff);
+    node = 
+      new TreeNode(trainingSequence, leftChild, rightChild, 
+        bestSplitParameters, bestInformationGain);
+  }
+  
+  // We have trained a tree! Return it
+  return node;
+}
+    \end{lstlisting}
 
 
+    \begin{lstlisting}[float=tp,caption={The implementation code for training a decision forest.}, label={lst:actualTrainForest}]
+public static DecisionForest trainDecisionForest(
+    final TrainingSequence trainingSequence, 
+    final WeakLearner weakLearner, 
+    final int maxTrees, 
+    final int maxDepth, 
+    final int randomnessParameter,
+    final double informationGainCutoff, 
+    final boolean normaliseInstances, 
+    final boolean bagging) 
+    throws MalformedForestException, 
+      MalformedProbabilityDistributionException, 
+      InterruptedException {
+  
+  // If we are given nonsensical input, throw an exception
+  if (trainingSequence == null || trainingSequence.size() == 0 
+    || trainingSequence.classes.size() == 0) {
+    throw new IllegalArgumentException("We need a non-empty, "
+        + "non-null training sequence to train a tree.");
+  } else if (weakLearner == null) {
+    throw new IllegalArgumentException("We need a non-null "
+        + "weak learner to be able to train a tree.");
+  } else if (maxTrees <= 0) {
+    throw new IllegalArgumentException("A non-positive "
+        + "number of trees doesn't make sense for a forest.");
+  } else if (maxDepth <= 0) {
+    throw new IllegalArgumentException("A non-negative depth "
+        + "doesn't make sense for a tree. A tree consisting "
+        + "of a single node has depth 0. If we limit trees to "
+        + "be just leaves then there is no decisions being " 
+        + "made - the tree does nothing.");
+  } else if (randomnessParameter <= 0) {
+    throw new IllegalArgumentException("We need a positive "
+        + "randomness parameter, it doens't make sense to " 
+        + "have a negative quantity.");
+  } else if (informationGainCutoff < 0.0) {
+    throw new IllegalArgumentException("Information gain is "
+      + "a strictly non-negative value, so must have a cutoff "
+      + "of more than or equal to zero.");
+  }
+  
+  // Normalise the training sequence if we want that
+  // Remember the reference value (power)
+  double normalisationReference = 0.0;
+  if (normaliseInstances) {
+    normalisationReference = trainingSequence.normalise();
+  }
+  
+  // Create a DecisionForest instance
+  DecisionForest forest = new DecisionForest();
+  forest.setDataDimension(trainingSequence.trainingSequence.
+    get(0).instance.getDimension());
+  forest.setClasses(trainingSequence.classes);
+  forest.setWeakLearnerType(weakLearner.getWeakLearnerType());
+
+  // Use a new thread to build each tree
+  final Set<DecisionForest.TreeNode> rootNodes = 
+    new HashSet<>();
+  Set<Thread> workers = new HashSet<>(); 
+  for (int i = 0; i < maxTrees; i++) {
+    
+    // Train the new tree in its own thread
+    Thread thread = new Thread() {
+      public void run() {
+        // Perform bagging of the training sequence if we want
+        TrainingSequence ts = trainingSequence.bag();
+        if (bagging) {
+          ts = trainingSequence.bag();
+        }
+        
+        // Generate the tree node
+        TreeNode node = generateTree(ts, weakLearner, maxDepth, 
+            randomnessParameter, informationGainCutoff);
+        node.compact();
+        synchronized(rootNodes) {
+          rootNodes.add(node);
+          System.out.println("Tree number " + rootNodes.size() 
+            + " trained.");
+        }
+      } 
+    };
+    thread.start();
+    workers.add(thread);
+  }
+  
+  // Wait for the threads to finish
+  for (Thread thread : workers) {
+    thread.join();
+  }
+  
+  // Add the root nodes to the forest structure
+  forest.setRootNodes(rootNodes);
+  
+  // Add normalisation variables to the forest structure
+  forest.setNormalisedClassification(normaliseInstances);
+  forest.setNormalisationReference(normalisationReference);
+  
+  // Return the constructed forest
+  return forest;
+}
+      \end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% code listing for classification
+
+\cleardoublepage
+\chapter{Code for classifying using a decision forest} \label{app:classify_tree}
+
+    \begin{lstlisting}[float=tp,caption={The implementation code for tree traversal.}, label={lst:actualTraverseTree}]
+private ProbabilityDistribution traverseTree(
+  WeakLearner splitter, 
+  Instance instance) 
+    throws MalformedForestException {
+
+  try {
+    // Use the split function to traverse the tree until we 
+    // hit a root node
+    TreeNode currentNode = this;
+    while (!currentNode.isLeafNode()) {
+      Direction splitDirection = 
+        splitter.split(currentNode.splitParams, instance);
+
+      if (splitDirection == Direction.LEFT) {
+        currentNode = currentNode.leftChild;
+      } else {
+        currentNode = currentNode.rightChild;
+      }
+    }
+    
+    // Return the class associated with the root node
+    return currentNode.probabilityDistribution;
+    
+  } catch (NullPointerException ex) {
+    // If we get a null pointer, then we must have a 
+    // malformed tree
+    throw new MalformedForestException("Failed traversing a "
+      + "tree due to null pointer exception.");
+  }
+}
+    \end{lstlisting}
+
+    \begin{lstlisting}[float=tp,caption={The implementation code for classification using a decision forest.}, label={lst:actualTraverseTree}]
+public ProbabilityDistribution classify(
+  final Instance instance) {
+  
+  // Create a splitter depending on our weak learner type
+  final WeakLearner splitter;
+  switch (weakLearnerType) {
+    case ONE_DIMENSIONAL_LINEAR:
+      splitter = new OneDimensionalLinearWeakLearner();
+      break;
+    default:
+      throw new MalformedForestException("No weak learner for "
+        + "the type given, unable to classify.");
+  }
+  
+  // If we are using normalised labeling, then normalise
+  if (normalisedClassification) {
+    instance.normalise(normalisationReference);
+  }
+  
+  // Define a wrapper for the accumulator distribution
+  // We use this as a closure in the threads, so we get past 
+  // the restriction of only using final variables in threads
+  final class AccumulatorDistributionWrapper {
+    ProbabilityDistribution accDistr;
+    int distributionsSummed;
+  }
+  
+  // Define the accumulator distribution we use
+  final AccumulatorDistributionWrapper wrapper = 
+    new AccumulatorDistributionWrapper();
+  
+  // Compute the trees votes in parallel, and then add them 
+  // together in an accumulating probability distribution
+  Set<Thread> threads = new HashSet<>();
+  for (final TreeNode node : rootNodes) {
+    
+    // Run the traversal in a new thread
+    Thread thread = new Thread() {
+      public void run() {
+      // Traverse to the leaf distribution, then add it to the 
+      // accumulating
+      ProbabilityDistribution leafDistr = 
+        node.traverseTree(splitter, instance);
+
+        synchronized(wrapper) {
+          if (wrapper.distributionsSummed == 0) {
+            wrapper.accDistr = leafDistr;
+          }
+          else {
+            wrapper.accDistr.addRunningTotal(
+              leafDistr, wrapper.distributionsSummed+1);
+          }
+          wrapper.distributionsSummed++;
+        }
+      }
+    };
+    threads.add(thread);
+    
+  }
+  
+  // Wait for the threads to finish
+  for (Thread thread : threads) {
+    thread.join();
+  }
+  
+  // Return the probability distribution
+  return wrapper.accDistr;
+}
+    \end{lstlisting}
 
 
 

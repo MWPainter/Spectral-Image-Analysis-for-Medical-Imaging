@@ -2,6 +2,7 @@ package uk.ac.cam.mp703.RandomDecisionForests;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /***
@@ -19,17 +20,17 @@ public class ProbabilityDistribution implements Serializable {
 	/***
 	 * A mapping from class numbers to probabilities
 	 */
-	final Map<ClassLabel, Double> probabilities;
+	Map<ClassLabel, Double> probabilities;
 	
 	/***
 	 * The most probable classification
 	 */
-	final ClassLabel mostProbableClass;
+	ClassLabel mostProbableClass = null;
 	
 	/***
 	 * The entropy of this distribution
 	 */
-	final double entropy;
+	double entropy = -1.0;	
 	
 	/***
 	 * Constructor
@@ -65,8 +66,6 @@ public class ProbabilityDistribution implements Serializable {
 		
 		// Assign variables
 		this.probabilities = Collections.unmodifiableMap(distribution);
-		this.mostProbableClass = computeMostProbableClass();
-		this.entropy = computeEntropy();
 	}
 	
 	/***
@@ -98,6 +97,9 @@ public class ProbabilityDistribution implements Serializable {
 	 * @return The most probable class number
 	 */
 	public ClassLabel mostProbableClass() {
+		if (mostProbableClass == null) {
+			mostProbableClass = computeMostProbableClass();
+		}
 		return this.mostProbableClass;
 	}
 	
@@ -126,6 +128,9 @@ public class ProbabilityDistribution implements Serializable {
 	 * @return The entropy of the distribution
 	 */
 	public double entropy() {
+		if (entropy == -1.0) {
+			entropy = computeEntropy();
+		}
 		return this.entropy;
 	}
 	
@@ -147,5 +152,23 @@ public class ProbabilityDistribution implements Serializable {
 	@Override
 	public int hashCode() {
 		return probabilities.hashCode();
+	}
+
+	/***
+	 * Sum a large number of probability distributions together, using a formula S_n = S_{n-1} + (x_n - S_{n-1})/n
+	 * This implementation is valid for computing n >= 2, it's not possible to have an empty distribution and get an S_0 
+	 * 
+	 * @param distrToAdd The probability distribution to be added to the running sum (this)
+	 * @param distributionsNo This is the (distributionNo)th distribution being summed
+	 */
+	public void addRunningTotal(ProbabilityDistribution distrToAdd, Integer distributionNo) {
+		Map<ClassLabel, Double> newProbabilities = new HashMap<>();
+		for (ClassLabel clazz : probabilities.keySet()) {
+			double oldProb = probabilities.get(clazz);
+			double probToAdd = distrToAdd.getProbabilityDistribution().get(clazz);
+			double newProb = oldProb + (probToAdd - oldProb) / distributionNo;
+			newProbabilities.put(clazz, newProb);
+		}
+		probabilities = Collections.unmodifiableMap(newProbabilities);
 	}
 }

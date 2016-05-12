@@ -3,6 +3,7 @@ package uk.ac.cam.mp703.RandomDecisionForests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /***
  * A split function/weak learner for splitting {@link NDRealVectors} using 1 dimension for each
@@ -67,7 +68,10 @@ public class OneDimensionalLinearWeakLearner extends WeakLearner {
 	 * When learning we will need to be able to generate random split parameters to try.
 	 */
 	@Override
-	public SplitParameters generateRandomSplitParameters(int dataDimension, Random rand) {
+	public SplitParameters generateRandomSplitParameters(int dataDimension) {
+		// Get a random instance
+		Random rand = ThreadLocalRandom.current();
+		
 		// Pick one of the dimensions randomly
 		int dimension = rand.nextInt(dataDimension);
 		

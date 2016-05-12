@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -201,12 +202,13 @@ public class DecisionForest implements Cloneable, Serializable {
 	 * @return Returns the number corresponding to the majority classification, if -1 then it was undetermined
 	 * @throws MalformedForestException If any tree in the forest is malformed it will throw a MalformedForestException
 	 * @throws MalformedProbabilityDistributionException 
+	 * @throws InterruptedException 
 	 */
-	public ProbabilityDistribution classify(Instance instance) 
-			throws MalformedForestException, MalformedProbabilityDistributionException {
+	public ProbabilityDistribution classify(final Instance instance) 
+			throws MalformedForestException, MalformedProbabilityDistributionException, InterruptedException {
 		
 		// Create a splitter depending on our weak learner type
-		WeakLearner splitter = null;
+		final WeakLearner splitter;
 		switch (weakLearnerType) {
 			case ONE_DIMENSIONAL_LINEAR:
 				splitter = new OneDimensionalLinearWeakLearner();
@@ -220,35 +222,49 @@ public class DecisionForest implements Cloneable, Serializable {
 			instance.normalise(normalisationReference);
 		}
 		
-		// Initialize an accumulating distribution for summing over/voting
-		int numberOfClasses = classes.size();
-		Map<ClassLabel, Double> outputDistr = new HashMap<ClassLabel, Double>(numberOfClasses);
-		for (ClassLabel clazz : classes) {
-			outputDistr.put(clazz, 0.0);
+		// Define a wrapper for the accumulator distribution
+		// We use this as a closure in the threads, so we get past the restriction of only using 
+		// final variables in threads
+		final class AccumulatorDistributionWrapper {
+			ProbabilityDistribution accDistr;
+			int distributionsSummed;
 		}
 		
-		// Iterate through all tree's votes, and sum the distributions
-		for (TreeNode node : rootNodes) {
-			Map<ClassLabel, Double> leafDistr = node.traverseTree(splitter, instance).getProbabilityDistribution();
-			for (ClassLabel clazz : classes) {
-				outputDistr.put(clazz, outputDistr.get(clazz) + leafDistr.get(clazz));
-			}
+		// Define the accumulator distribution we use
+		final AccumulatorDistributionWrapper wrapper = new AccumulatorDistributionWrapper();
+		
+		// Compute the trees votes in parallel, and then add them together in an accumulating 
+		// probability distribution
+		Set<Thread> threads = new HashSet<>();
+		for (final TreeNode node : rootNodes) {
+			
+			// Run the traversal in a new thread
+			Thread thread = new Thread() {
+				public void run() {
+				// Traverse to the leaf distribution, then add it to the accumulating
+				ProbabilityDistribution leafDistr = node.traverseTree(splitter, instance);
+					synchronized(wrapper) {
+						if (wrapper.distributionsSummed == 0) {
+							wrapper.accDistr = leafDistr;
+						}
+						else {
+							wrapper.accDistr.addRunningTotal(leafDistr, wrapper.distributionsSummed+1);
+						}
+						wrapper.distributionsSummed++;
+					}
+				}
+			};
+			threads.add(thread);
+			
 		}
 		
-		// Normalise the distribution 
-		// Mathematically this can be done by dividing by the tree count, however we will have 
-		// floating point error
-		double normalisationFactor = 0.0;
-		for (ClassLabel clazz : classes) {
-			normalisationFactor += outputDistr.get(clazz);
-		}
-		
-		for (ClassLabel clazz : classes) {
-			outputDistr.put(clazz, outputDistr.get(clazz) / normalisationFactor);
+		// Wait for the threads to finish
+		for (Thread thread : threads) {
+			thread.join();
 		}
 		
 		// Return the probability distribution
-		return new ProbabilityDistribution(outputDistr, numberOfClasses);
+		return wrapper.accDistr;
 	}
 	
 	/***

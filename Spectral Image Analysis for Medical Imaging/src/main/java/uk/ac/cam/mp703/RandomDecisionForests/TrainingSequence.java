@@ -11,7 +11,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -339,5 +342,75 @@ public class TrainingSequence implements Serializable {
 		
 		// We are done writing all of the information, so close the writer
 		writer.close();
+	}
+	
+	/***
+	 * Bagging if we don't care about sizes, but want an equal number of each class
+	 * @return The bagged training sequence
+	 */
+	public TrainingSequence bag() {
+		return bag(0, Integer.MAX_VALUE);
+	}
+	
+	/***
+	 * Return a bagged training sequence, with an equal number of each class
+	 * @param minimumSize The minimum number of instances of some class
+	 * @param maximumSize The maximum number of instances of some class
+	 * @return
+	 */
+	public TrainingSequence bag(int minimumSize, int maximumSize) {
+		// First sort into a number of sets
+		Map<ClassLabel, Set<TrainingSample>> classSets = new HashMap<>(classes.size());
+		for (ClassLabel clazz : classes) {
+			classSets.put(clazz, new HashSet<TrainingSample>());
+		}
+		
+		// Iterate through all of the training samples putting them in the buckets
+		for (TrainingSample sample : trainingSequence) {
+			classSets.get(sample.classLabel).add(sample);
+		}
+		
+		// Check that all of the sizes are at least big enough for the minimum size
+		int smallestSetSize = 0;
+		for (Entry<ClassLabel, Set<TrainingSample>> entry : classSets.entrySet()) {
+			int size = entry.getValue().size();
+			if (size < minimumSize) {
+				throw new TrainingSequenceException("Not enough samples for one the classes in the "
+						+ "training sequence to perform bagging with a minimum value of " + minimumSize);
+			} else if (size < smallestSetSize) {
+				smallestSetSize = size;
+			}
+		}
+		
+		// Now construct a new training sequence by randomly picking as much as we can from each set
+		List<TrainingSample> newTrainingSequence = new ArrayList<>();
+		for (ClassLabel clazz : classes) {
+			for (int i=0; i < smallestSetSize; i++) {
+				newTrainingSequence.add(randomObjectFromSetWithRemoval(classSets.get(clazz)));
+			}
+		}
+		
+		// Return the new training sequence
+		return new TrainingSequence(newTrainingSequence, classes);
+	}
+	
+	/***
+	 * Helper to get a random item from a set, and remove it from the set
+	 * @param set The set we want to pick a value from
+	 * @param rand An instance of Random to use to randomly pick samples
+	 */
+	private static <T> T randomObjectFromSetWithRemoval(Set<T> set) {
+		Random rand = ThreadLocalRandom.current();
+		int size = set.size();
+		int r = rand.nextInt(size);
+		int i = 0;
+		for(T obj : set) {
+		    if (i == r) {
+		    	set.remove(obj);
+		        return obj;
+		    }
+		    i++;
+		}
+		throw new TrainingSequenceException("Something went wrong picking a random element from a set");
 	}
 }

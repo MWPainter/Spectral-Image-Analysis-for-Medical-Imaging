@@ -2,6 +2,7 @@ package uk.ac.cam.mp703.RandomDecisionForests;
 
 import java.io.Serializable;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /***
  * A weak learner contains a split function. It takes two arguments, split parameters and 
@@ -43,10 +44,9 @@ public abstract class WeakLearner implements Serializable {
 	 * Weak learners need to have a method to generate random split parameters. The learning method 
 	 * is general and uses it in training.
 	 * @param dataDimension We pass in the dimension of the data to help generate the parameter
-	 * @param rand An instance of Random which should be used to generate random values
 	 * @return Returns an instance of SplitParameters relevant for the given weak learner
 	 */
-	public abstract SplitParameters generateRandomSplitParameters(int dataDimension, Random rand);
+	public abstract SplitParameters generateRandomSplitParameters(int dataDimension);
 	
 	/***
 	 * Give a weak learner a chance to look at the training sequence as a hint of what split 
@@ -60,10 +60,12 @@ public abstract class WeakLearner implements Serializable {
 	 * given range, especially when higherBound-lowerBound > Double.MAX_VALUE
 	 * @param lowerBound The lowest number that we want to generate
 	 * @param higherBound The highest number that we want to generate
-	 * @param rand An instance of Random
 	 * @return A randomly distributed random number in the interval [lowerBound, higherBound]
 	 */
-	public final double uniformRandomDoubleInRange(double lowerBound, double higherBound, Random rand) {
+	public final double uniformRandomDoubleInRange(double lowerBound, double higherBound) {
+		// Get a random number generator
+		Random rand = ThreadLocalRandom.current();
+		
 		// First check for silly input, and handle each case appropriately
 		if (lowerBound == higherBound) {
 			return lowerBound;

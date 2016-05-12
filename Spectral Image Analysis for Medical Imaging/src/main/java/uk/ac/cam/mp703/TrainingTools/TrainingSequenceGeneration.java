@@ -1,4 +1,4 @@
-mpackage uk.ac.cam.mp703.TrainingTools;
+package uk.ac.cam.mp703.TrainingTools;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -50,8 +50,10 @@ public class EntryPoint {
 	 * @param args Array of arguments passed into the program
 	 * @throws FileFormatException 
 	 * @throws IOException 
+	 * @throws InterruptedException 
+	 * @throws TrainingSequenceFormatException 
 	 */
-	public static void main(String[] args) throws IOException, FileFormatException  {
+	public static void main(String[] args) throws IOException, FileFormatException, TrainingSequenceFormatException, InterruptedException  {
 		
 		// Check the first argument is something to decide the usage
 		if (args.length == 0) {
@@ -98,8 +100,10 @@ public class EntryPoint {
 				int randomnessParameter = Integer.parseInt(args[6]);
 				double informationGainCutoff = Double.parseDouble(args[7]);
 				boolean normaliseSpectra = Boolean.parseBoolean(args[8]);
+				boolean bagging = Boolean.parseBoolean(args[9]);
 				mainLearning(trainingFilename, classColourMapFilename, outputFilename, maxTrees,
-						maxDepth, randomnessParameter, informationGainCutoff, normaliseSpectra);
+						maxDepth, randomnessParameter, informationGainCutoff, normaliseSpectra,
+						bagging);
 				
 			} catch (NullPointerException e) {
 				System.err.println("Error reading in arguments to task " + tasks[2]);
@@ -356,16 +360,30 @@ public class EntryPoint {
 	 * @param informationGainCutoff Minimal information gain for each split node we allow
 	 * @param normaliseSpectra Do we want spectra to be normalised (with reference to power) during 
 	 * 			training and classification?
+	 * @param bagging Should we perform bagging during training?
 	 * @throws IOException
 	 * @throws MalformedForestException
 	 * @throws MalformedProbabilityDistributionException
 	 * @throws FileFormatException 
 	 * @throws TrainingSequenceFormatException 
+	 * @throws InterruptedException 
 	 */
-	private static void mainLearning(String trainingFilename, String classColourMapFilename, 
-			String outputFilename, int maxTrees, int maxDepth, int randomnessParameter, 
-			double informationGainCutoff, boolean normaliseSpectra) 
-					throws IOException, MalformedForestException, MalformedProbabilityDistributionException, TrainingSequenceFormatException, FileFormatException {
+	private static void mainLearning(
+			String trainingFilename, 
+			String classColourMapFilename, 
+			String outputFilename, 
+			int maxTrees, 
+			int maxDepth, 
+			int randomnessParameter, 
+			double informationGainCutoff, 
+			boolean normaliseSpectra, 
+			boolean bagging) 
+					throws IOException, 
+					MalformedForestException, 
+					MalformedProbabilityDistributionException, 
+					TrainingSequenceFormatException, 
+					FileFormatException, 
+					InterruptedException {
 		
 		// Get the training sequence
 		TrainingSequence ts = 
@@ -376,7 +394,7 @@ public class EntryPoint {
 		
 		// Train the tree
 		DecisionForest forest = Learner.trainDecisionForest(ts, wl, maxTrees, maxDepth, 
-				randomnessParameter, informationGainCutoff, normaliseSpectra);
+				randomnessParameter, informationGainCutoff, normaliseSpectra, bagging);
 		
 		// Save the tree
 		forest.saveToFrstFile(outputFilename);
@@ -396,11 +414,12 @@ public class EntryPoint {
 	 * @throws FileFormatException
 	 * @throws MalformedForestException
 	 * @throws MalformedProbabilityDistributionException
+	 * @throws InterruptedException 
 	 */
 	public static void mainRFRun(String forestFilename, String imageSpecifier, String outputFilename,
 			String imageType, String singleProbClassName) 
 			throws FileNotFoundException, IOException, FileFormatException, MalformedForestException, 
-			MalformedProbabilityDistributionException {
+			MalformedProbabilityDistributionException, InterruptedException {
 		// Load forest
 		DecisionForest df = new DecisionForest(forestFilename);
 		
@@ -587,6 +606,9 @@ public class EntryPoint {
 		o.println("\t arg8 = normaliseSpectra (bool) (true/false/yes/no)");
 		o.println("\t\t Should image spectra be normalised when labelling "
 				+ "\n\t\t and training? (Normalise power of the spectrum.)");
+		o.println("\t arg8 = bagging (bool) (true/false/yes/no)");
+		o.println("\t\t Should we perform bagging of the training sequence "
+				+ "\n\t\t whilst training the forest?");
 		o.println();
 		o.println("Train a Neural Network.");
 		o.println("TODO");

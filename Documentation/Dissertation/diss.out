@@ -23,20 +23,19 @@
 \BOOKMARK [1][-]{section.3.6}{Application on example data sets}{chapter.3}% 23
 \BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 24
 \BOOKMARK [1][-]{section.4.1}{Performance measures for classifiers}{chapter.4}% 25
-\BOOKMARK [1][-]{section.4.2}{Evaluation of Random Forests pixel labelling}{chapter.4}% 26
-\BOOKMARK [1][-]{section.4.3}{Evaluation of Neural Networks pixel labelling}{chapter.4}% 27
-\BOOKMARK [1][-]{section.4.4}{Evaluation of the Random Forests library}{chapter.4}% 28
-\BOOKMARK [1][-]{section.4.5}{The effect of the de-noising component}{chapter.4}% 29
-\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 30
-\BOOKMARK [1][-]{section.5.1}{Summary}{chapter.5}% 31
-\BOOKMARK [1][-]{section.5.2}{Further Work}{chapter.5}% 32
-\BOOKMARK [0][-]{section.5.2}{Bibliography}{}% 33
-\BOOKMARK [0][-]{appendix.A}{File formats}{}% 34
-\BOOKMARK [1][-]{section.A.1}{\(Example/Noisy\) Spectral Image}{appendix.A}% 35
-\BOOKMARK [1][-]{section.A.2}{Example Image Labelling}{appendix.A}% 36
-\BOOKMARK [1][-]{section.A.3}{Label Map}{appendix.A}% 37
-\BOOKMARK [1][-]{section.A.4}{Training Sequence}{appendix.A}% 38
-\BOOKMARK [1][-]{section.A.5}{Output Files}{appendix.A}% 39
-\BOOKMARK [0][-]{appendix.B}{A brief explanation of the method of conjugate gradients}{}% 40
-\BOOKMARK [0][-]{appendix.C}{Project Proposal}{}% 41
-\BOOKMARK [0][-]{appendix.D}{Glossary}{}% 42
+\BOOKMARK [1][-]{section.4.2}{Evaluation of the Random Forests library}{chapter.4}% 26
+\BOOKMARK [1][-]{section.4.3}{The effect of the de-noising component}{chapter.4}% 27
+\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 28
+\BOOKMARK [1][-]{section.5.1}{Summary}{chapter.5}% 29
+\BOOKMARK [1][-]{section.5.2}{Further Work}{chapter.5}% 30
+\BOOKMARK [0][-]{section.5.2}{Bibliography}{}% 31
+\BOOKMARK [0][-]{appendix.A}{File formats}{}% 32
+\BOOKMARK [1][-]{section.A.1}{\(Example/Noisy\) Spectral Image}{appendix.A}% 33
+\BOOKMARK [1][-]{section.A.2}{Example Image Labelling}{appendix.A}% 34
+\BOOKMARK [1][-]{section.A.3}{Label Map}{appendix.A}% 35
+\BOOKMARK [1][-]{section.A.4}{Training Sequence}{appendix.A}% 36
+\BOOKMARK [1][-]{section.A.5}{Output Files}{appendix.A}% 37
+\BOOKMARK [0][-]{appendix.B}{Code for training a decision forest}{}% 38
+\BOOKMARK [0][-]{appendix.C}{Code for classifying using a decision forest}{}% 39
+\BOOKMARK [0][-]{appendix.D}{Project Proposal}{}% 40
+\BOOKMARK [0][-]{appendix.E}{Glossary}{}% 41

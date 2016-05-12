@@ -305,10 +305,11 @@ public class DataCube {
 	 * @throws MalformedForestException
 	 * @throws IOException
 	 * @throws MalformedProbabilityDistributionException 
+	 * @throws InterruptedException 
 	 */
 	public void generatePixelLabeledImage(DecisionForest classifier, String filename, 
 			LabelledImageType imageType, ClassLabel clazz) 
-			throws MalformedForestException, IOException, MalformedProbabilityDistributionException {
+			throws MalformedForestException, IOException, MalformedProbabilityDistributionException, InterruptedException {
 		
 		// Get the file extension, if no extension then throw exception immediately
 		String extension = "";
