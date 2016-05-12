@@ -1,14 +1,14 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces High level goals and desired outcomes for the project.\relax }}{19}{table.caption.21}
+\contentsline {table}{\numberline {2.1}{\ignorespaces High level goals and desired outcomes for the project.\relax }}{20}{table.caption.21}
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {3.1}{\ignorespaces Important methods implemented in the \texttt {ClassLabel} class.\relax }}{33}{table.caption.33}
 \contentsline {table}{\numberline {3.2}{\ignorespaces Important methods implemented in the \texttt {NDRealVector} class.\relax }}{35}{table.caption.35}
-\contentsline {table}{\numberline {3.3}{\ignorespaces Important methods implemented in the \texttt {ProbabilityDistribution} class.\relax }}{39}{table.caption.38}
-\contentsline {table}{\numberline {3.4}{\ignorespaces Member functions of the \texttt {TrainingSequence} class.\relax }}{41}{table.caption.40}
-\contentsline {table}{\numberline {3.5}{\ignorespaces Member functions of the \texttt {OneDimensionalLinearWeakLearner} class.\relax }}{45}{table.caption.44}
-\contentsline {table}{\numberline {3.6}{\ignorespaces Member functions of the \texttt {TreeNode} class.\relax }}{48}{table.caption.49}
-\contentsline {table}{\numberline {3.7}{\ignorespaces Member functions of the \texttt {TreeNode} class.\relax }}{50}{table.caption.50}
+\contentsline {table}{\numberline {3.3}{\ignorespaces justification=justified,singlelinecheck=false}}{39}{table.caption.38}
+\contentsline {table}{\numberline {3.4}{\ignorespaces Important methods implemented in the \texttt {TrainingSequence} class.\relax }}{41}{table.caption.40}
+\contentsline {table}{\numberline {3.5}{\ignorespaces Important methods implemented in the \texttt {OneDimensionalLinearWeakLearner} class.\relax }}{46}{table.caption.44}
+\contentsline {table}{\numberline {3.6}{\ignorespaces Important methods implemented in the \texttt {TreeNode} class.\relax }}{49}{table.caption.49}
+\contentsline {table}{\numberline {3.7}{\ignorespaces Important methods implemented in the \texttt {DecisionForest} class.\relax }}{51}{table.caption.50}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

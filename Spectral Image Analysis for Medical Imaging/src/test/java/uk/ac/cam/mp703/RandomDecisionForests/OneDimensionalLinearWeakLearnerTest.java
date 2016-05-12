@@ -174,7 +174,7 @@ public class OneDimensionalLinearWeakLearnerTest {
 		// Test 100 random split parameters from wl1
 		for (int i = 0; i < 100; i++) {
 			OneDimensionalLinearSplitParameters splitParams = 
-					(OneDimensionalLinearSplitParameters) wl1.generateRandomSplitParameters(1, rand);
+					(OneDimensionalLinearSplitParameters) wl1.generateRandomSplitParameters(1);
 			assertThat(splitParams.dimension, equalTo(0));
 			assertTrue(-2.0 <= splitParams.threshold && splitParams.threshold <= 2.0);
 		}
@@ -185,7 +185,7 @@ public class OneDimensionalLinearWeakLearnerTest {
 		int[] counts = new int[2];
 		for (int i = 0; i < 100; i++) {
 			OneDimensionalLinearSplitParameters splitParams = 
-					(OneDimensionalLinearSplitParameters) wl2.generateRandomSplitParameters(2, rand);
+					(OneDimensionalLinearSplitParameters) wl2.generateRandomSplitParameters(2);
 			assertTrue(splitParams.dimension == 0 || splitParams.dimension == 1);
 			counts[splitParams.dimension]++;
 			assertTrue(-2.0 <= splitParams.threshold && splitParams.threshold <= 2.0 && splitParams.dimension == 0 ||

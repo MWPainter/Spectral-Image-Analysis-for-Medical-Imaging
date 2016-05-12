@@ -52,7 +52,7 @@
 \newcommand{\MAP}{\text{MAP}}
 
 % Names for the datasets we have
-\newcommand{\siris}{[[Siri's]]}
+\newcommand{\siris}{the BSS }
 \newcommand{\tengs}{[[Teng's]]}
 
 % Def eq math symbol
@@ -172,6 +172,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title
+
+% Remove page numbering for title page
+\pagenumbering{gobble}
 
 % Name
 \begin{flushright}
@@ -372,27 +375,26 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 \cleardoublepage
 \chapter{Introduction}
     In this chapter we introduce the problem: what sort of data are we given and what would we like to do with it? We 
-    begin by introducing new terminology, and specifically defining terms that might otherwise be ambiguous. We briefly 
-    discus the motivation behind the implementation of this system, where we then suggest some possible methods that 
-    could be used to implement a solution, decide one that we might want to explore and what we might hope to discover 
-    by exploring said solution. Finally we will outline the overall pipeline of the system and define an interface for 
-    the system.
+    begin by introducing new terminology, and specifically by defining terms that might otherwise be ambiguous. We briefly 
+    discuss the motivation behind the implementation of this system, then suggest some possible methods that 
+    could be used to implement a solution. We decide on one solution to explore and identify what we might hope to discover 
+    by exploring said solution.
 
     \section{Terminology and preliminary definitions} \label{sec:term_and_def}
-        To begin with we will introduce some terminology and preliminary definitions that we will use throughout the 
-        dissertation, including the rest of the introduction chapter.
+        It is sensible to start by introducing some terminology and preliminary definitions, as they will be used frequently throughout the 
+        dissertation, including even the rest of the introduction chapter.
 
-        Firstly we will use $\bb{N}_k$ where $k\in \bb{N}$ to denote the set $\{ n \in \bb{N}\ |\ n < k \} = 
-        \{0, 1, ..., (k-1)\}$. We will also use $\bb{B}$ to denote the set $\{0, 1\} = \bb{N}_2$, for a boolean choice.
+        Firstly let $\bb{N}_k$ where $k\in \bb{N}$ denote the set $\{ n \in \bb{N}\ |\ n < k \} = 
+        \{0, 1, ..., (k-1)\}$. And let $\bb{B}$ denote the set $\{0, 1\} = \bb{N}_2$, which will be used for boolean choices.
 
-        Typically we use the word \textit{spectral} to refer to use of the Fourier domain, for example 
-        \textit{spectral methods} refers to the use of Fourier domain to solve differential equations. For our purposes 
-        we will say that the \textit{spectrum} of some signal is the Fourier transform of the time-domain signal, more 
-        specifically, we will usually be referring to a quantised spectrum. We will use the word \textit{spectrum} to 
-        refer to either a continuous or quantised spectrum, for which the context should make it obvious which one is 
+        Typically, the word \textit{spectral} refers to use of the Fourier domain; for example 
+        \textit{spectral methods} refers to the use of Fourier domain to solve differential equations. For our 
+        purposes the \textit{spectrum} of some signal is the Fourier transform of the time-domain signal and more 
+        specifically, referring to a quantised spectrum. The word \textit{spectrum} refers to 
+        either a continuous or quantised spectrum, for which the context should make it obvious which one is 
         intended. 
 
-        \begin{figure}[H]
+        \begin{figure}
             \centering
 
                 \scalebox{0.80}{ 
@@ -476,14 +478,14 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             \label{fig:spectrum}
         \end{figure}
 
-        We will use the term \textit{spectral bin} to refer to a interval of wavelengths. Typically we will be referring 
-        to the case where we are dealing with quantised spectra, where the spectral bin refers to the range of 
-        wavelengths some bar in the histogram represents. For example consider (c) in figure \ref{fig:spectrum}.
+        The term \textit{spectral bin} will be used to refer to an interval of wavelengths. Typically, this will be with 
+        respect to the case where we are dealing with quantised spectra, where the term spectral bin refers to the range of 
+        wavelengths some bar in the histogram represents. For example, consider (c) in Figure \ref{fig:spectrum}.
 
-        We will use \textit{spectral image} to refer to an image with an arbitrary number of frequency components. More 
+        \textit{Spectral image} to refer to an image with an arbitrary number of frequency components. More 
         formally we define an \textit{image} as a function $I : \bb{N}_w \times \bb{N}_h \rightarrow \bb{N}$, 
         where $w$ is the width, $h$ is the height. An image 
-        is simply a function of two spatial values. For a \textit{spectral image} $I'$ we extend the concept to a 
+        is simply a function of two spatial values. For a \textit{spectral image} $I'$, the concept is extended to a 
         function $I' : \bb{N}_w \times \bb{N}_h \times \bb{N}_f \rightarrow \bb{N}$, where $w$ is the width, 
         $h$ is the height and $f$ is the number of spectral bins. We call this a spectral image, because at each `pixel' 
         (coordinate), we have a spectrum of values, that is we can define the spectrum $s_{xy}$ of the pixel $(x,y)$ by
@@ -492,96 +494,94 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
         and \cite{Bioucas-Dias:2012:unmixingOverview}) and we will use this interchangeably with the term 
         \textit{spectral image}.
 
-        \begin{figure}[H]
+        \begin{figure}
             \centering
             \includegraphics[scale=0.25]{spectral_image}
             \caption{Examples of a monochrome image (left) and a spectral image (right).}
         \end{figure}
 
-        We specifically note that a common form of spectral image is an ``RGB'' image, where we have $f=3$, with a 
+        An ``RGB'' image can be considered spectral, where we have $f=3$, with a 
         spectral bin for the red, green and blue regions of the visible spectrum.
 
-        Finally some literature refers to \textit{multispectral} and \textit{hyperspectral} images (which may be 
+        Finally some literature refer to \textit{multispectral} and \textit{hyperspectral} images (which may be 
         referenced such as in \cite{Luthman:2015:hyperspectralImager} and \cite{Bioucas-Dias:2012:unmixingOverview}), 
         which are simply special cases of a spectral image. A multispectral image refers to a small number of spectral 
-        bands (such as 5) and a hyperspectral image refers to a large number of spectral bands (such as 50). Intuitively 
-        we can think of the difference between multispectral and hyperspectral in terms of their spectra, a 
+        bands (such as 5) and a hyperspectral image refers to a large number of spectral bands (such as 50). Intuitively, 
+        we can think of the difference between multispectral and hyperspectral in terms of their spectra: a 
         multispectral image should be thought of as having quantised spectra (histograms), whereas a hyperspectral 
         image can be thought of as attempting to approximate the continuous spectra.
 
 
-    \section{What are we trying to do?} \label{sec:what_are_we_trying_to_do}
-        Nowadays computer vision techniques are used in abundance to aid medical diagnosis, and are used by doctors 
+    \section{Aims of the project} \label{sec:what_are_we_trying_to_do}
+        Nowadays computer vision techniques are used in abundance to aid medical diagnosis, and they are used by doctors 
         to help provide more accurate and earlier diagnoses. This is clearly an area of interest, as such tools 
         may help improve, or even save lives where we wouldn't have been able to do so in the past. 
 
-        In this project we consider using spectral images (recall that this includes RGB images) for medical purposes, 
-        and we wish to segment the image to indicate different regions of interest, typically indicating some form of 
-        disease of abnormality. The problem can easily be described mathematically: given an arbitrary spectral image 
+        In this project we consider using spectral images (recall that this includes RGB images) for medical purposes 
+        and we wish to segment the image to indicate different regions of interest, typically which would indicate some form of 
+        disease or abnormality. The problem can easily be described mathematically: given an arbitrary spectral image 
         $I : \bb{N}_w \times \bb{N}_h \times \bb{N}_f \rightarrow \bb{N}$ and a set of possible classes 
         $\cl{C}$, we want to output a \textit{pixel labelling} $\cl{P} : \bb{N}_w \times \bb{N}_h 
         \rightarrow \cl{C}$ that correctly identifies regions of the image according to $\cl{C}$. Succinctly 
         put, we want to perform \textit{image segmentation}, on (noisy) medical (spectral) images.
 
-        The motivation for this project comes from use of a hyperspectral imager for use with contrast agents 
+        The motivation for this project comes from use of a the hyperspectral imager for use with contrast agents 
         \cite{Luthman:2015:hyperspectralImager}. The aim is that the imager can be used to identify the presence of 
         fluorescent contrast agents, some of which have a negative binding response to cancerous cells in the oesophagus, 
-        so allow cancerous tissues to be identified.
+        thus allowing cancerous tissues to be identified. The Biological and Soft Systems group from the physics department 
+        at Cambridge have kindly given me some images taken with the imager used by Luthman et al \cite{Luthman:2015:hyperspectralImager},
+        which we will refer to as ``\siris dataset''.
 
         To summarise, we wish to produce a system capable of producing a pixel labelling from a spectral image. The 
         pixel labelling will depend highly on the data and so we would likely wish to learn from some examples.
 
     \section{Possible solutions}
-        \begin{itemize}
-            \item TODO: Describe datasets - Siri's, Tengs
-        \end{itemize}
-
         As we will be looking to segment images, we will need to identify regions of the image based on the data 
-        available. One approach that we might take is to try and identify some properties manually, for example one 
-        possible solution in the \siris dataset is to explicitly find the spectra of \textit{endmembers} (the 
-        fluorescents) in the images and use a \textit{spectral unmixing} algorithm \cite{keshava2003survey} such as 
-        constrained least squares to identify the proportions of endmembers present at each given point 
-        \cite{Luthman:2015:hyperspectralImager}.
+        available. One approach that we might take is to try and identify some properties manually, For example one 
+        possible solution in \siris dataset is to explicitly find the spectra of \textit{endmembers} (the 
+        fluorescents) in the images, then use a \textit{spectral unmixing} algorithm \cite{keshava2003survey} such as 
+        constrained least squares. The output of a spectral unmixing algorithm will identify the proportions of endmembers 
+        present at each given point \cite{Luthman:2015:hyperspectralImager}.
 
-        An alternative that we will pursue is utilising machine learning methods, where we might hope to learn 
-        relationships within the data through supervised learning. Such a system may be more versatile, able to 
-        solve many similar problems and not constrained to a specific problem. For example, the spectral unmixing 
+        An alternative would be to utilising machine learning methods, where one might hope to learn 
+        relationships within the data through supervised learning. Such a system may be more versatile, be able to 
+        solve many similar problems and may not be constrained to a specific problem. For example, the spectral unmixing 
         solution above requires the endmembers to be measurable, requiring significant work prior to putting the data 
         through the algorithm. We would hope by using machine learning that we can avoid such additional work, and even 
-        solve problems where the `endmembers' aren't separable, having explicitly measurable spectra.
+        solve problems where the `endmembers' are not separable with explicitly measurable spectra.
 
     \section{Related work}
         Medical imaging is an active research area and will likely be for a long time. Medical imaging is ubiquitous in 
         hospitals and an essential tool to aid doctors in diagnosing a patient. Along with medical imaging comes 
         medical image analysis, where image processing methods are used to give more information to doctors which they 
-        may not be able to see with the naked eye.The task of image segmentation is important in medicine illnesses and 
+        may not be able to see with the naked eye. The task of image segmentation is important in medicine: illnesses and 
         viruses are commonly localised, only affecting parts of tissues and identification of which parts of tissues 
         are healthy or not is important to successful treatment.
 
-        There is plenty of work and research that has gone into image segmentation, and it is common technique used in 
-        medical imaging, implemented using a variety of methods such as classifiers, thresholding and region growing
-        \cite{pham2000current}. However non-machine learning methods seem to be out of trend, with it being 
-        difficult to find papers written in this decade, whilst these methods are likely still being actively 
-        researched, and almost definitely still used in hospitals, they are currently outweighed vastly by machine 
-        learning papers. 
+        Plenty of work and research that has gone into image segmentation, and it is a common technique used in 
+        medical imaging. It can be implemented using a variety of methods such as classifiers, thresholding and region growing
+        \cite{pham2000current}. However traditional (non machine learning) methods seem to be loosing traction, with  
+        few papers written in this decade readily available, paling in comparison to the vast number of machine learning 
+        based literature. 
 
-        Lately neural networks has seen a major dominance with regards to machine learning, however within medical 
+        Recently neural networks have seen a major dominance with regards to machine learning; within medical 
         imaging other areas of machine learning are still finding success, with whole books still dedicated to the 
         topic \cite{criminisi2013decision}. True to the current trend, there is plenty of current work utilising 
-        neural networks in medical imaging, for example they have been successfully applied to segment different 
+        neural networks in medical imaging. For example they have been successfully applied to segment different 
         regions of the brain, such as `white matter', `gray matter', and `cerebrospinal fluid' \cite{zhao2016segmenting},
         and similarly for segmentation of brain tumours \cite{zhao2016multiscale}.
 
         However, other machine learning methods are still of interest and random forests are still an active area of 
         research within medical imaging and computer vision \cite{conjeti2016supervised}, especially because of their 
-        simplicity and lack of complexity, potentially making them very efficient \cite{criminisi2012decision}.
+        simplicity and lack of complexity, which can potentially make them very efficient \cite{criminisi2012decision}.
 
-        SegNet \cite{badrinarayanan2015segnet2} is a deep convolution neural network architecture built on top of Caffe 
+        SegNet \cite{badrinarayanan2015segnet2} is a deep convolutional neural network architecture built on top of Caffe 
         \cite{jia2014caffe} for pixel wise labelling, and provides some inspiration for the project. SegNet uses 
-        supervised learning to train the neural network, takes some image as input and outputs a pixel labelling. An extension 
-        to SegNet, Bayesian SegNet, includes an additional output image, which is a mapping of uncertainty in each pixel labelling, 
-        something that we will want to include in our own system. The Caffe implementation includes support for OpenCL 
-        (an open source GPU programming language), that allows for an efficient implementation of SegNet, realised by 
+        supervised learning to train the neural network using known labelled images. In normal operation it takes some 
+        image as input and outputs a pixel labelling. Bayesian SegNet which is an extension 
+        to SegNet, includes an additional output image, which is a mapping of uncertainty in each pixel labelling, 
+        something that is desirable in our own system. The Caffe implementation includes support for OpenCL 
+        (an open source GPU programming language), allowing for an efficient implementation. This is realised by 
         applying it to run on a real-time video stream, with 360 by 480 resolution. Whilst this implementation isn't 
         necessarily geared towards medical purposes, it could certainly be utilised for a medical application, and 
         is a good example of a system solving the more general problem of image segmentation/pixel labelling.
@@ -602,25 +602,26 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 \cleardoublepage
 \chapter{Preparation}
     In this section we will introduce the area of image segmentation and how we may perform segmentation. Then we 
-    introduce decision trees and explain the supervised learning method of random forests. Many medical imaging 
-    techniques tend to require short exposure times they frequently exhibit visible noise, leading to grainy images. So, 
+    introduce decision trees and explain the supervised learning method of random forests. Since many medical imaging 
+    techniques tend to require short exposure times they frequently exhibit visible noise, leading to grainy images. Thus 
     we then discuss how we may want to model the noise and how we can deal with this. In the second half of the chapter 
-    we outline the design with a requirements analysis, pipeline overview, what tools we will use and how we will 
-    evaluate our performance.
+    we outline the design with a requirements analysis, pipeline overview, what tools we will use and a backup strategy 
+    to avoid loosing any work.
 
     From a list of machine learning algorithms: State Vector Machine \cite{klein2004lagrange}, \cite{law2006simple}, 
     Hidden Markov Models \cite{seymore1999learning}, k Nearest Neighbour \cite{cunningham2007k}, Random Forests 
-    \cite{criminisi2013decision}, and Neural Networks \cite{heaton2008introduction}. We decide that two algorithms that 
-    would be useful in our case are Random Forests and Neural Networks, so we will implement a Random Forests library 
-    and use the Encog library for Neural Networks in Java \cite{JMLR:v16:heaton15a}.
+    \cite{criminisi2013decision}, and Neural Networks \cite{heaton2008introduction}, we decided on two algorithms that 
+    would be useful in our case, Random Forests and Neural Networks. So a Random Forests library will be implemented and 
+    the Encog library will be employed for Neural Networks in Java \cite{JMLR:v16:heaton15a}.
 
 
 
     \section{An introduction to image segmentation}
-        Image segmentation concerns splitting an image into connected subsets, in some meaningful way. It is typically an 
-        ill-posed problem with no `best' segmentation, however we often have some desired segmentation that we would 
-        like our system to perform, which we usually refer to as `ground truth'. When training a supervised learning 
-        system we provide some number of ground truth images. 
+        Image segmentation concerns splitting an image into connected subsets, in some meaningful way. Despite being an 
+        ill-posed problem with no `best' segmentation, we often have some desired segmentation that we would 
+        like our system to perform. The term `ground truth' is used to refer to a hand labelled image, in which an 
+        accuracy of 100\% is assumed. When training a supervised learning system we will provide some number of ground 
+        truth images. 
 
         More formally if we let $\Omega$ be the set of pixels in some image, a valid image segmentation is $(S_1, ..., 
         S_n)$ for some $n \in \bb{N}$ which satisfy the following:
@@ -630,15 +631,15 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             S_i \cap S_j = \emptyset && \text{for all } i \neq j 
         \end{align}
 
-        and each $S_i$ is connected, which means that there is a path between any two pixels of $S_i$, 
-        where a path may take steps of one pixel up, left, down or right \cite{PAL19931277}. 
+        where each $S_i$ is connected, which means that there is a path between any two pixels of $S_i$. 
+        A path may take steps of one pixel up, left, down or right \cite{PAL19931277}. 
 
         There are a number of ways that we may try to perform an image segmentation. One such method consists of 
-        finding the edges present in an image, which can be found using the zero crossings of some gradient operator 
+        finding the edges present in an image, by using the zero crossings of a gradient operator, 
         such as the Laplacian. Furthermore, we may want to look at edges at different scales, which suggests blurring 
         the image before taking the gradient operator, leading to the Laplacian of Gaussian operator, as discussed by 
         Pal et al \cite{PAL19931277}. An even simpler method would be to use grey level threshold, where we segment 
-        images depending on if they fall above or below some threshold, also discussed by Pal et al \cite{PAL19931277}.
+        images depending on whether they fall above or below some threshold, also discussed by Pal et al \cite{PAL19931277}.
 
         Finally, the method that we will use is to generate some pixel labelling $\cl{P}:\Omega \rightarrow \cl{C}$ as 
         described in section \ref{sec:what_are_we_trying_to_do}. This implicitly defines a segmentation of an image 
@@ -648,16 +649,16 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
     \section{Supervised learning for classification} \label{sec:supervised_learning}
-        Before we discuss any machine learning methods we first need to define some terminology that we will be using. 
+        Before discussing any machine learning methods we first need to define some terminology that we will be using. 
         In classification we are given a \textit{feature vector} (or \textit{instance}) $\vc{x} = (x_1, x_2, ..., x_d) 
         \in \bb{R}^d$ and a set of classes $\cl{C} = \{C_1, C_2, ..., C_n\}$. We want to \textit{learn} some 
         hypothesis $h:\bb{R}^d \rightarrow \cl{C}$ which maps instances to their classification. To learn 
-        what hypothesis/hypotheses are appropriate we rely on a \textit{training sequence} $\vc{s} = ((\vc{x}_1, c_1), 
-        (\vc{x}_2, c_2), ..., (\vc{x}_m, c_m))$, hence why the method is \textit{supervised}. We usually assume that 
-        the training sequence is noisy, which can be sufficiently represented by noise just in the classes of $\vc{s}$, 
-        that is $c_1, ..., c_m$ and so we can consider each of the $c_i$ to be a random variable, and hence consider 
-        $\vc{s}$ to be a random variable. Two sensible approaches that we might take to picking some hypothesis $h$ 
-        are picking
+        what hypotheses are appropriate we rely on a \textit{training sequence} $\vc{s} = ((\vc{x}_1, c_1), 
+        (\vc{x}_2, c_2), ..., (\vc{x}_m, c_m))$, which makes the method \textit{supervised}. We usually assume that 
+        the training sequence is noisy, which can be sufficiently represented by noise solely attributed to the classes of $\vc{s}$ 
+        (that is $c_1, ..., c_m$). So we can consider each of the $c_i$ to be a random variable, and hence consider 
+        $\vc{s}$ to be a random variable. Two sensible approaches that we might take to choosing some hypothesis $h$ 
+        either picking
 
         \begin{align}
             h_{\ML} = \argmax_{h\in\cl{H}} \Pr(h | \vc{s})
@@ -666,14 +667,14 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
         or picking
 
         \begin{align}
-            h_{\MAP} = \argmax_{h\in\cl{H}} \Pr(\vc{s} | h) \Pr(h).
+            h_{\MAP} = \argmax_{h\in\cl{H}} \Pr(\vc{s} | h) \Pr(h)
         \end{align} 
 
-        Where $\ML$ stands for \textit{maximum likelihood} and $\MAP$ stands for \textit{maximum a-posteriori}. The $\MAP$ 
+        where $\ML$ stands for \textit{maximum likelihood} and $\MAP$ stands for \textit{maximum a-posteriori}. The $\MAP$ 
         hypothesis allows the prior $\Pr(h)$ to be used (indicating some prior knowledge about the hypothesis), however 
-        if $\Pr(h)$ is uniform, then the $\ML$ and $\MAP$ hypothesis are easily shown to be equivilent using Bayes' theorem. 
-        These two methods of picking a hypothesis are referred to as Bayesian learning methods, as we look to maximise 
-        likelihoods and we will see that this is not the only way to pick a suitable hypothesis. \cite{russell1995modern}
+        if $\Pr(h)$ is uniform, then the $\ML$ and $\MAP$ hypothesis are easily shown to be equivalent using Bayes' theorem. 
+        These two methods of picking a hypothesis are referred to as Bayesian learning methods; as we look to maximise 
+        likelihoods. We will see that this is not the only way of picking a suitable hypothesis. \cite{russell1995modern}
 
         We often also see that some hypothesis will take the form of $h':\bb{R}^d \rightarrow (\cl{C} \rightarrow [0,1])$, 
         that is it gives a probability distribution over classes. We can then simply set 
@@ -689,18 +690,19 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
     \section{Decision trees and random forests} \label{sec:rand_forest}
-        We will now define what a decision tree is, how we can use it in supervised learning and then extend it onto 
+        This section defines what a decision tree is, how it can be used in supervised learning and then extend it to 
         the concept of random forests. As mentioned in section \ref{sec:supervised_learning} we opt for a hypothesis 
-        which outputs a probability distribution over classes as opposed to a single class, which can be used to give 
-        a single class as mentioned previously.
+        which outputs a probability distribution over classes as opposed to a single class, which 
+        can be used to give a single class.
 
         \subsection{Introduction to decision trees} \label{sec:intro_decision_trees}
-            Decision trees consist of a simple binary tree structure. Intuitively we think about asking a question at each 
-            node, makeing a decision on which child node to traverse to and eventually reach some conclusion at a leaf node. 
-            We can use this model in the situation described in section \ref{sec:supervised_learning}, where we are allowed 
-            to `ask a question' about the feature vector at each decision node and leaf nodes consider
+            Decision trees consist of a simple binary tree structure. Intuitively, we think about asking a question at each 
+            node, making a decision on which child node to traverse to and eventually reach some conclusion at a leaf node, such 
+            as in figure \ref{fig:intuitive_tree}. We can use this model for the situation described in section 
+            \ref{sec:supervised_learning}, where we are allowed to `ask a question' about the feature vector at each 
+            decision node and leaf nodes consider
 
-            \begin{figure}[H]
+            \begin{figure}
                 \centering
 
                 \tikzset{QuestionNode/.style = { rectangle, rounded corners, shade, 
@@ -748,36 +750,36 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                     \end{tikzpicture}
 
                 \caption{Example of (part of) a tree used to classify humans.}
+                \label{fig:intuitive_tree}
             \end{figure}
 
             More formally we can define a decision tree $T$ for classification, which has a set of states $Q \subseteq 
-            \bb{N}$, where if $i \in Q$ is a decision node, then it has children $2i, 2i+1 \in Q$. 
+            \bb{N}$, such that if $i \in Q$ is a decision node, then it has children $2i, 2i+1 \in Q$. 
 
-            \begin{figure}[H]
+            \begin{figure}
                 \centering
                 \includegraphics[scale=0.5]{tree_node_labels}
                 \caption{Example of node numberings in a decision tree.}
             \end{figure}
 
             For our model we specify some function $f:\bb{R}^d \times \cl{T} \rightarrow \bb{B}$, where $\cl{T}$ is some 
-            parameter space and is used to specify a function from $\bb{R}^d$ to $\bb{B}$ at each decision node. We call 
-            $f$ a \textit{weak learner} or a \textit{split function}. In a decision tree for each state $i \in Q$ we have 
+            parameter space and is used to specify a function from $\bb{R}^d$ to $\bb{B}$ at each decision node.  
+            $f$ is called a \textit{weak learner} or a \textit{split function}. In a decision tree for each state $i \in Q$ we have 
             some associated $\vc{\theta}_i \in \cl{T}$ called a \textit{split parameter}, used to specify 
-            $f_i(\vc{x}) = f(\vc{x}; \vc{\theta}_i)$. The function\footnote{$\bb{B}$ is defined in section 
-            \ref{sec:term_and_def}} $f_i : \bb{R}^d \rightarrow \bb{B}$ is then used to make a decision to traverse to 
-            state $2i$ or $2i+1$ next. Finally when we hit a leaf node $j \in Q$ we need to specify some probability 
-            distribution $p_j:\cl{C} \rightarrow [0,1]$ where we say 
+            $f_i(\vc{x}) = f(\vc{x}; \vc{\theta}_i)$. The function $f_i : \bb{R}^d \rightarrow \bb{B}$ is then used to 
+            make a decision to traverse to either state $2i$ or $2i+1$ next. Finally when we hit a leaf node $j \in Q$ we need 
+            to specify some probability distribution $p_j:\cl{C} \rightarrow [0,1]$ where:
 
             \begin{align}
                 p_j(c) = \Pr(\vc{x} \in c | \vc{x} \text{ traversed to } j \text{ in } T).
             \end{align}
 
-            As can be seen in figure \ref{fig:decision_tree_classify} to classify some instance $\vc{x}$ using a 
+            As it can be seen in Figure \ref{fig:decision_tree_classify} to classify some instance $\vc{x}$ using a 
             decision tree $T$ we simply traverse $T$ using $f_i$ at each node $i \in Q$ to make a decision whether 
-            to traverse to $2i$ or $2i+1$ next. We usually use the rule if $f_i(\vc{x}) = 0$ then traverse to 
+            to traverse to $2i$ or $2i+1$ next. We usually use the following rule: if $f_i(\vc{x}) = 0$ then traverse to 
             $2i$, otherwise if $f_i(\vc{x}) = 1$ then traverse to $2i+1$. \cite{criminisi2013decision}
 
-            \begin{figure}[H]
+            \begin{figure}
                 \centering
                 \includegraphics[scale=0.5]{tree_example_classification}
                 \caption{Example of how some instance $\vc{x}$ would be classified using a decision tree.}
@@ -785,20 +787,20 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             \end{figure}
 
         \subsection{Training a decision tree}
-            When we train a decision tree we use a greedy approach, we train at each node optimally. We must use a 
-            greedy approach because optimising over all possible trees is a computationally infeasible task (it is an 
-            NP-complete problem to decide if a tree is optimal). So consider having a set of states $Q$ and for each 
-            $i \in Q$ wanting to learn the split parameter $\vc{\theta}_i \in \cl{T}$. Let $\vc{s}_i$ be the training 
-            sequence that $i$ is trained on. It is sensible to let $\vc{s_0}=\vc{s}$. 
+            When training a decision tree we use a greedy approach, to train at each node optimally. A 
+            greedy approach is necessary because optimising over all possible trees is a computationally infeasible task (it is an 
+            NP-complete problem to decide if a tree is optimal). So consider having a set of states $Q$ and for each state
+            $i \in Q$ we want to learn the split parameter $\vc{\theta}_i \in \cl{T}$. Let $\vc{s}_i$ be the training 
+            sequence that $i$ is trained on. It is sensible to set $\vc{s_0}=\vc{s}$. 
 
-            We first define the \textit{entropy} of a training sequence
+            We first define the \textit{entropy} of a training sequence:
 
             \begin{align}
                 H(s) = - \sum_{c\in\cl{C}} p(c) \log_2 (p(c)).
                 \label{eq:training_seq_entropy}
             \end{align}
 
-            We assume feature vectors in $s$ to be unique for ease of notation and let
+            We assume feature vectors in $s$ to be unique for ease of notation and let:
 
             \begin{align}
                 p(c) = \frac{\left| \{\vc{v}\ |\ c' = c \land (\vc{v},c') \in S \} \right|}{\left| S \right|},
@@ -807,14 +809,14 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             
             which is the empirical probability of a training sample vector in $s$ being classified as $c$. Now we define 
             a left and right split of $\vc{s}$, using some split parameter $\vc{\theta} \in \cl{T}$ according to our weak 
-            learner $f$ as follows
+            learner $f$ as follows:
 
             \begin{align}
                 L(\vc{s},\vc{\theta}) & = \{ (\vc{x}, c) \in s | f(\vc{x}, \vc{\theta}) = 0 \}  \label{eq:left_split}\\
                 R(\vc{s},\vc{\theta}) & = \{ (\vc{x}, c) \in s | f(\vc{x}, \vc{\theta}) = 1 \}. \label{eq:right_split}
             \end{align}
 
-            We then consider the \textit{information gain} $I$ for performing a split according to $\vc{\theta}$ of 
+            Consider the \textit{information gain} $I$ for performing a split according to $\vc{\theta}$ of 
 
             \begin{align}
                 I(\vc{s}, \vc{\theta}) = H(\vc{s}) - \frac{1}{|\vc{s}|} \left( |L(\vc{s}, \vc{\theta})| H(L(\vc{s}, \vc{\theta})) 
@@ -822,7 +824,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \label{eq:information_gain}
             \end{align} 
 
-            We now have a way that we might want to pick $\vc{\theta}_i$ at each node
+            We now have a way of picking $\vc{\theta}_i$ at each node
 
             \begin{align} 
                 \vc{\theta}_i = \argmax_{\theta\in\cl{T}} I(\vc{s}_i, \vc{\theta}).
@@ -841,7 +843,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \vc{\theta}_i = \argmax_{\theta\in\cl{T}} I(\vc{s}_i, \vc{\theta}),
             \end{align}
 
-            which is a problem because $|\cl{T}|$ may be infinite. We solve this problem by randomly sampling $\cl{T}$ with 
+            which is a problematic because $|\cl{T}|$ may be infinite. We resolve this by randomly sampling $\cl{T}$ with 
             $\rho$ values, so let $\cl{T}_\rho = \{ \vc{\theta}_i^{(1)}, ..., \vc{\theta}_i^{(\rho)} \} \subseteq \cl{T}$.
             So we instead set 
 
@@ -849,13 +851,13 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \vc{\theta}_i = \argmax_{\theta\in\cl{T}_\rho} I(\vc{s}_i, \vc{\theta}),
             \end{align}            
 
-            when training at node $i$, and a \textit{fresh} $\rho$ samples are taken from $\cl{T}$ per node. This 
+            when training at node $i$, where $\rho$ \textit{fresh} samples are taken from $\cl{T}$ per node. This 
             optimisation is called the \textit{random node optimisation}. The second problem with decision trees is that 
             we can easily over fit and also we cannot solve some XOR/parity problems \cite{criminisi2013decision}. We 
-            can solve this problem by using a \textit{forest} of decision trees. A forest $F$ is simply a set of trees, 
+            can address this by using a \textit{forest} of decision trees. A forest $F$ is a set of trees, 
             that is $F = \{ T_1, T_2, ..., T_k \}$, where each $T_\ell$ is trained separately with training sequence 
-            $\vc{s}$. As we randomly trained each tree on the same data, it is reasonable to say that the probability of 
-            any given tree in $F$ being the `correct' tree is equally likely, hence we set $\Pr(T_\ell) = 1/k$ for each 
+            $\vc{s}$. As we randomly train each tree on the same data, it is reasonable to say that the probability of 
+            any given tree in $F$ to be `correct' tree is equally likely. Hence we set $\Pr(T_\ell) = 1/k$ for each 
             $\ell$. Finally, when we wish to classify some instance $\vc{x}$ using a random forest we output 
 
             \begin{align}
@@ -865,19 +867,19 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                     & = \frac{1}{k} \sum_{\ell=1}^k \Pr(\vc{x} \in c | T_\ell)
             \end{align}
 
-            and each $\Pr(\vc{x} \in c | T_\ell)$ is simply the probability given by traversing each tree. \cite{criminisi2013decision}
+            where each $\Pr(\vc{x} \in c | T_\ell)$ is the probability obtained by traversing each tree. \cite{criminisi2013decision}
 
-            Simply put, to classify using a forest, we just take an average of the outputs from the trees. 
+            Therefore, to classify using a forest, we just take an average of the outputs from the trees. 
 
 
 
 
 
     \section{Neural Networks}
-        We now move on to a describe a second method of supervised learning, artificial neural networks. We will begin 
-        by defining a single artificial neuron (referred to as just neurons and neural networks henceforth) and we look 
-        at how it operates. We then move onto looking at a network of neurons and how we can vary the weights in the 
-        network to train it. 
+        We now move on to describe a second method of supervised learning, neural networks. We begin 
+        by defining a single neuron and how it operates, then develop the idea into a neural network. Then the 
+        general idea of how to train a neural network is explained.
+        
 
         \begin{framed}
             TODO
@@ -888,13 +890,13 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
     \section{Imaging and image noise} 
-        We now consider image sensor arrays, we want to know at a high level how images are captured and what might 
-        cause image noise. We will the define what the quantum noise model is and why it is appropriate in many 
+        We now consider image sensor arrays, to understand how images are captured and what might 
+        cause image noise at a high level. We will then define the quantum noise and discuss its suitability to many 
         cases of medical imaging. 
 
         \subsection{Image sensor arrays}
             All forms of digital imaging involve some form of sensor array. Two common technologies are used in image 
-            sensors, Charge-Coupled Devices (CCD) and Complementary Metal-Oxide Semiconductor (CMOS). These devices are 
+            sensors, Charge-Coupled Devices (CCD) and Complementary Metal-Oxide Semiconductors (CMOS). These devices are 
             laid out in a grid, which are typically combined with (colour) wavelength filters. 
 
             \begin{figure}[H]
@@ -911,8 +913,9 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \label{fig:image_pipeline}
             \end{figure}
 
-            In a camera we will have a focussing lens, followed by wavelength filters and then our sensors. So it 
-            suffices to consider a model where we have parallel streams of photons hitting each sensor.
+            In a camera we have a focussing lens, followed by wavelength filters and then sensors. In many medical imagers 
+            there is a collimator, so it is appropriate to consider a model where we have parallel streams of photons 
+            hitting each sensor.
 
             \begin{figure}[H]
                 \centering
@@ -921,8 +924,8 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \label{fig:photon_stream}
             \end{figure}
 
-            For our purpose it is enough to consider that a stream of photons, will be hitting some photodiode (the 
-            part of a sensor that induces a current when absorbing a photon), causing charge to collect on some 
+            We consider that a stream of photons, will be hitting some photodiode (the 
+            part of a sensor that generates a current upon absorbtion of a photon), causing charge to collect on a connected 
             capacitor, which will increase linearly with respect to time at a rate proportional to the rate of photons 
             incident on the photoreceptor (the photocurrent), until it hits some maximum value. \cite{gamal2005cmos}
 
@@ -961,7 +964,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             \end{figure}
 
 
-        \subsection{Quantum noise}
+        \subsection{Quantum noise} \label{sec:quantum_noise}
             \textit{Quantum noise}, \textit{Photon noise} or \textit{Poisson noise} can be thought of as a uncertainty 
             associated with the measurement of light, due to the quantised nature of electromagnetic waves and the 
             independence of photon detections \cite{hasinoff2014photon}. More mathematically suppose we have some 
@@ -983,12 +986,12 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \var\left[ \tilde{I}(x,y) \right] & = I(x,y).                 
             \end{align}
 
-            We can see that this is appropriate considering figure \ref{fig:photon_stream} as a Poisson process, where 
+            It is appropriate to consider a procvess such as the one in Figure \ref{fig:photon_stream} as a Poisson process, where 
             each event is a photon hitting the photoreceptor. Suppose the exposure time to the sensor is 
             $t_{\text{exposure}}$, the average rate of events is $\phi$ and that $N(t)$ is the number of events that 
             occur in the interval $[0,t]$, then we have $N(t) \sim \text{Poisson}(\phi t)$ \cite{ross2002probability}. 
-            And so we have $N(t_{\text{exposure}}) \sim \text{Poisson}(\phi t_{\text{exposure}})$. From figure 
-            \ref{fig:linear_charge_wrt_photon_rate} we can justifiably say that if $\phi$ is the rate/intensity of 
+            Thus we have $N(t_{\text{exposure}}) \sim \text{Poisson}(\phi t_{\text{exposure}})$. From figure 
+            \ref{fig:linear_charge_wrt_photon_rate} we can justifiably say that if $\phi$ is the flux (rate) of 
             photons hitting sensor at index $(x,y)$ in the array, then $I(x,y) \propto N(t_{\text{exposure}})$.
             
             The model is easily and obviously extended to spatial images by including spectral bin indices 
@@ -997,7 +1000,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \tilde{I}(x,y,\lambda) \sim \text{Poisson}(I(x,y,\lambda)).
             \end{align}
 
-            Because of the filters (shown in figure \ref{fig:image_pipeline}) being spatially separated we can consider 
+            Because of the filters (shown in Figure \ref{fig:image_pipeline}) being spatially separated we can consider 
             each value in the datacube to be an independent random variable. This means that 
 
             \begin{align}
@@ -1007,11 +1010,12 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
             However, in images the values are constrained to a finite range, typically we have that for each $x, y, 
             \lambda$ that $I(x,y,\lambda) \in \bb{N}_{256}$, but this however doesn't restrict the value of
-            $\tilde{I}(x,y,\lambda)$ to $\bb{N}_{256}$. By considering figure \ref{fig:linear_charge_wrt_photon_rate} 
-            we see that the charge becomes \textit{saturated} at the upper limit, that is if we increase the photon 
-            intensity above the rate which achieves the maximum value, we still get the maximum value. To deal with this 
-            it makes sense to define a \textit{Saturated Poisson} distribution. So we say $X \sim \text{SPoisson}(\mu, n)$ 
-            if 
+            $\tilde{I}(x,y,\lambda)$ to $\bb{N}_{256}$. By considering Figure \ref{fig:linear_charge_wrt_photon_rate} 
+            we see that the charge becomes \textit{saturated} at the upper limit, that is for $\phi > \phi_{\text{crit}}$
+            (from Figure \ref{fig:linear_charge_wrt_photon_rate}) we achieve $Q_max$, but for $\phi < \phi_{\text{crit}}$ 
+            we don't achieve this before $t_{\text{exposure}}$. Thus for any $\phi > \phi_{\text{crit}}$ the maximum 
+            value is recorded in the image values. To deal with this it makes sense to define a 
+            \textit{Saturated Poisson} distribution. So we say $X \sim \text{SPoisson}(\mu, n)$ if 
 
             \begin{align}
                 \Pr(X = k) & = 
@@ -1029,13 +1033,23 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             \end{figure}
 
         \subsection{Additive White Gaussian Noise}
-            TODO??
+            A more general noise model that should also be considered is \textit{additive white Gaussian Noise}. We will 
+            `saturate' values with similar reasoning to section \ref{sec:quantum_noise}. The general model will add a 
+            value sampled from a Gaussian distribution with some constant power. That is if we have a `true spectral image' 
+            $I$, then the image corrupted by noise is:
+
+            \begin{align}
+                \tilde{I}(x,y,\lambda) = I(x,y,\lambda) + X_{ij\lambda}
+            \end{align}
+
+            where for each $i, j, \lambda$ we let $X_{ij\lambda} \sim N(0, \sigma^2)$. The noise is parametrised by 
+            $\sigma$ and $\bb{E}[X_{ij\lambda}] = \sigma^2$ is the \textit{power} of the noise.
 
         \subsection{Medical imaging noise}
-            We end this section by considering how we should use our noise models ing medical imaging. For many methods 
+            This section ends by considering how our noise models could be used in medical imaging. For many methods 
             of medical imaging we use ionising radiation that would be considered harmful given extended exposure times 
-            \cite{picano2004sustainability}. Because of this there is an inherent trade off between exposure time (for 
-            greater image clarity) and risk of causing damage \cite{sprawls1987physical}. Because we may potentially 
+            \cite{picano2004sustainability}. As a consequence there is an inherent trade off between exposure time (for 
+            greater image clarity) and risk of causing damage \cite{sprawls1987physical}. Since we may potentially 
             use shorter exposure times, or we may be imaging something in low light we find that often the quantum noise 
             model is more appropriate and also cannot be approximated by Gaussian noise. However, there are many cases 
             such as ultrasound where we may want to consider more sophisticated noise models \cite{coupe2009nonlocal}, 
@@ -1065,9 +1079,9 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
     \section{Requirements analysis}
-        With the background reading out of the way, we move onto the design of the system. Firstly we carefully consider 
+        Now that the relevance in context has been discussed, we move onto the design of the system. Firstly we carefully consider 
         the requirements of the system. This is important to begin identifying the work that needs to be undertaken 
-        and where the potential risk lies. 
+        and where potential risks lie. 
 
         \begin{table}[H]
             \begin{minipage}{\textwidth}
@@ -1091,23 +1105,23 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
     \section{System Design}
-        Here we outline the overview of the the whole system, where we begin with a work flow diagram comprising of 
-        files and system components. We then divide the system into it's separate components and use it to define an 
-        interface, along with a brief description of each module, defining inputs and outputs. The formats of the files 
+        This section outlines the overview of the whole system, where we begin with a work flow diagram comprising of 
+        files and system components. The system is then divided into its separate components and used to define an 
+        interface, along with a brief description of each module in addition to defining inputs and outputs. The formats of the files 
         that the user should input can be found in appendix \ref{app:file_formats}.
 
 
         \subsection{Pipeline/Overview}
-            We now define here an overview of what we want the system to do (the pipeline of the system) in terms of the 
-            files input and output by different modules of the system. In the system overview below, blue boxes are code 
-            modules and red boxes represent files.
+            An overview of what we want the system to do (the pipeline of the system) is illustrated in terms of the 
+            files input and output by different modules of the system. In the system overview in Figure \ref{fig:system_overview}, 
+            blue boxes are code modules and red boxes represent files.
 
             \begin{figure}[H]
                 \centering
                     \scalebox{0.55}{ 
                         \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
 
-                            \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                            \tikzstyle{commonNode}=[thick, font=\ttfamily\large\bf, align=center, line width=2pt, draw=black]
                             \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
                             \tikzstyle{file}=[commonNode, fill=red!30]
                             \tikzstyle{unusedModule}=[module, fill=blue!10, line width=0pt]
@@ -1128,7 +1142,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
                                 % Inputs
                                 \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
-                                \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                \node at (-1*\hspacing, 3.95*\vspacing) (EILin) {};
                                 \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
                                 \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
                                 \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
@@ -1137,7 +1151,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                                 % Files and modules
                                 \node at (0*\hspacing, 4.5*\vspacing) [file]    (EHI)     {Example \\ Spectral Image}
                                     edge  [pre]   (EHIin);
-                                \node at (0*\hspacing, 4*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
+                                \node at (0*\hspacing, 3.95*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
                                     edge  [pre]   (EILin);
                                 \node at (0*\hspacing, 3.5*\vspacing) [file]    (LM)      {Label Map}
                                     edge  [pre]   (LMin);
@@ -1183,28 +1197,28 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
         \subsection{Interface/Usage}
-            We will allow usage for each module separately, however we will also allow for combined steps, that will 
-            avoid unnecessary intermediate files to be produced. For our interface we extend our diagrams that consisted 
-            of red boxes for files and blue boxes for code modules, to denote files/modules unused in a given function 
-            by a faded/duller colour, and we denote an intermediate file that isn't saved during some function by a 
-            regularly bright, but dashed boarder. It should be assumed that an intermediate file need not be provided 
+            We will not only allow usage for each module separately, but also for combined steps that will 
+            avoid unnecessary intermediate files to be produced. For our interface the diagrams that consisted 
+            of red boxes for files and blue boxes for code modules are extended to denote files/modules unused in a given function 
+            by a faded/duller colour. An intermediate file that isn't saved during some function is marked by a 
+            regularly bright, but dashed border. It should be assumed that an intermediate file need not be provided 
             by the user.
 
 
 
 
             \subsubsection{Training Tools}
-                The training tools function is to take an example class map, pixel labelling and spectral image (see 
+                The training tools' function is to take an example class map, pixel labelling and spectral image (see 
                 appendix \ref{app:file_formats} for how their formats). From this `ground truth' we will output a 
-                training sequence as specified in appendix \ref{app:file_formats}. The use of this function is that we 
-                can generate vast quantities of training data with very little effort.
+                training sequence as specified in appendix \ref{app:file_formats}. The use of this function is to 
+                generate vast quantities of training data with minimal effort.
 
                 \begin{figure}[H]
                     \centering
                         \scalebox{0.55}{ 
                             \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
 
-                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily\large\bf, align=center, line width=2pt, draw=black]
                                 \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
                                 \tikzstyle{file}=[commonNode, fill=red!30]
                                 \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
@@ -1225,7 +1239,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
                                     % Inputs
                                     \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
-                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.95*\vspacing) (EILin) {};
                                     \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
                                     \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
                                     \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
@@ -1234,7 +1248,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                                     % Files and modules
                                     \node at (0*\hspacing, 4.5*\vspacing) [file]    (EHI)     {Example \\ Spectral Image}
                                         edge  [pre]   (EHIin);
-                                    \node at (0*\hspacing, 4*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
+                                    \node at (0*\hspacing, 3.95*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
                                         edge  [pre]   (EILin);
                                     \node at (0*\hspacing, 3.5*\vspacing) [file]    (LM)      {Label Map}
                                         edge  [pre]   (LMin);
@@ -1287,7 +1301,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                         \scalebox{0.55}{ 
                             \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
 
-                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily\large\bf, align=center, line width=2pt, draw=black]
                                 \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
                                 \tikzstyle{file}=[commonNode, fill=red!30]
                                 \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
@@ -1308,7 +1322,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
                                     % Inputs
                                     \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
-                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.95*\vspacing) (EILin) {};
                                     \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
                                     \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
                                     \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
@@ -1317,7 +1331,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                                     % Files and modules
                                     \node at (0*\hspacing, 4.5*\vspacing) [unusedFile]    (EHI)     {Example \\ Spectral Image}
                                         edge  [pre]   (EHIin);
-                                    \node at (0*\hspacing, 4*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
+                                    \node at (0*\hspacing, 3.95*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
                                         edge  [pre]   (EILin);
                                     \node at (0*\hspacing, 3.5*\vspacing) [unusedFile]    (LM)      {Label Map}
                                         edge  [pre]   (LMin);
@@ -1362,17 +1376,17 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
             \subsubsection{Learn From Example}
-                The learn from example function is a composite of the training tools and train functions. This will 
+                The \textit{learn from example} function is a composite of the training tools and train functions. This will 
                 take the same inputs as the training tools function, but instead will immediately use the training 
-                sequence produced to train a random forest or neural network, \textit{not} saving the training 
-                sequence in the process.
+                sequence produced to train a random forest or neural network. The training sequence is not saves in the 
+                process. 
 
                 \begin{figure}[H]
                     \centering
                         \scalebox{0.55}{ 
                             \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
 
-                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily\large\bf, align=center, line width=2pt, draw=black]
                                 \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
                                 \tikzstyle{file}=[commonNode, fill=red!30]
                                 \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
@@ -1393,7 +1407,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
                                     % Inputs
                                     \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
-                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.95*\vspacing) (EILin) {};
                                     \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
                                     \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
                                     \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
@@ -1402,7 +1416,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                                     % Files and modules
                                     \node at (0*\hspacing, 4.5*\vspacing) [file]    (EHI)     {Example \\ Spectral Image}
                                         edge  [pre]   (EHIin);
-                                    \node at (0*\hspacing, 4*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
+                                    \node at (0*\hspacing, 3.95*\vspacing)   [file]    (EIL)     {Example Image \\ Labellings}
                                         edge  [pre]   (EILin);
                                     \node at (0*\hspacing, 3.5*\vspacing) [file]    (LM)      {Label Map}
                                         edge  [pre]   (LMin);
@@ -1441,14 +1455,14 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                             \end{tikzpicture}
                         }
 
-                    \caption{Overview of the learn from example function.}
+                    \caption{Overview of the \textit{learn from example} function.}
                 \end{figure} 
 
 
 
 
             \subsubsection{Pixel Labeller}
-                The pixel labeller could be considered the `main' part of the system. It uses the pixel labeller 
+                The pixel labeller could be considered the primary part of the system. It uses the pixel labeller 
                 module to label a spectral image using a trained forest/neural network.
 
                 \begin{figure}[H]
@@ -1456,7 +1470,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                         \scalebox{0.55}{ 
                             \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
 
-                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily\large\bf, align=center, line width=2pt, draw=black]
                                 \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
                                 \tikzstyle{file}=[commonNode, fill=red!30]
                                 \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
@@ -1477,7 +1491,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
                                     % Inputs
                                     \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
-                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.95*\vspacing) (EILin) {};
                                     \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
                                     \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
                                     \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
@@ -1486,7 +1500,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                                     % Files and modules
                                     \node at (0*\hspacing, 4.5*\vspacing) [unusedFile]    (EHI)     {Example \\ Spectral Image}
                                         edge  [pre]   (EHIin);
-                                    \node at (0*\hspacing, 4*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
+                                    \node at (0*\hspacing, 3.95*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
                                         edge  [pre]   (EILin);
                                     \node at (0*\hspacing, 3.5*\vspacing) [unusedFile]    (LM)      {Label Map}
                                         edge  [pre]   (LMin);
@@ -1532,7 +1546,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
             \subsubsection{De-Noiser}
-                The de-noiser function simply attempts to reduce the effect of noise on the image. It takes a spectral 
+                The de-noiser function attempts to reduce the effect of noise on the image. It takes a spectral 
                 image as input and outputs the de-noised spectral image.
 
                 \begin{figure}[H]
@@ -1540,7 +1554,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                         \scalebox{0.55}{ 
                             \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
 
-                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily\large\bf, align=center, line width=2pt, draw=black]
                                 \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
                                 \tikzstyle{file}=[commonNode, fill=red!30]
                                 \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
@@ -1561,7 +1575,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
                                     % Inputs
                                     \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
-                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.95*\vspacing) (EILin) {};
                                     \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
                                     \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
                                     \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
@@ -1570,7 +1584,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                                     % Files and modules
                                     \node at (0*\hspacing, 4.5*\vspacing) [unusedFile]    (EHI)     {Example \\ Spectral Image}
                                         edge  [pre]   (EHIin);
-                                    \node at (0*\hspacing, 4*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
+                                    \node at (0*\hspacing, 3.95*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
                                         edge  [pre]   (EILin);
                                     \node at (0*\hspacing, 3.5*\vspacing) [unusedFile]    (LM)      {Label Map}
                                         edge  [pre]   (LMin);
@@ -1618,14 +1632,14 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             \subsubsection{Noisy Pixel Labeller}
                 The noisy pixel labeller is a composite of the de-noiser and pixel labeller functions. We take a noisy 
                 spectral image as input, along with a trained forest or neural network. De-noising is run on the image 
-                before plugging the spectral image into the pixel labeller.
+                before feeding the spectral image to the pixel labeller.
 
                 \begin{figure}[H]
                     \centering
                         \scalebox{0.55}{ 
                             \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
 
-                                \tikzstyle{commonNode}=[thick, font=\ttfamily, align=center, line width=2pt, draw=black]
+                                \tikzstyle{commonNode}=[thick, font=\ttfamily\large\bf, align=center, line width=2pt, draw=black]
                                 \tikzstyle{module}=[commonNode, rectangle, rounded corners, fill=blue!30, inner sep=5mm]
                                 \tikzstyle{file}=[commonNode, fill=red!30]
                                 \tikzstyle{unusedModule}=[module, fill=blue!10, line width=1pt]
@@ -1646,7 +1660,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
                                     % Inputs
                                     \node at (-1*\hspacing, 4.5*\vspacing) (EHIin) {};
-                                    \node at (-1*\hspacing, 4*\vspacing) (EILin) {};
+                                    \node at (-1*\hspacing, 3.95*\vspacing) (EILin) {};
                                     \node at (-1*\hspacing, 3.5*\vspacing) (LMin) {};
                                     \node at (-1*\hspacing, 2.75*\vspacing) (TSin) {};
                                     \node at (-1*\hspacing, 2*\vspacing) (NHIin) {};
@@ -1655,7 +1669,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                                     % Files and modules
                                     \node at (0*\hspacing, 4.5*\vspacing) [unusedFile]    (EHI)     {Example \\ Spectral Image}
                                         edge  [pre]   (EHIin);
-                                    \node at (0*\hspacing, 4*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
+                                    \node at (0*\hspacing, 3.95*\vspacing)   [unusedFile]    (EIL)     {Example Image \\ Labellings}
                                         edge  [pre]   (EILin);
                                     \node at (0*\hspacing, 3.5*\vspacing) [unusedFile]    (LM)      {Label Map}
                                         edge  [pre]   (LMin);
@@ -1718,7 +1732,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
                 \item[Eclipse:] allows for rapid development in Java and integrates easily with libraries and tools such 
                     as JUnit and Git.
-                \item[EclEmma:] an Eclipse plug-in the works with JUnit which highlights lines to indicate code coverage 
+                \item[EclEmma:] an Eclipse plug-in compatible with JUnit which highlights lines to indicate code coverage 
                     of unit tests.
                 \item[ObjectAid:] another Eclipse plug-in, used to create UML class diagrams.
             \end{description}
@@ -1732,7 +1746,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
                 \item[\LaTeX:] used for typesetting this dissertation in a precise manor allowing control over most 
                     aspects of document layout and style.
-                \item[Tikz:] a \LaTeX\ library useful for producing diagrams, such as figure \ref{fig:system_overview}.
+                \item[Tikz:] a \LaTeX\ library useful for producing diagrams, such as Figure \ref{fig:system_overview}.
                 \item[Listings:] a \LaTeX\ library allowing colour formatted code for a plethora of languages.
                 \item[Adobe Photoshop:] image editing software used to produce some diagrams.
             \end{description}
@@ -1757,40 +1771,41 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
     \section{Software engineering techniques}
         \subsection{Development model}
-            After the design of the system it was fairly obvious that a mixture of iterative and waterfall models. 
-            The system would have to be implemented in a modular form (the modules can be seen in figure 
-            \ref{fig:system_overview}). Each module then needed to be implemented and was tested rigorously before 
-            moving onto the next, which is important because of dependencies between modules. For each module it was 
-            possible to manually produce the input files necessary to perform testing.
+            The design of the system calls for a mixture of iterative and waterfall models to be employed in this project.
+            The system is split into well defined modules (as can be seen in Figure \ref{fig:system_overview}). Each module 
+            then needs to be implemented and tested rigorously before moving onto the next, important because of the 
+            dependencies between modules. For each module it is possible to produce manually suitable files for testing.
 
-            Once a working system produce was produced, tested and we have confidence that it is correct, additional 
-            features and improvements to the system were added in an iterative manor, similar to a spiral model. Unit 
-            tests were used to make sure that any new additions don't break the existing, working parts of the system.
+            Once a working system was produced, tested and deemed to be correct with some confidence, additional 
+            features and improvements to the system were added in an iterative manner, similar to a spiral model. Unit 
+            tests were used to make sure that any new additions do not break the existing, working parts of the system.
 
         \subsection{Testing}
-            The development was test driven, and used a mixture of testing techniques to write unit tests. All tests 
-            were written as unit tests so that they could be reused later to make sure that the system still works.
+            Development was test driven by necessity, as a large amount of work was required to reach a 
+            \textit{minimum viable product}. If it were not tested thoroughly throughout development could have lead 
+            to nasty and difficult to find bugs. All tests were written as unit tests so that 
+            they could be reused later to make sure that the system still works.
             The following methodologies were employed:
             \begin{description}[font=\normalfont\itshape, labelindent=10pt]
-                \item[Black box testing:] this is when then internal system design not taken into account, used to make sure 
-                    that the system works as a `black box', in terms of the expected input/outputs we specified in the 
-                    design. To assure that internal system design wasn't taken into account these were written 
-                    \textit{before} any code was written.
-                \item[White box testing:] this is when the internal system design is taken into account, tests are designed so that every 
+                \item[Black box testing:] When the internal system design is not taken into account, black box testing is 
+                    used to ensure that the system works as a `black box', in terms of the expected 
+                    input/outputs we specified in the design. To assure that internal system design wasn't taken 
+                    into account these were written \textit{before} any code was written.
+                \item[White box testing:] When the internal system design is taken into account, tests are designed so that every 
                     line of code is checked using the unit tests. This is difficult to check manually, so Eclipse plug-in 
                     EclEmma was used, a code coverage tool that works with JUnit.
-                \item[Input sanitisation testing:] additional unit tests were written to make sure that erroneous inputs 
+                \item[Input sanitisation testing:] Additional unit tests were written to make sure that erroneous inputs 
                     were handled correctly.
-                \item[Incremental integration testing:] this refers to using a bottom up approach, testing functionality 
+                \item[Incremental integration testing:] This refers to using a bottom up approach, testing functionality 
                     as it is implemented.
-                \item[Usability testing:] a few users were asked to try use the system given only instructions in a readme 
-                    file, the feedback from this was vital and shaped the design of the training tools module.
+                \item[Usability testing:] A few users were asked to try use the system given only instructions in a readme 
+                    file. The feedback was vital in shaping the design of the training tools module.
             \end{description}
 
         \subsection{Backup Plan}
             It is important to make sure that we have an effective backup plan to avoid any software, hardware or 
-            user error that may result in a loss of work, something which is important to make sure that we do not 
-            loose a years worth of work. 
+            user error that may result in a loss of work, which is important to ensure that we do not 
+            lose a year's worth of work. 
 
             To make sure that no work was lost a number of systems were set in place to not only regularly back up 
             any work but also provide rollback if necessary. Google Drive and DropBox were employed to keep shadow 
@@ -1798,7 +1813,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             Finally Apple's time machine software was also used to automatically take backups of the whole local 
             file system every hour.
 
-            \begin{figure}[H]
+            \begin{figure}
                 \centering
                 \includegraphics[scale=0.75]{backup_plan}
                 \caption[Overview of the backup strategy employed.]{Overview of the backup strategy employed\footnotemark.}
@@ -1819,22 +1834,27 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 \cleardoublepage
 \chapter{Implementation}
-    We begin this chapter by elaborating on the implementation of the Random Forests algorithm and the use of the Encog, a 
+    This chapter by elaborates on the implementation of the Random Forests algorithm and the use of the Encog, a 
     neural network library for Java. We then proceed to use the supervised learning methods to build a procedure for 
-    producing a pixel labelling from a spectral image. We ignore until later the problems of how we will produce 
+    producing a pixel labelling from a spectral image. We initially set aside the problems of how we will produce 
     training data for the supervised learning methods, as these likely need to be extracted from an example labelling, 
-    a problem that will be addressed in section \ref{sec:training_tools}. Finally we also wait until nearer the end of 
-    the chapter to deal with image noise in section \ref{sec:de-noising}.
+    a problem that will be addressed in section \ref{sec:training_tools}, along with the treatment of image noise in 
+    section \ref{sec:de-noising}.
 
-    The project is modularised into a number of packages, each building on top of each other. Dependencies can be 
-    visualised in figure \ref{fig:package_dependencies}. We will use UML class diagrams\footnote{http://www.uml-diagrams.org/class-reference.html is a good reference for UML class diagrams} to show the 
-    overview of classes within each package.
+    The project is modularised into a number of packages, each building on top of another. Dependencies can be 
+    visualised in Figure \ref{fig:package_dependencies}. We will use UML class 
+    diagrams\footnote{As defined in http://www.uml-diagrams.org/class-reference.html} 
+    to show the overview of classes within each package.
+
+    \begin{framed}
+        Add dependency from NN to RF because of use of ProbabilityDistribution class
+    \end{framed}
 
     \begin{figure}[H]
         \centering
         \includegraphics[scale=0.5]{package_dependencies}
-        \caption{The dependencies between different packages/modules in the system. Although TrainingTools package is
-        capable of producing training sequence files both the NeuralNetworks and RandomDecisionForests, it only 
+        \caption{The dependencies between different packages/modules in the system. Although the TrainingTools package is
+        capable of producing training sequence files for both the NeuralNetworks and RandomDecisionForests, it only 
         \textit{depends} on RandomDecisionForests as it uses the class \texttt{TrainingSequence}.}
         \label{fig:package_dependencies}
     \end{figure}
@@ -1843,23 +1863,24 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
     \section{Random Forests Library}
-        We begin by describing our implementation of random forests, looking specifically at some critical design 
-        choices that were made. We implement a generic and easily extensible random forests library, which can 
-        be specialised for many applications, then write specialising subclasses that utilise the library for our 
+        We begin by describing our implementation of random forests, looking specifically at critical design 
+        choices that were made. A generic and easily extensible random forests library is implemented, which can 
+        be specialised for many applications, then specialising subclasses are written that utilise the library for our 
         purpose of providing a pixel labelling.
 
         \begin{figure}[H]
             \centering
             \includegraphics[scale=0.25, angle=90]{Forest_UML}
-            \caption{An overview of classes in the RandomDecisionForest package.}
+            \caption{An overview of classes in the RandomDecisionForest package, from which relevant sections will be 
+            looked at closer when appropriate.}
             \label{fig:forest_uml}
         \end{figure}
 
         \subsection{Data structures}
             A number of important data structures are used throughout the library, each requiring an efficient 
-            implementation and providing necessary abstraction and before we move onto the more complicated issues 
-            regarding supervised learning we need to describe the structures used. In this subsection 
-            we will describe the main classes that are used in the RandomDecisionForest package, providing a table of 
+            implementation and providing necessary abstraction. Before we move onto the more complicated issues 
+            regarding supervised learning, we need to describe the structures used. This subsection 
+            describes the main classes that are used in the RandomDecisionForest package, providing a table of 
             functions defined with corresponding English descriptions of what they do and some small code listings 
             where necessary.
 
@@ -1867,7 +1888,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
             \subsubsection{ClassLabels}
                 Our first class, \texttt{ClassLabels}, abstracts classification labels into its own class. As can be 
-                seen in figure \ref{fig:class_label_uml} \texttt{ClassLabels} groups together a class name and its 
+                seen in Figure \ref{fig:class_label_uml} \texttt{ClassLabels} groups together a class name and its 
                 corresponding colour, both of which should be unique, and we note that \texttt{classId} is only used 
                 internally. The colour will be used sections 
                 \ref{sec:pixel_label} and \ref{sec:training_tools} to indicate its corresponding class in a pixel 
@@ -1876,7 +1897,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{ClassLabel_Forest_UML}
-                    \caption{\texttt{ClassLabel} in figure \ref{fig:forest_uml} a bit closer.}
+                    \caption{A closer view of \texttt{ClassLabel} in Figure \ref{fig:forest_uml}.}
                     \label{fig:class_label_uml}
                 \end{figure}
 
@@ -1928,12 +1949,12 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{Instance_Forest_UML}
-                    \caption{\texttt{Instance} in figure \ref{fig:forest_uml} a bit closer.}
+                    \caption{A closer view of \texttt{Instance} in Figure \ref{fig:forest_uml}.}
                     \label{fig:instance_uml}
                 \end{figure}
 
-                A feature vector will have some finite number of `features' that we use, the \texttt{getDimension} 
-                function should return the number of features (i.e. the dimension) in the instance. The functions 
+                A feature vector will have some finite number of `features' that we use and the \texttt{getDimension} 
+                function that should return the number of features (i.e. the dimension) in the instance. The functions 
                 \texttt{getNormalisationReference} and \texttt{normalise} are used for normalisation of instances. 
                 During classification we may want to normalise so that small changes in data with low variance have 
                 the same weighting as larger changes in data with low variance. This is explored more in section 
@@ -1942,11 +1963,11 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 normalisation in the learning (and therefore classification) algorithms in sections \ref{sec:training} 
                 and \ref{sec:classification}. 
 
-                We also define \texttt{NDRealVector}, a concrete implementation of \texttt{Instance} which can also 
-                be seen in figure \ref{fig:instance_uml}. We use \texttt{NDRealVector} to represent spectra in spectral 
+                Let \texttt{NDRealVector} be a concrete implementation of \texttt{Instance} which can also 
+                be seen in Figure \ref{fig:instance_uml}. We use \texttt{NDRealVector} to represent spectra in spectral 
                 images, that is, values in $\bb{R}^N$. We can simply think of this as 
-                a wrapper for a list of values. We also store the power of the spectrum also, and use this as our 
-                ``normalisation reference'' value, and we define the \textit{power} of a spectrum or vector to be sum 
+                a wrapper for a list of values. We also store the power of the spectrum, and use this as our 
+                ``normalisation reference'' value. The \textit{power} of a spectrum (or vector) is the sum 
                 of squared values in the list.
 
                 \begin{table}[H]
@@ -1986,14 +2007,14 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
             \subsubsection{Probability Distributions} \label{sec:prob_dist}
                 As discussed in section \ref{sec:rand_forest} probability distributions are associated with each node, 
-                and is the effective output from the classification algorithm. So any implementation of Random Forests 
+                and is the effective output from the classification algorithm. Thus any implementation of Random Forests 
                 needs to have some way to represent probability distributions over possible classifications. Although 
                 we can represent a probability distribution as \texttt{Map<ClassLabel, Double>}, we choose to 
-                encapsulate this in it's own class \texttt{ProbabilityDistribution} so that we can perform validation
+                encapsulate this in its own class \texttt{ProbabilityDistribution} so that we can perform validation
                 on the properties of a probability distribution, that is each probability is a value in $[0,1]$ and 
                 the probabilities sum to a $1$ and we also cache some frequently used values such as \texttt{entropy}. 
 
-                The \textit{entropy} of a probability distribution $p:\Omega\rightarrow[0,1]$ is defined to be
+                The \textit{entropy} of a probability distribution $p:\Omega\rightarrow[0,1]$ can be defined as:
 
                 \begin{align}
                   H(p) = \sum\limits_{x\in\Omega} -p(x) \log_2(p(x))
@@ -2005,19 +2026,19 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{ProbabilityDistribution_Forest_UML}
-                    \caption{\texttt{ProbabilityDistribution} in figure \ref{fig:forest_uml} a bit closer.}
+                    \caption{A closer view of \texttt{ProbabilityDistribution} in Figure \ref{fig:forest_uml}.}
                     \label{fig:prob_dist_uml}
                 \end{figure}
 
-                We make the class immutable so that we cannot accidentally modify the distribution into something 
-                invalid. We make it immutable by making each variable \texttt{final} and removing any setter functions. 
-                We however also make use of the \texttt{unmodifiableMap} function in the \texttt{Java.Collections} 
+                The class is immutable so that we cannot accidentally modify the distribution into something 
+                invalid. Therefore we make each variable \texttt{final} and remove any setter functions. 
+                We also make use of the \texttt{unmodifiableMap} function in the \texttt{Java.Collections} 
                 package, when setting the \texttt{probabilities} variable. This gives a reference to a \texttt{Map} 
                 where no entries can be added, nor removed, which prevents someone from getting a reference to the map
                 \texttt{probabilities} and altering it.
 
                 Also in the implementation of the class constructor we allow for a small error in the sum, this is 
-                because we will often have small errors from rounding in floating point numbers. So the checks that 
+                because we will often have small errors from rounding in floating point numbers. The checks that 
                 are made in the constructor of \texttt{ProababilityDistribution} are:
                 \begin{itemize}
                     \item 
@@ -2034,7 +2055,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                         & = 0.
                 \end{align}
 
-                Now when we compute entropy according to equation \ref{eq:prob_entropy} we try to sum with $p(x)=0$ for 
+                When computing entropy according to equation \ref{eq:prob_entropy} we try to sum with $p(x)=0$ for 
                 some $x$. In this case we would accidentally set the sum to a \texttt{NaN} value
 
                 \begin{align}
@@ -2145,15 +2166,15 @@ public class ProbabilityDistribution implements Serializable {
                             as discussed above, using equation \ref{eq:numstabsum}.
 
                     \end{tabularx}
-                    \caption{Important methods implemented in the \texttt{ProbabilityDistribution} class.}
+                    \caption[justification=justified,singlelinecheck=false]{Important methods implemented in the \texttt{ProbabilityDistribution} class.}
                     \label{tab:ProbabilityDistribution}
                 \end{table}
 
 
 
             \subsubsection{Training Sequences}
-                The \texttt{TrainingSample} object is simply a pairing between a \texttt{ClassLabel} and an 
-                \texttt{Instance}. There is no other functions in this class other than the getters, setters and 
+                The \texttt{TrainingSample} object is a pairing between a \texttt{ClassLabel} and an 
+                \texttt{Instance}. There are no other functions in this class other than the getters, setters and 
                 constructor. 
 
                 A \texttt{TrainingSequence} consists of a list of \texttt{TrainingSample}s, and we keep a list of 
@@ -2165,7 +2186,7 @@ public class ProbabilityDistribution implements Serializable {
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{TrainingSequence_Forest_UML}
-                    \caption{\texttt{TrainingSequence} and \texttt{TrainingSample} in figure \ref{fig:forest_uml} a bit closer.}
+                    \caption{A closer view of \texttt{TrainingSequence} and \texttt{TrainingSample} in Figure \ref{fig:forest_uml}.}
                     \label{fig:training_seq_uml}
                 \end{figure}
 
@@ -2175,12 +2196,12 @@ public class ProbabilityDistribution implements Serializable {
                         \hline
 
                         {\tt newNDRealVector\-TrainingSequence} & 
-                            \texttt{newNDRealVectorTrainingSequence} is a \texttt{static} function taking two file names. 
-                            One specifying 
+                            \texttt{newNDRealVectorTrainingSequence} is a \texttt{static} function taking two file names:
+                            one specifying 
                             a ``class colour map'' file and one specifying a training sequence. Both these files should 
                             be of the format described in appendix \ref{app:file_formats}. This function parses the 
                             files and returns a \texttt{TrainingSequence} instance generated from it, with instances 
-                            of the type \texttt{NDRealVector} defined in listing \ref{lst:NDRealVector}. \\ 
+                            of the type \texttt{NDRealVector}. \\ 
                         \hline
 
                         \texttt{empericalDistribution} & 
@@ -2208,8 +2229,8 @@ public class ProbabilityDistribution implements Serializable {
 
                         \texttt{normalise} & 
                             This parses all of the \texttt{Instance}s in the training sequence and computes an average 
-                            ``normalisation reference'' (see \texttt{getNormalisationReference} in listing 
-                            \ref{lst:Instance} and in table \ref{tab:NDRealVector}). It then returns a new training 
+                            ``normalisation reference'' (see \texttt{getNormalisationReference} in table 
+                            \ref{tab:NDRealVector}). It then returns a new training 
                             sequence where every sample has been normalised to this average value. \\
                         \hline
 
@@ -2224,7 +2245,7 @@ public class ProbabilityDistribution implements Serializable {
                             concept of \textit{bagging} is discussed in section \ref{sec:training}.
 
                     \end{tabularx}
-                    \caption{Member functions of the \texttt{TrainingSequence} class.}
+                    \caption{Important methods implemented in the \texttt{TrainingSequence} class.}
                     \label{tab:TrainingSequence}
                 \end{table}
 
@@ -2234,27 +2255,25 @@ public class ProbabilityDistribution implements Serializable {
 
             \subsubsection{Split Parameters} \label{sec:split_params}
                 We define an abstract class \texttt{SplitParameters}, which is used as a common superclass for any 
-                implementation of a split parameter, as defined in section \ref{sec:intro_decision_tree}. We 
-                make this an abstract class so that can implement \texttt{Serializable} forcing
-                any implementing classes to also implement this interface, which is 
+                implementation of a split parameter, as defined in section \ref{sec:intro_decision_trees}. We 
+                make this an abstract class so that it can implement \texttt{Serializable}, forcing
+                any implementing classes to also implement this \texttt{Serializable}. Which is 
                 necessary to be able to save decision forests to a file in section \ref{sec:DecisionForest}. 
-                We also specify that each split parameter needs to be 
+                We also mention that each split parameter needs to be 
                 able to specify what weak learner it is for, because we only save the split parameters in 
                 decision trees and we need some way to determine which \texttt{WeakLearner} subclass to use from a 
                 \texttt{SplitParameter} instance. 
 
-                We consider also a concrete implementation of \texttt{SplitParameters}, specifically 
+                We also consider a concrete implementation of \texttt{SplitParameters}, in particular
                 \texttt{OneDimensionalLinearSplitParameters} which specifies a ``dimension'' and a threshold as needed 
                 for the \texttt{OneDimensionalLinearWeakLearner} in section \ref{sec:weak_learner}. 
 
-                The \texttt{SplitParameter} classes are simple and only include getters, setters and constructors. That 
-                is there are no `interesting' functions in these classes.
+                The \texttt{SplitParameter} classes are simple and only include getters, setters and constructors. 
 
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{SplitParam_Forest_UML}
-                    \caption{\texttt{SplitParamter} and \texttt{OneDimensionalLinearSplitParameter} in figure 
-                    \ref{fig:forest_uml} a bit closer.}
+                    \caption{A closer view of \texttt{SplitParamter} and \texttt{OneDimensionalLinearSplitParameter} in figure \ref{fig:forest_uml}.}
                     \label{fig:split_param_uml}
                 \end{figure}
 
@@ -2262,30 +2281,30 @@ public class ProbabilityDistribution implements Serializable {
 
 
             \subsubsection{Weak Learners} \label{sec:weak_learner}
-                We implement \texttt{WeakLearner} as an abstract class, because we provide a partial 
+                \texttt{WeakLearner} is implemented as an abstract class, because it provides a partial 
                 implementation. Any common code between subclasses can be put directly into the \texttt{WeakLearner} 
                 abstract class, such as helper functions for generation of randomised parameters. The function of each 
                 abstract method is explained in table \ref{tab:OneDimensionalLinearWeakLearner}. The function 
                 \texttt{uniformRandomDoubleInRange} is a simple convenience method that is used to generate a value 
                 uniformly in some range \texttt{[lowerBound,highBound]}, 
                 and uses Java's implementation of generating a uniform random variable in the range \texttt{[0,1]}. To 
-                identify the type of each weak learner with some tag we define an \texttt{enum} type in listing 
-                \ref{lst:WeakLearnerType}, seen in figure \ref{weak_learner_type_uml}. 
+                identify the type of each weak learner with some tag we define an \texttt{enum} type 
+                \texttt{WeakLearnerType}, seen in Figure \ref{fig:weak_learner_type_uml}. 
 
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{WeakLearnerType_Forest_UML}
-                    \caption{The \texttt{WeakLearnerType} enum in figure \ref{fig:forest_uml} a bit closer.}
+                    \caption{A closer view of the \texttt{WeakLearnerType} enum in Figure \ref{fig:forest_uml}.}
                     \label{fig:weak_learner_type_uml}
                 \end{figure}
 
-                We also consider a concrete implementation for an example, using the \texttt{OneDimensionalLinearWeakLearner} 
-                class. This is the most simple weak learner function that we can decide and has the simplest parameters, 
+                We also consider a concrete implementation \texttt{OneDimensionalLinearWeakLearner} of the \texttt{WeakLearner}
+                class. This is the most simple weak learner function that we could use and has the simplest parameters, 
                 when we are considering \texttt{NDRealVector} instances. We note that subclasses of \texttt{WeakLearner}s are
                 specific to particular subclasses of \texttt{Instance}. 
-                The \texttt{OneDimensionalLinearWeakLearner} simply picks one value in the feature vector/instance, compares 
-                it to some threshold and then makes a decision based on this. For example consider (mathematically) an 
-                instance $\vc{v} \in \bb{R}^n$, in this case our split parameters are $\vc{\theta} = (i,\tau) \in 
+                The \texttt{OneDimensionalLinearWeakLearner} picks one value in the feature vector/instance, compares 
+                it to some threshold and then makes a decision based on this. For example, consider an 
+                instance $\vc{v} \in \bb{R}^n$. In this case our split parameters are $\vc{\theta} = (i,\tau) \in 
                 \bb{Z}_n \times \bb{R}$, and the split function/weak learner is
 
                 \begin{align}
@@ -2298,20 +2317,21 @@ public class ProbabilityDistribution implements Serializable {
 
                 \begin{figure}[H]
                     \centering
-                    \includegraphics[scale=0.5]{WeakLearner_Forest_UML}
-                    \caption{\texttt{WeakLearner} and \texttt{OneDimensionalLinearWeakLearner} in figure \ref{fig:forest_uml} a bit closer.}
+                    \includegraphics[scale=0.6]{WeakLearner_Forest_UML}
+                    \caption[justification=justified,singlelinecheck=false]{\raggedright A closer view of \texttt{WeakLearner} and \texttt{OneDimensionalLinearWeakLearner} 
+                    in Figure \ref{fig:forest_uml}.}
                     \label{fig:weak_learner_uml}
                 \end{figure}
 
                 These split parameters for the \texttt{OneDimensionalLinearWeakLearner} class are represented by the 
                 \texttt{OneDimensionalLinearSplitParameters} class as described in section \ref{sec:split_params}. This 
                 is an example that each subclass of \texttt{WeakLearner} should have a corresponding subclass of 
-                \texttt{SplitParameters} which it uses to represent it's split parameters. And we note that 
+                \texttt{SplitParameters} which it uses to represent its split parameters. We note that 
                 \texttt{OneDimensionalLinearSplitParameters} is implemented as a nested class within 
                 \texttt{OneDimensionalLinearWeakLearner}, to make this relationship obvious.
 
 
-                The \texttt{split} function is of particular interest in listing \ref{lst:OneDimensionalLinearWeakLearner} as 
+                The \texttt{split} function is of particular interest in table \ref{tab:OneDimensionalLinearWeakLearner} as 
                 it implements equation \ref{eq:split_equation}. 
 
                 \begin{table}[H]
@@ -2342,15 +2362,15 @@ public class ProbabilityDistribution implements Serializable {
                             split function during training a decision tree. \\ 
 
                     \end{tabularx}
-                    \caption{Member functions of the \texttt{OneDimensionalLinearWeakLearner} class.}
+                    \caption{Important methods implemented in the \texttt{OneDimensionalLinearWeakLearner} class.}
                     \label{tab:OneDimensionalLinearWeakLearner}
                 \end{table}
 
                 The \texttt{OneDimensionalLinearWeakLearner} makes use of the \texttt{giveHint} function by iterating through 
                 all \texttt{NDRealVector} instances in the training sequence and recording a minimum and maximum value 
-                for each dimension in the lists \texttt{minimumValues} and \texttt{maximumValues}. This therefore 
-                allows us to avoid picking particularly bad \texttt{OneDimensionalLinearSplitParameters}, 
-                as for any of the features/dimensions in the \texttt{NDRealVector} 
+                for each dimension in the lists \texttt{minimumValues} and \texttt{maximumValues}. This  
+                allows us to avoid picking particularly bad \texttt{OneDimensionalLinearSplitParameters}. 
+                For any of the features/dimensions in the \texttt{NDRealVector} 
                 that are chosen, if we pick a threshold value outside the range between the minimum and maximum we know that 
                 the split function will split the training sequence with zero information gain. Using the notation from 
                 equations \ref{eq:left_split} and \ref{eq:right_split} it means that one of $L(\vc{s},\vc{\theta})$ or 
@@ -2376,21 +2396,21 @@ public class ProbabilityDistribution implements Serializable {
                 probability distribution that is cached is the empirical distribution of the training sequence that is 
                 passed to it. Each decision node has a reference to a \texttt{SplitParameters} instance, which it 
                 uses with a weak learner to make decisions for tree traversal as in section 
-                \ref{sec:intro_decision_trees}. Finally we cache the information gain, computed according to the 
+                \ref{sec:intro_decision_trees}. We then cache the information gain, computing it according to the 
                 equation \ref{eq:information_gain} during the training algorithm.
 
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{Tree_Forest_UML}
-                    \caption{\texttt{TreeNode} and \texttt{DecisionForest} in figure \ref{fig:forest_uml} a bit closer.}
+                    \caption{A closer view of \texttt{TreeNode} and \texttt{DecisionForest} in Figure \ref{fig:forest_uml}.}
                     \label{fig:weak_learner_uml}
                 \end{figure}
 
-                We see in listing \ref{lst:TreeNode} the function \texttt{compact}. This is an optimisation 
-                used to eliminate unnecessary nodes from the tree after its construction. The idea is that if we are at 
-                some decision node and it has two children are leaf nodes with identical distributions, then we 
+                The function \texttt{compact} is seen in listing \ref{lst:TreeNode}. This is an optimisation 
+                used to eliminate unnecessary nodes from the tree after its construction. If we are at 
+                some decision node and it has two children which are leaf nodes with identical distributions, then we 
                 can replace this decision node by a single leaf node with the same distribution. The implementation 
-                simply performs \texttt{compact} recursively on the left and right children of a decision node first, 
+                performs \texttt{compact} recursively on the left and right children of a decision node first, 
                 and \texttt{compact} does nothing in the base case (a leaf node), after we try to compact at the 
                 given node. Essentially, compaction is performed from the bottom of the tree upwards.
 
@@ -2434,7 +2454,7 @@ void compact() throws MalformedForestException {
 
                         \texttt{isLeafNode} & 
                             Checks if the \texttt{leftChild} and \texttt{rightChild} have a value of \texttt{null}. If 
-                            they are then the node is a leaf and this functions returns a true value. If only one of the 
+                            they do then the node is a leaf and this functions returns a true value. If only one of the 
                             nodes has a value of \texttt{null} then the tree is invalid and an exception is raised. 
                             Otherwise it returns a false value. \\ 
                         \hline
@@ -2449,10 +2469,10 @@ void compact() throws MalformedForestException {
                             traverse the tree and return a probability distribution for that instance. As described in 
                             section \ref{sec:intro_decision_trees} and visualised in figure 
                             \ref{fig:decision_tree_classify}. The algorithm this method implements is covered in more 
-                            detail in section \ref{sec:classificiation}.
+                            detail in section \ref{sec:classification}.
 
                     \end{tabularx}
-                    \caption{Member functions of the \texttt{TreeNode} class.}
+                    \caption{Important methods implemented in the \texttt{TreeNode} class.}
                     \label{tab:TreeNode}
                 \end{table}
 
@@ -2460,19 +2480,20 @@ void compact() throws MalformedForestException {
 
 
             \subsubsection{Decision Forest} \label{sec:DecisionForest}
-                We finally define our \texttt{DecisionForest} class. It is basically a set of \texttt{TreeNode}s, 
-                however we also include additional metadata, which can be seen in figure \ref{fig:weak_learner_uml}. 
+                The \texttt{DecisionForest} class is basically a set of \texttt{TreeNode}s, which also includes 
+                additional metadata, that which can be seen in Figure \ref{fig:weak_learner_uml}. 
                 We have made sure that \texttt{TreeNode}, \texttt{WeakLearner}, \texttt{WeakLearnerType}, 
                 \texttt{SplitParameters} and \texttt{ClassLabel} (which are all composite in the forest data structure) 
                 implement the interface \texttt{Serializable} so that a concise ``save to file'' method can be 
-                implemented. We simply use an instance of \texttt{ObjectOutputStream} in the \texttt{Java.Io} package 
+                implemented. We use an instance of \texttt{ObjectOutputStream} in the \texttt{Java.Io} package 
                 to write the object to a binary file in a single line ``\texttt{out.writeObject(this);}''.
 
-                \texttt{dataDimension} keeps track of the dimension of data this forest classifies, the 
+                \texttt{dataDimension} keeps track of the dimension of data this forest classifies, while the 
                 \texttt{weakLearnerType} specifies what weak learner our forest is related to, and implicitly the type 
-                of data that it classifies. It keeps a reference to all the possible classification labels in 
-                \texttt{classes} and it uses \texttt{normalisedClassification} and \texttt{normalisationReference} to 
-                perform normalisation during classification if we specified that normalised values should be used during 
+                of data that it classifies. The \texttt{DecisionForest} keeps a reference to all the possible classification labels in 
+                the variable \texttt{classes} of type \texttt{List<ClassLabel>}. \texttt{DecisionForest} uses 
+                \texttt{normalisedClassification} and \texttt{normalisationReference} to 
+                perform normalisation during classification, if we specified that normalised values should be used during 
                 training.
 
                 \begin{table}[H]
@@ -2481,24 +2502,23 @@ void compact() throws MalformedForestException {
                         \hline
 
                         \texttt{DecisionForest} & 
-                            We include the constructor here because we provide two. We have a \texttt{default} access 
+                            We have a \texttt{default} access 
                             default constructor, which is used to construct forests in the training algorithm. The 
                             other allows the forest to be loaded from a file using an \texttt{ObjectInputStream} from 
                             the \texttt{Java.Io} package. \\ 
                         \hline
 
                         \texttt{saveToFrstFile} & 
-                            This function saves a forest to a persistent ``.frst'' file. It's implementation can be
-                            found in listing \ref{lst:DecisionForest}. \\ 
+                            This function saves a forest to a persistent ``.frst'' file. \\ 
                         \hline
 
                         \texttt{classify} & 
                             This takes an \texttt{Instance} and returns a probability distribution for it, according 
-                            to the forest. The algorithm implements is discussed in more detail in section 
+                            to the forest. The algorithm implementation is discussed in more detail in section 
                             \ref{sec:classification}. \\ 
 
                     \end{tabularx}
-                    \caption{Member functions of the \texttt{TreeNode} class.}
+                    \caption{Important methods implemented in the \texttt{DecisionForest} class.}
                     \label{tab:DecisionForest}
                 \end{table}
 
@@ -2508,15 +2528,9 @@ void compact() throws MalformedForestException {
 
 
       \subsection{Training} \label{sec:training}
-          \begin{framed}
-              To Ioana and Malavika: Sorry, I think WE still use we a lot here. We didn't mean to. :( \\
-              Again, thank you so much for proof reading this when there's such a short deadline $<$3 \\
-              P.s. The writing after this fits nicely below the head when I remove this box
-          \end{framed}
-
-          The concept of training was discussed in section \ref{sec:supervised_learning} and there was an overview of 
+          The concept of training was discussed in section \ref{sec:supervised_learning} and an overview of 
           how we can train decision trees and decision forests in section \ref{sec:rand_forest}. This section provides 
-          some simple psuedocode to generate trees given a training sequence, and extends it for a decision forest. We 
+          some simple psuedocode to generate trees given a training sequence, then extends it for training a decision forest. We 
           then discuss some design choices for an implementation of the algorithm, problems that may be encountered and 
           some possible solutions to those problems.
 
@@ -2565,32 +2579,32 @@ TreeNode generateTree(trainingSequence, depth, randomnessParameter) {
           \end{lstlisting}
 
           \clearpage
-          The full code listing for training a decision tree is given in appendix \ref{app:train_tree}. The value 
+          The full code listing for training a decision tree is given in listing \ref{lst:actualGenerateTree}. The value 
           \texttt{randomnessParameter} is the value $\rho$ from section \ref{sec:moving_swiftly_onto_forests}. The algorithm 
           abstracts away from using a single weak learner and the \texttt{WeakLearner} class specifies functions 
           synonymous to the \texttt{generateRandomSplitParameter} and \texttt{split} used in listing \ref{lst:generateTree}.
           This allows the algorithm for training to be written in a generic way and allowing for high code re-usability. 
 
           There are a number of things to consider when implementing this algorithm if we wish to return useful and 
-          efficient trees. Firstly, large trees (specified by a large depth) may be necessary to provide correct 
-          classifications in larger multi-class problems, however as we get deeper into the tree, decision nodes could 
-          be adding no information. I.e. consider when we have a empirical distribution at depth 
+          efficient trees. Firstly, deep trees (specified by a high depth) may be necessary to provide correct 
+          classifications in large multi-class problems, however as we get deeper into the tree, decision nodes could 
+          be adding little information. I.e. consider when we have a empirical distribution at depth 
           3 which is almost identical to the distribution found 
           at depth 20, in this case the decisions made at depths 3 to 20 have made very little difference to the output 
           and effectively waste computation time. To ameliorate the problem we can provide a threshold value for the 
-          information gain, which if not surpassed causes the training to terminate. This is included in the implementation seen in 
-          listing \ref{lst:actualGenerateTree} with the parameter \texttt{informationGainCutoff}. 
+          information gain, which if not surpassed at some node causes the training to terminate. This is included in 
+          the implementation seen in listing \ref{lst:actualGenerateTree} with the parameter \texttt{informationGainCutoff}. 
 
           Secondly we consider the generation of split parameters. Sometimes with prior information, or even analysis 
           of the training sequence, a more informed choice of split parameter can be made. We talk about this at the 
           end of section \ref{sec:weak_learner}, when we discuss optimising \texttt{OneDimensionalWeakLearner} parameter 
           selection. The optimisation discussed is included in the \texttt{OneDimensionalWeakLearner} implementation.
 
-          Lastly, in listing \ref{lst:generateTree} we see a depth first traversal of the tree as we train it, 
-          alternatively a breadth first approach can be imagined, as in figure \ref{fig:breadth_first}, where 
-          we train all nodes at some depth at the 
-          same time and the collective information gain is what we optimise over. In the implementation 
-          \ref{lst:actualGenerateTree} we decide to implement a depth first algorithm as it is easier to parallelise 
+          In listing \ref{lst:generateTree} we see that the tree is trained depth first, 
+          alternatively a breadth first approach can be imagined, as in Figure \ref{fig:breadth_first}. In breadth first 
+          training we train all nodes at some depth at the 
+          same time and optimise over the collective information gain. In the implementation in listing
+          \ref{lst:actualGenerateTree} we decide to implement a depth first algorithm, as it is easier to parallelise 
           (and distribute if wanted), because each of the child nodes are trained independently.
 
           \begin{figure}
@@ -2604,13 +2618,15 @@ TreeNode generateTree(trainingSequence, depth, randomnessParameter) {
           The algorithm for training a decision forest extends easily from training a decision tree and psuedocode is 
           given in listing \ref{lst:train}.
 
-          \begin{lstlisting}[float=tp,caption={Psuedocode to train a decision forest.}, label={lst:classify}]
-DecisionForest train(trainingSequence, noTrees, depth, randomnessParameter) {
+          \begin{lstlisting}[float=tp,caption={Psuedocode to train a decision forest.},label={lst:train}]
+DecisionForest train(trainingSequence, noTrees, 
+  depth, randomnessParameter) {
 
   rootNodes = [];
   for (int i = 0; i < noTrees; i++) {
     subSequence = trainingSequence.bag();
-    treeNode = generateTree(subSequence, depth, randomnessParameter);
+    treeNode = 
+      generateTree(subSequence, depth, randomnessParameter);
     rootNodes.add(treeNode);
   }
 
@@ -2619,18 +2635,19 @@ DecisionForest train(trainingSequence, noTrees, depth, randomnessParameter) {
           \end{lstlisting}
 
           In listing \ref{lst:train} the training sequence is `bagged' for each tree, which yields a subsequence of the 
-          training sequence, which is used to train each tree. The term \textit{bagging} refers to taking a subsequence 
-          of the training sequence and using that for training. Here it is used as a way to introduce randomness and 
-          is a way to reduce over-fitting. One problem which is commonly encountered and leads to over-fitting is when 
-          on class of data is abundantly in the training sequence, and another class of data isn't. In this case the 
-          abundant data will have a large influence on the information gain from equation \ref{eq:information_gain}. We 
-          can deal with this problem either by weighting the influence of each class inversely by its size in equation 
-          \ref{eq:information_gain} or by bagging in such a way that each tree is trained on a sequence with equal 
+          training sequence, used to train that tree. The term \textit{bagging} refers to taking a subsequence 
+          of the training sequence and using that for training. Generally it is used as a way to introduce randomness and 
+          combat over-fitting. One problem which is commonly encountered and leads to over-fitting is when 
+          on class of data is abundantly present in the training sequence, and another class of data isn't \cite{criminisi2013decision}. 
+          In this case the abundant data will have a large influence 
+          on the information gain from equation \ref{eq:information_gain}. We 
+          can deal with this problem either by weighting the influence of each class inversely by the number of samples it has in equation 
+          \ref{eq:information_gain}, or by bagging in such a way that each tree is trained on a sequence with equal 
           numbers of samples from each class. In our implementation in listing \ref{lst:actualTrainForest} we take the 
           later approach. 
 
           Another trick that can be used to reduce over-fitting is to increase the randomness of our choice of 
-          split parameters. By this we mean using a low value for $\rho$ or \texttt{randomnessParameter}. One option 
+          split parameters. Which is implemented by a low value for $\rho$ or \texttt{randomnessParameter}. One option 
           is to start with a low value of $\rho$ at high depths in the tree and increase it at lower depths. This is 
           not included in our implementation.
 
@@ -2691,31 +2708,28 @@ public ProbabilityDistribution classify(instance) {
 
 
 
-    \section{Neural Networks}
-        \begin{framed}
-            \begin{itemize}
-                \item Introduce encog
-                \item Explain usage of the library and features we used
-            \end{itemize}
-        \end{framed}
+    \section{Neural Networks} \label{sec:nn_training} \label{sec:pixel_label}
+        For our neural network solution we use a standalone Java neural network library, Encog. Following Encog's quickstart 
+        guide\footnote{https://s3.amazonaws.com/heatonresearch-books/free/encog-3\_3-quickstart.pdf} it is very easy to 
+        set up a simple neural network. Then using Encog's user 
+        guide\footnote{https://s3.amazonaws.com/heatonresearch-books/free/Encog3Java-User.pdf} gives us a better 
+        understanding of Encog's architecture and how it can be manipulated into what we want.         
 
-        \subsection{Training}
-            \begin{framed}
-                \begin{itemize}
-                    \item Outline how we wrapped up the training of the neural network
-                    \item Describe roughly what it does?
-                \end{itemize}
-            \end{framed}
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.5]{NeuralNet_UML}
+            \caption{The UML diagram for the training tools, consisting of a single class with a single static method.}
+        \end{figure}
 
-        \subsection{Classification}
-            \begin{framed}
-                \begin{itemize}
-                    \item Outline how we wrapped up the classifier
-                    \item Describe roughly what it does?
-                \end{itemize}
-            \end{framed}
+        To load a dataset, we 
 
-    \section{Pixel Labelling} \label{sec:pixel_label}
+
+
+
+
+
+
+    \section{Pixel Labelling}
         \begin{itemize}
             \item We've given the overview of two supervised machine learning techniques
             \item Assume for now that we have appropriate training data - dealt with later
@@ -2724,19 +2738,107 @@ public ProbabilityDistribution classify(instance) {
             \item Assuming we have appropriate training data, and non-noisy images we are now done! Unfortunately not the case.
         \end{itemize}
 
-        Now that 
-
 
 
 
 
     \section{Training Tools} \label{sec:training_tools}
-        \begin{itemize}
-            \item Take an image with a manually created ground truth pixel labelling
-            \item Take these and convert into a training sequence, and output to a text file
-            \item The append option -> we can pass in a perameter and an existing training sequence and append training sequences
-            % \item Adding uniform data between certain points, at a given density - and why this might be useful. Novel idea of generation of data using given data and some linear model
-        \end{itemize}
+        At this point we now have a system capable of producing pixel labellings. This section is concerned with 
+        making the task of generating a training sequence feasible, as it is certainly not by hand. It would be 
+        preferable to have some way of taking a ``ground truth'' pixel labelling and transforming it into a training 
+        sequence. This is precisely what the training tools module does. 
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{TrainingTools_UML}
+            \caption{The UML diagram for the training tools, consisting of a single class with a single static method.}
+        \end{figure}
+
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.8]{example_pixel_label_shepp_logan} 
+            \ \ \ 
+            \includegraphics[scale=0.33]{example_spectral_image_shepp_logan}
+            \begin{framed}
+                {\tt\raggedright
+                    Skeleton, 0xFF0000,     \\
+                    Tissue, 0x00FF00,       \\
+                    LeftOrgan, 0xffff00,    \\  
+                    CentreOrgan, 0x0000ff,  \\
+                    RightOrgan, 0xff00ff,   \\
+                    Artifact1, 0x00ffff,    \\
+                    Artifact2, 0xffffff,    \\
+                    Artifact3, 0xff7f00,    \\
+                    Artifact4, 0x008100,    \\
+                    Artifact5, 0x8c00ff,    \\
+                    Background, 0x000000    \\
+                } 
+            \end{framed}
+            \caption{An example input to the training tools module: a ground truth pixel labelling, a spectral image 
+            and a class to colour mapping file (as defined in appendix \ref{app:file_formats}).}
+        \end{figure}
+
+        \begin{figure}
+            \begin{framed}
+                {\tt
+                  ... \\
+                  Artifact3, 140.0, 140.0, 141.0, 141.0, 140.0, 139.0, 145.0, 148.0, 148.0, 149.0, 148.0, 150.0, 147.0, 145.0, 143.0, 140.0, 140.0, 141.0, 141.0, 140.0, 140.0, 140.0, 141.0, 139.0, 140.0, 139.0, 140.0, 140.0, 139.0, 139.0; \\
+                  Tissue, 91.0, 92.0, 90.0, 91.0, 91.0, 92.0, 95.0, 94.0, 100.0, 104.0, 105.0, 104.0, 100.0, 99.0, 96.0, 95.0, 94.0, 95.0, 91.0, 89.0, 89.0, 91.0, 90.0, 90.0, 91.0, 91.0, 92.0, 90.0, 91.0, 90.0; \\
+                  ... 
+                } 
+            \end{framed}
+            \caption{Example of part of the output file (2 training samples) from the training tools module. 
+            (The actual file is over 88000 lines long).}
+        \end{figure}
+
+        The function \texttt{trainingSequenceFromExample} performs the following sequence of actions:
+        \begin{enumerate}
+            \item 
+                Load the list of classes into a \texttt{List<ClassLabel>} object and uses 
+                \texttt{computeColourToClassMap} in \texttt{ClassLabel} to compute a map from colours to classes.
+            \item 
+                Load in the ground truth pixel labelling and the spectral image into the \texttt{DataCube} object from 
+                section \ref{sec:pixel_label}.
+            \item 
+                For each pixel $(x,y)$:   
+                \renewcommand{\labelenumii}{\theenumi.\arabic{enumii}.}
+                \begin{enumerate} 
+                    \item
+                        Put the spectrum at $(x,y)$ into a \texttt{NDRealVector} instance.
+                    \item 
+                        Lookup the correct \texttt{ClassLabel} object from the map computed in step 1, using the colour 
+                        in the ground truth image at $(x,y)$.
+                    \item 
+                        Pair the \texttt{ClassLabel} and \texttt{NDRealVector} together in a \texttt{TrainingSample} and 
+                        put it into an accumulating training sequence.
+                \end{enumerate}
+                \renewcommand{\labelenumii}{(\alph{enumii})}
+            \item 
+                Return the accumulated training sequence.
+        \end{enumerate}
+
+        When using the training tools module through the \texttt{.jar} file, the interface adds an extra step to the end, 
+        using the \texttt{saveToTextFile} function of the \texttt{TrainingSequence}, which saves and formats the 
+        sequence to a text file. We can also use the \texttt{.jar} to pass the generated \texttt{TrainingSequence} 
+        directly to the one of the training functions specified in sections \ref{sec:training} and \ref{sec:nn_training}.
+
+        If an `invalid' colour is encountered in the example labelling we have two reasonable options, either raise an 
+        exception or just ignore the spectrum for that pixel. In our implementation we decide to opt for the latter, as it 
+        provides greater flexibility to use the system when input data isn't perfect, for example in figure 
+        \ref{fig:non_perfect_labelling}.
+
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.2]{example_pixel_label_siri}
+            \caption{An example of a `ground truth' pixel labelling we might want to provide, when we wish to ignore large regions of 
+            the image.} 
+            \label{fig:non_perfect_labelling}
+        \end{figure}
+
+
+
+
+
 
     \section{De-noising} \label{sec:de-noising}
         \begin{itemize}
@@ -2844,7 +2946,7 @@ public ProbabilityDistribution classify(instance) {
 
 \cleardoublepage
 \chapter{Conclusion}
-  \section{Summary}
+    \section{Summary}
         \begin{itemize}
             \item Overview and summary of work undertaken - re describe system overall
             \item What was achieved, what was different
@@ -2856,6 +2958,16 @@ public ProbabilityDistribution classify(instance) {
         \begin{itemize}
             \item Implement a convolutional neural network solution to allow local spatial data to influence the labelling of a pixel. This may allow the model to incorporate image de-noising and could compact two stages of the pipeline into one.
             \item Implementation of the random forests library to support GPU processing. We could use a language such as OpenCL. Parallelism could be exploited either in the random forest implementation OR/AND the inherent parallelism from performing image processing.
+        \end{itemize}
+
+    \section{Lessons Learned}
+        \begin{itemize}
+            % \item Pick a supervisor who will actually help me when I ask him something 
+            % \item Pick a project that I know exactly what should happen at the end (low risk)
+            \item When using machine learning, use someone else's library, they probably spent a long time on it
+                and it will save a lot of work. It took one day to implement the NN solution, whereas a long time 
+                was spent on the RF solution. Even if it did a lot better, it was a lot more pain and effort. 
+                ``Stand on the shoulders of giants''.
         \end{itemize}
 
 
@@ -2935,7 +3047,7 @@ public ProbabilityDistribution classify(instance) {
 \cleardoublepage
 \chapter{Code for training a decision forest} \label{app:train_tree}
     
-    \begin{lstlisting}[float=tp,caption={The implementation code for tree generation.}, label={lst:actualGenerateTree}]
+    \begin{lstlisting}[caption={The implementation code for tree generation.}, label={lst:actualGenerateTree}]
 private static TreeNode generateTree(
   TrainingSequence trainingSequence, 
   WeakLearner weakLearner, 
@@ -3046,7 +3158,7 @@ private static TreeNode generateTree(
     \end{lstlisting}
 
 
-    \begin{lstlisting}[float=tp,caption={The implementation code for training a decision forest.}, label={lst:actualTrainForest}]
+    \begin{lstlisting}[caption={The implementation code for training a decision forest.}, label={lst:actualTrainForest}]
 public static DecisionForest trainDecisionForest(
     final TrainingSequence trainingSequence, 
     final WeakLearner weakLearner, 
@@ -3164,7 +3276,7 @@ public static DecisionForest trainDecisionForest(
 \cleardoublepage
 \chapter{Code for classifying using a decision forest} \label{app:classify_tree}
 
-    \begin{lstlisting}[float=tp,caption={The implementation code for tree traversal.}, label={lst:actualTraverseTree}]
+    \begin{lstlisting}[caption={The implementation code for tree traversal.}, label={lst:actualTraverseTree}]
 private ProbabilityDistribution traverseTree(
   WeakLearner splitter, 
   Instance instance) 
@@ -3197,7 +3309,7 @@ private ProbabilityDistribution traverseTree(
 }
     \end{lstlisting}
 
-    \begin{lstlisting}[float=tp,caption={The implementation code for classification using a decision forest.}, label={lst:actualTraverseTree}]
+    \begin{lstlisting}[caption={The implementation code for classification using a decision forest.}, label={lst:actualTraverseTree}]
 public ProbabilityDistribution classify(
   final Instance instance) {
   

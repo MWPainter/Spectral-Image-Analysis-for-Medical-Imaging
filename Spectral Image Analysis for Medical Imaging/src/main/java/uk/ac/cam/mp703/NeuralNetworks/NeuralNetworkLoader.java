@@ -84,8 +84,8 @@ public class NeuralNetworkLoader {
 		BasicNetwork network = (BasicNetwork) model.crossvalidate(crossValidate, true);
 		
 		// Display the training and validation errors.
-		System.out.println( "Training error: " + EncogUtility.calculateRegressionError(network, model.getTrainingDataset()));
-		System.out.println( "Validation error: " + EncogUtility.calculateRegressionError(network, model.getValidationDataset()));
+		System.out.println("Training error: " + EncogUtility.calculateRegressionError(network, model.getTrainingDataset()));
+		System.out.println("Validation error: " + EncogUtility.calculateRegressionError(network, model.getValidationDataset()));
 		
 		// Display our normalization parameters.
 		NormalizationHelper helper = data.getNormHelper();

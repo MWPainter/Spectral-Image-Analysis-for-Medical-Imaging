@@ -1,6 +1,6 @@
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.1.1}{Terminology and preliminary definitions}{chapter.1}% 2
-\BOOKMARK [1][-]{section.1.2}{What are we trying to do?}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.2}{Aims of the project}{chapter.1}% 3
 \BOOKMARK [1][-]{section.1.3}{Possible solutions}{chapter.1}% 4
 \BOOKMARK [1][-]{section.1.4}{Related work}{chapter.1}% 5
 \BOOKMARK [0][-]{chapter.2}{Preparation}{}% 6
@@ -28,14 +28,15 @@
 \BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 28
 \BOOKMARK [1][-]{section.5.1}{Summary}{chapter.5}% 29
 \BOOKMARK [1][-]{section.5.2}{Further Work}{chapter.5}% 30
-\BOOKMARK [0][-]{section.5.2}{Bibliography}{}% 31
-\BOOKMARK [0][-]{appendix.A}{File formats}{}% 32
-\BOOKMARK [1][-]{section.A.1}{\(Example/Noisy\) Spectral Image}{appendix.A}% 33
-\BOOKMARK [1][-]{section.A.2}{Example Image Labelling}{appendix.A}% 34
-\BOOKMARK [1][-]{section.A.3}{Label Map}{appendix.A}% 35
-\BOOKMARK [1][-]{section.A.4}{Training Sequence}{appendix.A}% 36
-\BOOKMARK [1][-]{section.A.5}{Output Files}{appendix.A}% 37
-\BOOKMARK [0][-]{appendix.B}{Code for training a decision forest}{}% 38
-\BOOKMARK [0][-]{appendix.C}{Code for classifying using a decision forest}{}% 39
-\BOOKMARK [0][-]{appendix.D}{Project Proposal}{}% 40
-\BOOKMARK [0][-]{appendix.E}{Glossary}{}% 41
+\BOOKMARK [1][-]{section.5.3}{Lessons Learned}{chapter.5}% 31
+\BOOKMARK [0][-]{section.5.3}{Bibliography}{}% 32
+\BOOKMARK [0][-]{appendix.A}{File formats}{}% 33
+\BOOKMARK [1][-]{section.A.1}{\(Example/Noisy\) Spectral Image}{appendix.A}% 34
+\BOOKMARK [1][-]{section.A.2}{Example Image Labelling}{appendix.A}% 35
+\BOOKMARK [1][-]{section.A.3}{Label Map}{appendix.A}% 36
+\BOOKMARK [1][-]{section.A.4}{Training Sequence}{appendix.A}% 37
+\BOOKMARK [1][-]{section.A.5}{Output Files}{appendix.A}% 38
+\BOOKMARK [0][-]{appendix.B}{Code for training a decision forest}{}% 39
+\BOOKMARK [0][-]{appendix.C}{Code for classifying using a decision forest}{}% 40
+\BOOKMARK [0][-]{appendix.D}{Project Proposal}{}% 41
+\BOOKMARK [0][-]{appendix.E}{Glossary}{}% 42

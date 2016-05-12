@@ -10,28 +10,33 @@
 \contentsline {figure}{\numberline {2.6}{\ignorespaces Parallel stream of photons incident on one sensor in a sensor array.\relax }}{15}{figure.caption.18}
 \contentsline {figure}{\numberline {2.7}{\ignorespaces The charge held on a capacitor is linear with respect time, until it hits some maximum \cite {gamal2005cmos}.\relax }}{16}{figure.caption.19}
 \contentsline {figure}{\numberline {2.8}{\ignorespaces Example of Poisson($\mu $) and SPoisson($\mu $, 30) distributions, for $\mu = 5,15,25$.\relax }}{18}{figure.caption.20}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Overview of the system and its intended use.\relax }}{20}{figure.caption.22}
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Overview of the training tools function.\relax }}{21}{figure.caption.23}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Overview of the system and its intended use.\relax }}{21}{figure.caption.22}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Overview of the training tools function.\relax }}{22}{figure.caption.23}
 \contentsline {figure}{\numberline {2.11}{\ignorespaces Overview of the train function.\relax }}{22}{figure.caption.24}
-\contentsline {figure}{\numberline {2.12}{\ignorespaces Overview of the learn from example function.\relax }}{22}{figure.caption.25}
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Overview of the \textit {learn from example} function.\relax }}{23}{figure.caption.25}
 \contentsline {figure}{\numberline {2.13}{\ignorespaces Overview of the pixel labeller function.\relax }}{23}{figure.caption.26}
-\contentsline {figure}{\numberline {2.14}{\ignorespaces Overview of the de-noiser function.\relax }}{23}{figure.caption.27}
+\contentsline {figure}{\numberline {2.14}{\ignorespaces Overview of the de-noiser function.\relax }}{24}{figure.caption.27}
 \contentsline {figure}{\numberline {2.15}{\ignorespaces Overview of the noisy pixel labeller function.\relax }}{24}{figure.caption.28}
-\contentsline {figure}{\numberline {2.16}{\ignorespaces Overview of the backup strategy employed.}}{27}{figure.caption.29}
+\contentsline {figure}{\numberline {2.16}{\ignorespaces Overview of the backup strategy employed.}}{28}{figure.caption.29}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces The dependencies between different packages/modules in the system. Although TrainingTools package is capable of producing training sequence files both the NeuralNetworks and RandomDecisionForests, it only \textit {depends} on RandomDecisionForests as it uses the class \texttt {TrainingSequence}.\relax }}{30}{figure.caption.30}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces An overview of classes in the RandomDecisionForest package.\relax }}{31}{figure.caption.31}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces \texttt {ClassLabel} in figure \ref {fig:forest_uml} a bit closer.\relax }}{32}{figure.caption.32}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces \texttt {Instance} in figure \ref {fig:forest_uml} a bit closer.\relax }}{34}{figure.caption.34}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces \texttt {ProbabilityDistribution} in figure \ref {fig:forest_uml} a bit closer.\relax }}{36}{figure.caption.36}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces \texttt {TrainingSequence} and \texttt {TrainingSample} in figure \ref {fig:forest_uml} a bit closer.\relax }}{40}{figure.caption.39}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces \texttt {SplitParamter} and \texttt {OneDimensionalLinearSplitParameter} in figure \ref {fig:forest_uml} a bit closer.\relax }}{42}{figure.caption.41}
-\contentsline {figure}{\numberline {3.8}{\ignorespaces The \texttt {WeakLearnerType} enum in figure \ref {fig:forest_uml} a bit closer.\relax }}{43}{figure.caption.42}
-\contentsline {figure}{\numberline {3.9}{\ignorespaces \texttt {WeakLearner} and \texttt {OneDimensionalLinearWeakLearner} in figure \ref {fig:forest_uml} a bit closer.\relax }}{44}{figure.caption.43}
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Knowing the minimum and maximum values in each dimension allows us to make an informed choice on split parameters to pick, which in this case is the green zone of values.\relax }}{46}{figure.caption.45}
-\contentsline {figure}{\numberline {3.11}{\ignorespaces \texttt {TreeNode} and \texttt {DecisionForest} in figure \ref {fig:forest_uml} a bit closer.\relax }}{47}{figure.caption.46}
-\contentsline {figure}{\numberline {3.12}{\ignorespaces An example of how \texttt {compact} could be used to reduce the size of a decision tree.\relax }}{48}{figure.caption.47}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The dependencies between different packages/modules in the system. Although the TrainingTools package is capable of producing training sequence files for both the NeuralNetworks and RandomDecisionForests, it only \textit {depends} on RandomDecisionForests as it uses the class \texttt {TrainingSequence}.\relax }}{30}{figure.caption.30}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces An overview of classes in the RandomDecisionForest package, from which relevant sections will be looked at closer when appropriate.\relax }}{31}{figure.caption.31}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces A closer view of \texttt {ClassLabel} in Figure \ref {fig:forest_uml}.\relax }}{32}{figure.caption.32}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces A closer view of \texttt {Instance} in Figure \ref {fig:forest_uml}.\relax }}{34}{figure.caption.34}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces A closer view of \texttt {ProbabilityDistribution} in Figure \ref {fig:forest_uml}.\relax }}{36}{figure.caption.36}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces A closer view of \texttt {TrainingSequence} and \texttt {TrainingSample} in Figure \ref {fig:forest_uml}.\relax }}{40}{figure.caption.39}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces A closer view of \texttt {SplitParamter} and \texttt {OneDimensionalLinearSplitParameter} in figure \ref {fig:forest_uml}.\relax }}{43}{figure.caption.41}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces A closer view of the \texttt {WeakLearnerType} enum in Figure \ref {fig:forest_uml}.\relax }}{44}{figure.caption.42}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces justification=justified,singlelinecheck=false}}{45}{figure.caption.43}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Knowing the minimum and maximum values in each dimension allows us to make an informed choice on split parameters to pick, which in this case is the green zone of values.\relax }}{47}{figure.caption.45}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces A closer view of \texttt {TreeNode} and \texttt {DecisionForest} in Figure \ref {fig:forest_uml}.\relax }}{48}{figure.caption.46}
+\contentsline {figure}{\numberline {3.12}{\ignorespaces An example of how \texttt {compact} could be used to reduce the size of a decision tree.\relax }}{49}{figure.caption.47}
 \contentsline {figure}{\numberline {3.13}{\ignorespaces Visualisation of breadth first vs depth first. Optimisation of information gain takes place over all of the nodes in the frontier. Recreated from Criminisi et al \cite {criminisi2013decision}.\relax }}{54}{figure.caption.52}
+\contentsline {figure}{\numberline {3.14}{\ignorespaces The UML diagram for the training tools, consisting of a single class with a single static method.\relax }}{57}{figure.caption.56}
+\contentsline {figure}{\numberline {3.15}{\ignorespaces The UML diagram for the training tools, consisting of a single class with a single static method.\relax }}{58}{figure.caption.57}
+\contentsline {figure}{\numberline {3.16}{\ignorespaces An example input to the training tools module: a ground truth pixel labelling, a spectral image and a class to colour mapping file (as defined in appendix \ref {app:file_formats}).\relax }}{59}{figure.caption.58}
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Example of part of the output file (2 training samples) from the training tools module. (The actual file is over 88000 lines long).\relax }}{60}{figure.caption.59}
+\contentsline {figure}{\numberline {3.18}{\ignorespaces An example of a pixel labelling we might want to provide, when we wish to ignore large regions of the image.\relax }}{60}{figure.caption.60}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

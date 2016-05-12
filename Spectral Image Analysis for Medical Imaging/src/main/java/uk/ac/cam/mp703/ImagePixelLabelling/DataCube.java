@@ -361,7 +361,7 @@ public class DataCube {
 	 * @throws MalformedForestException
 	 * @throws IOException
 	 */
-	public void generatePixelLabeledImageNeuralNetwork(BasicNetwork classifier, NormalizationHelper helper, 
+	public void generatePixelLabeledImageNeuralNetwork(BasicNetwork network, NormalizationHelper helper, 
 			Map<String, Color> classMap, String filename) throws MalformedForestException, IOException {
 		
 		// Get the file extension, if no extension then throw exception immediately
@@ -390,7 +390,7 @@ public class DataCube {
 				helper.normalizeInputVector(strs, datum.getData(), false);
 				
 				// Use the neural network to provide a classification from the datum
-				MLData output = classifier.compute(datum);
+				MLData output = network.compute(datum);
 				
 				// Get the class from the output
 				String clazz = helper.denormalizeOutputVectorToString(output)[0];

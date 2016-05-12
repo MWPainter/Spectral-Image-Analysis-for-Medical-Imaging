@@ -1,8 +1,8 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Terminology and preliminary definitions}{1}{section.1.1}
-\contentsline {section}{\numberline {1.2}What are we trying to do?}{3}{section.1.2}
+\contentsline {section}{\numberline {1.2}Aims of the project}{4}{section.1.2}
 \contentsline {section}{\numberline {1.3}Possible solutions}{4}{section.1.3}
-\contentsline {section}{\numberline {1.4}Related work}{4}{section.1.4}
+\contentsline {section}{\numberline {1.4}Related work}{5}{section.1.4}
 \contentsline {chapter}{\numberline {2}Preparation}{7}{chapter.2}
 \contentsline {section}{\numberline {2.1}An introduction to image segmentation}{7}{section.2.1}
 \contentsline {section}{\numberline {2.2}Supervised learning for classification}{8}{section.2.2}
@@ -20,18 +20,18 @@
 \contentsline {section}{\numberline {2.7}Requirements analysis}{19}{section.2.7}
 \contentsline {section}{\numberline {2.8}System Design}{20}{section.2.8}
 \contentsline {subsection}{\numberline {2.8.1}Pipeline/Overview}{20}{subsection.2.8.1}
-\contentsline {subsection}{\numberline {2.8.2}Interface/Usage}{20}{subsection.2.8.2}
+\contentsline {subsection}{\numberline {2.8.2}Interface/Usage}{21}{subsection.2.8.2}
 \contentsline {subsubsection}{\numberline {2.8.2.1}Training Tools}{21}{subsubsection.2.8.2.1}
-\contentsline {subsubsection}{\numberline {2.8.2.2}Train}{21}{subsubsection.2.8.2.2}
+\contentsline {subsubsection}{\numberline {2.8.2.2}Train}{22}{subsubsection.2.8.2.2}
 \contentsline {subsubsection}{\numberline {2.8.2.3}Learn From Example}{22}{subsubsection.2.8.2.3}
-\contentsline {subsubsection}{\numberline {2.8.2.4}Pixel Labeller}{22}{subsubsection.2.8.2.4}
-\contentsline {subsubsection}{\numberline {2.8.2.5}De-Noiser}{23}{subsubsection.2.8.2.5}
-\contentsline {subsubsection}{\numberline {2.8.2.6}Noisy Pixel Labeller}{23}{subsubsection.2.8.2.6}
-\contentsline {section}{\numberline {2.9}Languages and tools}{24}{section.2.9}
-\contentsline {section}{\numberline {2.10}Software engineering techniques}{25}{section.2.10}
-\contentsline {subsection}{\numberline {2.10.1}Development model}{25}{subsection.2.10.1}
+\contentsline {subsubsection}{\numberline {2.8.2.4}Pixel Labeller}{23}{subsubsection.2.8.2.4}
+\contentsline {subsubsection}{\numberline {2.8.2.5}De-Noiser}{24}{subsubsection.2.8.2.5}
+\contentsline {subsubsection}{\numberline {2.8.2.6}Noisy Pixel Labeller}{24}{subsubsection.2.8.2.6}
+\contentsline {section}{\numberline {2.9}Languages and tools}{25}{section.2.9}
+\contentsline {section}{\numberline {2.10}Software engineering techniques}{26}{section.2.10}
+\contentsline {subsection}{\numberline {2.10.1}Development model}{26}{subsection.2.10.1}
 \contentsline {subsection}{\numberline {2.10.2}Testing}{26}{subsection.2.10.2}
-\contentsline {subsection}{\numberline {2.10.3}Backup Plan}{26}{subsection.2.10.3}
+\contentsline {subsection}{\numberline {2.10.3}Backup Plan}{27}{subsection.2.10.3}
 \contentsline {chapter}{\numberline {3}Implementation}{29}{chapter.3}
 \contentsline {section}{\numberline {3.1}Random Forests Library}{30}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}Data structures}{32}{subsection.3.1.1}
@@ -41,40 +41,39 @@
 \contentsline {subsubsection}{\numberline {3.1.1.4}Training Sequences}{39}{subsubsection.3.1.1.4}
 \contentsline {subsubsection}{\numberline {3.1.1.5}Split Parameters}{42}{subsubsection.3.1.1.5}
 \contentsline {subsubsection}{\numberline {3.1.1.6}Weak Learners}{43}{subsubsection.3.1.1.6}
-\contentsline {subsubsection}{\numberline {3.1.1.7}Decision Tree Node}{46}{subsubsection.3.1.1.7}
-\contentsline {subsubsection}{\numberline {3.1.1.8}Decision Forest}{50}{subsubsection.3.1.1.8}
-\contentsline {subsection}{\numberline {3.1.2}Training}{50}{subsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.1.7}Decision Tree Node}{47}{subsubsection.3.1.1.7}
+\contentsline {subsubsection}{\numberline {3.1.1.8}Decision Forest}{51}{subsubsection.3.1.1.8}
+\contentsline {subsection}{\numberline {3.1.2}Training}{51}{subsection.3.1.2}
 \contentsline {subsection}{\numberline {3.1.3}Classification}{55}{subsection.3.1.3}
 \contentsline {section}{\numberline {3.2}Neural Networks}{56}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Training}{56}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Classification}{57}{subsection.3.2.2}
-\contentsline {section}{\numberline {3.3}Pixel Labelling}{57}{section.3.3}
-\contentsline {section}{\numberline {3.4}Training Tools}{57}{section.3.4}
-\contentsline {section}{\numberline {3.5}De-noising}{57}{section.3.5}
-\contentsline {section}{\numberline {3.6}Application on example data sets}{58}{section.3.6}
-\contentsline {subsection}{\numberline {3.6.1}Siri's data}{58}{subsection.3.6.1}
-\contentsline {subsection}{\numberline {3.6.2}Teng's data}{58}{subsection.3.6.2}
-\contentsline {chapter}{\numberline {4}Evaluation}{59}{chapter.4}
-\contentsline {section}{\numberline {4.1}Performance measures for classifiers}{59}{section.4.1}
-\contentsline {section}{\numberline {4.2}Evaluation of the Random Forests library}{59}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Training time}{60}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Classification time}{60}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}The effect of the number of trees}{60}{subsection.4.2.3}
-\contentsline {subsection}{\numberline {4.2.4}The effect of the depth of trees}{60}{subsection.4.2.4}
-\contentsline {subsection}{\numberline {4.2.5}The effect of the randomness of trees}{60}{subsection.4.2.5}
-\contentsline {subsection}{\numberline {4.2.6}The effect of normalisation}{60}{subsection.4.2.6}
-\contentsline {section}{\numberline {4.3}The effect of the de-noising component}{60}{section.4.3}
-\contentsline {chapter}{\numberline {5}Conclusion}{61}{chapter.5}
-\contentsline {section}{\numberline {5.1}Summary}{61}{section.5.1}
-\contentsline {section}{\numberline {5.2}Further Work}{61}{section.5.2}
-\contentsline {chapter}{Bibliography}{63}{section.5.2}
-\contentsline {chapter}{\numberline {A}File formats}{67}{appendix.A}
-\contentsline {section}{\numberline {A.1}(Example/Noisy) Spectral Image}{67}{section.A.1}
-\contentsline {section}{\numberline {A.2}Example Image Labelling}{67}{section.A.2}
-\contentsline {section}{\numberline {A.3}Label Map}{67}{section.A.3}
-\contentsline {section}{\numberline {A.4}Training Sequence}{67}{section.A.4}
-\contentsline {section}{\numberline {A.5}Output Files}{68}{section.A.5}
-\contentsline {chapter}{\numberline {B}Code for training a decision forest}{69}{appendix.B}
-\contentsline {chapter}{\numberline {C}Code for classifying using a decision forest}{73}{appendix.C}
-\contentsline {chapter}{\numberline {D}Project Proposal}{77}{appendix.D}
-\contentsline {chapter}{\numberline {E}Glossary}{89}{appendix.E}
+\contentsline {section}{\numberline {3.3}Pixel Labelling}{56}{section.3.3}
+\contentsline {section}{\numberline {3.4}Training Tools}{58}{section.3.4}
+\contentsline {section}{\numberline {3.5}De-noising}{60}{section.3.5}
+\contentsline {section}{\numberline {3.6}Application on example data sets}{61}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Siri's data}{61}{subsection.3.6.1}
+\contentsline {subsection}{\numberline {3.6.2}Teng's data}{61}{subsection.3.6.2}
+\contentsline {chapter}{\numberline {4}Evaluation}{63}{chapter.4}
+\contentsline {section}{\numberline {4.1}Performance measures for classifiers}{63}{section.4.1}
+\contentsline {section}{\numberline {4.2}Evaluation of the Random Forests library}{63}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Training time}{64}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Classification time}{64}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}The effect of the number of trees}{64}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}The effect of the depth of trees}{64}{subsection.4.2.4}
+\contentsline {subsection}{\numberline {4.2.5}The effect of the randomness of trees}{64}{subsection.4.2.5}
+\contentsline {subsection}{\numberline {4.2.6}The effect of normalisation}{64}{subsection.4.2.6}
+\contentsline {section}{\numberline {4.3}The effect of the de-noising component}{64}{section.4.3}
+\contentsline {chapter}{\numberline {5}Conclusion}{65}{chapter.5}
+\contentsline {section}{\numberline {5.1}Summary}{65}{section.5.1}
+\contentsline {section}{\numberline {5.2}Further Work}{65}{section.5.2}
+\contentsline {section}{\numberline {5.3}Lessons Learned}{65}{section.5.3}
+\contentsline {chapter}{Bibliography}{67}{section.5.3}
+\contentsline {chapter}{\numberline {A}File formats}{71}{appendix.A}
+\contentsline {section}{\numberline {A.1}(Example/Noisy) Spectral Image}{71}{section.A.1}
+\contentsline {section}{\numberline {A.2}Example Image Labelling}{71}{section.A.2}
+\contentsline {section}{\numberline {A.3}Label Map}{71}{section.A.3}
+\contentsline {section}{\numberline {A.4}Training Sequence}{71}{section.A.4}
+\contentsline {section}{\numberline {A.5}Output Files}{72}{section.A.5}
+\contentsline {chapter}{\numberline {B}Code for training a decision forest}{73}{appendix.B}
+\contentsline {chapter}{\numberline {C}Code for classifying using a decision forest}{79}{appendix.C}
+\contentsline {chapter}{\numberline {D}Project Proposal}{83}{appendix.D}
+\contentsline {chapter}{\numberline {E}Glossary}{95}{appendix.E}
