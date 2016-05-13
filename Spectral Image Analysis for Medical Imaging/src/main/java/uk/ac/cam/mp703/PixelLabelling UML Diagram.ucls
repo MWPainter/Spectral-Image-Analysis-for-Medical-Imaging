@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <enumeration id="1" language="java" name="uk.ac.cam.mp703.ImagePixelLabelling.LabelledImageType" 
+    project="Spectral Image Analysis for Medical Imaging" 
+    file="/Spectral Image Analysis for Medical Imaging/src/main/java/uk/ac/cam/mp703/ImagePixelLabelling/LabelledImageType.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="155" width="317" x="99" y="82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="2" language="java" name="uk.ac.cam.mp703.ImagePixelLabelling.DataCubeException" 
+    project="Spectral Image Analysis for Medical Imaging" 
+    file="/Spectral Image Analysis for Medical Imaging/src/main/java/uk/ac/cam/mp703/ImagePixelLabelling/DataCubeException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="119" width="188" x="456" y="82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="uk.ac.cam.mp703.ImagePixelLabelling.DataCube" 
+    project="Spectral Image Analysis for Medical Imaging" 
+    file="/Spectral Image Analysis for Medical Imaging/src/main/java/uk/ac/cam/mp703/ImagePixelLabelling/DataCube.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="443" width="629" x="684" y="82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

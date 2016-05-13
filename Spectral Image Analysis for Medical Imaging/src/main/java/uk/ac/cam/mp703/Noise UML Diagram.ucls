@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="uk.ac.cam.mp703.Noise.ArtificialNoise" 
+    project="Spectral Image Analysis for Medical Imaging" 
+    file="/Spectral Image Analysis for Medical Imaging/src/main/java/uk/ac/cam/mp703/Noise/ArtificialNoise.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="155" width="271" x="163" y="188"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="uk.ac.cam.mp703.Noise.Denoise" 
+    project="Spectral Image Analysis for Medical Imaging" 
+    file="/Spectral Image Analysis for Medical Imaging/src/main/java/uk/ac/cam/mp703/Noise/Denoise.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="119" width="227" x="474" y="188"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

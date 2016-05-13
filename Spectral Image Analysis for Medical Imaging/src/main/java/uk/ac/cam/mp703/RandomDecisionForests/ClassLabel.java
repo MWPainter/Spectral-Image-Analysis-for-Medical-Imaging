@@ -257,6 +257,6 @@ public class ClassLabel implements Serializable {
 	@Override
 	public int hashCode() {
 		// The id and colour should both be unique, and suitable for a hash
-		return Integer.hashCode(classId);
+		return name.hashCode();
 	}
 }

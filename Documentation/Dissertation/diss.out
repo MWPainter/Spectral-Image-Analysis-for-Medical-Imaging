@@ -7,36 +7,38 @@
 \BOOKMARK [1][-]{section.2.1}{An introduction to image segmentation}{chapter.2}% 7
 \BOOKMARK [1][-]{section.2.2}{Supervised learning for classification}{chapter.2}% 8
 \BOOKMARK [1][-]{section.2.3}{Decision trees and random forests}{chapter.2}% 9
-\BOOKMARK [1][-]{section.2.4}{Neural Networks}{chapter.2}% 10
-\BOOKMARK [1][-]{section.2.5}{Imaging and image noise}{chapter.2}% 11
-\BOOKMARK [1][-]{section.2.6}{TVMM Image De-Noising}{chapter.2}% 12
-\BOOKMARK [1][-]{section.2.7}{Requirements analysis}{chapter.2}% 13
-\BOOKMARK [1][-]{section.2.8}{System Design}{chapter.2}% 14
-\BOOKMARK [1][-]{section.2.9}{Languages and tools}{chapter.2}% 15
-\BOOKMARK [1][-]{section.2.10}{Software engineering techniques}{chapter.2}% 16
-\BOOKMARK [0][-]{chapter.3}{Implementation}{}% 17
-\BOOKMARK [1][-]{section.3.1}{Random Forests Library}{chapter.3}% 18
-\BOOKMARK [1][-]{section.3.2}{Neural Networks}{chapter.3}% 19
-\BOOKMARK [1][-]{section.3.3}{Pixel Labelling}{chapter.3}% 20
-\BOOKMARK [1][-]{section.3.4}{Training Tools}{chapter.3}% 21
-\BOOKMARK [1][-]{section.3.5}{De-noising}{chapter.3}% 22
-\BOOKMARK [1][-]{section.3.6}{Application on example data sets}{chapter.3}% 23
-\BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 24
-\BOOKMARK [1][-]{section.4.1}{Performance measures for classifiers}{chapter.4}% 25
-\BOOKMARK [1][-]{section.4.2}{Evaluation of the Random Forests library}{chapter.4}% 26
-\BOOKMARK [1][-]{section.4.3}{The effect of the de-noising component}{chapter.4}% 27
-\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 28
-\BOOKMARK [1][-]{section.5.1}{Summary}{chapter.5}% 29
-\BOOKMARK [1][-]{section.5.2}{Further Work}{chapter.5}% 30
-\BOOKMARK [1][-]{section.5.3}{Lessons Learned}{chapter.5}% 31
-\BOOKMARK [0][-]{section.5.3}{Bibliography}{}% 32
-\BOOKMARK [0][-]{appendix.A}{File formats}{}% 33
-\BOOKMARK [1][-]{section.A.1}{\(Example/Noisy\) Spectral Image}{appendix.A}% 34
-\BOOKMARK [1][-]{section.A.2}{Example Image Labelling}{appendix.A}% 35
-\BOOKMARK [1][-]{section.A.3}{Label Map}{appendix.A}% 36
-\BOOKMARK [1][-]{section.A.4}{Training Sequence}{appendix.A}% 37
-\BOOKMARK [1][-]{section.A.5}{Output Files}{appendix.A}% 38
-\BOOKMARK [0][-]{appendix.B}{Code for training a decision forest}{}% 39
-\BOOKMARK [0][-]{appendix.C}{Code for classifying using a decision forest}{}% 40
-\BOOKMARK [0][-]{appendix.D}{Project Proposal}{}% 41
-\BOOKMARK [0][-]{appendix.E}{Glossary}{}% 42
+\BOOKMARK [1][-]{section.2.4}{Neural networks}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.5}{Requirements analysis}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.6}{System Design}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.7}{Languages and tools}{chapter.2}% 13
+\BOOKMARK [1][-]{section.2.8}{Software engineering techniques}{chapter.2}% 14
+\BOOKMARK [0][-]{chapter.3}{Implementation}{}% 15
+\BOOKMARK [1][-]{section.3.1}{Random Forests Library}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.2}{Neural Networks}{chapter.3}% 17
+\BOOKMARK [1][-]{section.3.3}{Pixel Labelling}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.4}{Training Tools}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.5}{De-noising}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.6}{Application on example data sets}{chapter.3}% 21
+\BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 22
+\BOOKMARK [1][-]{section.4.1}{Performance measures for classifiers}{chapter.4}% 23
+\BOOKMARK [1][-]{section.4.2}{Evaluation of the Random Forests library}{chapter.4}% 24
+\BOOKMARK [1][-]{section.4.3}{The effect of the de-noising component}{chapter.4}% 25
+\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 26
+\BOOKMARK [1][-]{section.5.1}{Summary}{chapter.5}% 27
+\BOOKMARK [1][-]{section.5.2}{Further Work}{chapter.5}% 28
+\BOOKMARK [1][-]{section.5.3}{Lessons Learned}{chapter.5}% 29
+\BOOKMARK [0][-]{section.5.3}{Bibliography}{}% 30
+\BOOKMARK [0][-]{appendix.A}{File formats}{}% 31
+\BOOKMARK [1][-]{section.A.1}{Example Spectral Image}{appendix.A}% 32
+\BOOKMARK [1][-]{section.A.2}{Example Image Labelling}{appendix.A}% 33
+\BOOKMARK [1][-]{section.A.3}{Label Map}{appendix.A}% 34
+\BOOKMARK [1][-]{section.A.4}{Training Sequence}{appendix.A}% 35
+\BOOKMARK [1][-]{section.A.5}{Output Files}{appendix.A}% 36
+\BOOKMARK [0][-]{appendix.B}{Imaging and image noise}{}% 37
+\BOOKMARK [1][-]{section.B.1}{Image sensor arrays}{appendix.B}% 38
+\BOOKMARK [1][-]{section.B.2}{Quantum noise}{appendix.B}% 39
+\BOOKMARK [1][-]{section.B.3}{Additive White Gaussian Noise}{appendix.B}% 40
+\BOOKMARK [0][-]{appendix.C}{Code for training a decision forest}{}% 41
+\BOOKMARK [0][-]{appendix.D}{Code for classifying using a decision forest}{}% 42
+\BOOKMARK [0][-]{appendix.E}{Project Proposal}{}% 43
+\BOOKMARK [0][-]{appendix.F}{Glossary}{}% 44

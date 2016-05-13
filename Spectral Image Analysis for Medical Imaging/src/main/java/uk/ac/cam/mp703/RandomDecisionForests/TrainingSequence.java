@@ -406,7 +406,7 @@ public class TrainingSequence implements Serializable {
 		int i = 0;
 		for(T obj : set) {
 		    if (i == r) {
-		    	set.remove(obj);
+		    	//set.remove(obj);
 		        return obj;
 		    }
 		    i++;

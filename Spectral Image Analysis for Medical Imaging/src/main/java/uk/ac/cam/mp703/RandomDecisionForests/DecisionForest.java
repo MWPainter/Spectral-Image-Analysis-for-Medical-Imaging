@@ -235,15 +235,15 @@ public class DecisionForest implements Cloneable, Serializable {
 		
 		// Compute the trees votes in parallel, and then add them together in an accumulating 
 		// probability distribution
-		Set<Thread> threads = new HashSet<>();
+//		Set<Thread> threads = new HashSet<>();
 		for (final TreeNode node : rootNodes) {
 			
 			// Run the traversal in a new thread
-			Thread thread = new Thread() {
-				public void run() {
+//			Thread thread = new Thread() {
+//				public void run() {
 				// Traverse to the leaf distribution, then add it to the accumulating
 				ProbabilityDistribution leafDistr = node.traverseTree(splitter, instance);
-					synchronized(wrapper) {
+//					synchronized(wrapper) {
 						if (wrapper.distributionsSummed == 0) {
 							wrapper.accDistr = leafDistr;
 						}
@@ -251,17 +251,17 @@ public class DecisionForest implements Cloneable, Serializable {
 							wrapper.accDistr.addRunningTotal(leafDistr, wrapper.distributionsSummed+1);
 						}
 						wrapper.distributionsSummed++;
-					}
-				}
-			};
-			threads.add(thread);
+//					}
+//				}
+//			};
+//			threads.add(thread);
 			
 		}
 		
 		// Wait for the threads to finish
-		for (Thread thread : threads) {
-			thread.join();
-		}
+//		for (Thread thread : threads) {
+//			thread.join();
+//		}
 		
 		// Return the probability distribution
 		return wrapper.accDistr;

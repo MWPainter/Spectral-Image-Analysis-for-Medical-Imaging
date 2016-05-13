@@ -87,14 +87,14 @@ public class Learner implements Serializable {
 
 		// Use a new thread to build each tree
 		final Set<DecisionForest.TreeNode> rootNodes = new HashSet<>();
-		Set<Thread> workers = new HashSet<>(); 
+//		Set<Thread> workers = new HashSet<>(); 
 		for (int i = 0; i < maxTrees; i++) {
 			
 			// Train the new tree in its own thread
-			Thread thread = new Thread() {
-				public void run() {
+//			Thread thread = new Thread() {
+//				public void run() {
 					// Perform bagging of the training sequence if we want
-					TrainingSequence ts = trainingSequence.bag();
+					TrainingSequence ts = trainingSequence;
 					if (bagging) {
 						ts = trainingSequence.bag();
 					}
@@ -103,20 +103,20 @@ public class Learner implements Serializable {
 					TreeNode node = generateTree(ts, weakLearner, maxDepth, 
 							randomnessParameter, informationGainCutoff);
 					node.compact();
-					synchronized(rootNodes) {
+//					synchronized(rootNodes) {
 						rootNodes.add(node);
 						System.out.println("Tree number " + rootNodes.size() + " trained.");
-					}
-				}	
-			};
-			thread.start();
-			workers.add(thread);
+//					}
+//				}	
+//			};
+//			thread.start();
+//			workers.add(thread);
 		}
 		
 		// Wait for the threads to finish
-		for (Thread thread : workers) {
-			thread.join();
-		}
+//		for (Thread thread : workers) {
+//			thread.join();
+//		}
 		
 		// Add the root nodes to the forest structure
 		forest.setRootNodes(rootNodes);

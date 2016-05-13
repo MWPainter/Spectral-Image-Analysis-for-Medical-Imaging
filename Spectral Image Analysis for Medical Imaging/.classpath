@@ -6,6 +6,10 @@
 	<classpathentry kind="lib" path="commons-math3-3.0.jar"/>
 	<classpathentry kind="lib" path="encog-core-3.3.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/michaelpainter/Google Drive/Documents/Uni (undergrad - Cambridge)/Year_II/Spectral Image Analysis for Medical Imaging/Spectral Image Analysis for Medical Imaging/boofcv-0.15.jar"/>
+	<classpathentry kind="lib" path="/Users/michaelpainter/Google Drive/Documents/Uni (undergrad - Cambridge)/Year_II/Spectral Image Analysis for Medical Imaging/Spectral Image Analysis for Medical Imaging/core-0.29.jar"/>
+	<classpathentry kind="lib" path="/Users/michaelpainter/Google Drive/Documents/Uni (undergrad - Cambridge)/Year_II/Spectral Image Analysis for Medical Imaging/Spectral Image Analysis for Medical Imaging/BoofCV-io-0.23.jar"/>
+	<classpathentry kind="lib" path="/Users/michaelpainter/Google Drive/Documents/Uni (undergrad - Cambridge)/Year_II/Spectral Image Analysis for Medical Imaging/Spectral Image Analysis for Medical Imaging/BoofCV-ip-0.23.jar"/>
+	<classpathentry kind="lib" path="/Users/michaelpainter/Google Drive/Documents/Uni (undergrad - Cambridge)/Year_II/Spectral Image Analysis for Medical Imaging/Spectral Image Analysis for Medical Imaging/xstream-1.4.7.jar"/>
+	<classpathentry kind="lib" path="/Users/michaelpainter/Google Drive/Documents/Uni (undergrad - Cambridge)/Year_II/Spectral Image Analysis for Medical Imaging/Spectral Image Analysis for Medical Imaging/ddogleg-0.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

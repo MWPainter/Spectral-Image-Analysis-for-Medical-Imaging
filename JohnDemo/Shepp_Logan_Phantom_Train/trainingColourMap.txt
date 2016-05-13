@@ -1,0 +1,11 @@
+Skeleton, 0xFF0000,
+Tissue, 0x00FF00,
+LeftOrgan, 0xffff00,
+CentreOrgan, 0x0000ff,
+RightOrgan, 0xff00ff,
+Artifact1, 0x00ffff,
+Artifact2, 0xffffff,
+Artifact3, 0xff7f00,
+Artifact4, 0x008100,
+Artifact5, 0x8c00ff,
+Background, 0x000000

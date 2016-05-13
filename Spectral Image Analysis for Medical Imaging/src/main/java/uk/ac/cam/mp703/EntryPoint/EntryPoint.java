@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import uk.ac.cam.mp703.ImagePixelLabelling.DataCube;
 import uk.ac.cam.mp703.ImagePixelLabelling.LabelledImageType;
 import uk.ac.cam.mp703.Noise.ArtificialNoise;
+import uk.ac.cam.mp703.Noise.Denoise;
 import uk.ac.cam.mp703.RandomDecisionForests.ClassLabel;
 import uk.ac.cam.mp703.RandomDecisionForests.DecisionForest;
 import uk.ac.cam.mp703.RandomDecisionForests.FileFormatException;
@@ -42,7 +43,8 @@ public class EntryPoint {
 		"runNN",
 		"applyPoissonNoise",
 		"applyGaussianNoise",
-		"trainingTool"
+		"trainingTool",
+		"denoise"
 	};
 
 	/***
@@ -195,6 +197,11 @@ public class EntryPoint {
 			// GENERATE A TRAINING SEQUENCE FROM AN EXAMPLE LABELLING
 			mainTrainingTools(args[1], args[2], args[3], args[4]);
 			
+			
+		} else if (args[0].equals(tasks[9])) {
+			// DE-NOISE A DATA CUBE
+			// (we can just pass directly to the denoise function)
+			Denoise.denoiseDataCube(args[1], args[2]);
 			
 		} else {
 			System.out.println("First argument isn't a valid task. \n\n");
@@ -566,7 +573,7 @@ public class EntryPoint {
 	 */
 	private static void printUsage(PrintStream o) {
 		o.println("Please use the the jar in the following way:");
-		o.println("java -jar SIC.jar <task> <arguments>");
+		o.println("java -jar SIAMI.jar <task> <arguments>");
 		o.println("<task> is a string specifying the task to perform. <arguments> is a "
 				+ "\nspace sepearated list of arguments passed to the task.");
 		o.println("\n\n");
@@ -606,7 +613,7 @@ public class EntryPoint {
 		o.println("\t arg8 = normaliseSpectra (bool) (true/false/yes/no)");
 		o.println("\t\t Should image spectra be normalised when labelling "
 				+ "\n\t\t and training? (Normalise power of the spectrum.)");
-		o.println("\t arg8 = bagging (bool) (true/false/yes/no)");
+		o.println("\t arg9 = bagging (bool) (true/false/yes/no)");
 		o.println("\t\t Should we perform bagging of the training sequence "
 				+ "\n\t\t whilst training the forest?");
 		o.println();
@@ -685,6 +692,19 @@ public class EntryPoint {
 		o.println("\t\t The intended filename for the training sequence being generated."
 				+ "\n\t\t If the file already exists, then we APPEND the new data to "
 				+ "\n\t\t this new file.");
+		o.println();
+		o.println("Denoise a datacube.");
+		o.println("<task> = " + tasks[9]);
+		o.println("\t arg1 = inputImageSpecifier (string)");
+		o.println("\t\t The specficier of the image. This is either just the "
+				+ "\n\t\t filename of an RGB image or if it contains a '%' "
+				+ "\n\t\t character it will replace the '%' with numbers to form "
+				+ "\n\t\t an image with higher dimensions.");
+		o.println("\t arg2 = outputImageSpecifier (string)");
+		o.println("\t\t The specficier of the image. This is either just the "
+				+ "\n\t\t filename of an RGB image or if it contains a '%' "
+				+ "\n\t\t character it will replace the '%' with numbers to form "
+				+ "\n\t\t an image with higher dimensions.");
 		
 	}
 

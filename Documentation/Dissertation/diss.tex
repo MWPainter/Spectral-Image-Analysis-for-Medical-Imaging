@@ -34,6 +34,7 @@
 \usepackage{hyperref}               % Reference urls
 \usepackage{tabularx}               % Allows the width of a tabular environment to be specified along with the use of X in the collumn specifiers
 \usepackage{mathtools}
+\usepackage{hyperref}
 \usepackage[bottom]{footmisc}
 
 % Shorthands
@@ -71,6 +72,13 @@
     calc,
     petri,
     patterns,
+    shapes.misc,
+    patterns,
+    matrix,
+    chains,
+    positioning,
+    decorations.pathreplacing,
+    arrows,
 }
 
 % Tikz styles
@@ -333,8 +341,9 @@ purpose.
 
 I thank my supervisors, director of studies and tutor for their extensive support, especially for putting up with me 
 throughout the year. I would like to thank Malavika Nair, Ioana Bica and Clare Pacini for diligently proofreading 
-this dissertation when it was abruptly thrust into their hands and also for their general support, helping me keep it together 
-through the tougher parts of the year. Further thanks to Yanie de Nadaillac for being a general life coach when needed.
+this dissertation when it was abruptly thrust into their hands and also for their general support, helping me keep 
+it together through the tougher parts of the year. Further thanks to are definitely due to Yanie de Nadaillac for 
+basically being my general life coach.
 
 
 
@@ -602,9 +611,8 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 \cleardoublepage
 \chapter{Preparation}
     In this section we will introduce the area of image segmentation and how we may perform segmentation. Then we 
-    introduce decision trees and explain the supervised learning method of random forests. Since many medical imaging 
-    techniques tend to require short exposure times they frequently exhibit visible noise, leading to grainy images. Thus 
-    we then discuss how we may want to model the noise and how we can deal with this. In the second half of the chapter 
+    introduce decision trees and explain the supervised learning methods of random forests and neural networks. In the 
+    second half of the chapter 
     we outline the design with a requirements analysis, pipeline overview, what tools we will use and a backup strategy 
     to avoid loosing any work.
 
@@ -628,7 +636,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
         \begin{align}
             \Omega = \bigcup\limits_{i=1}^n S_i \\
-            S_i \cap S_j = \emptyset && \text{for all } i \neq j 
+            S_i \cap S_j = \emptyset && \forall i,j \in \{1,\ldots,n\}. i \neq j 
         \end{align}
 
         where each $S_i$ is connected, which means that there is a path between any two pixels of $S_i$. 
@@ -662,12 +670,14 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
         \begin{align}
             h_{\ML} = \argmax_{h\in\cl{H}} \Pr(h | \vc{s})
+            \label{eq:max_likelihood}
         \end{align}
 
         or picking
 
         \begin{align}
             h_{\MAP} = \argmax_{h\in\cl{H}} \Pr(\vc{s} | h) \Pr(h)
+            \label{eq:max_a_posteriori}
         \end{align} 
 
         where $\ML$ stands for \textit{maximum likelihood} and $\MAP$ stands for \textit{maximum a-posteriori}. The $\MAP$ 
@@ -681,6 +691,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
         
         \begin{align}
             h(\vc{x}) = \argmax_{c\in\cl{C}} h'(\vc{x})(c)
+            \label{eq:weird_hyp}
         \end{align}
 
         which is `the most likely class'.
@@ -758,8 +769,8 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
             \begin{figure}
                 \centering
-                \includegraphics[scale=0.5]{tree_node_labels}
-                \caption{Example of node numberings in a decision tree.}
+                \includegraphics[scale=0.8]{tree_node_labels}
+                \caption[Example of node numberings in a decision tree.]{Example of node numberings in a decision tree. Reproduced from Criminisini et al \cite{criminisi2012decision}.}
             \end{figure}
 
             For our model we specify some function $f:\bb{R}^d \times \cl{T} \rightarrow \bb{B}$, where $\cl{T}$ is some 
@@ -774,7 +785,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 p_j(c) = \Pr(\vc{x} \in c | \vc{x} \text{ traversed to } j \text{ in } T).
             \end{align}
 
-            As it can be seen in Figure \ref{fig:decision_tree_classify} to classify some instance $\vc{x}$ using a 
+            As it can be seen in Figure \ref{fig:decision_tree_classify} in order to classify some instance $\vc{x}$ using a 
             decision tree $T$ we simply traverse $T$ using $f_i$ at each node $i \in Q$ to make a decision whether 
             to traverse to $2i$ or $2i+1$ next. We usually use the following rule: if $f_i(\vc{x}) = 0$ then traverse to 
             $2i$, otherwise if $f_i(\vc{x}) = 1$ then traverse to $2i+1$. \cite{criminisi2013decision}
@@ -782,7 +793,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
             \begin{figure}
                 \centering
                 \includegraphics[scale=0.5]{tree_example_classification}
-                \caption{Example of how some instance $\vc{x}$ would be classified using a decision tree.}
+                \caption[Example of how some instance $\vc{v}$ would be classified using a decision tree.]{Example of how some instance $\vc{v}$ would be classified using a decision tree. Partially reproduced from Criminisini et al \cite{criminisi2012decision}.}
                 \label{fig:decision_tree_classify}
             \end{figure}
 
@@ -875,206 +886,108 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
 
 
-    \section{Neural Networks}
+    \section{Neural networks} \label{sec:neuralnetworkdef}
         We now move on to describe a second method of supervised learning, neural networks. We begin 
         by defining a single neuron and how it operates, then develop the idea into a neural network. Then the 
         general idea of how to train a neural network is explained.
+
+            \subsection{Neural network definitions}
+
+                A neuron has a number of inputs, say $\{a_i\}$, for each $a_i$ there is a weight $w_i$ and each neuron also has 
+                some \textit{bias} value $b$, as can be seen in Figure \ref{fig:neuron}. Each node has some 
+                \textit{activation function} $\sigma$, to which the weighted sum of inputs $z = \sum_{i} a_iw_i + b$ is input. 
+                The value of the neurons output $a'$ called the \textit{activation} is:
+                
+                \begin{align}
+                    a' = \sigma(z) = \sigma\left(\sum_i a_iw_i + b \right).
+                \end{align}
+
+                \begin{figure}
+                    \centering
+                    \includegraphics[scale=0.5]{neuron}
+                    \caption{Example of an (artificial) neuron, with 3 inputs.}
+                    \label{fig:neuron}
+                \end{figure}
+
+                A commonly used activation function is the \textit{sigmoid} function:
+
+                \begin{align}
+                    \sigma(z) = \frac{1}{1+e^{-z}}.
+                \end{align}
+
+                A single neuron is pretty basic by itself and cannot solve parity problems, however they can be organised into 
+                networks to compute more complex functions, where the output of one neuron is the input of another. A typical 
+                arrangement is a \textit{feedforward} network (one without any loops), with the neurons arranged into layers. 
+
+                \begin{figure}
+                    \centering
+                    \includegraphics[scale=0.5]{neuralnetwork}
+                    \caption{Example of a feed forward neural network.}
+                    \label{fig:neuron}
+                \end{figure}
+
+                The input to each neuron in layer $L+1$ is the activation (output) of neurons in layer $L$.
+                Let $a_j^L$ be the activation of the $j$th neuron in layer $L$, with bias $b_j^L$. The weights from layer $L$ to 
+                layer $L+1$, from the $j$th node of layer $L$ to the $i$th node of layer $L+1$ are denoted $w_{ji}^{L+1}$. The 
+                situation can be visualised in Figure \ref{fig:feedforwardNetwork}.
+
+                \begin{figure}
+                    \centering
+                    \includegraphics[scale=0.5]{neuralnetwork_with_vals}
+                    \caption[A neural network showing internal values.]{A neural network showing internal values. Computation of values in the network is known as \textit{forward propagation}.}
+                    \label{fig:feedforwardNetwork}
+                \end{figure}
+
+
+            \subsection{Training a neural network}
+
+                A feed forward neural network can be thought of as a function $f:\bb{R}^n \times \bb{R}^m \rightarrow \bb{R}^k$, 
+                if there $n$ inputs to the network, $k$ outputs and $m$ weights. Suppose we have a training sequence $\vc{s} = 
+                ((\vc{x}_1, \vc{y}_1), ..., (\vc{x}_\ell, \vc{y}_\ell)$ where for each $1\leq i \leq \ell$ we have $\vc{x}_i 
+                \in \bb{R}^n$ and $\vc{y}_j \in \bb{R}^k$. 
+
+                It is possible to find a suitable hypothesis $h:\bb{R}^n \rightarrow \bb{R}^k$ 
+                where $h(\cdot) = f(\cdot;\vc{w})$ for a suitable $\vc{w}$. Suitable values of $\vc{w}$ can be found by 
+                solving an optimisation problem such as:
+                
+                \begin{align}
+                    \vc{w} = \argmin_{\vc{w}'} \sum\limits_{i=1}^\ell E(\vc{w'})
+                    \label{eq:optimisation}
+                \end{align}
+
+                where the function $E$ depends on what assumptions are made about the properties of noise in the training sequence and the prior 
+                distribution of weights $\Pr(\vc{w})$. One common function is 
+
+                \begin{align}
+                    E(\vc{w}) =  \frac{1}{2} \sum\limits_{i=1}^\ell || \vc{y}_i - f(\vc{x}_i;\vc{w}) || ^2
+                \end{align}
+
+                where we assume a Gaussian noise on each $\vc{y}_i$. Optimising over this can be shown to give the maximum
+                likelihood hypothesis from equation \ref{eq:maximum_likelihood}\cite{russell1995modern}.
+                Another common choice for $E$ is:
+
+                \begin{align}
+                    E(\vc{w}) = \frac{\alpha}{2} ||\vc{w}||^2 + \frac{\beta}{2} \sum\limits_{i=1}^\ell \frac{1}{2} || \vc{y}_i - f(\vc{x}_i;\vc{w}) || ^2
+                 \end{align}
+
+                 which can be shown to yeild the maximum a-posteriori hypothesis from equation \ref{eq:max_a_posteriori},
+                 under the assumption of a Gaussian distribution on the prior $\Pr(\vc{w})$.
+                 This method is known as the \textit{weight decay} method, and will keep the weights in $\vc{w}$ small, 
+                 so that the neural network doesn't over fit itself to a single input. The parameters $\alpha$ and $\beta$ can be 
+                 found \cite{eq:max_likelihood}, but is beyond the scope of this dissertation. \cite{russell1995modern}
+
+                 The optimisation problem of finding a solution to \ref{eq:optimisation} can be found using an algorithm 
+                 such as the method of conjugate gradients \cite{shewchuk1994introduction}, or gradient descent. 
+                 The value of $\partial E/\partial \vc{w}$ is often needed in such algorithms, and can be computed using 
+                 an algorithm such as backpropagaton. \cite{russell1995modern}
+
+
         
 
-        \begin{framed}
-            TODO
-        \end{framed}
 
 
 
 
-
-    \section{Imaging and image noise} 
-        We now consider image sensor arrays, to understand how images are captured and what might 
-        cause image noise at a high level. We will then define the quantum noise and discuss its suitability to many 
-        cases of medical imaging. 
-
-        \subsection{Image sensor arrays}
-            All forms of digital imaging involve some form of sensor array. Two common technologies are used in image 
-            sensors, Charge-Coupled Devices (CCD) and Complementary Metal-Oxide Semiconductors (CMOS). These devices are 
-            laid out in a grid, which are typically combined with (colour) wavelength filters. 
-
-            \begin{figure}[H]
-                \centering
-                \includegraphics[scale=0.30]{sensor_arrays}
-                \caption{CCD and CMOS sensor arrays. Reproduced from Gamel et al \cite{gamal2005cmos}.}
-                \label{fig:image_pipeline}
-            \end{figure}
-
-            \begin{figure}[H]
-                \centering
-                \includegraphics[scale=0.30]{imaging_pipeline}
-                \caption{Overview of an imaging `pipeline'. Reproduced from Gamel et al \cite{gamal2005cmos}.}
-                \label{fig:image_pipeline}
-            \end{figure}
-
-            In a camera we have a focussing lens, followed by wavelength filters and then sensors. In many medical imagers 
-            there is a collimator, so it is appropriate to consider a model where we have parallel streams of photons 
-            hitting each sensor.
-
-            \begin{figure}[H]
-                \centering
-                \includegraphics[scale=0.5]{photon_stream}
-                \caption{Parallel stream of photons incident on one sensor in a sensor array.}
-                \label{fig:photon_stream}
-            \end{figure}
-
-            We consider that a stream of photons, will be hitting some photodiode (the 
-            part of a sensor that generates a current upon absorbtion of a photon), causing charge to collect on a connected 
-            capacitor, which will increase linearly with respect to time at a rate proportional to the rate of photons 
-            incident on the photoreceptor (the photocurrent), until it hits some maximum value. \cite{gamal2005cmos}
-
-            \begin{figure}[H]
-                \centering
-
-                    \begin{tikzpicture}
-                        \begin{axis}[
-                            name = plot2,
-                            axis lines = left,
-                            xtick={0,1},
-                            xticklabels={$\ $,$t_{\text{exposure}}$},
-                            ytick={0,1},
-                            yticklabels={$\ $,$Q_{\text{max}}$},
-                            xlabel = $t$ (time),
-                            ylabel = $Q$ (charge),
-                            legend pos=outer north east,
-                            xmin=0,
-                            ymin=0,
-                            xmax=1.1,
-                            ymax=1.1
-                        ]
-                            \draw[dotted] (axis cs:0,1) -- (axis cs:1.2,1);
-                            \draw[dotted] (axis cs:1,0) -- (axis cs:1,1.2);
-                            \addplot[domain=0:0.75, samples = 5, red] {4 * x/3};
-                            \addlegendentry{`High light'};
-                            \addplot[domain=0:1, samples = 5, blue] {x/2};     %N.b. filthy haxx to get legend to show 1 red, 1 blue instead of 2 red
-                            \addlegendentry{`Low light'};
-                            \addplot[domain=0.75:1, samples = 5, red] {1};
-                        \end{axis}
-
-                    \end{tikzpicture}
-
-                \caption{The charge held on a capacitor is linear with respect time, until it hits some maximum \cite{gamal2005cmos}.}
-                \label{fig:linear_charge_wrt_photon_rate}
-            \end{figure}
-
-
-        \subsection{Quantum noise} \label{sec:quantum_noise}
-            \textit{Quantum noise}, \textit{Photon noise} or \textit{Poisson noise} can be thought of as a uncertainty 
-            associated with the measurement of light, due to the quantised nature of electromagnetic waves and the 
-            independence of photon detections \cite{hasinoff2014photon}. More mathematically suppose we have some 
-            noiseless image $I(x,y)$, then we define an image corrupted by photon noise $\tilde{I}$ by
-
-            \begin{align}
-                \tilde{I}(x,y) \sim \text{Poisson}(I(x,y)).
-            \end{align}
-
-            So we have
-
-            \begin{align}
-                \Pr(\tilde{I}(x,y) = k) & = 
-                    \begin{cases}
-                        e^{-I(x,y)} \frac{I(x,y)^k}{k!} & 0 \leq k              \label{eq:image_poisson} \\
-                        0 & \text{otherwise}
-                    \end{cases} \\
-                \bb{E}\left[ \tilde{I}(x,y) \right] & = I(x,y) \\
-                \var\left[ \tilde{I}(x,y) \right] & = I(x,y).                 
-            \end{align}
-
-            It is appropriate to consider a procvess such as the one in Figure \ref{fig:photon_stream} as a Poisson process, where 
-            each event is a photon hitting the photoreceptor. Suppose the exposure time to the sensor is 
-            $t_{\text{exposure}}$, the average rate of events is $\phi$ and that $N(t)$ is the number of events that 
-            occur in the interval $[0,t]$, then we have $N(t) \sim \text{Poisson}(\phi t)$ \cite{ross2002probability}. 
-            Thus we have $N(t_{\text{exposure}}) \sim \text{Poisson}(\phi t_{\text{exposure}})$. From figure 
-            \ref{fig:linear_charge_wrt_photon_rate} we can justifiably say that if $\phi$ is the flux (rate) of 
-            photons hitting sensor at index $(x,y)$ in the array, then $I(x,y) \propto N(t_{\text{exposure}})$.
-            
-            The model is easily and obviously extended to spatial images by including spectral bin indices 
-
-            \begin{align}
-                \tilde{I}(x,y,\lambda) \sim \text{Poisson}(I(x,y,\lambda)).
-            \end{align}
-
-            Because of the filters (shown in Figure \ref{fig:image_pipeline}) being spatially separated we can consider 
-            each value in the datacube to be an independent random variable. This means that 
-
-            \begin{align}
-                (x,y,\lambda) \neq (x',y',\lambda') \Rightarrow 
-                      \Pr(\tilde{I}(x,y,\lambda), \tilde{I}(x',y',\lambda')) = \Pr(\tilde{I}(x,y,\lambda)) \Pr(\tilde{I}(x',y',\lambda')).
-            \end{align}
-
-            However, in images the values are constrained to a finite range, typically we have that for each $x, y, 
-            \lambda$ that $I(x,y,\lambda) \in \bb{N}_{256}$, but this however doesn't restrict the value of
-            $\tilde{I}(x,y,\lambda)$ to $\bb{N}_{256}$. By considering Figure \ref{fig:linear_charge_wrt_photon_rate} 
-            we see that the charge becomes \textit{saturated} at the upper limit, that is for $\phi > \phi_{\text{crit}}$
-            (from Figure \ref{fig:linear_charge_wrt_photon_rate}) we achieve $Q_max$, but for $\phi < \phi_{\text{crit}}$ 
-            we don't achieve this before $t_{\text{exposure}}$. Thus for any $\phi > \phi_{\text{crit}}$ the maximum 
-            value is recorded in the image values. To deal with this it makes sense to define a 
-            \textit{Saturated Poisson} distribution. So we say $X \sim \text{SPoisson}(\mu, n)$ if 
-
-            \begin{align}
-                \Pr(X = k) & = 
-                    \begin{cases}
-                        e^{\mu} \frac{\mu^k}{k!} & 0 \leq k < n-1 \\
-                        \sum\limits_{i=n-1}^\infty e^{\mu} \frac{\mu^i}{i!} & k = n-1 \\
-                        0 & \text{otherwise}.
-                    \end{cases} 
-            \end{align}
-
-            \begin{figure}[H]
-                \centering 
-                \includegraphics[scale=0.5]{poisson_distributions}
-                \caption{Example of Poisson($\mu$) and SPoisson($\mu$, 30) distributions, for $\mu = 5,15,25$.}
-            \end{figure}
-
-        \subsection{Additive White Gaussian Noise}
-            A more general noise model that should also be considered is \textit{additive white Gaussian Noise}. We will 
-            `saturate' values with similar reasoning to section \ref{sec:quantum_noise}. The general model will add a 
-            value sampled from a Gaussian distribution with some constant power. That is if we have a `true spectral image' 
-            $I$, then the image corrupted by noise is:
-
-            \begin{align}
-                \tilde{I}(x,y,\lambda) = I(x,y,\lambda) + X_{ij\lambda}
-            \end{align}
-
-            where for each $i, j, \lambda$ we let $X_{ij\lambda} \sim N(0, \sigma^2)$. The noise is parametrised by 
-            $\sigma$ and $\bb{E}[X_{ij\lambda}] = \sigma^2$ is the \textit{power} of the noise.
-
-        \subsection{Medical imaging noise}
-            This section ends by considering how our noise models could be used in medical imaging. For many methods 
-            of medical imaging we use ionising radiation that would be considered harmful given extended exposure times 
-            \cite{picano2004sustainability}. As a consequence there is an inherent trade off between exposure time (for 
-            greater image clarity) and risk of causing damage \cite{sprawls1987physical}. Since we may potentially 
-            use shorter exposure times, or we may be imaging something in low light we find that often the quantum noise 
-            model is more appropriate and also cannot be approximated by Gaussian noise. However, there are many cases 
-            such as ultrasound where we may want to consider more sophisticated noise models \cite{coupe2009nonlocal}, 
-            but for the purpose of this dissertation we will restrict ourselves to the above.
-
-
-
-
-
-
-
-
-    \section{TVMM Image De-Noising}
-        \begin{framed}
-        \begin{itemize}
-            \item A method developed for additive white Gaussian noise \cite{figueiredo2006total}, which even when produced 
-                is outperformed by wavelet methods, outperforms algorithms developed for Poisson noise \cite{rodrigues2008denoising}.
-            \item Definition of total variation
-            \item Definition of the optimisation problem and the $Q$ function used
-            \item Some properties of the Q function, that allow us to find the optimal solution to the optimisation problem
-            \item Outline of the procedure
-            \item Requires solution of linear equations. Can be done using conjugate gradients (appendix B).
-            \item Trying to solve an inherently ill-posed problem
-        \end{itemize}
-        \end{framed}
 
 
 
@@ -1852,10 +1765,43 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.5]{package_dependencies}
-        \caption{The dependencies between different packages/modules in the system. Although the TrainingTools package is
-        capable of producing training sequence files for both the NeuralNetworks and RandomDecisionForests, it only 
-        \textit{depends} on RandomDecisionForests as it uses the class \texttt{TrainingSequence}.}
+        \scalebox{0.55}{ 
+            \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=45,auto]
+
+                \tikzstyle{commonNode}=[thick, font=\ttfamily\large\bf, align=center, line width=2pt, draw=black]
+                \tikzstyle{package}=[commonNode, rectangle, rounded corners, fill=green!30, inner sep=5mm]
+
+                \begin{scope}
+
+                    \def \hspacing {5}
+                    \def \vspacing {3}
+
+                    % Files and modules
+                    \node at (2*\hspacing, 3*\vspacing) [package] (EP) {Entry Point};
+                    \node at (3.3*\hspacing, 2*\vspacing) [package] (TT) {Training \\ Tools}
+                        edge  [pre] (EP);
+                    \node at (0.7*\hspacing, 2*\vspacing) [package] (N) {Noise}
+                        edge  [pre] (EP);
+                    \node at (0.7*\hspacing, 1*\vspacing) [package]  (PL) {Pixel \\ Labelling}
+                        edge  [pre] (EP)
+                        edge  [pre] (TT)
+                        edge  [pre] (N);
+                    \node at (3.3*\hspacing, 1*\vspacing) [package] (NN) {Neural \\ Networks}
+                        edge  [pre] (PL)
+                        edge  [pre] (EP);
+                    \node at (2*\hspacing, 0*\vspacing) [package] (RF)  {Random \\ Forests}
+                        edge  [pre] (EP)
+                        edge  [pre] (TT)
+                        edge  [pre] (PL)
+                        edge  [pre] (NN);
+                \end{scope}
+            \end{tikzpicture}
+        }
+
+
+        \caption[The dependencies between different packages/modules defined in the system.]{The dependencies between different packages/modules defined in the system. An arrow from A to B means that package A depends on package B. 
+        Although the TrainingTools package produces training files for both NeuralNetworks and RandomDecisionForests, it only
+        \textit{depends} on RandomDecisionForests as it uses the class \texttt{TrainingSequence}. EntryPoint is the package used to define the interface to the whole system, and provides the \texttt{main} file for the eventual \texttt{.jar}.}
         \label{fig:package_dependencies}
     \end{figure}
 
@@ -1871,7 +1817,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
         \begin{figure}[H]
             \centering
             \includegraphics[scale=0.25, angle=90]{Forest_UML}
-            \caption{An overview of classes in the RandomDecisionForest package, from which relevant sections will be 
+            \caption[An overview of classes in the RandomDecisionForest package]{An overview of classes in the RandomDecisionForest package, from which relevant sections will be 
             looked at closer when appropriate.}
             \label{fig:forest_uml}
         \end{figure}
@@ -1897,7 +1843,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{ClassLabel_Forest_UML}
-                    \caption{A closer view of \texttt{ClassLabel} in Figure \ref{fig:forest_uml}.}
+                    \caption[A closer view of \texttt{ClassLabel}]{A closer view of \texttt{ClassLabel} in Figure \ref{fig:forest_uml}.}
                     \label{fig:class_label_uml}
                 \end{figure}
 
@@ -2097,7 +2043,7 @@ through the tougher parts of the year. Further thanks to Yanie de Nadaillac for 
                 should provide a method to perform the equivalent procedure to equation \ref{eq:numstabsum} over 
                 probability distributions.
 
-                \begin{lstlisting}[float=tp,caption={Part of the \texttt{ProbabilityDirstribution} constructor, where we set $\epsilon = 2^{-10}$.}]
+                \begin{lstlisting}[float=tp,caption={[The \texttt{ProbabilityDistribution} constructor.] Part of the \texttt{ProbabilityDirstribution} constructor, where we set $\epsilon = 2^{-10}$.}]
 public class ProbabilityDistribution implements Serializable {
 
   ...
@@ -2166,7 +2112,7 @@ public class ProbabilityDistribution implements Serializable {
                             as discussed above, using equation \ref{eq:numstabsum}.
 
                     \end{tabularx}
-                    \caption[justification=justified,singlelinecheck=false]{Important methods implemented in the \texttt{ProbabilityDistribution} class.}
+                    \caption[Important methods implemented in \texttt{ProbabilityDistribution}.]{Important methods implemented in the \texttt{ProbabilityDistribution} class.}
                     \label{tab:ProbabilityDistribution}
                 \end{table}
 
@@ -2186,7 +2132,7 @@ public class ProbabilityDistribution implements Serializable {
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{TrainingSequence_Forest_UML}
-                    \caption{A closer view of \texttt{TrainingSequence} and \texttt{TrainingSample} in Figure \ref{fig:forest_uml}.}
+                    \caption[A closer view of \texttt{TrainingSequence} and \texttt{TrainingSample}]{A closer view of \texttt{TrainingSequence} and \texttt{TrainingSample} in Figure \ref{fig:forest_uml}.}
                     \label{fig:training_seq_uml}
                 \end{figure}
 
@@ -2273,7 +2219,7 @@ public class ProbabilityDistribution implements Serializable {
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.5]{SplitParam_Forest_UML}
-                    \caption{A closer view of \texttt{SplitParamter} and \texttt{OneDimensionalLinearSplitParameter} in figure \ref{fig:forest_uml}.}
+                    \caption[A closer view of \texttt{SplitParamter}]{A closer view of \texttt{SplitParamter} and \texttt{OneDimensionalLinearSplitParameter} in figure \ref{fig:forest_uml}.}
                     \label{fig:split_param_uml}
                 \end{figure}
 
@@ -2318,8 +2264,8 @@ public class ProbabilityDistribution implements Serializable {
                 \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.6]{WeakLearner_Forest_UML}
-                    \caption[justification=justified,singlelinecheck=false]{\raggedright A closer view of \texttt{WeakLearner} and \texttt{OneDimensionalLinearWeakLearner} 
-                    in Figure \ref{fig:forest_uml}.}
+                    \caption[A closer view of \texttt{WeakLearner} and \texttt{DimensionalLinearWeakLearner}]{A closer view of \texttt{WeakLearner} and 
+                    \texttt{DimensionalLinearWeakLearner} in Figure \ref{fig:forest_uml}.}
                     \label{fig:weak_learner_uml}
                 \end{figure}
 
@@ -2362,7 +2308,7 @@ public class ProbabilityDistribution implements Serializable {
                             split function during training a decision tree. \\ 
 
                     \end{tabularx}
-                    \caption{Important methods implemented in the \texttt{OneDimensionalLinearWeakLearner} class.}
+                    \caption[The methods of \texttt{OneDimesnionalLinearWeakLearner}.]{Important methods implemented in the \texttt{OneDimensionalLinearWeakLearner} class.}
                     \label{tab:OneDimensionalLinearWeakLearner}
                 \end{table}
 
@@ -2376,14 +2322,6 @@ public class ProbabilityDistribution implements Serializable {
                 equations \ref{eq:left_split} and \ref{eq:right_split} it means that one of $L(\vc{s},\vc{\theta})$ or 
                 $R(\vc{s},\vc{\theta})$ will be empty, leading to an information gain of zero ($I(\vc{s},\vc{\theta}) = 0$ 
                 in equation \ref{eq:information_gain}).
-
-                \begin{figure}[H]
-                  \centering
-                  \includegraphics[scale=0.25]{one_dimensional_weak_learner_optimisation}
-                  \caption{Knowing the minimum and maximum values in each dimension allows us to make an informed 
-                  choice on split parameters to pick, which in this case is the green zone of values.}
-                  \label{fig:split_parameter_choice_optimisation}
-                \end{figure}
 
 
 
@@ -2418,13 +2356,7 @@ public class ProbabilityDistribution implements Serializable {
                 which is again necessary to be able to use \texttt{ObjectOutputStream} in section 
                 \ref{sec:DecisionForest}, when saving forests to a file.
 
-                \begin{figure}[H]
-                  \centering
-                  \includegraphics[scale=0.35]{tree_compaction}
-                  \caption{An example of how \texttt{compact} could be used to reduce the size of a decision tree.}
-                \end{figure}
-
-                \begin{lstlisting}[float=tp,caption={The \texttt{TreeNode} declaration, found as a static class within the 
+                \begin{lstlisting}[float=tp,caption={[The \texttt{TreeNode} declaration.] The \texttt{TreeNode} declaration, found as a static class within the 
                 \texttt{DecisionForest} class.},label={lst:TreeNode}]
 void compact() throws MalformedForestException {
   if (this.isLeafNode()) {
@@ -2610,7 +2542,7 @@ TreeNode generateTree(trainingSequence, depth, randomnessParameter) {
           \begin{figure}
               \centering
               \includegraphics[scale=0.3]{breadthfirst_vs_depthfirst}
-              \caption{Visualisation of breadth first vs depth first. Optimisation of information gain takes place over 
+              \caption[Visualisation of breadth first vs depth first.]{Visualisation of breadth first vs depth first. Optimisation of information gain takes place over 
               all of the nodes in the frontier. Recreated from Criminisi et al \cite{criminisi2013decision}.}
               \label{fig:breadth_first}
           \end{figure}
@@ -2717,11 +2649,59 @@ public ProbabilityDistribution classify(instance) {
 
         \begin{figure}
             \centering
-            \includegraphics[scale=0.5]{NeuralNet_UML}
-            \caption{The UML diagram for the training tools, consisting of a single class with a single static method.}
+            \includegraphics[scale=0.4]{NeuralNet_UML}
+            \caption{The UML diagram for the Neural Net package.}
         \end{figure}
 
-        To load a dataset, we 
+        Using the Encog api we build a 4 layer network. We set the activation function to sigmoid functions for the 
+        two hidden layers and a softmax activation function for the output layer. Recall the syntax we defined in section 
+        \ref{sec:neuralnetworkdef}, if we have a softmax activation function at layer $L$ then we set 
+
+        \begin{align}
+            a_k^L = \frac{e^{-z_k^L}}{\sum_i e^{-z_i^L}}
+            \label{eq:softmax_defn}
+        \end{align}
+
+        where
+
+        \begin{align}
+            z_k^L = \sum\limits_j w_{jk}^L a_j^{L-1} + b_k^L.
+            \label{eq:activationinput}
+        \end{align}
+
+        Despite equation \ref{eq:activationinput} looking quite scary, it is just the weighted sum of activations from 
+        layer $L-1$ at node $k$ in layer $L$. From equation \ref{eq:softmax_defn} we see that the activations at layer 
+        $L$ sum to one, which makes it useful on an output layer so that a probability distribution can be output. 
+
+        \begin{figure}
+            \centering
+            \includegraphics{softmax_neuralnetworks}
+            \caption{The architecture of our neural network for classification.}
+        \end{figure}
+
+        This reduces the neural network to the situation found in equation \ref{eq:weird_hyp}, allowing us to provide 
+        a classification. However we need to modify our training sequence slightly, instead of specifying a class as the 
+        example output, we must replace it with a probability distribution. So for a training sample $(\vc{x}_i, c_i)$ we
+        we give the network the training sample $(\vc{x}_i, p_c)$ where 
+
+        \begin{align}
+            p_c(c') = \begin{cases} 
+                1 & \text{ if } c' = c \\
+                0 & \text{ otherwise.}
+            \end{cases}
+        \end{align}
+
+        \begin{lstlisting}[caption={[Simple construction of our neural network in Encog.]Simple construction of our neural network in Encog, where \texttt{dataDimension} is the number of spectral bins we have in spectra to classify and \texttt{noClasses} is the number of classes.},label={lst:network_def}]
+BasicNetwork network = new BasicNetwork();
+network.addLayer(new BasicLayer(null, true, dataDimension));
+network.addLayer(new BasicLayer(new ActivationSigmoid(), true, dataDimension));
+network.addLayer(new BasicLayer(new ActivationSigmoid(), true, dataDimension));
+network.addLayer(new BasicLayer(new ActivationSoftmax(), true, dataDimension));
+network.getStructure().finalizeStructure();
+network.reset(); // randomise weight values
+        \end{lstlisting}
+
+        Training and classification using the neural network are as simple to implement as listing \ref{lst:network_def}, however are omitted for brevity.
 
 
 
@@ -2730,13 +2710,77 @@ public ProbabilityDistribution classify(instance) {
 
 
     \section{Pixel Labelling}
-        \begin{itemize}
-            \item We've given the overview of two supervised machine learning techniques
-            \item Assume for now that we have appropriate training data - dealt with later
-            \item We now need to use that to provide a pixel labelling
-            \item Listing for the datacube, and listing that implements the pixel labelling
-            \item Assuming we have appropriate training data, and non-noisy images we are now done! Unfortunately not the case.
-        \end{itemize}
+        In the Pixel Labelling module we are concerned with using either a decision forest or a neural network to 
+        perform a pixel labelling. Both implementations output a probability distribution, which can be used to 
+        generate a number of interesting images. This section begins with a brief discussion on how we perform the 
+        pixel labelling and then we move onto different types of images that we can output.
+
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.3]{PixelLabel_UML}
+            \caption{The UML diagram for the pixel labelling module.}
+        \end{figure}
+
+        Supposed we have loaded in a spectral image $I$ using the \texttt{dataCube} class, then implementation of the 
+        pixel labelling method \texttt{generatePixelLabeledImage} proceeds as follows:
+        \begin{enumerate}
+            \item 
+                Create a blank image, with the same width and hight as $I$.
+            \item 
+                For each pixel $(x,y)$:
+
+                \renewcommand{\labelenumii}{\theenumi.\arabic{enumii}.}
+                \begin{enumerate}
+                    \item 
+                        Pass the spectrum $I(x,y,\cdot)$ to the appropriate machine learning implementation which provides 
+                        and output probability distribution.
+                    \item 
+                        Pass the probability distribution to some function that will compute a colour value to set at $(x,y)$ in the pixel labelling.
+                \end{enumerate}
+                \renewcommand{\labelenumii}{(\alph{enumii})}
+
+        \end{enumerate}
+
+        In the implementation there is a number of ways that we can label each pixel based off the probability 
+        distribution, which will now be defined. Let $p:\cl{C}\rightarrow [0,1]$ be some probability distribution at a 
+        pixel $(x,y)$. Let $\alpha:\cl{C}\rightarrow \bb{N}_{255}^3$ be a function mapping from classes to the set of RGB 
+        colours. We have the following options for producing a label:
+        \begin{description}
+            \item[Most Likely:]
+                Pick the `most likely' label, then label the pixel with the colour $\alpha(c)$ determined by $c_{\text{max}} = \argmax_c p(c)$.
+            \item[Weighted Average:]
+                 Return a weighted average of class colours. This can be a nice way to look at the output for a small number of classes, however can be messy for larger number of classes. It returns the colour $(\sum_{c\in\cl{C}} p(c)\alpha(c))/|\cl{C}|$.
+            \item[Entropy:]
+                 Returns a (normalised between 0 and 255) grey scale value for the entropy. If entropy is high for $p$ then it tells us that we are uncertain about what class we should label the image. If we output both an entropy image and a most likely pixel labelling, the entropy image can be used as a measure of uncertainty in the classification given.
+            \item[Probability in a class:]
+                  We can specify a single class $c$, for which we return a grey scale value of $255 \cdot p(c)$ at the pixel. 
+        \end{description}
+
+        \clearpage
+        \begin{figure}
+            \begin{minipage}{0.49\textwidth}
+                \includegraphics[scale=0.60]{example_mostlikely}
+            \end{minipage}
+            \hfill
+            \begin{minipage}{0.49\textwidth}
+                \includegraphics[scale=0.60]{example_probout}
+            \end{minipage}
+            \begin{minipage}{0.49\textwidth}
+                \includegraphics[scale=0.60]{example_entropy}
+            \end{minipage}
+            \hfill
+            \begin{minipage}{0.49\textwidth}
+                \includegraphics[scale=0.60]{example_singleprob}
+            \end{minipage}
+            \centering
+            \begin{minipage}{0.49\textwidth}
+                \includegraphics[scale=0.72]{example_groundtruth}
+            \end{minipage}
+        \caption[The four possible pixel labellings types we can output.]{Example (on an image corrupted by Poisson noise with no de-noising) of outputs of the four possible pixel labellings types we can output: most likely, weighted average, entropy and probability for a single class (with class colour yellow). The fifth image at the bottom left is the ground truth pixel labelling. The outputs for this image were determined from a decision forest with parameters: (noTrees,treeDepth,$\rho$) = (1000, 4, 1).}
+        \end{figure}
+
+
+
 
 
 
@@ -2751,7 +2795,7 @@ public ProbabilityDistribution classify(instance) {
         \begin{figure}[H]
             \centering
             \includegraphics[scale=0.5]{TrainingTools_UML}
-            \caption{The UML diagram for the training tools, consisting of a single class with a single static method.}
+            \caption[The UML diagram for the training tools module.]{The UML diagram for the training tools module, consisting of a single class with a single static method.}
         \end{figure}
 
         \begin{figure}
@@ -2774,7 +2818,7 @@ public ProbabilityDistribution classify(instance) {
                     Background, 0x000000    \\
                 } 
             \end{framed}
-            \caption{An example input to the training tools module: a ground truth pixel labelling, a spectral image 
+            \caption[An example input to the training tools module.]{An example input to the training tools module: a ground truth pixel labelling, a spectral image 
             and a class to colour mapping file (as defined in appendix \ref{app:file_formats}).}
         \end{figure}
 
@@ -2787,8 +2831,7 @@ public ProbabilityDistribution classify(instance) {
                   ... 
                 } 
             \end{framed}
-            \caption{Example of part of the output file (2 training samples) from the training tools module. 
-            (The actual file is over 88000 lines long).}
+            \caption[Example of part of the output file from the training tools module]{Example of part of the output file (2 training samples) from the training tools module. (The actual file is over 88000 lines long).}
         \end{figure}
 
         The function \texttt{trainingSequenceFromExample} performs the following sequence of actions:
@@ -2830,8 +2873,7 @@ public ProbabilityDistribution classify(instance) {
         \begin{figure}
             \centering
             \includegraphics[scale=0.2]{example_pixel_label_siri}
-            \caption{An example of a `ground truth' pixel labelling we might want to provide, when we wish to ignore large regions of 
-            the image.} 
+            \caption[An example of a noisy `ground truth' pixel labelling.]{An example of a `ground truth' pixel labelling we might want to provide when data is noisy or irrelevant, when we wish to ignore large regions of the image.} 
             \label{fig:non_perfect_labelling}
         \end{figure}
 
@@ -2841,19 +2883,33 @@ public ProbabilityDistribution classify(instance) {
 
 
     \section{De-noising} \label{sec:de-noising}
-        \begin{itemize}
-            \item Explain total variation
-            \item Minimising gradients, can think of this as removing high frequency components
-            \item Listing for overview of 
-        \end{itemize}
+        Many of the images that we will need to deal with will exhibit noise. In this section we justify our need to
+        deal with noise in our system, and then discuss our implementation of the noise package. Possible models for 
+        noise in imaging are discussed in appendix \ref{app:img_noise}. 
 
-    %\section{Using the GPU using OpenCL}
+        In image processing systems for a medical purpose must be accounted for somehow, many methods 
+        of medical imaging utilise ionising radiation that would be considered harmful given extended exposure times 
+        \cite{picano2004sustainability}. As a consequence there is an inherent trade off between exposure time (for 
+        greater image clarity) and risk of causing damage \cite{sprawls1987physical}. Since we may potentially 
+        require use shorter exposure times it is often found that quantum noise (defined in appendix \ref{app:img_noise}) 
+        is more appropriate than a Gaussian noise due to. There are many cases 
+        such as ultrasound where we may want to consider more sophisticated noise models \cite{coupe2009nonlocal}, 
+        but for the purpose of this dissertation we will restrict ourselves to the noise models defined in appendix \ref{app:img_noise}. 
 
-    %\section{Tree analysis and principle component analysis}
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.5]{Noise_UML}
+            \caption{The UML diagram for the Noise package.}
+        \end{figure}
 
-    % -mention about a typical optimisation is over ||w|| + sum of errors squared -> find a paper that explains this idea and reference it!!
-    % -that assumes that the features are lowely/not correlated
-    % in this case THEY ARE, so we can use this as a tool and we definitely DONT want to optimise over the above!
+        Lots of algorithms that perform image de-noising, such as Total Variance Majorisation-Minimisation \cite{figueiredo2006total} 
+        require large amounts of numerical computation. In the preparation phase it became quickly apparent that image 
+        de-noising is a complicated task, and implementing it well could be a project in it's own right. In the interest 
+        of both time and quality of the end product the decision was made to use a library implementation. The function 
+        \texttt{Denoise.denoise} is a wrapper for the \texttt{BoofCV} library implementation of de-noising 
+        \cite{BoofCV2012}.
+
+
 
     \section{Application on example data sets}
         \begin{itemize}
@@ -2861,13 +2917,6 @@ public ProbabilityDistribution classify(instance) {
         \end{itemize} 
 
         \subsection{Siri's data}
-            \begin{itemize}
-                \item TODO: Come up with a better title for this subsection
-                \item Explanation of how produced training data
-                \item Example pixel labellings
-            \end{itemize}
-
-        \subsection{Teng's data}
             \begin{itemize}
                 \item TODO: Come up with a better title for this subsection
                 \item Explanation of how produced training data
@@ -2956,8 +3005,10 @@ public ProbabilityDistribution classify(instance) {
 
     \section{Further Work}
         \begin{itemize}
-            \item Implement a convolutional neural network solution to allow local spatial data to influence the labelling of a pixel. This may allow the model to incorporate image de-noising and could compact two stages of the pipeline into one.
-            \item Implementation of the random forests library to support GPU processing. We could use a language such as OpenCL. Parallelism could be exploited either in the random forest implementation OR/AND the inherent parallelism from performing image processing.
+            \item   
+                Implement a convolutional neural network solution to incorporate spatial data when labelling a pixel. This may even allow the model to somewhat deal with image noise without prior de-noising, and has potential to compact two stages of our pipeline into one.
+            \item 
+                Implementation of the random forests library to support GPU processing. We could use a language such as OpenCL. Parallelism could be exploited further in the random forest implementation and the inherent parallelism present in image processing.
         \end{itemize}
 
     \section{Lessons Learned}
@@ -3001,7 +3052,7 @@ public ProbabilityDistribution classify(instance) {
 % the appendices
 \appendix
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % file format
 
 \cleardoublepage
@@ -3009,7 +3060,7 @@ public ProbabilityDistribution classify(instance) {
     Here we define the file formats that a user might be expected to input into the system, an explanation of the 
     files that are output by the system and how to interpret them.
 
-    \section{(Example/Noisy) Spectral Image}
+    \section{Example Spectral Image}
         ...
 
 
@@ -3033,6 +3084,173 @@ public ProbabilityDistribution classify(instance) {
     \section{Output Files}
         ...
 
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Image noise
+\cleardoublepage
+\chapter{Imaging and image noise} \label{app:img_noise}
+    We now consider image sensor arrays, to understand how images are captured and what might 
+    cause image noise at a high level. We will then define the quantum noise and discuss its suitability to many 
+    cases of medical imaging. 
+
+    \section{Image sensor arrays}
+        All forms of digital imaging involve some form of sensor array. Two common technologies are used in image 
+        sensors, Charge-Coupled Devices (CCD) and Complementary Metal-Oxide Semiconductors (CMOS). These devices are 
+        laid out in a grid, which are typically combined with (colour) wavelength filters. 
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.30]{sensor_arrays}
+            \caption[CCD and CMOS sensor arrays.]{CCD and CMOS sensor arrays. Reproduced from Gamel et al \cite{gamal2005cmos}.}
+            \label{fig:image_pipeline}
+        \end{figure}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.30]{imaging_pipeline}
+            \caption[Overview of an imaging `pipeline'.]{Overview of an imaging `pipeline'. Reproduced from Gamel et al \cite{gamal2005cmos}.}
+            \label{fig:image_pipeline}
+        \end{figure}
+
+        In a camera we have a focussing lens, followed by wavelength filters and then sensors. In many medical imagers 
+        there is a collimator, so it is appropriate to consider a model where we have parallel streams of photons 
+        hitting each sensor.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.5]{photon_stream}
+            \caption{Parallel stream of photons incident on one sensor in a sensor array.}
+            \label{fig:photon_stream}
+        \end{figure}
+
+        We consider that a stream of photons, will be hitting some photodiode (the 
+        part of a sensor that generates a current upon absorbtion of a photon), causing charge to collect on a connected 
+        capacitor, which will increase linearly with respect to time at a rate proportional to the rate of photons 
+        incident on the photoreceptor (the photocurrent), until it hits some maximum value. \cite{gamal2005cmos}
+
+        \begin{figure}[H]
+            \centering
+
+                \begin{tikzpicture}
+                    \begin{axis}[
+                        name = plot2,
+                        axis lines = left,
+                        xtick={0,1},
+                        xticklabels={$\ $,$t_{\text{exposure}}$},
+                        ytick={0,1},
+                        yticklabels={$\ $,$Q_{\text{max}}$},
+                        xlabel = $t$ (time),
+                        ylabel = $Q$ (charge),
+                        legend pos=outer north east,
+                        xmin=0,
+                        ymin=0,
+                        xmax=1.1,
+                        ymax=1.1
+                    ]
+                        \draw[dotted] (axis cs:0,1) -- (axis cs:1.2,1);
+                        \draw[dotted] (axis cs:1,0) -- (axis cs:1,1.2);
+                        \addplot[domain=0:0.75, samples = 5, red] {4 * x/3};
+                        \addlegendentry{`High light'};
+                        \addplot[domain=0:1, samples = 5, blue] {x/2};     %N.b. filthy haxx to get legend to show 1 red, 1 blue instead of 2 red
+                        \addlegendentry{`Low light'};
+                        \addplot[domain=0.75:1, samples = 5, red] {1};
+                    \end{axis}
+
+                \end{tikzpicture}
+
+            \caption{The charge held on a capacitor is linear with respect time, until it hits some maximum \cite{gamal2005cmos}.}
+            \label{fig:linear_charge_wrt_photon_rate}
+        \end{figure}
+
+
+    \section{Quantum noise} \label{sec:quantum_noise}
+        \textit{Quantum noise}, \textit{Photon noise} or \textit{Poisson noise} can be thought of as a uncertainty 
+        associated with the measurement of light, due to the quantised nature of electromagnetic waves and the 
+        independence of photon detections \cite{hasinoff2014photon}. More mathematically suppose we have some 
+        noiseless image $I(x,y)$, then we define an image corrupted by photon noise $\tilde{I}$ by
+
+        \begin{align}
+            \tilde{I}(x,y) \sim \text{Poisson}(I(x,y)).
+        \end{align}
+
+        So we have
+
+        \begin{align}
+            \Pr(\tilde{I}(x,y) = k) & = 
+                \begin{cases}
+                    e^{-I(x,y)} \frac{I(x,y)^k}{k!} & 0 \leq k              \label{eq:image_poisson} \\
+                    0 & \text{otherwise}
+                \end{cases} \\
+            \bb{E}\left[ \tilde{I}(x,y) \right] & = I(x,y) \\
+            \var\left[ \tilde{I}(x,y) \right] & = I(x,y).                 
+        \end{align}
+
+        It is appropriate to consider a procvess such as the one in Figure \ref{fig:photon_stream} as a Poisson process, where 
+        each event is a photon hitting the photoreceptor. Suppose the exposure time to the sensor is 
+        $t_{\text{exposure}}$, the average rate of events is $\phi$ and that $N(t)$ is the number of events that 
+        occur in the interval $[0,t]$, then we have $N(t) \sim \text{Poisson}(\phi t)$ \cite{ross2002probability}. 
+        Thus we have $N(t_{\text{exposure}}) \sim \text{Poisson}(\phi t_{\text{exposure}})$. From figure 
+        \ref{fig:linear_charge_wrt_photon_rate} we can justifiably say that if $\phi$ is the flux (rate) of 
+        photons hitting sensor at index $(x,y)$ in the array, then $I(x,y) \propto N(t_{\text{exposure}})$.
+        
+        The model is easily and obviously extended to spatial images by including spectral bin indices 
+
+        \begin{align}
+            \tilde{I}(x,y,\lambda) \sim \text{Poisson}(I(x,y,\lambda)).
+        \end{align}
+
+        Because of the filters (shown in Figure \ref{fig:image_pipeline}) being spatially separated we can consider 
+        each value in the datacube to be an independent random variable. This means that 
+
+        \begin{align}
+            (x,y,\lambda) \neq (x',y',\lambda') \Rightarrow 
+                  \Pr(\tilde{I}(x,y,\lambda), \tilde{I}(x',y',\lambda')) = \Pr(\tilde{I}(x,y,\lambda)) \Pr(\tilde{I}(x',y',\lambda')).
+        \end{align}
+
+        However, in images the values are constrained to a finite range, typically we have that for each $x, y, 
+        \lambda$ that $I(x,y,\lambda) \in \bb{N}_{256}$, but this however doesn't restrict the value of
+        $\tilde{I}(x,y,\lambda)$ to $\bb{N}_{256}$. Let $\phi_{\text{crit}}$ be the rate which reaches charge 
+        $Q_{\text{max}}$ at time $t_{\text{exposure}}$. By considering Figure \ref{fig:linear_charge_wrt_photon_rate} 
+        we see that the charge becomes \textit{saturated} at the upper limit, that is for $\phi > \phi_{\text{crit}}$
+        (from Figure \ref{fig:linear_charge_wrt_photon_rate}) we achieve $Q_max$, but for $\phi < \phi_{\text{crit}}$ 
+        we don't achieve this before $t_{\text{exposure}}$. Thus for any $\phi > \phi_{\text{crit}}$ the maximum 
+        value is recorded in the image values. To deal with this it makes sense to define a 
+        \textit{Saturated Poisson} distribution. So we say $X \sim \text{SPoisson}(\mu, n)$ if 
+
+        \begin{align}
+            \Pr(X = k) & = 
+                \begin{cases}
+                    e^{\mu} \frac{\mu^k}{k!} & 0 \leq k < n-1 \\
+                    \sum\limits_{i=n-1}^\infty e^{\mu} \frac{\mu^i}{i!} & k = n-1 \\
+                    0 & \text{otherwise}.
+                \end{cases} 
+        \end{align}
+
+        \begin{figure}[H]
+            \centering 
+            \includegraphics[scale=0.5]{poisson_distributions}
+            \caption[Example of Poisson($\mu$) and SPoisson($\mu$, 30) distributions.]{Example of Poisson($\mu$) and SPoisson($\mu$, 30) distributions, for $\mu = 5,15,25$.}
+        \end{figure}
+
+    \section{Additive White Gaussian Noise}
+        A more general noise model that should also be considered is \textit{additive white Gaussian Noise}. We will 
+        `saturate' values with similar reasoning to section \ref{sec:quantum_noise}. The general model will add a 
+        value sampled from a Gaussian distribution with some constant power. That is if we have a `true spectral image' 
+        $I$, then the image corrupted by noise is:
+
+        \begin{align}
+            \tilde{I}(x,y,\lambda) = I(x,y,\lambda) + X_{ij\lambda}
+        \end{align}
+
+        where for each $i, j, \lambda$ we let $X_{ij\lambda} \sim N(0, \sigma^2)$. The noise is parametrised by 
+        $\sigma$ and $\bb{E}[X_{ij\lambda}] = \sigma^2$ is the \textit{power} of the noise.
 
 
 
@@ -3388,8 +3606,8 @@ public ProbabilityDistribution classify(
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% project proposal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+project proposal
 
 \cleardoublepage
 \chapter{Project Proposal}
